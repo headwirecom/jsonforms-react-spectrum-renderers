@@ -1,10 +1,9 @@
 {
-  "name": "@jsonforms/material-renderers",
+  "name": "@headwire/spectrum-renderers",
   "version": "2.4.1-beta.0",
-  "description": "Material Renderer Set for JSON Forms",
-  "repository": "https://github.com/eclipsesource/jsonforms",
-  "bugs": "https://github.com/eclipsesource/jsonforms/issues",
-  "homepage": "http://jsonforms.io/",
+  "description": "Spectrum Renderer Set for JSON Forms",
+  "repository": "https://github.com/puzzle/jsonforms-react-spectrum",
+  "bugs": "https://github.com/puzzle/jsonforms-react-spectrum/issues",
   "license": "MIT",
   "directories": {
     "example": "example",
@@ -12,7 +11,7 @@
     "webpack": "webpack"
   },
   "keywords": [
-    "material",
+    "spectrum",
     "renderer",
     "form",
     "forms",
