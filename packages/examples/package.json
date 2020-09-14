@@ -1,0 +1,49 @@
+{
+  "name": "@jsonforms/examples",
+  "version": "2.4.1-beta.0",
+  "description": "JSON Forms Example Data",
+  "repository": "https://github.com/eclipsesource/jsonforms",
+  "bugs": "https://github.com/eclipsesource/jsonforms/issues",
+  "homepage": "http://jsonforms.io/",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "directories": {
+    "icons": "icons",
+    "lib": "lib",
+    "library": "library",
+    "src": "src",
+    "test": "wct-test"
+  },
+  "keywords": [
+    "form",
+    "forms",
+    "json",
+    "jsonforms",
+    "frontend",
+    "generator",
+    "input",
+    "renderengine",
+    "jsonschema",
+    "schema",
+    "uischema",
+    "layout",
+    "customization"
+  ],
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc",
+    "clean": "rm -rf lib coverage dist .nyc_output 2> /dev/null",
+    "lint": "../../node_modules/.bin/tslint --project ../../tslint.json --exclude src/models/jsonSchema.ts",
+    "test": "echo 'Nothing to do for `examples` package'",
+    "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms Examples' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
+  },
+  "dependencies": {
+    "@jsonforms/core": "^2.4.1-beta.0",
+    "@types/react-redux": "^7.1.9",
+    "ajv-i18n": "^3.5.0",
+    "redux": "^4.0.4"
+  }
+}
