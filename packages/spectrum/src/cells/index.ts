@@ -22,8 +22,8 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import MaterialBooleanCell, {
-  materialBooleanCellTester
+import SpectrumBooleanCell, {
+  spectrumBooleanCellTester
 } from './MaterialBooleanCell';
 import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
 import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
@@ -40,8 +40,8 @@ import MaterialTextCell, { materialTextCellTester } from './MaterialTextCell';
 import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 
 export {
-  MaterialBooleanCell,
-  materialBooleanCellTester,
+  SpectrumBooleanCell,
+  spectrumBooleanCellTester,
   MaterialDateCell,
   materialDateCellTester,
   MaterialEnumCell,

@@ -68,7 +68,7 @@ import {
   MaterialSliderControl,
   materialSliderControlTester,
   MaterialTextControl,
-  materialTextControlTester,
+  materialTextControlTester
 } from './controls';
 import {
   MaterialArrayLayout,
@@ -83,8 +83,8 @@ import {
   materialVerticalLayoutTester
 } from './layouts';
 import {
-  MaterialBooleanCell,
-  materialBooleanCellTester,
+  spectrumBooleanCellTester,
+  SpectrumBooleanCell,
   MaterialDateCell,
   materialDateCellTester,
   MaterialEnumCell,
@@ -98,7 +98,7 @@ import {
   MaterialTextCell,
   materialTextCellTester,
   MaterialTimeCell,
-  materialTimeCellTester
+  materialTimeCellTester,
 } from './cells';
 import MaterialCategorizationStepperLayout, {
   materialCategorizationStepperTester
@@ -134,7 +134,10 @@ export const materialRenderers: JsonFormsRendererRegistryEntry[] = [
     tester: materialRadioGroupControlTester,
     renderer: MaterialRadioGroupControl
   },
-  { tester: materialOneOfEnumControlTester, renderer: MaterialOneOfEnumControl },
+  {
+    tester: materialOneOfEnumControlTester,
+    renderer: MaterialOneOfEnumControl
+  },
   // layouts
   { tester: materialGroupTester, renderer: MaterialGroupLayout },
   {
@@ -164,7 +167,7 @@ export const materialRenderers: JsonFormsRendererRegistryEntry[] = [
 ];
 
 export const materialCells: JsonFormsCellRendererRegistryEntry[] = [
-  { tester: materialBooleanCellTester, cell: MaterialBooleanCell },
+  { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
   { tester: materialDateCellTester, cell: MaterialDateCell },
   { tester: materialEnumCellTester, cell: MaterialEnumCell },
   { tester: materialIntegerCellTester, cell: MaterialIntegerCell },

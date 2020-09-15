@@ -38,7 +38,7 @@ import {
   UISchemaElement
 } from '@jsonforms/core';
 import BooleanCell, {
-  materialBooleanCellTester
+  spectrumBooleanCellTester
 } from '../../src/cells/MaterialBooleanCell';
 import { Provider } from 'react-redux';
 import * as ReactDOM from 'react-dom';
@@ -83,24 +83,24 @@ describe('Material boolean cell tester', () => {
   };
 
   it('should fail', () => {
-    expect(materialBooleanCellTester(undefined, undefined)).toBe(
+    expect(spectrumBooleanCellTester(undefined, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialBooleanCellTester(null, undefined)).toBe(NOT_APPLICABLE);
-    expect(materialBooleanCellTester({ type: 'Foo' }, undefined)).toBe(
+    expect(spectrumBooleanCellTester(null, undefined)).toBe(NOT_APPLICABLE);
+    expect(spectrumBooleanCellTester({ type: 'Foo' }, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialBooleanCellTester({ type: 'Control' }, undefined)).toBe(
+    expect(spectrumBooleanCellTester({ type: 'Control' }, undefined)).toBe(
       NOT_APPLICABLE
     );
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: { foo: { type: 'string' } }
       })
     ).toBe(NOT_APPLICABLE);
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -116,7 +116,7 @@ describe('Material boolean cell tester', () => {
 
   it('should succeed', () => {
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: {
           foo: {

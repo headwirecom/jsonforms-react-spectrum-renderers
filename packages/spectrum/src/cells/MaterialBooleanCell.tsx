@@ -32,13 +32,13 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
-export const MaterialBooleanCell = (props: CellProps) => {
+export const SpectrumBooleanCell = (props: CellProps) => {
   return <SpectrumCheckbox {...props} />;
 };
 
-export const materialBooleanCellTester: RankedTester = rankWith(
+export const spectrumBooleanCellTester: RankedTester = rankWith(
   2,
   isBooleanControl
 );
 
-export default withJsonFormsCellProps(MaterialBooleanCell);
+export default withJsonFormsCellProps(SpectrumBooleanCell);

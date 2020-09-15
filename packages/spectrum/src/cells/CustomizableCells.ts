@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export { MaterialBooleanCell } from './MaterialBooleanCell';
+export { SpectrumBooleanCell } from './MaterialBooleanCell';
 export { MaterialDateCell } from './MaterialDateCell';
 export { MaterialEnumCell } from './MaterialEnumCell';
 export { MaterialIntegerCell } from './MaterialIntegerCell';
