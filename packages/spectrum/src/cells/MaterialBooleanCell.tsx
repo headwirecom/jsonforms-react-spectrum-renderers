@@ -30,10 +30,10 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { MuiCheckbox } from '../mui-controls/SpectrumCheckbox';
+import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
 export const MaterialBooleanCell = (props: CellProps) => {
-  return <MuiCheckbox {...props} />;
+  return <SpectrumCheckbox {...props} />;
 };
 
 export const materialBooleanCellTester: RankedTester = rankWith(

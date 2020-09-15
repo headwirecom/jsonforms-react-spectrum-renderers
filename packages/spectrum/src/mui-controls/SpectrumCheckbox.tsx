@@ -32,7 +32,7 @@ import { Checkbox } from '@adobe/react-spectrum';
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const MuiCheckbox = React.memo((props: CellProps) => {
+export const SpectrumCheckbox = React.memo((props: CellProps) => {
   const { data, id, enabled, uischema, path, handleChange, config } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const autoFocus = !!appliedUiSchemaOptions.focus;

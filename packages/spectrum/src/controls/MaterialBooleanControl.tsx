@@ -32,7 +32,7 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { FormControlLabel, Hidden } from '@material-ui/core';
-import { MuiCheckbox } from '../mui-controls/SpectrumCheckbox';
+import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
 export const MaterialBooleanControl = ({
   data,
@@ -54,7 +54,7 @@ export const MaterialBooleanControl = ({
         label={label}
         id={id}
         control={
-          <MuiCheckbox
+          <SpectrumCheckbox
             id={`${id}-input`}
             isValid={isEmpty(errors)}
             data={data}
