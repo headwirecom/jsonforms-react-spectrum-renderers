@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './MuiCheckbox';
+export * from './SpectrumCheckbox';
 export * from './MuiSelect';
 export * from './MuiInputInteger';
 export * from './MuiInputNumber';

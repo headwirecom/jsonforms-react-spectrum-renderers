@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -154,8 +157,9 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
+
     const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeTruthy();
+    expect(input.props()).toBeTruthy();
   });
 
   it('should not autofocus via option', () => {
@@ -174,8 +178,8 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBe(false);
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBe(false);
   });
 
   it('should not autofocus by default', () => {
@@ -191,8 +195,8 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeFalsy();
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBeFalsy();
   });
 
   it('should render', () => {
