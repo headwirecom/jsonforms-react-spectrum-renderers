@@ -39,7 +39,7 @@ import MaterialNumberCell, {
 import MaterialNumberFormatCell, {
   materialNumberFormatCellTester
 } from './MaterialNumberFormatCell';
-import MaterialTextCell, { materialTextCellTester } from './MaterialTextCell';
+import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 
 export {
@@ -55,8 +55,8 @@ export {
   materialNumberCellTester,
   MaterialNumberFormatCell,
   materialNumberFormatCellTester,
-  MaterialTextCell,
-  materialTextCellTester,
+  SpectrumTextCell as MaterialTextCell,
+  spectrumTextCellTester as materialTextCellTester,
   MaterialTimeCell,
   materialTimeCellTester
 };
