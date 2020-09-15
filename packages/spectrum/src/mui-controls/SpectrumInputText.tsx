@@ -23,7 +23,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps } from '@jsonforms/core';
+import { CellProps, Labels } from '@jsonforms/core';
 import { TextField } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
 // import IconButton from '@material-ui/core/IconButton';
@@ -34,12 +34,17 @@ interface MuiInputTextStatus {
   showAdornment: boolean;
 }
 
+// TODO: remove/ rename
 interface MuiTextInputProps {
   muiInputProps?: React.HTMLAttributes<HTMLInputElement>;
 }
 
+interface SpectrumTextFieldProps {
+  label?: string | Labels;
+}
+
 export class SpectrumInputText extends React.PureComponent<
-  CellProps & MuiTextInputProps,
+  CellProps & MuiTextInputProps & SpectrumTextFieldProps,
   MuiInputTextStatus
 > {
   state: MuiInputTextStatus = { showAdornment: false };
@@ -48,9 +53,10 @@ export class SpectrumInputText extends React.PureComponent<
       data,
       config,
       id,
+      label,
       enabled,
       uischema,
-      // isValid,
+      //isValid,
       path,
       handleChange,
       schema,
@@ -78,8 +84,9 @@ export class SpectrumInputText extends React.PureComponent<
           appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'
         }
         value={data || ''}
+        label={label}
         onChange={onChange}
-        id={id}
+        id={`${id}-input`}
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
         maxLength={maxLength}

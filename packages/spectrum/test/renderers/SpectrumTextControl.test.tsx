@@ -26,7 +26,6 @@ import './MatchMediaMock';
 import React from 'react';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import { SpectrumTextControl } from '../../src/controls/SpectrumTextControl';
-import { MaterialInputControl } from '../../src/controls/MaterialInputControl';
 import { SpectrumInputText } from '../../src/mui-controls/SpectrumInputText';
 import Adapter from 'enzyme-adapter-react-16';
 import { ControlElement, ControlProps } from '@jsonforms/core';
@@ -77,9 +76,9 @@ describe('Material text control', () => {
   it('render', () => {
     const props = defaultControlProps();
     wrapper = mount(createMaterialTextControl(props));
-    expect(wrapper.find(MaterialInputControl).props()).toEqual({
+    expect(wrapper.find(SpectrumInputText).props()).toEqual({
       ...props,
-      input: SpectrumInputText
+      isValid: true
     });
 
     expect(wrapper.find('input').props().id).toEqual(`${props.id}-input`);

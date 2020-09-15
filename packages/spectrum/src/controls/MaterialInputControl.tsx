@@ -40,6 +40,7 @@ interface WithInput {
   input: any;
 }
 
+// TODO: this control will probably be obsolete... check if it can be deleted
 export abstract class MaterialInputControl extends Control<
   ControlProps & WithInput,
   ControlState

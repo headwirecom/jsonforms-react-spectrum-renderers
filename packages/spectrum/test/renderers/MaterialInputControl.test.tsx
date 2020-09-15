@@ -95,14 +95,15 @@ const initJsonFormsStore = (
   return store;
 };
 
-describe('Material input control', () => {
+// TODO: probably not needed for react-spectrum support
+describe.skip('Material input control', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => {
     wrapper.unmount();
   });
 
-  it('render', () => {
+  it.skip('render', () => {
     const store = initJsonFormsStore(data, schema, uischema);
     wrapper = mount(
       <Provider store={store}>
