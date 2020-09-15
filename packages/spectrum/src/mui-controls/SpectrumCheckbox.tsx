@@ -4,7 +4,6 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
-
   Copyright (c) 2020 Puzzle ITC GmbH
   https://github.com/puzzle/jsonforms-react-spectrum
 
