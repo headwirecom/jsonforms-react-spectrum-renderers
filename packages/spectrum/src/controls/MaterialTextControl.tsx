@@ -30,7 +30,7 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { SpectrumInputText } from '../mui-controls/MuiInputText';
+import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 import { MaterialInputControl } from './MaterialInputControl';
 
 export const MaterialTextControl = (props: ControlProps) => (

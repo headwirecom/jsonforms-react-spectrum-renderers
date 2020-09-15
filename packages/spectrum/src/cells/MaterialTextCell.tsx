@@ -31,7 +31,7 @@ import {
   WithClassname
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumInputText } from '../mui-controls/MuiInputText';
+import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 
 export const MaterialTextCell = (props: CellProps & WithClassname) => (
   <SpectrumInputText {...props} />
