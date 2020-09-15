@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 Puzzle ITC GmbH
+  TODO: repo url
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the 'Software'), to deal
   in the Software without restriction, including without limitation the rights
@@ -27,6 +30,7 @@ import React, { Component, CSSProperties } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
 import './App.css';
 import { AppProps, initializedConnect } from './reduxUtil';
+import { defaultTheme, Provider } from '@adobe/react-spectrum';
 
 const preStyle: CSSProperties = {
   overflowX: 'auto'
@@ -35,42 +39,46 @@ class App extends Component<AppProps> {
   render() {
     return (
       <JsonFormsReduxContext>
-        <div>
-          <div className='App'>
-            <header className='App-header'>
-              <img src='assets/logo.svg' className='App-logo' alt='logo' />
-              <h1 className='App-title'>Welcome to JSON Forms with React</h1>
-              <p className='App-intro'>More Forms. Less Code.</p>
-            </header>
-          </div>
+        <Provider theme={defaultTheme}>
+          <div>
+            <div className='App'>
+              <header className='App-header'>
+                <img src='assets/logo.svg' className='App-logo' alt='logo' />
+                <h1 className='App-title'>Welcome to JSON Forms with React</h1>
+                <p className='App-intro'>More Forms. Less Code.</p>
+              </header>
+            </div>
 
-          <h4 className='data-title'>Examples</h4>
-          <div className='data-content'>
-            <select
-              value={this.props.selectedExample.name || ''}
-              onChange={ev => this.props.changeExample(ev.currentTarget.value)}
-            >
-              {this.props.examples.map(optionValue => (
-                <option
-                  value={optionValue.name}
-                  label={optionValue.label}
-                  key={optionValue.name}
-                >
-                  {optionValue.label}
-                </option>
-              ))}
-            </select>
-          </div>
+            <h4 className='data-title'>Examples</h4>
+            <div className='data-content'>
+              <select
+                value={this.props.selectedExample.name || ''}
+                onChange={ev =>
+                  this.props.changeExample(ev.currentTarget.value)
+                }
+              >
+                {this.props.examples.map(optionValue => (
+                  <option
+                    value={optionValue.name}
+                    label={optionValue.label}
+                    key={optionValue.name}
+                  >
+                    {optionValue.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <h4 className='data-title'>Bound data</h4>
-          <div className='data-content'>
-            <pre style={preStyle}>{this.props.dataAsString}</pre>
+            <h4 className='data-title'>Bound data</h4>
+            <div className='data-content'>
+              <pre style={preStyle}>{this.props.dataAsString}</pre>
+            </div>
+            <div className='demoform'>
+              {this.props.getExtensionComponent()}
+              <JsonFormsDispatch onChange={this.props.onChange} />
+            </div>
           </div>
-          <div className='demoform'>
-            {this.props.getExtensionComponent()}
-            <JsonFormsDispatch onChange={this.props.onChange} />
-          </div>
-        </div>
+        </Provider>
       </JsonFormsReduxContext>
     );
   }
