@@ -33,7 +33,7 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 import { MaterialInputControl } from './MaterialInputControl';
 
-export const MaterialTextControl = (props: ControlProps) => (
+export const SpectrumTextControl = (props: ControlProps) => (
   <MaterialInputControl {...props} input={SpectrumInputText} />
 );
 
@@ -41,4 +41,4 @@ export const materialTextControlTester: RankedTester = rankWith(
   1,
   isStringControl
 );
-export default withJsonFormsControlProps(MaterialTextControl);
+export default withJsonFormsControlProps(SpectrumTextControl);

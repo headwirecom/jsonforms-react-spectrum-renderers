@@ -58,10 +58,10 @@ import MaterialNumberControl, {
   materialNumberControlTester,
   MaterialNumberControl as MaterialNumberControlUnwrapped
 } from './MaterialNumberControl';
-import MaterialTextControl, {
+import SpectrumTextControl, {
   materialTextControlTester,
-  MaterialTextControl as MaterialTextControlUnwrapped
-} from './MaterialTextControl';
+  SpectrumTextControl as MaterialTextControlUnwrapped
+} from './SpectrumTextControl';
 
 import MaterialAnyOfStringOrEnumControl, {
   materialAnyOfStringOrEnumControlTester,
@@ -85,7 +85,7 @@ export const Unwrapped = {
   MaterialNumberControl: MaterialNumberControlUnwrapped,
   MaterialTextControl: MaterialTextControlUnwrapped,
   MaterialAnyOfStringOrEnumControl: MaterialAnyOfStringOrEnumControlUnwrapped,
-  MaterialOneOfEnumControl: MaterialOneOfEnumControlUnwrapped,
+  MaterialOneOfEnumControl: MaterialOneOfEnumControlUnwrapped
 };
 
 export {
@@ -107,7 +107,7 @@ export {
   materialIntegerControlTester,
   MaterialNumberControl,
   materialNumberControlTester,
-  MaterialTextControl,
+  SpectrumTextControl as MaterialTextControl,
   materialTextControlTester,
   MaterialAnyOfStringOrEnumControl,
   materialAnyOfStringOrEnumControlTester,
