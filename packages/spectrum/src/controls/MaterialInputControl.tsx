@@ -82,10 +82,7 @@ export abstract class MaterialInputControl extends Control<
           onBlur={this.onBlur}
           id={id}
         >
-          <InputLabel
-            htmlFor={id + '-input'}
-            error={!isValid}
-          >
+          <InputLabel htmlFor={id + '-input'} error={!isValid}>
             {computeLabel(
               isPlainLabel(label) ? label : label.default,
               required,

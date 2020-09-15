@@ -25,9 +25,9 @@
 import './MatchMediaMock';
 import React from 'react';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import { MaterialTextControl } from '../../src/controls/MaterialTextControl';
+import { SpectrumTextControl } from '../../src/controls/SpectrumTextControl';
 import { MaterialInputControl } from '../../src/controls/MaterialInputControl';
-import { MuiInputText } from '../../src/mui-controls/MuiInputText';
+import { SpectrumInputText } from '../../src/mui-controls/SpectrumInputText';
 import Adapter from 'enzyme-adapter-react-16';
 import { ControlElement, ControlProps } from '@jsonforms/core';
 import { Input, InputAdornment } from '@material-ui/core';
@@ -48,7 +48,7 @@ const uischema: ControlElement = {
 };
 
 const createMaterialTextControl = (props: ControlProps) => {
-  return <MaterialTextControl {...props} />;
+  return <SpectrumTextControl {...props} />;
 };
 
 const defaultControlProps = (): ControlProps => {
@@ -79,13 +79,14 @@ describe('Material text control', () => {
     wrapper = mount(createMaterialTextControl(props));
     expect(wrapper.find(MaterialInputControl).props()).toEqual({
       ...props,
-      input: MuiInputText
+      input: SpectrumInputText
     });
 
     expect(wrapper.find('input').props().id).toEqual(`${props.id}-input`);
   });
 
-  it('allows adding of mui input props', () => {
+  // TODO: check if this is needed
+  it.skip('allows adding of mui input props', () => {
     const props = {
       ...defaultControlProps(),
       muiInputProps: { spellCheck: false }
@@ -94,18 +95,26 @@ describe('Material text control', () => {
     expect(wrapper.find('input').props().spellCheck).toEqual(false);
   });
 
-  it('shows clear button when data exists', () => {
+  // TODO: check if this is supported
+  it.skip('shows clear button when data exists', () => {
     const props = defaultControlProps();
     wrapper = mount(createMaterialTextControl(props));
     wrapper.find(Input).simulate('pointerenter');
-    expect(wrapper.find(InputAdornment).props().style).toHaveProperty('visibility', 'visible');
+    expect(wrapper.find(InputAdornment).props().style).toHaveProperty(
+      'visibility',
+      'visible'
+    );
   });
 
-  it('hides clear button when data is undefined', () => {
+  // TODO: check if this is supported
+  it.skip('hides clear button when data is undefined', () => {
     const props = defaultControlProps();
     delete props.data;
     wrapper = mount(createMaterialTextControl(props));
     wrapper.find(Input).simulate('pointerenter');
-    expect(wrapper.find(InputAdornment).props().style).toHaveProperty('visibility', 'hidden');
+    expect(wrapper.find(InputAdornment).props().style).toHaveProperty(
+      'visibility',
+      'hidden'
+    );
   });
 });

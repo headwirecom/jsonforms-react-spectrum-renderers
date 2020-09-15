@@ -74,8 +74,6 @@ export class SpectrumInputText extends React.PureComponent<
 
     return (
       <TextField
-        labelPosition='top'
-        labelAlign='start'
         type={
           appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'
         }
@@ -84,6 +82,7 @@ export class SpectrumInputText extends React.PureComponent<
         id={id}
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
+        maxLength={maxLength}
         // multiline={appliedUiSchemaOptions.multi}
         // fullWidth={!appliedUiSchemaOptions.trim || maxLength === undefined}
         //inputProps={inputProps}
