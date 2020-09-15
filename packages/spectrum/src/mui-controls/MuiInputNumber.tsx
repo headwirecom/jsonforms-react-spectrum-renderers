@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
   
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -23,38 +26,30 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, WithClassname } from '@jsonforms/core';
-import Input from '@material-ui/core/Input';
+import { CellProps } from '@jsonforms/core';
+import { TextField } from '@adobe/react-spectrum';
+
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const MuiInputNumber = React.memo((props: CellProps & WithClassname) => {
-  const {
-    data,
-    className,
-    id,
-    enabled,
-    uischema,
-    path,
-    handleChange,
-    config
-  } = props;
-  const inputProps = { step: '0.1' };
+export const MuiInputNumber = React.memo((props: CellProps) => {
+  const { data, id, enabled, uischema, path, handleChange, config } = props;
+  //const inputProps = { step: '0.1' };
   const toNumber = (value: string) =>
     value === '' ? undefined : parseFloat(value);
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
   return (
-    <Input
+    <TextField
       type='number'
+      inputMode='decimal'
       value={data === undefined || data === null ? '' : data}
-      onChange={ev => handleChange(path, toNumber(ev.target.value))}
-      className={className}
+      onChange={value => handleChange(path, toNumber(value))}
       id={id}
-      disabled={!enabled}
+      isDisabled={!enabled}
       autoFocus={appliedUiSchemaOptions.focus}
-      inputProps={inputProps}
-      fullWidth={true}
+      //inputProps={inputProps}
+      // fullWidth={true}
     />
   );
 }, areEqual);
