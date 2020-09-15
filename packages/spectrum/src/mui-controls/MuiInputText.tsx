@@ -38,7 +38,7 @@ interface MuiTextInputProps {
   muiInputProps?: React.HTMLAttributes<HTMLInputElement>;
 }
 
-export class MuiInputText extends React.PureComponent<
+export class SpectrumInputText extends React.PureComponent<
   CellProps & MuiTextInputProps,
   MuiInputTextStatus
 > {
