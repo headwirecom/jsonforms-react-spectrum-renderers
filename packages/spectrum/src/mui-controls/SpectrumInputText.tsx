@@ -34,17 +34,12 @@ interface MuiInputTextStatus {
   showAdornment: boolean;
 }
 
-// TODO: remove/ rename
-interface MuiTextInputProps {
-  muiInputProps?: React.HTMLAttributes<HTMLInputElement>;
-}
-
 interface SpectrumTextFieldProps {
   label?: string | Labels;
 }
 
 export class SpectrumInputText extends React.PureComponent<
-  CellProps & MuiTextInputProps & SpectrumTextFieldProps,
+  CellProps & SpectrumTextFieldProps,
   MuiInputTextStatus
 > {
   state: MuiInputTextStatus = { showAdornment: false };
@@ -56,22 +51,21 @@ export class SpectrumInputText extends React.PureComponent<
       label,
       enabled,
       uischema,
-      //isValid,
+      isValid,
       path,
       handleChange,
-      schema,
-      muiInputProps
+      schema
     } = this.props;
+
     const maxLength = schema.maxLength;
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
     let inputProps: any;
     if (appliedUiSchemaOptions.restrict) {
       inputProps = { maxLength: maxLength };
     } else {
       inputProps = {};
     }
-
-    inputProps = merge(inputProps, muiInputProps);
 
     if (appliedUiSchemaOptions.trim && maxLength !== undefined) {
       inputProps.size = maxLength;
@@ -90,9 +84,9 @@ export class SpectrumInputText extends React.PureComponent<
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
         maxLength={maxLength}
+        validationState={isValid ? 'valid' : 'invalid'}
         // multiline={appliedUiSchemaOptions.multi}
         // fullWidth={!appliedUiSchemaOptions.trim || maxLength === undefined}
-        //inputProps={inputProps}
         // error={!isValid}
         // onPointerEnter={() => this.setState({ showAdornment: true })}
         // onPointerLeave={() => this.setState({ showAdornment: false })}
