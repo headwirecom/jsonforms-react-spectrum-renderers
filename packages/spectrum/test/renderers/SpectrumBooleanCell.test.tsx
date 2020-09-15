@@ -39,7 +39,7 @@ import {
 } from '@jsonforms/core';
 import BooleanCell, {
   spectrumBooleanCellTester
-} from '../../src/cells/MaterialBooleanCell';
+} from '../../src/cells/SpectrumBooleanCell';
 import { Provider } from 'react-redux';
 import * as ReactDOM from 'react-dom';
 import { combineReducers, createStore, Store } from 'redux';
@@ -76,7 +76,7 @@ const uischema: ControlElement = {
   scope: '#/properties/foo'
 };
 
-describe('Material boolean cell tester', () => {
+describe('Spectrum boolean cell tester', () => {
   const control: ControlElement = {
     type: 'Control',
     scope: '#/properties/foo'
@@ -128,7 +128,7 @@ describe('Material boolean cell tester', () => {
   });
 });
 
-describe('Material boolean cell', () => {
+describe('Spectrum boolean cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -140,7 +140,6 @@ describe('Material boolean cell', () => {
     ReactDOM.unmountComponentAtNode(container);
   });
 
-  // seems to be broken in material-ui
   it('should autofocus via option', () => {
     const control: ControlElement = {
       type: 'Control',
@@ -158,8 +157,8 @@ describe('Material boolean cell', () => {
       </Provider>
     );
 
-    const input = wrapper.find('input').first();
-    expect(input.props()).toBeTruthy();
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBe(true);
   });
 
   it('should not autofocus via option', () => {

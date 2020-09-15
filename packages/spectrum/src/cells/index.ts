@@ -24,7 +24,7 @@
 */
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester
-} from './MaterialBooleanCell';
+} from './SpectrumBooleanCell';
 import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
 import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
 import MaterialIntegerCell, {
