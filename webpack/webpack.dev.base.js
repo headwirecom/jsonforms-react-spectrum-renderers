@@ -25,8 +25,7 @@ module.exports = merge(baseConfig, {
         test: /\.html$/,
         exclude: /node_modules/,
         loader: 'html-loader?exportAsEs6Default'
-      },
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+      }
     ]
   }
 });
