@@ -31,19 +31,19 @@ import {
   WithClassname
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { MuiInputText } from '../mui-controls/MuiInputText';
+import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 
-export const MaterialTextCell = (props: CellProps & WithClassname) => (
-  <MuiInputText {...props} />
+export const SpectrumTextCell = (props: CellProps & WithClassname) => (
+  <SpectrumInputText {...props} />
 );
 
 /**
  * Default tester for text-based/string controls.
  * @type {RankedTester}
  */
-export const materialTextCellTester: RankedTester = rankWith(
+export const spectrumTextCellTester: RankedTester = rankWith(
   1,
   isStringControl
 );
 
-export default withJsonFormsCellProps(MaterialTextCell);
+export default withJsonFormsCellProps(SpectrumTextCell);

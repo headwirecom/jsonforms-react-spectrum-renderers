@@ -23,23 +23,23 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, WithClassname } from '@jsonforms/core';
-import Input from '@material-ui/core/Input';
+import { CellProps, Labels } from '@jsonforms/core';
+import { TextField } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Close from '@material-ui/icons/Close';
+// import IconButton from '@material-ui/core/IconButton';
+// import InputAdornment from '@material-ui/core/InputAdornment';
+// import Close from '@material-ui/icons/Close';
 
 interface MuiInputTextStatus {
   showAdornment: boolean;
 }
 
-interface MuiTextInputProps {
-  muiInputProps?: React.HTMLAttributes<HTMLInputElement>;
+interface SpectrumTextFieldProps {
+  label?: string | Labels;
 }
 
-export class MuiInputText extends React.PureComponent<
-  CellProps & WithClassname & MuiTextInputProps,
+export class SpectrumInputText extends React.PureComponent<
+  CellProps & SpectrumTextFieldProps,
   MuiInputTextStatus
 > {
   state: MuiInputTextStatus = { showAdornment: false };
@@ -47,18 +47,19 @@ export class MuiInputText extends React.PureComponent<
     const {
       data,
       config,
-      className,
       id,
+      label,
       enabled,
       uischema,
       isValid,
       path,
       handleChange,
-      schema,
-      muiInputProps
+      schema
     } = this.props;
+
     const maxLength = schema.maxLength;
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
     let inputProps: any;
     if (appliedUiSchemaOptions.restrict) {
       inputProps = { maxLength: maxLength };
@@ -66,47 +67,48 @@ export class MuiInputText extends React.PureComponent<
       inputProps = {};
     }
 
-    inputProps = merge(inputProps, muiInputProps);
-
     if (appliedUiSchemaOptions.trim && maxLength !== undefined) {
       inputProps.size = maxLength;
     }
-    const onChange = (ev: any) => handleChange(path, ev.target.value);
+    const onChange = (value: string) => handleChange(path, value);
 
     return (
-      <Input
+      <TextField
         type={
           appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'
         }
         value={data || ''}
+        label={label}
         onChange={onChange}
-        className={className}
-        id={id}
-        disabled={!enabled}
+        id={`${id}-input`}
+        isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
-        multiline={appliedUiSchemaOptions.multi}
-        fullWidth={!appliedUiSchemaOptions.trim || maxLength === undefined}
-        inputProps={inputProps}
-        error={!isValid}
-        onPointerEnter={() => this.setState({ showAdornment: true })}
-        onPointerLeave={() => this.setState({ showAdornment: false })}
-        endAdornment={
-          // Use visibility instead of 'Hidden' so the layout doesn't change when the icon is shown
-          <InputAdornment
-            position='end'
-            style={{
-              visibility:
-                !this.state.showAdornment || !enabled || data === undefined ? 'hidden' : 'visible'
-            }}
-          >
-            <IconButton
-              aria-label='Clear input field'
-              onClick={() => handleChange(path, undefined)}
-            >
-              <Close />
-            </IconButton>
-          </InputAdornment>
-        }
+        maxLength={maxLength}
+        validationState={isValid ? 'valid' : 'invalid'}
+        // multiline={appliedUiSchemaOptions.multi}
+        // fullWidth={!appliedUiSchemaOptions.trim || maxLength === undefined}
+        // error={!isValid}
+        // onPointerEnter={() => this.setState({ showAdornment: true })}
+        // onPointerLeave={() => this.setState({ showAdornment: false })}
+        // endAdornment={
+        //   // Use visibility instead of 'Hidden' so the layout doesn't change when the icon is shown
+        //   <InputAdornment
+        //     position='end'
+        //     style={{
+        //       visibility:
+        //         !this.state.showAdornment || !enabled || data === undefined
+        //           ? 'hidden'
+        //           : 'visible'
+        //     }}
+        //   >
+        //     <IconButton
+        //       aria-label='Clear input field'
+        //       onClick={() => handleChange(path, undefined)}
+        //     >
+        //       <Close />
+        //     </IconButton>
+        //   </InputAdornment>
+        // }
       />
     );
   }

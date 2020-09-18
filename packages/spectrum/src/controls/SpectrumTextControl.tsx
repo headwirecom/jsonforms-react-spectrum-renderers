@@ -30,15 +30,16 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { MuiInputText } from '../mui-controls/MuiInputText';
-import { MaterialInputControl } from './MaterialInputControl';
+import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 
-export const MaterialTextControl = (props: ControlProps) => (
-  <MaterialInputControl {...props} input={MuiInputText} />
-);
+export const SpectrumTextControl = (props: ControlProps) => {
+  const { errors, label } = props;
+  const isValid = errors.length === 0;
+  return <SpectrumInputText {...props} label={label} isValid={isValid} />;
+};
 
 export const materialTextControlTester: RankedTester = rankWith(
   1,
   isStringControl
 );
-export default withJsonFormsControlProps(MaterialTextControl);
+export default withJsonFormsControlProps(SpectrumTextControl);

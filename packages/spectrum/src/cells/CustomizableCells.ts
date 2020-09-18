@@ -31,5 +31,5 @@ export { MaterialEnumCell } from './MaterialEnumCell';
 export { MaterialIntegerCell } from './MaterialIntegerCell';
 export { MaterialNumberCell } from './MaterialNumberCell';
 export { MaterialNumberFormatCell } from './MaterialNumberFormatCell';
-export { MaterialTextCell } from './MaterialTextCell';
+export { SpectrumTextCell as MaterialTextCell } from './SpectrumTextCell';
 export { MaterialTimeCell } from './MaterialTimeCell';

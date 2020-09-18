@@ -40,6 +40,7 @@ interface WithInput {
   input: any;
 }
 
+// TODO: this control will probably be obsolete... check if it can be deleted
 export abstract class MaterialInputControl extends Control<
   ControlProps & WithInput,
   ControlState
@@ -82,10 +83,7 @@ export abstract class MaterialInputControl extends Control<
           onBlur={this.onBlur}
           id={id}
         >
-          <InputLabel
-            htmlFor={id + '-input'}
-            error={!isValid}
-          >
+          <InputLabel htmlFor={id + '-input'} error={!isValid}>
             {computeLabel(
               isPlainLabel(label) ? label : label.default,
               required,
