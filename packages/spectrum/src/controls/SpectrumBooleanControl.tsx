@@ -33,7 +33,6 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { FormControlLabel, Hidden } from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
@@ -53,28 +52,22 @@ export const SpectrumBooleanControl = ({
   config
 }: ControlProps) => {
   return (
-    <Hidden xsUp={!visible}>
-      <FormControlLabel
-        label={label}
-        id={id}
-        control={
-          <SpectrumCheckbox
-            id={`${id}-input`}
-            isValid={isEmpty(errors)}
-            data={data}
-            enabled={enabled}
-            visible={visible}
-            path={path}
-            uischema={uischema}
-            schema={schema}
-            rootSchema={rootSchema}
-            handleChange={handleChange}
-            errors={errors}
-            config={config}
-          />
-        }
-      />
-    </Hidden>
+    <SpectrumCheckbox
+      id={`${id}-input`}
+      isValid={isEmpty(errors)}
+      data={data}
+      enabled={enabled}
+      visible={visible}
+      path={path}
+      uischema={uischema}
+      schema={schema}
+      rootSchema={rootSchema}
+      handleChange={handleChange}
+      errors={errors}
+      config={config}
+    >
+      {label}
+    </SpectrumCheckbox>
   );
 };
 

@@ -31,20 +31,25 @@ import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 import React from 'react';
 
-export const SpectrumCheckbox = React.memo((props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange, config } = props;
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  const autoFocus = !!appliedUiSchemaOptions.focus;
-  // !! causes undefined value to be converted to false, otherwise has no effect
-  const isSelected = !!data;
+export const SpectrumCheckbox = React.memo(
+  (props: React.PropsWithChildren<CellProps>) => {
+    const { data, id, enabled, uischema, path, handleChange, config } = props;
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const autoFocus = !!appliedUiSchemaOptions.focus;
+    // !! causes undefined value to be converted to false, otherwise has no effect
+    const isSelected = !!data;
 
-  return (
-    <Checkbox
-      isSelected={isSelected}
-      onChange={selected => handleChange(path, selected)}
-      id={id}
-      isDisabled={!enabled}
-      autoFocus={autoFocus}
-    />
-  );
-}, areEqual);
+    return (
+      <Checkbox
+        isSelected={isSelected}
+        onChange={selected => handleChange(path, selected)}
+        id={id}
+        isDisabled={!enabled}
+        autoFocus={autoFocus}
+      >
+        {props.children}
+      </Checkbox>
+    );
+  },
+  areEqual
+);

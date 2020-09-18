@@ -274,7 +274,7 @@ describe('Material list with detail renderer', () => {
     liSecond.simulate('click');
 
     const labels = wrapper.find('label');
-    expect(labels).toHaveLength(3);
+    expect(labels).toHaveLength(2);
 
     const label = labels.at(0);
     expect(label.text()).toBe('Schema Title');
