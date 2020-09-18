@@ -1,7 +1,7 @@
 /*
   The MIT License
 
-  Copyright (c) 2017-2019 EclipseSource Munich
+  Copyright (c) 2018-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,41 +23,23 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, WithClassname } from '@jsonforms/core';
-import Input from '@material-ui/core/Input';
-import { areEqual } from '@jsonforms/react';
-import merge from 'lodash/merge';
+import {
+  ControlProps,
+  isNumberControl,
+  RankedTester,
+  rankWith
+} from '@jsonforms/core';
+import { MaterialInputControl } from './MaterialInputControl';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { SpectrumInputNumber } from '../mui-controls';
 
-export const MuiInputInteger = React.memo(
-  (props: CellProps & WithClassname) => {
-    const {
-      data,
-      className,
-      id,
-      enabled,
-      uischema,
-      path,
-      handleChange,
-      config
-    } = props;
-    const inputProps = { step: '1' };
-    const toNumber = (value: string) =>
-      value === '' ? undefined : parseInt(value, 10);
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
-    return (
-      <Input
-        type='number'
-        value={data !== undefined && data !== null ? data : ''}
-        onChange={ev => handleChange(path, toNumber(ev.target.value))}
-        className={className}
-        id={id}
-        disabled={!enabled}
-        autoFocus={appliedUiSchemaOptions.focus}
-        inputProps={inputProps}
-        fullWidth={true}
-      />
-    );
-  },
-  areEqual
+export const SpectrumNumberControl = (props: ControlProps) => (
+  <MaterialInputControl {...props} input={SpectrumInputNumber} />
 );
+
+export const materialNumberControlTester: RankedTester = rankWith(
+  2,
+  isNumberControl
+);
+
+export default withJsonFormsControlProps(SpectrumNumberControl);

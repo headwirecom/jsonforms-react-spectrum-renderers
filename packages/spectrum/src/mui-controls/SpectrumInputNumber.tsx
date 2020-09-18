@@ -32,8 +32,9 @@ import { TextField } from '@adobe/react-spectrum';
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const MuiInputNumber = React.memo((props: CellProps) => {
+export const SpectrumInputNumber = React.memo((props: CellProps) => {
   const { data, id, enabled, uischema, path, handleChange, config } = props;
+  // step attribute not yet supported from spectrum
   //const inputProps = { step: '0.1' };
   const toNumber = (value: string) =>
     value === '' ? undefined : parseFloat(value);
@@ -42,7 +43,7 @@ export const MuiInputNumber = React.memo((props: CellProps) => {
   return (
     <TextField
       type='number'
-      inputMode='decimal'
+      inputMode='numeric'
       value={data === undefined || data === null ? '' : data}
       onChange={value => handleChange(path, toNumber(value))}
       id={id}

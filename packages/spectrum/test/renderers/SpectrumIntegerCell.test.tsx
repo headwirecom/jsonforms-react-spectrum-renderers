@@ -35,8 +35,8 @@ import {
   UISchemaElement
 } from '@jsonforms/core';
 import IntegerCell, {
-  materialIntegerCellTester
-} from '../../src/cells/MaterialIntegerCell';
+  spectrumIntegerCellTester
+} from '../../src/cells/SpectrumIntegerCell';
 import { Provider } from 'react-redux';
 import { materialRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
@@ -82,24 +82,24 @@ describe('Material integer cells tester', () => {
   };
 
   it('should fail', () => {
-    expect(materialIntegerCellTester(undefined, undefined)).toBe(
+    expect(spectrumIntegerCellTester(undefined, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialIntegerCellTester(null, undefined)).toBe(NOT_APPLICABLE);
-    expect(materialIntegerCellTester({ type: 'Foo' }, undefined)).toBe(
+    expect(spectrumIntegerCellTester(null, undefined)).toBe(NOT_APPLICABLE);
+    expect(spectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialIntegerCellTester({ type: 'Control' }, undefined)).toBe(
+    expect(spectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(
       NOT_APPLICABLE
     );
     expect(
-      materialIntegerCellTester(controlElement, {
+      spectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'string' } }
       })
     ).toBe(NOT_APPLICABLE);
     expect(
-      materialIntegerCellTester(controlElement, {
+      spectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'string' }, bar: { type: 'integer' } }
       })
@@ -108,7 +108,7 @@ describe('Material integer cells tester', () => {
 
   it('should succeed', () => {
     expect(
-      materialIntegerCellTester(controlElement, {
+      spectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'integer' } }
       })
@@ -137,8 +137,9 @@ describe('Material integer cells', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeTruthy();
+
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBeTruthy();
   });
 
   it('should not autofocus via option', () => {
@@ -190,7 +191,8 @@ describe('Material integer cells', () => {
 
     const input = wrapper.find('input').first();
     expect(input.props().type).toBe('number');
-    expect(input.props().step).toBe('1');
+    // todo: step property not yet available with spectrum
+    // expect(input.props().step).toBe('1');
     expect(input.props().value).toBe(42);
   });
 
@@ -206,7 +208,8 @@ describe('Material integer cells', () => {
 
     const input = wrapper.find('input').first();
     expect(input.props().type).toBe('number');
-    expect(input.props().step).toBe('1');
+    // todo: step property not yet available with spectrum
+    // expect(input.props().step).toBe('1');
     expect(input.props().value).toBe(0);
   });
 

@@ -24,8 +24,6 @@
 */
 export * from './SpectrumCheckbox';
 export * from './MuiSelect';
-export * from './MuiInputInteger';
-export * from './MuiInputNumber';
-export * from './MuiInputNumberFormat';
+export * from './SpectrumInputNumber';
 export * from './SpectrumInputText';
 export * from './MuiInputTime';

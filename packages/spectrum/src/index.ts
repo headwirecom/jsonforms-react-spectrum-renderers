@@ -89,16 +89,16 @@ import {
   materialDateCellTester,
   MaterialEnumCell,
   materialEnumCellTester,
-  MaterialIntegerCell,
-  materialIntegerCellTester,
-  MaterialNumberCell,
-  materialNumberCellTester,
+  SpectrumIntegerCell,
+  spectrumIntegerCellTester,
+  SpectrumNumberCell,
+  spectrumNumberCellTester,
   MaterialNumberFormatCell,
   materialNumberFormatCellTester,
   MaterialTextCell,
   materialTextCellTester,
   MaterialTimeCell,
-  materialTimeCellTester,
+  materialTimeCellTester
 } from './cells';
 import MaterialCategorizationStepperLayout, {
   materialCategorizationStepperTester
@@ -170,8 +170,8 @@ export const materialCells: JsonFormsCellRendererRegistryEntry[] = [
   { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
   { tester: materialDateCellTester, cell: MaterialDateCell },
   { tester: materialEnumCellTester, cell: MaterialEnumCell },
-  { tester: materialIntegerCellTester, cell: MaterialIntegerCell },
-  { tester: materialNumberCellTester, cell: MaterialNumberCell },
+  { tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell },
+  { tester: spectrumNumberCellTester, cell: SpectrumNumberCell },
   { tester: materialNumberFormatCellTester, cell: MaterialNumberFormatCell },
   { tester: materialTextCellTester, cell: MaterialTextCell },
   { tester: materialTimeCellTester, cell: MaterialTimeCell }

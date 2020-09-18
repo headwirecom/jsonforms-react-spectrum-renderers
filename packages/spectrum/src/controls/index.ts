@@ -25,7 +25,7 @@
 import MaterialBooleanControl, {
   materialBooleanControlTester,
   MaterialBooleanControl as MaterialBooleanControlUnwrapped
-} from './MaterialBooleanControl';
+} from './SpectrumBooleanControl';
 import MaterialEnumControl, {
   materialEnumControlTester,
   MaterialEnumControl as MaterialEnumControlUnwrapped
@@ -50,14 +50,14 @@ import MaterialRadioGroupControl, {
   materialRadioGroupControlTester,
   MaterialRadioGroupControl as MaterialRadioGroupControlUnwrapped
 } from './MaterialRadioGroupControl';
-import MaterialIntegerControl, {
+import SpectrumIntegerControl, {
   materialIntegerControlTester,
-  MaterialIntegerControl as MaterialIntegerControlUnwrapped
-} from './MaterialIntegerControl';
-import MaterialNumberControl, {
+  SpectrumIntegerControl as MaterialIntegerControlUnwrapped
+} from './SpectrumIntegerControl';
+import SpectrumNumberControl, {
   materialNumberControlTester,
-  MaterialNumberControl as MaterialNumberControlUnwrapped
-} from './MaterialNumberControl';
+  SpectrumNumberControl as MaterialNumberControlUnwrapped
+} from './SpectrumNumberControl';
 import SpectrumTextControl, {
   materialTextControlTester,
   SpectrumTextControl as MaterialTextControlUnwrapped
@@ -103,9 +103,9 @@ export {
   materialSliderControlTester,
   MaterialRadioGroupControl,
   materialRadioGroupControlTester,
-  MaterialIntegerControl,
+  SpectrumIntegerControl as MaterialIntegerControl,
   materialIntegerControlTester,
-  MaterialNumberControl,
+  SpectrumNumberControl as MaterialNumberControl,
   materialNumberControlTester,
   SpectrumTextControl as MaterialTextControl,
   materialTextControlTester,

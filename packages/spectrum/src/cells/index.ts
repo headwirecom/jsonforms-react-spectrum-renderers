@@ -30,15 +30,12 @@ import SpectrumBooleanCell, {
 } from './SpectrumBooleanCell';
 import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
 import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
-import MaterialIntegerCell, {
-  materialIntegerCellTester
-} from './MaterialIntegerCell';
-import MaterialNumberCell, {
-  materialNumberCellTester
-} from './MaterialNumberCell';
-import MaterialNumberFormatCell, {
-  materialNumberFormatCellTester
-} from './MaterialNumberFormatCell';
+import SpectrumIntegerCell, {
+  spectrumIntegerCellTester
+} from './SpectrumIntegerCell';
+import SpectrumNumberCell, {
+  spectrumNumberCellTester
+} from './SpectrumNumberCell';
 import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 
@@ -49,12 +46,10 @@ export {
   materialDateCellTester,
   MaterialEnumCell,
   materialEnumCellTester,
-  MaterialIntegerCell,
-  materialIntegerCellTester,
-  MaterialNumberCell,
-  materialNumberCellTester,
-  MaterialNumberFormatCell,
-  materialNumberFormatCellTester,
+  SpectrumIntegerCell,
+  spectrumIntegerCellTester,
+  SpectrumNumberCell,
+  spectrumNumberCellTester,
   SpectrumTextCell as MaterialTextCell,
   spectrumTextCellTester as materialTextCellTester,
   MaterialTimeCell,

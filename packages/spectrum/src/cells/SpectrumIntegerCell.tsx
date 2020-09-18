@@ -1,7 +1,7 @@
 /*
   The MIT License
 
-  Copyright (c) 2018-2019 EclipseSource Munich
+  Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,22 +24,21 @@
 */
 import React from 'react';
 import {
-  ControlProps,
-  isNumberControl,
+  CellProps,
+  isIntegerControl,
   RankedTester,
-  rankWith
+  rankWith,
+  WithClassname
 } from '@jsonforms/core';
-import { MuiInputNumber } from '../mui-controls/MuiInputNumber';
-import { MaterialInputControl } from './MaterialInputControl';
-import { withJsonFormsControlProps } from '@jsonforms/react';
+import { withJsonFormsCellProps } from '@jsonforms/react';
+import { SpectrumInputNumber } from '../mui-controls';
 
-export const MaterialNumberControl = (props: ControlProps) => (
-  <MaterialInputControl {...props} input={MuiInputNumber} />
+export const SpectrumIntegerCell = (props: CellProps & WithClassname) => (
+  <SpectrumInputNumber {...props} />
 );
-
-export const materialNumberControlTester: RankedTester = rankWith(
+export const spectrumIntegerCellTester: RankedTester = rankWith(
   2,
-  isNumberControl
+  isIntegerControl
 );
 
-export default withJsonFormsControlProps(MaterialNumberControl);
+export default withJsonFormsCellProps(SpectrumIntegerCell);
