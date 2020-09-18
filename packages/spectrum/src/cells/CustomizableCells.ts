@@ -28,8 +28,7 @@
 export { SpectrumBooleanCell } from './SpectrumBooleanCell';
 export { MaterialDateCell } from './MaterialDateCell';
 export { MaterialEnumCell } from './MaterialEnumCell';
-export { MaterialIntegerCell } from './MaterialIntegerCell';
-export { MaterialNumberCell } from './MaterialNumberCell';
-export { MaterialNumberFormatCell } from './MaterialNumberFormatCell';
+export { SpectrumIntegerCell } from './SpectrumIntegerCell';
+export { SpectrumNumberCell as MaterialNumberCell } from './SpectrumNumberCell';
 export { SpectrumTextCell as MaterialTextCell } from './SpectrumTextCell';
 export { MaterialTimeCell } from './MaterialTimeCell';

@@ -1,19 +1,19 @@
 /*
   The MIT License
-  
-  Copyright (c) 2017-2019 EclipseSource Munich
+
+  Copyright (c) 2018-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,24 +24,23 @@
 */
 import React from 'react';
 import {
-  CellProps,
+  ControlProps,
   isNumberControl,
   RankedTester,
-  rankWith,
-  WithClassname
+  rankWith
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
-import { MuiInputNumber } from '../mui-controls/MuiInputNumber';
+import { SpectrumInputNumber } from '../mui-controls';
+import { withJsonFormsControlProps } from '@jsonforms/react';
 
-export const MaterialNumberCell = (props: CellProps & WithClassname) => (
-  <MuiInputNumber {...props} />
-);
-/**
- * Default tester for number controls.
- * @type {RankedTester}
- */
-export const materialNumberCellTester: RankedTester = rankWith(
+export const SpectrumNumberControl = (props: ControlProps) => {
+  const { errors, label } = props;
+  const isValid = errors.length === 0;
+  return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
+};
+
+export const materialNumberControlTester: RankedTester = rankWith(
   2,
   isNumberControl
 );
-export default withJsonFormsCellProps(MaterialNumberCell);
+
+export default withJsonFormsControlProps(SpectrumNumberControl);

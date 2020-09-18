@@ -1,8 +1,11 @@
 /*
   The MIT License
-
+  
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+  
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -10,10 +13,10 @@
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
+  
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
+  
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,52 +26,46 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, Formatted, WithClassname } from '@jsonforms/core';
-import Input from '@material-ui/core/Input';
+import { CellProps, Labels } from '@jsonforms/core';
+import { TextField } from '@adobe/react-spectrum';
+
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const MuiInputNumberFormat = React.memo(
-  (props: CellProps & WithClassname & Formatted<number>) => {
+interface SpectrumTextFieldProps {
+  label?: string | Labels;
+}
+
+export const SpectrumInputNumber = React.memo(
+  (props: CellProps & SpectrumTextFieldProps) => {
     const {
-      className,
+      data,
+      label,
       id,
       enabled,
       uischema,
-      isValid,
       path,
       handleChange,
-      schema,
       config
     } = props;
-    const maxLength = schema.maxLength;
+    // step attribute not yet supported from spectrum
+    //const inputProps = { step: '0.1' };
+    const toNumber = (value: string) =>
+      value === '' ? undefined : parseFloat(value);
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    let inputProps;
-    if (appliedUiSchemaOptions.restrict) {
-      inputProps = { maxLength: maxLength };
-    } else {
-      inputProps = {};
-    }
-    const formattedNumber = props.toFormatted(props.data);
-
-    const onChange = (ev: any) => {
-      const validStringNumber = props.fromFormatted(ev.currentTarget.value);
-      handleChange(path, validStringNumber);
-    };
 
     return (
-      <Input
-        type='text'
-        value={formattedNumber}
-        onChange={onChange}
-        className={className}
+      <TextField
+        label={label}
+        type='number'
+        inputMode='numeric'
+        value={data === undefined || data === null ? '' : data}
+        onChange={value => handleChange(path, toNumber(value))}
         id={id}
-        disabled={!enabled}
+        isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
-        multiline={appliedUiSchemaOptions.multi}
-        fullWidth={!appliedUiSchemaOptions.trim || maxLength === undefined}
-        inputProps={inputProps}
-        error={!isValid}
+        //inputProps={inputProps}
+        // fullWidth={true}
       />
     );
   },
