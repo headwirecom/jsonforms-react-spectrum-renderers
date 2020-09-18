@@ -25,7 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
 import {
   CellProps,
   isNumberControl,
@@ -33,6 +32,7 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
+import React from 'react';
 import { SpectrumInputNumber } from '../mui-controls/SpectrumInputNumber';
 
 export const SpectrumNumberCell = (props: CellProps) => (

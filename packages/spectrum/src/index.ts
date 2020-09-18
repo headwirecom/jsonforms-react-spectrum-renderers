@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -47,28 +50,28 @@ import {
 import {
   MaterialAnyOfStringOrEnumControl,
   materialAnyOfStringOrEnumControlTester,
-  MaterialBooleanControl,
-  materialBooleanControlTester,
   MaterialDateControl,
   materialDateControlTester,
   MaterialDateTimeControl,
   materialDateTimeControlTester,
   MaterialEnumControl,
   materialEnumControlTester,
-  MaterialIntegerControl,
-  materialIntegerControlTester,
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
   MaterialNativeControl,
   materialNativeControlTester,
-  MaterialNumberControl,
-  materialNumberControlTester,
   MaterialOneOfEnumControl,
   materialOneOfEnumControlTester,
   MaterialRadioGroupControl,
   materialRadioGroupControlTester,
   MaterialSliderControl,
   materialSliderControlTester,
-  MaterialTextControl,
-  materialTextControlTester
+  SpectrumBooleanControl,
+  spectrumBooleanControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester
 } from './controls';
 import {
   MaterialArrayLayout,
@@ -83,20 +86,20 @@ import {
   materialVerticalLayoutTester
 } from './layouts';
 import {
-  spectrumBooleanCellTester,
-  SpectrumBooleanCell,
   MaterialDateCell,
   materialDateCellTester,
   MaterialEnumCell,
   materialEnumCellTester,
-  SpectrumIntegerCell,
-  spectrumIntegerCellTester,
-  SpectrumNumberCell,
-  spectrumNumberCellTester,
   MaterialTextCell,
   materialTextCellTester,
   MaterialTimeCell,
-  materialTimeCellTester
+  materialTimeCellTester,
+  SpectrumBooleanCell,
+  spectrumBooleanCellTester,
+  SpectrumIntegerCell,
+  spectrumIntegerCellTester,
+  SpectrumNumberCell,
+  spectrumNumberCellTester
 } from './cells';
 import MaterialCategorizationStepperLayout, {
   materialCategorizationStepperTester
@@ -115,12 +118,12 @@ export const materialRenderers: JsonFormsRendererRegistryEntry[] = [
     tester: materialArrayControlTester,
     renderer: MaterialArrayControlRenderer
   },
-  { tester: materialBooleanControlTester, renderer: MaterialBooleanControl },
+  { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
   { tester: materialNativeControlTester, renderer: MaterialNativeControl },
   { tester: materialEnumControlTester, renderer: MaterialEnumControl },
-  { tester: materialIntegerControlTester, renderer: MaterialIntegerControl },
-  { tester: materialNumberControlTester, renderer: MaterialNumberControl },
-  { tester: materialTextControlTester, renderer: MaterialTextControl },
+  { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
+  { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
+  { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: materialDateTimeControlTester, renderer: MaterialDateTimeControl },
   { tester: materialDateControlTester, renderer: MaterialDateControl },
   { tester: materialSliderControlTester, renderer: MaterialSliderControl },

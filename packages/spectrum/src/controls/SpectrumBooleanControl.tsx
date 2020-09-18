@@ -26,19 +26,19 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import isEmpty from 'lodash/isEmpty';
-import React from 'react';
 import {
+  ControlProps,
   isBooleanControl,
   RankedTester,
-  rankWith,
-  ControlProps
+  rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { FormControlLabel, Hidden } from '@material-ui/core';
+import isEmpty from 'lodash/isEmpty';
+import React from 'react';
 import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
-export const MaterialBooleanControl = ({
+export const SpectrumBooleanControl = ({
   data,
   visible,
   label,
@@ -78,8 +78,8 @@ export const MaterialBooleanControl = ({
   );
 };
 
-export const materialBooleanControlTester: RankedTester = rankWith(
+export const spectrumBooleanControlTester: RankedTester = rankWith(
   2,
   isBooleanControl
 );
-export default withJsonFormsControlProps(MaterialBooleanControl);
+export default withJsonFormsControlProps(SpectrumBooleanControl);

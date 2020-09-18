@@ -25,7 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
 import {
   CellProps,
   isBooleanControl,
@@ -33,6 +32,7 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
+import React from 'react';
 import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
 export const SpectrumBooleanCell = (props: CellProps) => {

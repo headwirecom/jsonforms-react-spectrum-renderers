@@ -25,11 +25,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import * as Customizable from './CustomizableCells';
+import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
+import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
+import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester
 } from './SpectrumBooleanCell';
-import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
-import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester
 } from './SpectrumIntegerCell';
@@ -37,7 +39,6 @@ import SpectrumNumberCell, {
   spectrumNumberCellTester
 } from './SpectrumNumberCell';
 import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
-import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 
 export {
   SpectrumBooleanCell,
@@ -55,5 +56,4 @@ export {
   MaterialTimeCell,
   materialTimeCellTester
 };
-import * as Customizable from './CustomizableCells';
 export { Customizable };
