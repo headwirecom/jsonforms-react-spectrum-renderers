@@ -29,13 +29,14 @@ import {
   RankedTester,
   rankWith
 } from '@jsonforms/core';
-import { MaterialInputControl } from './MaterialInputControl';
-import { withJsonFormsControlProps } from '@jsonforms/react';
 import { SpectrumInputNumber } from '../mui-controls';
+import { withJsonFormsControlProps } from '@jsonforms/react';
 
-export const SpectrumNumberControl = (props: ControlProps) => (
-  <MaterialInputControl {...props} input={SpectrumInputNumber} />
-);
+export const SpectrumNumberControl = (props: ControlProps) => {
+  const { errors, label } = props;
+  const isValid = errors.length === 0;
+  return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
+};
 
 export const materialNumberControlTester: RankedTester = rankWith(
   2,

@@ -26,31 +26,48 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps } from '@jsonforms/core';
+import { CellProps, Labels } from '@jsonforms/core';
 import { TextField } from '@adobe/react-spectrum';
 
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const SpectrumInputNumber = React.memo((props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange, config } = props;
-  // step attribute not yet supported from spectrum
-  //const inputProps = { step: '0.1' };
-  const toNumber = (value: string) =>
-    value === '' ? undefined : parseFloat(value);
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+interface SpectrumTextFieldProps {
+  label?: string | Labels;
+}
 
-  return (
-    <TextField
-      type='number'
-      inputMode='numeric'
-      value={data === undefined || data === null ? '' : data}
-      onChange={value => handleChange(path, toNumber(value))}
-      id={id}
-      isDisabled={!enabled}
-      autoFocus={appliedUiSchemaOptions.focus}
-      //inputProps={inputProps}
-      // fullWidth={true}
-    />
-  );
-}, areEqual);
+export const SpectrumInputNumber = React.memo(
+  (props: CellProps & SpectrumTextFieldProps) => {
+    const {
+      data,
+      label,
+      id,
+      enabled,
+      uischema,
+      path,
+      handleChange,
+      config
+    } = props;
+    // step attribute not yet supported from spectrum
+    //const inputProps = { step: '0.1' };
+    const toNumber = (value: string) =>
+      value === '' ? undefined : parseFloat(value);
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
+    return (
+      <TextField
+        label={label}
+        type='number'
+        inputMode='numeric'
+        value={data === undefined || data === null ? '' : data}
+        onChange={value => handleChange(path, toNumber(value))}
+        id={id}
+        isDisabled={!enabled}
+        autoFocus={appliedUiSchemaOptions.focus}
+        //inputProps={inputProps}
+        // fullWidth={true}
+      />
+    );
+  },
+  areEqual
+);

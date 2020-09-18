@@ -29,13 +29,16 @@ import {
   RankedTester,
   rankWith
 } from '@jsonforms/core';
-import { MaterialInputControl } from './MaterialInputControl';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { SpectrumInputNumber } from '../mui-controls';
 
-export const SpectrumIntegerControl = (props: ControlProps) => (
-  <MaterialInputControl {...props} input={SpectrumInputNumber} />
-);
+// TODO: seems to be quite the same as SpectrumNumberControl...
+// I want to keep it for know, because there will probably be some nuances...
+export const SpectrumIntegerControl = (props: ControlProps) => {
+  const { errors, label } = props;
+  const isValid = errors.length === 0;
+  return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
+};
 export const materialIntegerControlTester: RankedTester = rankWith(
   2,
   isIntegerControl
