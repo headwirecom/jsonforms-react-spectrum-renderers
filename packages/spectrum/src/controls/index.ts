@@ -25,75 +25,73 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import MaterialBooleanControl, {
-  materialBooleanControlTester,
-  MaterialBooleanControl as MaterialBooleanControlUnwrapped
-} from './SpectrumBooleanControl';
-import MaterialEnumControl, {
-  materialEnumControlTester,
-  MaterialEnumControl as MaterialEnumControlUnwrapped
-} from './MaterialEnumControl';
-import MaterialNativeControl, {
-  materialNativeControlTester,
-  MaterialNativeControl as MaterialNativeControlUnwrapped
-} from './MaterialNativeControl';
+import MaterialAnyOfStringOrEnumControl, {
+  MaterialAnyOfStringOrEnumControl as MaterialAnyOfStringOrEnumControlUnwrapped,
+  materialAnyOfStringOrEnumControlTester
+} from './MaterialAnyOfStringOrEnumControl';
 import MaterialDateControl, {
-  materialDateControlTester,
-  MaterialDateControl as MaterialDateControlUnwrapped
+  MaterialDateControl as MaterialDateControlUnwrapped,
+  materialDateControlTester
 } from './MaterialDateControl';
 import MaterialDateTimeControl, {
-  materialDateTimeControlTester,
-  MaterialDateTimeControl as MaterialDateTimeControlUnwrapped
+  MaterialDateTimeControl as MaterialDateTimeControlUnwrapped,
+  materialDateTimeControlTester
 } from './MaterialDateTimeControl';
-import MaterialSliderControl, {
-  materialSliderControlTester,
-  MaterialSliderControl as MaterialSliderControlUnwrapped
-} from './MaterialSliderControl';
+import MaterialEnumControl, {
+  MaterialEnumControl as MaterialEnumControlUnwrapped,
+  materialEnumControlTester
+} from './MaterialEnumControl';
+import MaterialNativeControl, {
+  MaterialNativeControl as MaterialNativeControlUnwrapped,
+  materialNativeControlTester
+} from './MaterialNativeControl';
+import MaterialOneOfEnumControl, {
+  MaterialOneOfEnumControl as MaterialOneOfEnumControlUnwrapped,
+  materialOneOfEnumControlTester
+} from './MaterialOneOfEnumControl';
 import MaterialRadioGroupControl, {
-  materialRadioGroupControlTester,
-  MaterialRadioGroupControl as MaterialRadioGroupControlUnwrapped
+  MaterialRadioGroupControl as MaterialRadioGroupControlUnwrapped,
+  materialRadioGroupControlTester
 } from './MaterialRadioGroupControl';
+import MaterialSliderControl, {
+  MaterialSliderControl as MaterialSliderControlUnwrapped,
+  materialSliderControlTester
+} from './MaterialSliderControl';
+import SpectrumBooleanControl, {
+  SpectrumBooleanControl as SpectrumBooleanControlUnwrapped,
+  spectrumBooleanControlTester
+} from './SpectrumBooleanControl';
 import SpectrumIntegerControl, {
-  materialIntegerControlTester,
-  SpectrumIntegerControl as MaterialIntegerControlUnwrapped
+  SpectrumIntegerControl as SpectrumIntegerControlUnwrapped,
+  spectrumIntegerControlTester
 } from './SpectrumIntegerControl';
 import SpectrumNumberControl, {
-  materialNumberControlTester,
-  SpectrumNumberControl as MaterialNumberControlUnwrapped
+  SpectrumNumberControl as SpectrumNumberControlUnwrapped,
+  spectrumNumberControlTester
 } from './SpectrumNumberControl';
 import SpectrumTextControl, {
-  materialTextControlTester,
-  SpectrumTextControl as MaterialTextControlUnwrapped
+  SpectrumTextControl as SpectrumTextControlUnwrapped,
+  spectrumTextControlTester
 } from './SpectrumTextControl';
 
-import MaterialAnyOfStringOrEnumControl, {
-  materialAnyOfStringOrEnumControlTester,
-  MaterialAnyOfStringOrEnumControl as MaterialAnyOfStringOrEnumControlUnwrapped
-} from './MaterialAnyOfStringOrEnumControl';
-
-import MaterialOneOfEnumControl, {
-  materialOneOfEnumControlTester,
-  MaterialOneOfEnumControl as MaterialOneOfEnumControlUnwrapped
-} from './MaterialOneOfEnumControl';
-
 export const Unwrapped = {
-  MaterialBooleanControl: MaterialBooleanControlUnwrapped,
+  SpectrumBooleanControl: SpectrumBooleanControlUnwrapped,
   MaterialEnumControl: MaterialEnumControlUnwrapped,
   MaterialNativeControl: MaterialNativeControlUnwrapped,
   MaterialDateControl: MaterialDateControlUnwrapped,
   MaterialDateTimeControl: MaterialDateTimeControlUnwrapped,
   MaterialSliderControl: MaterialSliderControlUnwrapped,
   MaterialRadioGroupControl: MaterialRadioGroupControlUnwrapped,
-  MaterialIntegerControl: MaterialIntegerControlUnwrapped,
-  MaterialNumberControl: MaterialNumberControlUnwrapped,
-  MaterialTextControl: MaterialTextControlUnwrapped,
+  SpectrumIntegerControl: SpectrumIntegerControlUnwrapped,
+  SpectrumNumberControl: SpectrumNumberControlUnwrapped,
+  SpectrumTextControl: SpectrumTextControlUnwrapped,
   MaterialAnyOfStringOrEnumControl: MaterialAnyOfStringOrEnumControlUnwrapped,
   MaterialOneOfEnumControl: MaterialOneOfEnumControlUnwrapped
 };
 
 export {
-  MaterialBooleanControl,
-  materialBooleanControlTester,
+  SpectrumBooleanControl,
+  spectrumBooleanControlTester,
   MaterialEnumControl,
   materialEnumControlTester,
   MaterialNativeControl,
@@ -106,12 +104,12 @@ export {
   materialSliderControlTester,
   MaterialRadioGroupControl,
   materialRadioGroupControlTester,
-  SpectrumIntegerControl as MaterialIntegerControl,
-  materialIntegerControlTester,
-  SpectrumNumberControl as MaterialNumberControl,
-  materialNumberControlTester,
-  SpectrumTextControl as MaterialTextControl,
-  materialTextControlTester,
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester,
   MaterialAnyOfStringOrEnumControl,
   materialAnyOfStringOrEnumControlTester,
   MaterialOneOfEnumControl,

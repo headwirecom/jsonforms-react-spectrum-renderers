@@ -25,7 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
 import {
   ControlProps,
   isStringControl,
@@ -33,6 +32,7 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import React from 'react';
 import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
 
 export const SpectrumTextControl = (props: ControlProps) => {
@@ -41,7 +41,7 @@ export const SpectrumTextControl = (props: ControlProps) => {
   return <SpectrumInputText {...props} label={label} isValid={isValid} />;
 };
 
-export const materialTextControlTester: RankedTester = rankWith(
+export const spectrumTextControlTester: RankedTester = rankWith(
   1,
   isStringControl
 );

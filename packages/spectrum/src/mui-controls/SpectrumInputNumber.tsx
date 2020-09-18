@@ -25,12 +25,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import { CellProps, Labels } from '@jsonforms/core';
 import { TextField } from '@adobe/react-spectrum';
-
+import { CellProps, Labels } from '@jsonforms/core';
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
+import React from 'react';
 
 interface SpectrumTextFieldProps {
   label?: string | Labels;
@@ -64,7 +63,6 @@ export const SpectrumInputNumber = React.memo(
         id={id}
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
-        //inputProps={inputProps}
         // fullWidth={true}
       />
     );

@@ -25,15 +25,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
 import {
   ControlProps,
   isNumberControl,
   RankedTester,
   rankWith
 } from '@jsonforms/core';
-import { SpectrumInputNumber } from '../mui-controls';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import React from 'react';
+import { SpectrumInputNumber } from '../mui-controls';
 
 export const SpectrumNumberControl = (props: ControlProps) => {
   const { errors, label } = props;
@@ -41,7 +41,7 @@ export const SpectrumNumberControl = (props: ControlProps) => {
   return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
 };
 
-export const materialNumberControlTester: RankedTester = rankWith(
+export const spectrumNumberControlTester: RankedTester = rankWith(
   2,
   isNumberControl
 );

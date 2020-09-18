@@ -26,7 +26,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
 import {
   ControlProps,
   isIntegerControl,
@@ -34,6 +33,7 @@ import {
   rankWith
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import React from 'react';
 import { SpectrumInputNumber } from '../mui-controls';
 
 // TODO: seems to be quite the same as SpectrumNumberControl...
@@ -43,7 +43,7 @@ export const SpectrumIntegerControl = (props: ControlProps) => {
   const isValid = errors.length === 0;
   return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
 };
-export const materialIntegerControlTester: RankedTester = rankWith(
+export const spectrumIntegerControlTester: RankedTester = rankWith(
   2,
   isIntegerControl
 );

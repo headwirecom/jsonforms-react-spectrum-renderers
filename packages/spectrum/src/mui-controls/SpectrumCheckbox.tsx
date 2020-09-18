@@ -25,11 +25,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import { CellProps } from '@jsonforms/core';
 import { Checkbox } from '@adobe/react-spectrum';
+import { CellProps } from '@jsonforms/core';
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
+import React from 'react';
 
 export const SpectrumCheckbox = React.memo((props: CellProps) => {
   const { data, id, enabled, uischema, path, handleChange, config } = props;
