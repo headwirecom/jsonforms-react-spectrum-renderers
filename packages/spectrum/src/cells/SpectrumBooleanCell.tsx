@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -27,19 +30,18 @@ import {
   CellProps,
   isBooleanControl,
   RankedTester,
-  rankWith,
-  WithClassname
+  rankWith
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { MuiCheckbox } from '../mui-controls/MuiCheckbox';
+import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
 
-export const MaterialBooleanCell = (props: CellProps & WithClassname) => {
-  return <MuiCheckbox {...props} />;
+export const SpectrumBooleanCell = (props: CellProps) => {
+  return <SpectrumCheckbox {...props} />;
 };
 
-export const materialBooleanCellTester: RankedTester = rankWith(
+export const spectrumBooleanCellTester: RankedTester = rankWith(
   2,
   isBooleanControl
 );
 
-export default withJsonFormsCellProps(MaterialBooleanCell);
+export default withJsonFormsCellProps(SpectrumBooleanCell);

@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -23,35 +26,25 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, WithClassname } from '@jsonforms/core';
-import Checkbox from '@material-ui/core/Checkbox';
+import { CellProps } from '@jsonforms/core';
+import { Checkbox } from '@adobe/react-spectrum';
 import { areEqual } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export const MuiCheckbox = React.memo((props: CellProps & WithClassname) => {
-  const {
-    data,
-    className,
-    id,
-    enabled,
-    uischema,
-    path,
-    handleChange,
-    config
-  } = props;
+export const SpectrumCheckbox = React.memo((props: CellProps) => {
+  const { data, id, enabled, uischema, path, handleChange, config } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  const inputProps = { autoFocus: !!appliedUiSchemaOptions.focus };
+  const autoFocus = !!appliedUiSchemaOptions.focus;
   // !! causes undefined value to be converted to false, otherwise has no effect
-  const checked = !!data;
+  const isSelected = !!data;
 
   return (
     <Checkbox
-      checked={checked}
-      onChange={(_ev, isChecked) => handleChange(path, isChecked)}
-      className={className}
+      isSelected={isSelected}
+      onChange={selected => handleChange(path, selected)}
       id={id}
-      disabled={!enabled}
-      inputProps={inputProps}
+      isDisabled={!enabled}
+      autoFocus={autoFocus}
     />
   );
 }, areEqual);

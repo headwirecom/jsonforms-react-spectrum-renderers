@@ -38,7 +38,7 @@
     "test": "jest --no-cache",
     "test-cov": "jest --no-cache --coverage",
     "report": "../../node_modules/.bin/nyc report --reporter=html",
-    "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms React Material Renderers' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
+    "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms React Spectrum Renderers' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -47,8 +47,12 @@
       "js"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(ts|tsx)$": "ts-jest",
+      ".+\\.(css|styl|less|sass|scss)$": "jest-transform-css"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-spectrum)/)"
+    ],
     "testMatch": [
       "**/test/**/*.test.tsx"
     ],
@@ -71,6 +75,7 @@
     "uuid": "^3.3.3"
   },
   "peerDependencies": {
+    "@adobe/react-spectrum": "^3.3.0",
     "@jsonforms/core": "^2.4.0",
     "@jsonforms/react": "^2.4.0",
     "@material-ui/core": "^4.7.0",
@@ -94,6 +99,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "jest": "^24.9.0",
+    "jest-transform-css": "^2.0.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.1",
     "redux-mock-store": "1.5.3",

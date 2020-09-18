@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -35,8 +38,8 @@ import {
   UISchemaElement
 } from '@jsonforms/core';
 import BooleanCell, {
-  materialBooleanCellTester
-} from '../../src/cells/MaterialBooleanCell';
+  spectrumBooleanCellTester
+} from '../../src/cells/SpectrumBooleanCell';
 import { Provider } from 'react-redux';
 import * as ReactDOM from 'react-dom';
 import { combineReducers, createStore, Store } from 'redux';
@@ -73,31 +76,31 @@ const uischema: ControlElement = {
   scope: '#/properties/foo'
 };
 
-describe('Material boolean cell tester', () => {
+describe('Spectrum boolean cell tester', () => {
   const control: ControlElement = {
     type: 'Control',
     scope: '#/properties/foo'
   };
 
   it('should fail', () => {
-    expect(materialBooleanCellTester(undefined, undefined)).toBe(
+    expect(spectrumBooleanCellTester(undefined, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialBooleanCellTester(null, undefined)).toBe(NOT_APPLICABLE);
-    expect(materialBooleanCellTester({ type: 'Foo' }, undefined)).toBe(
+    expect(spectrumBooleanCellTester(null, undefined)).toBe(NOT_APPLICABLE);
+    expect(spectrumBooleanCellTester({ type: 'Foo' }, undefined)).toBe(
       NOT_APPLICABLE
     );
-    expect(materialBooleanCellTester({ type: 'Control' }, undefined)).toBe(
+    expect(spectrumBooleanCellTester({ type: 'Control' }, undefined)).toBe(
       NOT_APPLICABLE
     );
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: { foo: { type: 'string' } }
       })
     ).toBe(NOT_APPLICABLE);
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -113,7 +116,7 @@ describe('Material boolean cell tester', () => {
 
   it('should succeed', () => {
     expect(
-      materialBooleanCellTester(control, {
+      spectrumBooleanCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -125,7 +128,7 @@ describe('Material boolean cell tester', () => {
   });
 });
 
-describe('Material boolean cell', () => {
+describe('Spectrum boolean cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -137,7 +140,6 @@ describe('Material boolean cell', () => {
     ReactDOM.unmountComponentAtNode(container);
   });
 
-  // seems to be broken in material-ui
   it('should autofocus via option', () => {
     const control: ControlElement = {
       type: 'Control',
@@ -154,8 +156,9 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeTruthy();
+
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBe(true);
   });
 
   it('should not autofocus via option', () => {
@@ -174,8 +177,8 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBe(false);
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBe(false);
   });
 
   it('should not autofocus by default', () => {
@@ -191,8 +194,8 @@ describe('Material boolean cell', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeFalsy();
+    const focusRing = wrapper.find('FocusRing').first();
+    expect(focusRing.props().autoFocus).toBeFalsy();
   });
 
   it('should render', () => {

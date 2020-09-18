@@ -3,6 +3,9 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+  Copyright (c) 2020 Puzzle ITC GmbH
+  https://github.com/puzzle/jsonforms-react-spectrum
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +25,9 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import MaterialBooleanCell, {
-  materialBooleanCellTester
-} from './MaterialBooleanCell';
+import SpectrumBooleanCell, {
+  spectrumBooleanCellTester
+} from './SpectrumBooleanCell';
 import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
 import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
 import MaterialIntegerCell, {
@@ -40,8 +43,8 @@ import MaterialTextCell, { materialTextCellTester } from './MaterialTextCell';
 import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
 
 export {
-  MaterialBooleanCell,
-  materialBooleanCellTester,
+  SpectrumBooleanCell,
+  spectrumBooleanCellTester,
   MaterialDateCell,
   materialDateCellTester,
   MaterialEnumCell,
