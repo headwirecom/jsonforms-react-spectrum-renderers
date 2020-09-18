@@ -1,9 +1,9 @@
 {
-  "name": "@headwire/spectrum-renderers",
-  "version": "2.4.1-beta.0",
+  "name": "@jsonforms/react-spectrum-renderers",
+  "version": "0.0.1-snapshot",
   "description": "Spectrum Renderer Set for JSON Forms",
-  "repository": "https://github.com/puzzle/jsonforms-react-spectrum",
-  "bugs": "https://github.com/puzzle/jsonforms-react-spectrum/issues",
+  "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
+  "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
   "license": "MIT",
   "directories": {
     "example": "example",

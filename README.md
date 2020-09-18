@@ -1,5 +1,7 @@
 # React Spectrum Renderer Set for JSONForms
 
+!! Work in progress !!
+
 # Developers Documentation
 
 ## First time setup
@@ -16,7 +18,7 @@
 - Test (all packages): `npm run test`
 - Clean (delete `dist` folder of all packages): `npm run clean`
 - Run React Spectrum examples: `cd packages/spectrum && npm run dev`
-- Run React Spectrum tests in watch mode: `cd packages/spectrum && npm run test -- --watch`
+- Run React Spectrum tests in watch mode: `cd packages/spectrum && npx jest --watch`
 - Check Formatting: `npm run check-format`
 
 ## Dependency & Release management
