@@ -37,7 +37,7 @@ import '../../src/cells';
 import MaterialLabelRenderer, {
   materialLabelRendererTester
 } from '../../src/additional/MaterialLabelRenderer';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -62,7 +62,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

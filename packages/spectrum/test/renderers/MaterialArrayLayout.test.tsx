@@ -33,7 +33,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 
 import { combineReducers, createStore, Store } from 'redux';
-import { materialCells, materialRenderers } from '../../src';
+import { materialCells, spectrumRenderers } from '../../src';
 import {
   MaterialArrayLayout,
   materialArrayLayoutTester
@@ -123,7 +123,7 @@ const uischemaWithChildLabelProp: ControlElement = {
 export const initJsonFormsStore = (): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers,
+      renderers: spectrumRenderers,
       cells: materialCells
     }
   };

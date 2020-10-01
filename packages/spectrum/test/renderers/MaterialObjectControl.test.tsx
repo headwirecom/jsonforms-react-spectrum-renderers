@@ -34,7 +34,7 @@ import {
 } from '@jsonforms/core';
 import * as React from 'react';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import MaterialObjectRenderer, {
   materialObjectControlTester
 } from '../../src/complex/MaterialObjectRenderer';
@@ -52,7 +52,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

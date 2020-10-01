@@ -42,7 +42,7 @@ import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 import MaterialCategorizationLayoutRenderer, {
   materialCategorizationTester
 } from '../../src/layouts/MaterialCategorizationLayout';
-import { MaterialLayoutRenderer, materialRenderers } from '../../src';
+import { MaterialLayoutRenderer, spectrumRenderers } from '../../src';
 import { Tab, Tabs } from '@material-ui/core';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'react-redux';
@@ -52,7 +52,7 @@ Enzyme.configure({ adapter: new Adapter() });
 export const initJsonFormsStore = (initState: any): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

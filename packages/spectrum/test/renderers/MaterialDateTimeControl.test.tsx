@@ -40,7 +40,7 @@ import MaterialDateTimeControl, {
 import { Provider } from 'react-redux';
 import moment from 'moment';
 import { combineReducers, createStore, Store } from 'redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -70,7 +70,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

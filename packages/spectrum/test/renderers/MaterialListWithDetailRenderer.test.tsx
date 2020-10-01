@@ -36,7 +36,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 
 import { combineReducers, createStore, Store } from 'redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import MaterialListWithDetailRenderer, {
   materialListWithDetailTester
 } from '../../src/additional/MaterialListWithDetailRenderer';
@@ -83,7 +83,7 @@ export const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

@@ -43,7 +43,7 @@ import BooleanCell, {
 import { Provider } from 'react-redux';
 import * as ReactDOM from 'react-dom';
 import { combineReducers, createStore, Store } from 'redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -58,7 +58,7 @@ export const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

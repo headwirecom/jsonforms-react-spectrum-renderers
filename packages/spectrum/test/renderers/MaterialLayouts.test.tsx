@@ -25,7 +25,7 @@
 import './MatchMediaMock';
 import React, { Reducer } from 'react';
 import Enzyme, { mount } from 'enzyme';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import {
   Actions,
   jsonformsReducer,
@@ -140,7 +140,7 @@ const controlEnableRule = (uischema: Layout) =>
 const initStore = () => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

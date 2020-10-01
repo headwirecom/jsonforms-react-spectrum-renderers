@@ -37,7 +37,7 @@ import {
 } from '@jsonforms/core';
 import MaterialRadioGroupControl from '../../src/controls/MaterialRadioGroupControl';
 import { Provider } from 'react-redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -67,7 +67,7 @@ const initJsonFormsStore = (
   const s: JsonFormsState = {
     jsonforms: {
       renderers: [
-        ...materialRenderers,
+        ...spectrumRenderers,
         {
           tester: rankWith(10, isEnumControl),
           renderer: MaterialRadioGroupControl

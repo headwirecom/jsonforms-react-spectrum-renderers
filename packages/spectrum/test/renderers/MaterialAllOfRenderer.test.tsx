@@ -33,7 +33,7 @@ import {
   jsonformsReducer,
   JsonFormsState
 } from '@jsonforms/core';
-import { MaterialAllOfRenderer, materialRenderers } from '../../src';
+import { MaterialAllOfRenderer, spectrumRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Store } from 'redux';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import { Provider } from 'react-redux';
@@ -43,7 +43,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const initStore = () => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

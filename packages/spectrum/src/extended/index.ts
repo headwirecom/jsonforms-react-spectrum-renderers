@@ -33,10 +33,10 @@ import MaterialAutocompleteOneOfEnumControl, {
 } from './MaterialAutocompleteOneOfEnumControl';
 
 import { JsonFormsRendererRegistryEntry } from '@jsonforms/core';
-import { materialRenderers } from '../';
+import { spectrumRenderers } from '../';
 
 /**
- * Includes all 'materialRenderers' and adds additional renderers based on '@material-ui/lab'
+ * Includes all 'spectrumRenderers' and adds additional renderers based on '@material-ui/lab'
  */
 export const extendedMaterialRenderers: JsonFormsRendererRegistryEntry[] = [
   {
@@ -47,7 +47,7 @@ export const extendedMaterialRenderers: JsonFormsRendererRegistryEntry[] = [
     tester: materialAutocompleteEnumControlTester,
     renderer: MaterialAutocompleteEnumControl
   },
-  ...materialRenderers
+  ...spectrumRenderers
 ];
 
 export const ExtendedUnwrapped = {

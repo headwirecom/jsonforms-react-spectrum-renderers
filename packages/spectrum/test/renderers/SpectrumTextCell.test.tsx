@@ -42,7 +42,7 @@ import TextCell, {
   spectrumTextCellTester
 } from '../../src/cells/SpectrumTextCell';
 import { Provider } from 'react-redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { combineReducers, createStore, Store } from 'redux';
 
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -77,7 +77,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

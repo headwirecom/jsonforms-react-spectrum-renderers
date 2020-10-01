@@ -24,7 +24,7 @@
 */
 import './MatchMediaMock';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { connect, Provider } from 'react-redux';
@@ -84,7 +84,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

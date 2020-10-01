@@ -44,7 +44,7 @@ import { combineReducers, createStore, Store } from 'redux';
 import MaterialCategorizationStepperLayoutRenderer, {
   materialCategorizationStepperTester
 } from '../../src/layouts/MaterialCategorizationStepperLayout';
-import { MaterialLayoutRenderer, materialRenderers } from '../../src';
+import { MaterialLayoutRenderer, spectrumRenderers } from '../../src';
 import { Step, StepButton, Stepper, Button } from '@material-ui/core';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -53,7 +53,7 @@ Enzyme.configure({ adapter: new Adapter() });
 export const initJsonFormsStore = (initState: any): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });
@@ -546,7 +546,7 @@ describe('Material categorization stepper layout', () => {
       type: 'Control',
       scope: '#/properties/name'
     };
-      
+
     const uischema: Categorization = {
       type: 'Categorization',
       label: 'Root',
@@ -576,7 +576,7 @@ describe('Material categorization stepper layout', () => {
       uischema,
       data
     });
-  
+
     const wrapper = mount(
         <Provider store={store}>
             <JsonFormsReduxContext>

@@ -112,7 +112,7 @@ export * from './cells';
 export * from './mui-controls';
 export * from './util';
 
-export const materialRenderers: JsonFormsRendererRegistryEntry[] = [
+export const spectrumRenderers: JsonFormsRendererRegistryEntry[] = [
   // controls
   {
     tester: materialArrayControlTester,

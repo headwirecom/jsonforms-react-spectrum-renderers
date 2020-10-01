@@ -39,7 +39,7 @@ import {
 import {
   MaterialAnyOfStringOrEnumControl,
   materialAnyOfStringOrEnumControlTester,
-  materialRenderers
+  spectrumRenderers
 } from '../../src';
 import { combineReducers, createStore, Store } from 'redux';
 
@@ -107,7 +107,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const store: Store<JsonFormsState> = createStore(

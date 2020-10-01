@@ -41,7 +41,7 @@ import IntegerCell, {
   spectrumIntegerCellTester
 } from '../../src/cells/SpectrumIntegerCell';
 import { Provider } from 'react-redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -67,7 +67,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

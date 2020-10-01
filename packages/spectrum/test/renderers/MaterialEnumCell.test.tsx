@@ -36,7 +36,7 @@ import MaterialEnumCell, {
   materialEnumCellTester
 } from '../../src/cells/MaterialEnumCell';
 import { Provider } from 'react-redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 
 import Enzyme, { mount } from 'enzyme';
@@ -62,7 +62,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

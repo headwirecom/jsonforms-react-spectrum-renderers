@@ -37,7 +37,7 @@ import SliderControl, {
   materialSliderControlTester
 } from '../../src/controls/MaterialSliderControl';
 import { Provider } from 'react-redux';
-import { materialRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { combineReducers, createStore, Store } from 'redux';
 import { Slider } from '@material-ui/core';
 
@@ -74,7 +74,7 @@ const initJsonFormsStore = (
 ): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers
+      renderers: spectrumRenderers
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

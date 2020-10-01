@@ -38,7 +38,7 @@ import {
 import {
   MaterialAnyOfRenderer,
   materialCells,
-  materialRenderers
+  spectrumRenderers
 } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
 import { JsonFormsReduxContext, JsonFormsDispatch } from '@jsonforms/react';
@@ -50,7 +50,7 @@ const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
 const initStore = () => {
   const s: JsonFormsState = {
     jsonforms: {
-      renderers: materialRenderers,
+      renderers: spectrumRenderers,
       cells: materialCells
     }
   };
