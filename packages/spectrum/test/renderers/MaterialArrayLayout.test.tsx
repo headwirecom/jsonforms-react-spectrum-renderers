@@ -33,7 +33,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 
 import { combineReducers, createStore, Store } from 'redux';
-import { materialCells, spectrumRenderers } from '../../src';
+import { spectrumCells, spectrumRenderers } from '../../src';
 import {
   MaterialArrayLayout,
   materialArrayLayoutTester
@@ -124,7 +124,7 @@ export const initJsonFormsStore = (): Store<JsonFormsState> => {
   const s: JsonFormsState = {
     jsonforms: {
       renderers: spectrumRenderers,
-      cells: materialCells
+      cells: spectrumCells
     }
   };
   const reducer = combineReducers({ jsonforms: jsonformsReducer() });

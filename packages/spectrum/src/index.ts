@@ -167,7 +167,7 @@ export const spectrumRenderers: JsonFormsRendererRegistryEntry[] = [
   }
 ];
 
-export const materialCells: JsonFormsCellRendererRegistryEntry[] = [
+export const spectrumCells: JsonFormsCellRendererRegistryEntry[] = [
   { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
   { tester: materialDateCellTester, cell: MaterialDateCell },
   { tester: materialEnumCellTester, cell: MaterialEnumCell },

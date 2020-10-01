@@ -37,7 +37,7 @@ import {
 } from '@jsonforms/core';
 import {
   MaterialAnyOfRenderer,
-  materialCells,
+  spectrumCells,
   spectrumRenderers
 } from '../../src';
 import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
@@ -51,7 +51,7 @@ const initStore = () => {
   const s: JsonFormsState = {
     jsonforms: {
       renderers: spectrumRenderers,
-      cells: materialCells
+      cells: spectrumCells
     }
   };
   const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({

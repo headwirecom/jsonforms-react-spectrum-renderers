@@ -37,7 +37,7 @@ import {
   JsonFormsState
 } from '@jsonforms/core';
 import {
-  materialCells,
+  spectrumCells,
   MaterialOneOfRenderer,
   spectrumRenderers
 } from '../../src';
@@ -53,7 +53,7 @@ const initStore = () => {
   const s: JsonFormsState = {
     jsonforms: {
       renderers: spectrumRenderers,
-      cells: materialCells
+      cells: spectrumCells
     }
   };
 
