@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -24,7 +27,7 @@
 */
 import { renderExample } from '../../example/src/index';
 import { spectrumCells } from '../src';
-import { extendedMaterialRenderers } from '../src/extended';
+import { extendedSpectrumRenderers } from '../src/extended';
 import { ExampleExtension } from './CustomAutocomplete';
 import { ReactExampleDescription } from '../../example/src/util';
 
@@ -41,7 +44,7 @@ const addCustomAutocompleteControl = (examples: ReactExampleDescription[]) => {
 };
 
 renderExample(
-  extendedMaterialRenderers,
+  extendedSpectrumRenderers,
   spectrumCells,
   addCustomAutocompleteControl
 );
