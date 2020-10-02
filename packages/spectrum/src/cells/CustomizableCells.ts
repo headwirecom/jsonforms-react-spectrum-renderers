@@ -26,7 +26,7 @@ export { SpectrumBooleanCell } from './SpectrumBooleanCell';
 export { DateCell } from './DateCell';
 export { DateTimeCell } from './DateTimeCell';
 export { EnumCell } from './EnumCell';
-export { IntegerCell } from './IntegerCell';
+export { SpectrumIntegerCell } from './SpectrumIntegerCell';
 export { SpectrumNumberCell } from './SpectrumNumberCell';
 export { SpectrumNumberFormatCell } from './SpectrumNumberFormatCell';
 export { SliderCell } from './SliderCell';

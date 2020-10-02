@@ -28,7 +28,7 @@
 */
 
 import React from 'react';
-import { IntegerCell } from '../cells/CustomizableCells';
+import { SpectrumIntegerCell } from '../cells/CustomizableCells';
 import {
   ControlProps,
   isIntegerControl,
@@ -39,7 +39,7 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { isEmpty } from 'lodash';
 
 export const SpectrumIntegerControl = (props: ControlProps) => {
-  return <IntegerCell {...props} isValid={isEmpty(props.errors)} />;
+  return <SpectrumIntegerCell {...props} isValid={isEmpty(props.errors)} />;
 };
 
 export const spectrumIntegerControlTester: RankedTester = rankWith(

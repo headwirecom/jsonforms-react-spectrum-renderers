@@ -34,7 +34,9 @@ import { SpectrumRendererProps } from '../index';
 import { withVanillaCellProps } from '../util/index';
 import { TextField } from '@adobe/react-spectrum';
 
-export const IntegerCell = (props: CellProps & SpectrumRendererProps) => {
+export const SpectrumIntegerCell = (
+  props: CellProps & SpectrumRendererProps
+) => {
   const { data, label, id, enabled, uischema, path, handleChange } = props;
 
   return (
@@ -54,6 +56,11 @@ export const IntegerCell = (props: CellProps & SpectrumRendererProps) => {
  * Default tester for integer controls.
  * @type {RankedTester}
  */
-export const integerCellTester: RankedTester = rankWith(2, isIntegerControl);
+export const spectrumIntegerCellTester: RankedTester = rankWith(
+  2,
+  isIntegerControl
+);
 
-export default withJsonFormsCellProps(withVanillaCellProps(IntegerCell));
+export default withJsonFormsCellProps(
+  withVanillaCellProps(SpectrumIntegerCell)
+);

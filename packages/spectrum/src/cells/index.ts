@@ -26,7 +26,9 @@ import BooleanCell, { spectrumBooleanCellTester } from './SpectrumBooleanCell';
 import DateCell, { dateCellTester } from './DateCell';
 import DateTimeCell, { dateTimeCellTester } from './DateTimeCell';
 import EnumCell, { enumCellTester } from './EnumCell';
-import IntegerCell, { integerCellTester } from './IntegerCell';
+import SpectrumIntegerCell, {
+  spectrumIntegerCellTester,
+} from './SpectrumIntegerCell';
 import SpectrumNumberCell, {
   spectrumNumberCellTester,
 } from './SpectrumNumberCell';
@@ -48,11 +50,11 @@ export {
   dateTimeCellTester,
   EnumCell,
   enumCellTester,
-  IntegerCell,
-  integerCellTester,
+  SpectrumIntegerCell,
+  spectrumIntegerCellTester,
   SpectrumNumberCell,
   spectrumNumberCellTester,
-  SpectrumNumberFormatCell as NumberFormatCell,
+  SpectrumNumberFormatCell,
   spectrumNumberFormatCellTester,
   SliderCell,
   sliderCellTester,
