@@ -28,7 +28,9 @@ import { Provider } from 'react-redux';
 import ArrayControl from '../../src/complex/array/ArrayControlRenderer';
 import { vanillaRenderers } from '../../src/index';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
-import IntegerCell, { integerCellTester } from '../../src/cells/IntegerCell';
+import SpectrumIntegerCell, {
+  spectrumIntegerCellTester,
+} from '../../src/cells/SpectrumIntegerCell';
 
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount } from 'enzyme';
@@ -45,25 +47,24 @@ const fixture = {
           type: 'object',
           properties: {
             x: { type: 'integer' },
-            y: { type: 'integer' }
-          }
-        }
-      }
-    }
+            y: { type: 'integer' },
+          },
+        },
+      },
+    },
   },
   uischema: {
     type: 'Control',
-    scope: '#/properties/test'
+    scope: '#/properties/test',
   },
   data: {
-    test: [{ x: 1, y: 3 }]
+    test: [{ x: 1, y: 3 }],
   },
   styles: [
     {
       name: 'array.table',
-      classNames: ['array-table-layout', 'control']
-    }
-  ]
+    },
+  ],
 };
 
 describe('Array control renderer', () => {
@@ -75,23 +76,21 @@ describe('Array control renderer', () => {
       renderers: vanillaRenderers,
       cells: [
         {
-          tester: integerCellTester, cell: IntegerCell
-        }
-      ]
+          tester: spectrumIntegerCellTester,
+          cell: SpectrumIntegerCell,
+        },
+      ],
     });
     const wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <ArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
+          <ArrayControl schema={fixture.schema} uischema={fixture.uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );
 
-    const controls = wrapper.find('.control');
+    const controls = wrapper.find('input');
 
-    expect(controls).toHaveLength(3);
+    expect(controls).toHaveLength(2);
   });
 });

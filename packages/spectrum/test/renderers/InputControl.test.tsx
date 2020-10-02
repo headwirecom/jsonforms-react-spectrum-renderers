@@ -44,7 +44,9 @@ import HorizontalLayoutRenderer, {
 import InputControl, {
   inputControlTester,
 } from '../../src/controls/InputControl';
-import TextCell, { textCellTester } from '../../src/cells/TextCell';
+import SpectrumTextCell, {
+  spectrumTextCellTester,
+} from '../../src/cells/SpectrumTextCell';
 import DateCell, { dateCellTester } from '../../src/cells/DateCell';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 
@@ -121,7 +123,7 @@ describe('Input control', () => {
         { tester: inputControlTester, renderer: InputControl },
         { tester: horizontalLayoutTester, renderer: HorizontalLayoutRenderer },
       ],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -143,7 +145,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -185,7 +187,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -222,7 +224,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -248,7 +250,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -269,7 +271,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -291,7 +293,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -314,7 +316,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -335,7 +337,7 @@ describe('Input control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -403,7 +405,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -502,7 +504,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -537,7 +539,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -570,7 +572,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -607,7 +609,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -638,7 +640,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: textCellTester, cell: TextCell }],
+      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
     wrapper = mount(
       <Provider store={store}>
