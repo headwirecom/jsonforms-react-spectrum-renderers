@@ -27,7 +27,9 @@ import DateCell, { dateCellTester } from './DateCell';
 import DateTimeCell, { dateTimeCellTester } from './DateTimeCell';
 import EnumCell, { enumCellTester } from './EnumCell';
 import IntegerCell, { integerCellTester } from './IntegerCell';
-import NumberCell, { numberCellTester } from './NumberCell';
+import SpectrumNumberCell, {
+  spectrumNumberCellTester,
+} from './SpectrumNumberCell';
 import NumberFormatCell, { numberFormatCellTester } from './NumberFormatCell';
 import SliderCell, { sliderCellTester } from './SliderCell';
 import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
@@ -46,8 +48,8 @@ export {
   enumCellTester,
   IntegerCell,
   integerCellTester,
-  NumberCell,
-  numberCellTester,
+  SpectrumNumberCell,
+  spectrumNumberCellTester,
   NumberFormatCell,
   numberFormatCellTester,
   SliderCell,

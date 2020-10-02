@@ -26,15 +26,20 @@ import InputControl, { inputControlTester } from './InputControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
-
 import SpectrumTextControl, {
   spectrumTextControlTester,
 } from './SpectrumTextControl';
+import SpectrumNumberControl, {
+  spectrumNumberControlTester,
+} from './SpectrumNumberControl';
+
 export {
   InputControl,
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
 };
