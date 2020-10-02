@@ -22,31 +22,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import MaterialGroupLayout, {
-  materialGroupTester
-} from './MaterialGroupLayout';
-import MaterialHorizontalLayout, {
-  materialHorizontalLayoutTester
-} from './MaterialHorizontalLayout';
-import MaterialVerticalLayout, {
-  materialVerticalLayoutTester
-} from './MaterialVerticalLayout';
-import MaterialCategorizationLayout, {
-  materialCategorizationTester
-} from './MaterialCategorizationLayout';
-import MaterialArrayLayout, {
-  materialArrayLayoutTester
-} from './MaterialArrayLayoutRenderer';
+import GroupLayout, { groupTester } from './GroupLayout';
+import HorizontalLayout, { horizontalLayoutTester } from './HorizontalLayout';
+import VerticalLayout, { verticalLayoutTester } from './VerticalLayout';
 
 export {
-  materialArrayLayoutTester,
-  MaterialArrayLayout,
-  MaterialCategorizationLayout,
-  materialCategorizationTester,
-  MaterialGroupLayout,
-  materialGroupTester,
-  MaterialHorizontalLayout,
-  materialHorizontalLayoutTester,
-  MaterialVerticalLayout,
-  materialVerticalLayoutTester
+  GroupLayout,
+  groupTester,
+  HorizontalLayout,
+  horizontalLayoutTester,
+  VerticalLayout,
+  verticalLayoutTester
 };

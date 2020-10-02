@@ -22,5 +22,37 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import InputControl, { inputControlTester } from './InputControl';
-export { InputControl, inputControlTester };
+import {
+  isObjectArrayControl,
+  isPrimitiveArrayControl,
+  or,
+  RankedTester,
+  rankWith
+} from '@jsonforms/core';
+import MaterialArrayControlRenderer from './MaterialArrayControlRenderer';
+import MaterialObjectRenderer, {
+  materialObjectControlTester
+} from './MaterialObjectRenderer';
+import MaterialAllOfRenderer, {
+  materialAllOfControlTester
+} from './MaterialAllOfRenderer';
+import MaterialAnyOfRenderer, {
+  materialAnyOfControlTester
+} from './MaterialAnyOfRenderer';
+import MaterialOneOfRenderer, {
+  materialOneOfControlTester
+} from './MaterialOneOfRenderer';
+
+export const materialArrayControlTester: RankedTester = rankWith(
+  3,
+  or(isObjectArrayControl, isPrimitiveArrayControl)
+);
+export { MaterialArrayControlRenderer };
+export { MaterialObjectRenderer };
+export { MaterialAllOfRenderer };
+export { MaterialAnyOfRenderer };
+export { MaterialOneOfRenderer };
+export { materialObjectControlTester };
+export { materialAllOfControlTester };
+export { materialAnyOfControlTester };
+export { materialOneOfControlTester };

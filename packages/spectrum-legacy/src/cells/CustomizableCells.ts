@@ -3,6 +3,9 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +25,10 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { createThemeSelection } from './theme.switcher';
-import {
-  stylingReducer,
-  vanillaCells,
-  vanillaRenderers,
-  vanillaStyles
-} from '../src';
-import { renderExample } from '../../example/src/index';
-
-renderExample(vanillaRenderers, vanillaCells, undefined, {
-  name: 'styles',
-  reducer: stylingReducer,
-  state: vanillaStyles
-});
-createThemeSelection();
+export { SpectrumBooleanCell } from './SpectrumBooleanCell';
+export { MaterialDateCell } from './MaterialDateCell';
+export { MaterialEnumCell } from './MaterialEnumCell';
+export { SpectrumIntegerCell } from './SpectrumIntegerCell';
+export { SpectrumNumberCell as MaterialNumberCell } from './SpectrumNumberCell';
+export { SpectrumTextCell as MaterialTextCell } from './SpectrumTextCell';
+export { MaterialTimeCell } from './MaterialTimeCell';

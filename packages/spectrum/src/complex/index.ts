@@ -22,37 +22,20 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  isObjectArrayControl,
-  isPrimitiveArrayControl,
-  or,
-  RankedTester,
-  rankWith
-} from '@jsonforms/core';
-import MaterialArrayControlRenderer from './MaterialArrayControlRenderer';
-import MaterialObjectRenderer, {
-  materialObjectControlTester
-} from './MaterialObjectRenderer';
-import MaterialAllOfRenderer, {
-  materialAllOfControlTester
-} from './MaterialAllOfRenderer';
-import MaterialAnyOfRenderer, {
-  materialAnyOfControlTester
-} from './MaterialAnyOfRenderer';
-import MaterialOneOfRenderer, {
-  materialOneOfControlTester
-} from './MaterialOneOfRenderer';
+import ArrayControl, { arrayControlTester } from './array';
+import Categorization, { categorizationTester } from './categorization';
+import LabelRenderer, { labelRendererTester } from './LabelRenderer';
+import TableArrayControl, {
+  tableArrayControlTester
+} from './TableArrayControl';
 
-export const materialArrayControlTester: RankedTester = rankWith(
-  3,
-  or(isObjectArrayControl, isPrimitiveArrayControl)
-);
-export { MaterialArrayControlRenderer };
-export { MaterialObjectRenderer };
-export { MaterialAllOfRenderer };
-export { MaterialAnyOfRenderer };
-export { MaterialOneOfRenderer };
-export { materialObjectControlTester };
-export { materialAllOfControlTester };
-export { materialAnyOfControlTester };
-export { materialOneOfControlTester };
+export {
+  ArrayControl,
+  arrayControlTester,
+  Categorization,
+  categorizationTester,
+  LabelRenderer,
+  labelRendererTester,
+  TableArrayControl,
+  tableArrayControlTester
+};

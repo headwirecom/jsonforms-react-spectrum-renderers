@@ -3,7 +3,10 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+    
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -22,20 +25,35 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import ArrayControl, { arrayControlTester } from './array';
-import Categorization, { categorizationTester } from './categorization';
-import LabelRenderer, { labelRendererTester } from './LabelRenderer';
-import TableArrayControl, {
-  tableArrayControlTester
-} from './TableArrayControl';
+import * as Customizable from './CustomizableCells';
+import MaterialDateCell, { materialDateCellTester } from './MaterialDateCell';
+import MaterialEnumCell, { materialEnumCellTester } from './MaterialEnumCell';
+import MaterialTimeCell, { materialTimeCellTester } from './MaterialTimeCell';
+import SpectrumBooleanCell, {
+  spectrumBooleanCellTester
+} from './SpectrumBooleanCell';
+import SpectrumIntegerCell, {
+  spectrumIntegerCellTester
+} from './SpectrumIntegerCell';
+import SpectrumNumberCell, {
+  spectrumNumberCellTester
+} from './SpectrumNumberCell';
+import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 
 export {
-  ArrayControl,
-  arrayControlTester,
-  Categorization,
-  categorizationTester,
-  LabelRenderer,
-  labelRendererTester,
-  TableArrayControl,
-  tableArrayControlTester
+  SpectrumBooleanCell,
+  spectrumBooleanCellTester,
+  MaterialDateCell,
+  materialDateCellTester,
+  MaterialEnumCell,
+  materialEnumCellTester,
+  SpectrumIntegerCell,
+  spectrumIntegerCellTester,
+  SpectrumNumberCell,
+  spectrumNumberCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
+  MaterialTimeCell,
+  materialTimeCellTester
 };
+export { Customizable };

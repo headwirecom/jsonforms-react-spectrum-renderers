@@ -30,12 +30,12 @@ import {
   ControlProps,
   isBooleanControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import isEmpty from 'lodash/isEmpty';
 import React from 'react';
-import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
+import { SpectrumBooleanCell } from '../cells/CustomizableCells';
 
 export const SpectrumBooleanControl = ({
   data,
@@ -49,10 +49,10 @@ export const SpectrumBooleanControl = ({
   handleChange,
   errors,
   path,
-  config
+  config,
 }: ControlProps) => {
   return (
-    <SpectrumCheckbox
+    <SpectrumBooleanCell
       id={`${id}-input`}
       isValid={isEmpty(errors)}
       data={data}
@@ -67,7 +67,7 @@ export const SpectrumBooleanControl = ({
       config={config}
     >
       {label}
-    </SpectrumCheckbox>
+    </SpectrumBooleanCell>
   );
 };
 
