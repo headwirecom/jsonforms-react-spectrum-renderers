@@ -3,6 +3,10 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,38 +31,54 @@ import {
   CellProps,
   isStringControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
+import { SpectrumRendererProps } from '../index';
 import { withVanillaCellProps } from '../util/index';
 import merge from 'lodash/merge';
+import { TextField } from '@adobe/react-spectrum';
 
-export const TextCell = (props: CellProps & VanillaRendererProps) => {
+export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
   const {
-    config,
     data,
-    className,
+    config,
     id,
+    label,
     enabled,
     uischema,
-    schema,
+    isValid,
     path,
-    handleChange
+    handleChange,
+    schema,
   } = props;
+
   const maxLength = schema.maxLength;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
+  let inputProps: any;
+  if (appliedUiSchemaOptions.restrict) {
+    inputProps = { maxLength: maxLength };
+  } else {
+    inputProps = {};
+  }
+
+  if (appliedUiSchemaOptions.trim && maxLength !== undefined) {
+    inputProps.size = maxLength;
+  }
+  const onChange = (value: string) => handleChange(path, value);
+
   return (
-    <input
-      type='text'
+    <TextField
+      type={appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'}
       value={data || ''}
-      onChange={ev => handleChange(path, ev.target.value)}
-      className={className}
-      id={id}
-      disabled={!enabled}
+      label={label}
+      onChange={onChange}
+      id={`${id}-input`}
+      isDisabled={!enabled}
       autoFocus={appliedUiSchemaOptions.focus}
-      maxLength={appliedUiSchemaOptions.restrict ? maxLength : undefined}
-      size={appliedUiSchemaOptions.trim ? maxLength : undefined}
+      maxLength={maxLength}
+      validationState={isValid ? 'valid' : 'invalid'}
     />
   );
 };
@@ -67,6 +87,9 @@ export const TextCell = (props: CellProps & VanillaRendererProps) => {
  * Default tester for text-based/string controls.
  * @type {RankedTester}
  */
-export const textCellTester: RankedTester = rankWith(1, isStringControl);
+export const spectrumTextCellTester: RankedTester = rankWith(
+  1,
+  isStringControl
+);
 
-export default withJsonFormsCellProps(withVanillaCellProps(TextCell));
+export default withJsonFormsCellProps(withVanillaCellProps(SpectrumTextCell));

@@ -66,7 +66,7 @@ export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
       autoFocus={autoFocus}
       validationState={validationState}
     >
-      {props.children} test
+      {props.children}
     </Checkbox>
   );
 };

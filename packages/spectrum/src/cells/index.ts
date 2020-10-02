@@ -30,7 +30,7 @@ import IntegerCell, { integerCellTester } from './IntegerCell';
 import NumberCell, { numberCellTester } from './NumberCell';
 import NumberFormatCell, { numberFormatCellTester } from './NumberFormatCell';
 import SliderCell, { sliderCellTester } from './SliderCell';
-import TextCell, { textCellTester } from './TextCell';
+import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 import TextAreaCell, { textAreaCellTester } from './TextAreaCell';
 import TimeCell, { timeCellTester } from './TimeCell';
 import * as Customizable from './CustomizableCells';
@@ -52,8 +52,8 @@ export {
   numberFormatCellTester,
   SliderCell,
   sliderCellTester,
-  TextCell,
-  textCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
   TextAreaCell,
   textAreaCellTester,
   TimeCell,

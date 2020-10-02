@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { RankedTester } from '@jsonforms/core';
+import { Labels, RankedTester } from '@jsonforms/core';
 
 import {
   BooleanCell,
@@ -40,8 +40,8 @@ import {
   sliderCellTester,
   TextAreaCell,
   textAreaCellTester,
-  TextCell,
-  textCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
   TimeCell,
   timeCellTester,
 } from './cells';
@@ -51,6 +51,8 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester,
 } from './controls';
 
 import {
@@ -83,6 +85,7 @@ export interface WithClassname {
  */
 export interface VanillaRendererProps extends WithClassname {
   classNames?: { [className: string]: string };
+
   /**
    * Returns all classes associated with the given style.
    * @param {string} string the style name
@@ -100,6 +103,10 @@ export interface VanillaRendererProps extends WithClassname {
   getStyleAsClassName?(string: string, ...args: any[]): string;
 }
 
+export interface SpectrumRendererProps {
+  label?: string | Labels;
+}
+
 export interface WithChildren {
   children: any;
 }
@@ -115,6 +122,7 @@ export * from './util';
 export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
+  { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: labelRendererTester, renderer: LabelRenderer },
   { tester: categorizationTester, renderer: Categorization },
@@ -133,6 +141,6 @@ export const vanillaCells: { tester: RankedTester; cell: any }[] = [
   { tester: numberCellTester, cell: NumberCell },
   { tester: sliderCellTester, cell: SliderCell },
   { tester: textAreaCellTester, cell: TextAreaCell },
-  { tester: textCellTester, cell: TextCell },
+  { tester: spectrumTextCellTester, cell: SpectrumTextCell },
   { tester: timeCellTester, cell: TimeCell },
 ];

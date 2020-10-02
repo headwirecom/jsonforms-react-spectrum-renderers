@@ -4,6 +4,10 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -22,14 +26,52 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export { SpectrumBooleanCell } from './SpectrumBooleanCell';
-export { DateCell } from './DateCell';
-export { DateTimeCell } from './DateTimeCell';
-export { EnumCell } from './EnumCell';
-export { IntegerCell } from './IntegerCell';
-export { NumberCell } from './NumberCell';
-export { NumberFormatCell } from './NumberFormatCell';
-export { SliderCell } from './SliderCell';
-export { SpectrumTextCell } from './SpectrumTextCell';
-export { TextAreaCell } from './TextAreaCell';
-export { TimeCell } from './TimeCell';
+import {
+  ControlProps,
+  isStringControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import isEmpty from 'lodash/isEmpty';
+import React from 'react';
+import { SpectrumTextCell } from '../cells/CustomizableCells';
+
+export const SpectrumTextControl = ({
+  data,
+  visible,
+  label,
+  id,
+  enabled,
+  uischema,
+  schema,
+  rootSchema,
+  handleChange,
+  errors,
+  path,
+  config,
+}: ControlProps) => {
+  return (
+    <SpectrumTextCell
+      id={`${id}-input`}
+      isValid={isEmpty(errors)}
+      data={data}
+      label={label}
+      enabled={enabled}
+      visible={visible}
+      path={path}
+      uischema={uischema}
+      schema={schema}
+      rootSchema={rootSchema}
+      handleChange={handleChange}
+      errors={errors}
+      config={config}
+    />
+  );
+};
+
+export const spectrumTextControlTester: RankedTester = rankWith(
+  2,
+  isStringControl
+);
+export default withJsonFormsControlProps(SpectrumTextControl);
