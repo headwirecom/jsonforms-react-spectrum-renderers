@@ -1,19 +1,23 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,55 +26,30 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import React from 'react';
+import { SpectrumNumberFormatCell } from '../cells/CustomizableCells';
 import {
-  CellProps,
+  ControlProps,
   Formatted,
   isNumberFormatControl,
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { isEmpty } from 'lodash';
 
-export const NumberFormatCell = (props: CellProps & VanillaRendererProps & Formatted<number>) => {
-  const {
-    className,
-    id,
-    enabled,
-    uischema,
-    path,
-    handleChange,
-    schema
-  } = props;
-  const maxLength = schema.maxLength;
-  const formattedNumber: string = props.toFormatted(props.data);
-
-  const onChange = (ev: any) => {
-    const validStringNumber = props.fromFormatted(ev.currentTarget.value);
-    handleChange(path, validStringNumber);
-  };
-
+export const SpectrumNumberControl = (
+  props: ControlProps & Formatted<number>
+) => {
   return (
-    <input
-      type='text'
-      value={formattedNumber}
-      onChange={onChange}
-      className={className}
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-      maxLength={uischema.options && uischema.options.restrict ? maxLength : undefined}
-      size={uischema.options && uischema.options.trim ? maxLength : undefined}
-    />
+    <SpectrumNumberFormatCell {...props} isValid={isEmpty(props.errors)} />
   );
 };
 
-/**
- * Default tester for text-based/string controls.
- * @type {RankedTester}
- */
-export const numberFormatCellTester: RankedTester = rankWith(4, isNumberFormatControl);
+export const spectrumNumberControlTester: RankedTester = rankWith(
+  4,
+  isNumberFormatControl
+);
 
-export default withJsonFormsCellProps(withVanillaCellProps(NumberFormatCell));
+export default withJsonFormsControlProps(SpectrumNumberControl);

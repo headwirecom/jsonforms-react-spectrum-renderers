@@ -28,7 +28,7 @@ export { DateTimeCell } from './DateTimeCell';
 export { EnumCell } from './EnumCell';
 export { IntegerCell } from './IntegerCell';
 export { SpectrumNumberCell } from './SpectrumNumberCell';
-export { NumberFormatCell } from './NumberFormatCell';
+export { SpectrumNumberFormatCell } from './SpectrumNumberFormatCell';
 export { SliderCell } from './SliderCell';
 export { SpectrumTextCell } from './SpectrumTextCell';
 export { TextAreaCell } from './TextAreaCell';

@@ -30,7 +30,9 @@ import IntegerCell, { integerCellTester } from './IntegerCell';
 import SpectrumNumberCell, {
   spectrumNumberCellTester,
 } from './SpectrumNumberCell';
-import NumberFormatCell, { numberFormatCellTester } from './NumberFormatCell';
+import SpectrumNumberFormatCell, {
+  spectrumNumberFormatCellTester,
+} from './SpectrumNumberFormatCell';
 import SliderCell, { sliderCellTester } from './SliderCell';
 import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 import TextAreaCell, { textAreaCellTester } from './TextAreaCell';
@@ -50,8 +52,8 @@ export {
   integerCellTester,
   SpectrumNumberCell,
   spectrumNumberCellTester,
-  NumberFormatCell,
-  numberFormatCellTester,
+  SpectrumNumberFormatCell as NumberFormatCell,
+  spectrumNumberFormatCellTester,
   SliderCell,
   sliderCellTester,
   SpectrumTextCell,
