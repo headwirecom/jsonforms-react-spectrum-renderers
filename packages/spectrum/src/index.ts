@@ -90,8 +90,8 @@ import {
   materialDateCellTester,
   MaterialEnumCell,
   materialEnumCellTester,
-  MaterialTextCell,
-  materialTextCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
   MaterialTimeCell,
   materialTimeCellTester,
   SpectrumBooleanCell,
@@ -173,6 +173,6 @@ export const spectrumCells: JsonFormsCellRendererRegistryEntry[] = [
   { tester: materialEnumCellTester, cell: MaterialEnumCell },
   { tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell },
   { tester: spectrumNumberCellTester, cell: SpectrumNumberCell },
-  { tester: materialTextCellTester, cell: MaterialTextCell },
+  { tester: spectrumTextCellTester, cell: SpectrumTextCell },
   { tester: materialTimeCellTester, cell: MaterialTimeCell }
 ];

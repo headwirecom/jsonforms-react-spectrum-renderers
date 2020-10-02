@@ -51,8 +51,8 @@ export {
   spectrumIntegerCellTester,
   SpectrumNumberCell,
   spectrumNumberCellTester,
-  SpectrumTextCell as MaterialTextCell,
-  spectrumTextCellTester as materialTextCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
   MaterialTimeCell,
   materialTimeCellTester
 };
