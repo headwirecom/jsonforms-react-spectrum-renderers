@@ -27,24 +27,25 @@ import {
   CellProps,
   isIntegerControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
+import { SpectrumRendererProps } from '../index';
 import { withVanillaCellProps } from '../util/index';
+import { TextField } from '@adobe/react-spectrum';
 
-export const IntegerCell = (props: CellProps & VanillaRendererProps) => {
-  const { data, className, id, enabled, uischema, path, handleChange } = props;
+export const IntegerCell = (props: CellProps & SpectrumRendererProps) => {
+  const { data, label, id, enabled, uischema, path, handleChange } = props;
 
   return (
-    <input
+    <TextField
+      label={label}
       type='number'
-      step='1'
-      value={data || ''}
-      onChange={ev => handleChange(path, parseInt(ev.target.value, 10))}
-      className={className}
+      inputMode='numeric'
+      value={data === undefined || data === null ? '' : data}
+      onChange={(value) => handleChange(path, parseInt(value, 10))}
       id={id}
-      disabled={!enabled}
+      isDisabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
     />
   );

@@ -4,6 +4,10 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -22,28 +26,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import InputControl, { inputControlTester } from './InputControl';
-import SpectrumBooleanControl, {
-  spectrumBooleanControlTester,
-} from './SpectrumBooleanControl';
-import SpectrumTextControl, {
-  spectrumTextControlTester,
-} from './SpectrumTextControl';
-import SpectrumNumberControl, {
-  spectrumNumberControlTester,
-} from './SpectrumNumberControl';
-import SpectrumIntegerControl, {
-  spectrumIntegerControlTester,
-} from './SpectrumIntegerControl';
-export {
-  InputControl,
-  inputControlTester,
-  SpectrumBooleanControl,
-  spectrumBooleanControlTester,
-  SpectrumIntegerControl,
-  spectrumIntegerControlTester,
-  SpectrumNumberControl,
-  spectrumNumberControlTester,
-  SpectrumTextControl,
-  spectrumTextControlTester,
+
+import React from 'react';
+import { IntegerCell } from '../cells/CustomizableCells';
+import {
+  ControlProps,
+  isIntegerControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { isEmpty } from 'lodash';
+
+export const SpectrumIntegerControl = (props: ControlProps) => {
+  return <IntegerCell {...props} isValid={isEmpty(props.errors)} />;
 };
+
+export const spectrumIntegerControlTester: RankedTester = rankWith(
+  2,
+  isIntegerControl
+);
+
+export default withJsonFormsControlProps(SpectrumIntegerControl);
