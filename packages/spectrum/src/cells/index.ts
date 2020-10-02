@@ -37,7 +37,9 @@ import SpectrumNumberFormatCell, {
 } from './SpectrumNumberFormatCell';
 import SliderCell, { sliderCellTester } from './SliderCell';
 import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
-import TextAreaCell, { textAreaCellTester } from './TextAreaCell';
+import SpectrumTextAreaCell, {
+  spectrumTextAreaCellTester,
+} from './SpectrumTextAreaCell';
 import TimeCell, { timeCellTester } from './TimeCell';
 import * as Customizable from './CustomizableCells';
 
@@ -60,8 +62,8 @@ export {
   sliderCellTester,
   SpectrumTextCell,
   spectrumTextCellTester,
-  TextAreaCell,
-  textAreaCellTester,
+  SpectrumTextAreaCell,
+  spectrumTextAreaCellTester,
   TimeCell,
   timeCellTester,
 };

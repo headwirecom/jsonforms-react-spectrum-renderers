@@ -31,5 +31,5 @@ export { SpectrumNumberCell } from './SpectrumNumberCell';
 export { SpectrumNumberFormatCell } from './SpectrumNumberFormatCell';
 export { SliderCell } from './SliderCell';
 export { SpectrumTextCell } from './SpectrumTextCell';
-export { TextAreaCell } from './TextAreaCell';
+export { SpectrumTextAreaCell } from './SpectrumTextAreaCell';
 export { TimeCell } from './TimeCell';
