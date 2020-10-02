@@ -1,11 +1,12 @@
 /*
   The MIT License
 
-  Copyright (c) 2018-2019 EclipseSource Munich
+  Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,20 +30,48 @@ import {
   ControlProps,
   isStringControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import isEmpty from 'lodash/isEmpty';
 import React from 'react';
-import { SpectrumInputText } from '../mui-controls/SpectrumInputText';
+import { SpectrumTextCell } from '../cells/CustomizableCells';
 
-export const SpectrumTextControl = (props: ControlProps) => {
-  const { errors, label } = props;
-  const isValid = errors.length === 0;
-  return <SpectrumInputText {...props} label={label} isValid={isValid} />;
+export const SpectrumTextControl = ({
+  data,
+  visible,
+  label,
+  id,
+  enabled,
+  uischema,
+  schema,
+  rootSchema,
+  handleChange,
+  errors,
+  path,
+  config,
+}: ControlProps) => {
+  return (
+    <SpectrumTextCell
+      id={`${id}-input`}
+      isValid={isEmpty(errors)}
+      data={data}
+      label={label}
+      enabled={enabled}
+      visible={visible}
+      path={path}
+      uischema={uischema}
+      schema={schema}
+      rootSchema={rootSchema}
+      handleChange={handleChange}
+      errors={errors}
+      config={config}
+    />
+  );
 };
 
 export const spectrumTextControlTester: RankedTester = rankWith(
-  1,
+  2,
   isStringControl
 );
 export default withJsonFormsControlProps(SpectrumTextControl);

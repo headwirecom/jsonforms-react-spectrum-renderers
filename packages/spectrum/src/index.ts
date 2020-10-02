@@ -4,9 +4,6 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
-  Copyright (c) 2020 headwire.com, Inc
-  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -25,154 +22,134 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import { Labels, RankedTester } from '@jsonforms/core';
+
 import {
-  JsonFormsCellRendererRegistryEntry,
-  JsonFormsRendererRegistryEntry
-} from '@jsonforms/core';
-import {
-  materialAllOfControlTester,
-  MaterialAllOfRenderer,
-  materialAnyOfControlTester,
-  MaterialAnyOfRenderer,
-  MaterialArrayControlRenderer,
-  materialArrayControlTester,
-  materialObjectControlTester,
-  MaterialObjectRenderer,
-  materialOneOfControlTester,
-  MaterialOneOfRenderer
-} from './complex';
-import {
-  MaterialLabelRenderer,
-  materialLabelRendererTester,
-  MaterialListWithDetailRenderer,
-  materialListWithDetailTester
-} from './additional';
-import {
-  MaterialAnyOfStringOrEnumControl,
-  materialAnyOfStringOrEnumControlTester,
-  MaterialDateControl,
-  materialDateControlTester,
-  MaterialDateTimeControl,
-  materialDateTimeControlTester,
-  MaterialEnumControl,
-  materialEnumControlTester,
-  SpectrumIntegerControl,
-  spectrumIntegerControlTester,
-  MaterialNativeControl,
-  materialNativeControlTester,
-  MaterialOneOfEnumControl,
-  materialOneOfEnumControlTester,
-  MaterialRadioGroupControl,
-  materialRadioGroupControlTester,
-  MaterialSliderControl,
-  materialSliderControlTester,
-  SpectrumBooleanControl,
-  spectrumBooleanControlTester,
-  SpectrumNumberControl,
-  spectrumNumberControlTester,
-  SpectrumTextControl,
-  spectrumTextControlTester
-} from './controls';
-import {
-  MaterialArrayLayout,
-  materialArrayLayoutTester,
-  MaterialCategorizationLayout,
-  materialCategorizationTester,
-  MaterialGroupLayout,
-  materialGroupTester,
-  MaterialHorizontalLayout,
-  materialHorizontalLayoutTester,
-  MaterialVerticalLayout,
-  materialVerticalLayoutTester
-} from './layouts';
-import {
-  MaterialDateCell,
-  materialDateCellTester,
-  MaterialEnumCell,
-  materialEnumCellTester,
-  SpectrumTextCell,
-  spectrumTextCellTester,
-  MaterialTimeCell,
-  materialTimeCellTester,
-  SpectrumBooleanCell,
+  BooleanCell,
   spectrumBooleanCellTester,
+  DateCell,
+  dateCellTester,
+  dateTimeCellTester,
+  EnumCell,
+  enumCellTester,
   SpectrumIntegerCell,
   spectrumIntegerCellTester,
   SpectrumNumberCell,
-  spectrumNumberCellTester
+  spectrumNumberCellTester,
+  SliderCell,
+  sliderCellTester,
+  SpectrumTextAreaCell,
+  spectrumTextAreaCellTester,
+  SpectrumTextCell,
+  spectrumTextCellTester,
+  TimeCell,
+  timeCellTester,
 } from './cells';
-import MaterialCategorizationStepperLayout, {
-  materialCategorizationStepperTester
-} from './layouts/MaterialCategorizationStepperLayout';
 
-export * from './complex';
+import {
+  InputControl,
+  inputControlTester,
+  SpectrumBooleanControl,
+  spectrumBooleanControlTester,
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
+  SpectrumTextAreaControl,
+  spectrumTextAreaControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester,
+} from './controls';
+
+import {
+  ArrayControl,
+  arrayControlTester,
+  Categorization,
+  categorizationTester,
+  LabelRenderer,
+  labelRendererTester,
+  TableArrayControl,
+  tableArrayControlTester,
+} from './complex';
+
+import {
+  GroupLayout,
+  groupTester,
+  HorizontalLayout,
+  horizontalLayoutTester,
+  VerticalLayout,
+  verticalLayoutTester,
+} from './layouts';
+import DateTimeCell from './cells/DateTimeCell';
+
+export interface WithClassname {
+  className?: string;
+}
+
+/**
+ * Additional renderer props specific to vanilla renderers.
+ */
+export interface VanillaRendererProps extends WithClassname {
+  classNames?: { [className: string]: string };
+
+  /**
+   * Returns all classes associated with the given style.
+   * @param {string} string the style name
+   * @param args any additional args necessary to calculate the classes
+   * @returns {string[]} array of class names
+   */
+  getStyle?(string: string, ...args: any[]): string[];
+
+  /**
+   * Returns all classes associated with the given style as a single class name.
+   * @param {string} string the style name
+   * @param args any additional args necessary to calculate the classes
+   * @returns {string[]} array of class names
+   */
+  getStyleAsClassName?(string: string, ...args: any[]): string;
+}
+
+export interface SpectrumRendererProps {
+  label?: string | Labels;
+}
+
+export interface WithChildren {
+  children: any;
+}
+
+export * from './actions';
 export * from './controls';
-export * from './layouts';
+export * from './complex';
 export * from './cells';
-export * from './mui-controls';
+export * from './layouts';
+export * from './reducers';
 export * from './util';
 
-export const spectrumRenderers: JsonFormsRendererRegistryEntry[] = [
-  // controls
-  {
-    tester: materialArrayControlTester,
-    renderer: MaterialArrayControlRenderer
-  },
+export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
+  { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
-  { tester: materialNativeControlTester, renderer: MaterialNativeControl },
-  { tester: materialEnumControlTester, renderer: MaterialEnumControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
   { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
   { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
-  { tester: materialDateTimeControlTester, renderer: MaterialDateTimeControl },
-  { tester: materialDateControlTester, renderer: MaterialDateControl },
-  { tester: materialSliderControlTester, renderer: MaterialSliderControl },
-  { tester: materialObjectControlTester, renderer: MaterialObjectRenderer },
-  { tester: materialAllOfControlTester, renderer: MaterialAllOfRenderer },
-  { tester: materialAnyOfControlTester, renderer: MaterialAnyOfRenderer },
-  { tester: materialOneOfControlTester, renderer: MaterialOneOfRenderer },
-  {
-    tester: materialRadioGroupControlTester,
-    renderer: MaterialRadioGroupControl
-  },
-  {
-    tester: materialOneOfEnumControlTester,
-    renderer: MaterialOneOfEnumControl
-  },
-  // layouts
-  { tester: materialGroupTester, renderer: MaterialGroupLayout },
-  {
-    tester: materialHorizontalLayoutTester,
-    renderer: MaterialHorizontalLayout
-  },
-  { tester: materialVerticalLayoutTester, renderer: MaterialVerticalLayout },
-  {
-    tester: materialCategorizationTester,
-    renderer: MaterialCategorizationLayout
-  },
-  {
-    tester: materialCategorizationStepperTester,
-    renderer: MaterialCategorizationStepperLayout
-  },
-  { tester: materialArrayLayoutTester, renderer: MaterialArrayLayout },
-  // additional
-  { tester: materialLabelRendererTester, renderer: MaterialLabelRenderer },
-  {
-    tester: materialListWithDetailTester,
-    renderer: MaterialListWithDetailRenderer
-  },
-  {
-    tester: materialAnyOfStringOrEnumControlTester,
-    renderer: MaterialAnyOfStringOrEnumControl
-  }
+  { tester: spectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
+  { tester: arrayControlTester, renderer: ArrayControl },
+  { tester: labelRendererTester, renderer: LabelRenderer },
+  { tester: categorizationTester, renderer: Categorization },
+  { tester: tableArrayControlTester, renderer: TableArrayControl },
+  { tester: groupTester, renderer: GroupLayout },
+  { tester: verticalLayoutTester, renderer: VerticalLayout },
+  { tester: horizontalLayoutTester, renderer: HorizontalLayout },
 ];
 
-export const spectrumCells: JsonFormsCellRendererRegistryEntry[] = [
-  { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
-  { tester: materialDateCellTester, cell: MaterialDateCell },
-  { tester: materialEnumCellTester, cell: MaterialEnumCell },
+export const vanillaCells: { tester: RankedTester; cell: any }[] = [
+  { tester: spectrumBooleanCellTester, cell: BooleanCell },
+  { tester: dateCellTester, cell: DateCell },
+  { tester: dateTimeCellTester, cell: DateTimeCell },
+  { tester: enumCellTester, cell: EnumCell },
   { tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell },
   { tester: spectrumNumberCellTester, cell: SpectrumNumberCell },
+  { tester: sliderCellTester, cell: SliderCell },
+  { tester: spectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
   { tester: spectrumTextCellTester, cell: SpectrumTextCell },
-  { tester: materialTimeCellTester, cell: MaterialTimeCell }
+  { tester: timeCellTester, cell: TimeCell },
 ];

@@ -1,22 +1,22 @@
 /*
   The MIT License
-
+  
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
+  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
+  
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
+  
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,330 +25,459 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import './MatchMediaMock';
 import * as React from 'react';
 import {
-  Actions,
   ControlElement,
   getData,
-  jsonformsReducer,
-  JsonFormsState,
+  HorizontalLayout,
   JsonSchema,
-  NOT_APPLICABLE,
-  UISchemaElement
+  update,
 } from '@jsonforms/core';
-import IntegerCell, {
-  spectrumIntegerCellTester
-} from '../../src/cells/SpectrumIntegerCell';
-import { Provider } from 'react-redux';
-import { spectrumRenderers } from '../../src';
-import { AnyAction, combineReducers, createStore, Reducer, Store } from 'redux';
-
-import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { JsonFormsReduxContext } from '@jsonforms/react';
+import { Provider } from 'react-redux';
+import Adapter from 'enzyme-adapter-react-16';
+import Enzyme, { mount, ReactWrapper } from 'enzyme';
+import SpectrumIntegerCell, {
+  spectrumIntegerCellTester,
+} from '../../src/cells/SpectrumIntegerCell';
+import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const data = { foo: 42 };
-const schema = {
-  type: 'integer',
-  minimum: 5
-};
-const uischema: ControlElement = {
+const control: ControlElement = {
   type: 'Control',
-  scope: '#/properties/foo'
+  scope: '#/properties/foo',
 };
 
-const initJsonFormsStore = (
-  testData: any,
-  testSchema: JsonSchema,
-  testUiSchema: UISchemaElement
-): Store<JsonFormsState> => {
-  const s: JsonFormsState = {
-    jsonforms: {
-      renderers: spectrumRenderers
-    }
-  };
-  const reducer: Reducer<JsonFormsState, AnyAction> = combineReducers({
-    jsonforms: jsonformsReducer()
-  });
-  const store: Store<JsonFormsState> = createStore(reducer, s);
-  store.dispatch(Actions.init(testData, testSchema, testUiSchema));
-  return store;
+const fixture = {
+  data: { foo: 42 },
+  schema: {
+    type: 'integer',
+    minimum: 5,
+  },
+  uischema: control,
+  styles: [
+    {
+      name: 'control',
+      classNames: ['control'],
+    },
+    {
+      name: 'control.validation',
+      classNames: ['validation'],
+    },
+  ],
 };
 
-describe('Material integer cells tester', () => {
-  const controlElement: ControlElement = {
-    type: 'Control',
-    scope: '#/properties/foo'
-  };
+describe('Integer cell tester', () => {
+  test('tester', () => {
+    expect(spectrumIntegerCellTester(undefined, undefined)).toBe(-1);
+    expect(spectrumIntegerCellTester(null, undefined)).toBe(-1);
+    expect(spectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(spectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(-1);
 
-  it('should fail', () => {
-    expect(spectrumIntegerCellTester(undefined, undefined)).toBe(
-      NOT_APPLICABLE
-    );
-    expect(spectrumIntegerCellTester(null, undefined)).toBe(NOT_APPLICABLE);
-    expect(spectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(
-      NOT_APPLICABLE
-    );
-    expect(spectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(
-      NOT_APPLICABLE
-    );
+    const controlElement: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
       spectrumIntegerCellTester(controlElement, {
         type: 'object',
-        properties: { foo: { type: 'string' } }
+        properties: { foo: { type: 'string' } },
       })
-    ).toBe(NOT_APPLICABLE);
+    ).toBe(-1);
     expect(
       spectrumIntegerCellTester(controlElement, {
         type: 'object',
-        properties: { foo: { type: 'string' }, bar: { type: 'integer' } }
+        properties: { foo: { type: 'string' }, bar: { type: 'integer' } },
       })
-    ).toBe(NOT_APPLICABLE);
-  });
-
-  it('should succeed', () => {
+    ).toBe(-1);
     expect(
       spectrumIntegerCellTester(controlElement, {
         type: 'object',
-        properties: { foo: { type: 'integer' } }
+        properties: { foo: { type: 'integer' } },
       })
     ).toBe(2);
   });
 });
 
-describe('Material integer cells', () => {
+describe('Integer cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
 
-  it('should autofocus via option', () => {
-    const control: ControlElement = {
+  test.skip('autofocus on first element', () => {
+    const schema: JsonSchema = {
+      type: 'object',
+      properties: {
+        firstIntegerCell: { type: 'integer', minimum: 5 },
+        secondIntegerCell: { type: 'integer', minimum: 5 },
+      },
+    };
+    const firstControlElement: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/firstIntegerCell',
+      options: {
+        focus: true,
+      },
+    };
+    const secondControlElement: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/secondIntegerCell',
+      options: {
+        focus: true,
+      },
+    };
+    const uischema: HorizontalLayout = {
+      type: 'HorizontalLayout',
+      elements: [firstControlElement, secondControlElement],
+    };
+    const data = {
+      firstIntegerCell: 10,
+      secondIntegerCell: 12,
+    };
+    const store = initJsonFormsVanillaStore({
+      data,
+      schema,
+      uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+      </Provider>
+    );
+    const inputs = wrapper.find('input');
+    expect(document.activeElement).not.toBe(inputs.at(0));
+    expect(document.activeElement).toBe(inputs.at(1));
+  });
+
+  test('autofocus active', () => {
+    const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
-    const store = initJsonFormsStore(data, schema, control);
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema,
+    });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={control} path='foo' />
-        </JsonFormsReduxContext>
+        <SpectrumIntegerCell
+          schema={fixture.schema}
+          uischema={uischema}
+          path='foo'
+        />
       </Provider>
     );
-
-    const focusRing = wrapper.find('FocusRing').first();
-    expect(focusRing.props().autoFocus).toBeTruthy();
+    const input = wrapper.find('input').getDOMNode();
+    expect(document.activeElement).toBe(input);
   });
 
-  it('should not autofocus via option', () => {
-    const control: ControlElement = {
+  test('autofocus inactive', () => {
+    const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
       options: {
-        focus: false
-      }
+        focus: false,
+      },
     };
-    const store = initJsonFormsStore(data, schema, control);
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema,
+    });
+
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={control} path='foo' />
-        </JsonFormsReduxContext>
+        <SpectrumIntegerCell
+          schema={fixture.schema}
+          uischema={uischema}
+          path='foo'
+        />
       </Provider>
     );
-    const input = wrapper.find('input');
-    expect(input.props().autoFocus).toBeFalsy();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.autofocus).toBe(false);
   });
 
-  it('should not autofocus by default', () => {
-    const control: ControlElement = {
+  test('autofocus inactive by default', () => {
+    const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/foo'
+      scope: '#/properties/foo',
     };
-    const store = initJsonFormsStore(data, schema, control);
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema,
+    });
+
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={control} path='foo' />
-        </JsonFormsReduxContext>
+        <SpectrumIntegerCell
+          schema={fixture.schema}
+          uischema={uischema}
+          path='foo'
+        />
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().autoFocus).toBeFalsy();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.autofocus).toBe(false);
   });
 
-  it('should render', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
+  test('render', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-
-    const input = wrapper.find('input').first();
-    expect(input.props().type).toBe('number');
-    // todo: step property not yet available with spectrum
-    // expect(input.props().step).toBe('1');
-    expect(input.props().value).toBe(42);
-  });
-
-  it('should render 0', () => {
-    const store = initJsonFormsStore({ foo: 0 }, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-
-    const input = wrapper.find('input').first();
-    expect(input.props().type).toBe('number');
-    // todo: step property not yet available with spectrum
-    // expect(input.props().step).toBe('1');
-    expect(input.props().value).toBe(0);
-  });
-
-  it('should update via input event', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-
-    const input = wrapper.find('input');
-    input.simulate('change', { target: { value: 13 } });
-    expect(getData(store.getState()).foo).toBe(13);
-  });
-
-  it('should update via action', () => {
-    const store = initJsonFormsStore({ foo: 13 }, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update('foo', () => 42));
-    wrapper.update();
-    const input = wrapper.find('input').first();
-    expect(input.props().value).toBe(42);
-  });
-
-  it('should not update with undefined value', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update('foo', () => undefined));
-    wrapper.update();
-    const input = wrapper.find('input');
-    expect(input.props().value).toBe('');
-  });
-
-  it('should not update with null value', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update('foo', () => null));
-    wrapper.update();
-    const input = wrapper.find('input').first();
-    expect(input.props().value).toBe('');
-  });
-
-  it('should not update with wrong ref', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update('bar', () => 11));
-    wrapper.update();
-    const input = wrapper.find('input');
-    expect(input.props().value).toBe(42);
-  });
-
-  it('should not update with null ref', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update(null, () => 13));
-    wrapper.update();
-    const input = wrapper.find('input').first();
-    expect(input.props().value).toBe(42);
-  });
-
-  it('should not update with undefined ref', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(Actions.update(undefined, () => 13));
-    wrapper.update();
-    const input = wrapper.find('input').first();
-    expect(input.props().value).toBe(42);
-  });
-
-  it('can be disabled', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <IntegerCell
-            schema={schema}
-            uischema={uischema}
-            enabled={false}
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
             path='foo'
           />
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().disabled).toBeTruthy();
+
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.type).toBe('number');
+    // todo: react-spectrum does not yet support the step attribute
+    // expect(input.step).toBe('1');
+    expect(input.value).toBe('42');
   });
 
-  it('should be enabled by default', () => {
-    const store = initJsonFormsStore(data, schema, uischema);
+  test.skip('has classes set', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <IntegerCell schema={schema} uischema={uischema} path='foo' />
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
-    const input = wrapper.find('input').first();
-    expect(input.props().disabled).toBeFalsy();
+
+    const input = wrapper.find('input');
+    expect(input.hasClass('input')).toBe(true);
+    expect(input.hasClass('validate')).toBe(true);
+    expect(input.hasClass('valid')).toBe(true);
+  });
+
+  test('update via input event', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    const input = wrapper.find('input');
+    input.simulate('change', { target: { value: '13' } });
+    expect(getData(store.getState()).foo).toBe(13);
+  });
+
+  test('update via action', () => {
+    const data = { foo: 13 };
+    const store = initJsonFormsVanillaStore({
+      data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update('foo', () => 42));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('42');
+  });
+
+  test('update with undefined value', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update('foo', () => undefined));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('');
+  });
+
+  test('update with null value', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update('foo', () => null));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('');
+  });
+
+  test('update with wrong ref', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update('bar', () => 11));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('42');
+  });
+
+  test('update with null ref', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update(null, () => 13));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('42');
+  });
+
+  test('update with undefined ref', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    store.dispatch(update(undefined, () => 13));
+    wrapper.update();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.value).toBe('42');
+  });
+
+  test('disable', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            enabled={false}
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.disabled).toBe(true);
+  });
+
+  test('enabled by default', () => {
+    const store = initJsonFormsVanillaStore({
+      data: fixture.data,
+      schema: fixture.schema,
+      uischema: fixture.uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <SpectrumIntegerCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.disabled).toBe(false);
   });
 });

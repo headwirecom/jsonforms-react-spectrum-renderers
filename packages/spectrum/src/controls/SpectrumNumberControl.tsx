@@ -1,11 +1,12 @@
 /*
   The MIT License
 
-  Copyright (c) 2018-2019 EclipseSource Munich
+  Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,20 +26,20 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
+import React from 'react';
+import { SpectrumNumberCell } from '../cells/CustomizableCells';
 import {
   ControlProps,
   isNumberControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import React from 'react';
-import { SpectrumInputNumber } from '../mui-controls';
+import { isEmpty } from 'lodash';
 
 export const SpectrumNumberControl = (props: ControlProps) => {
-  const { errors, label } = props;
-  const isValid = errors.length === 0;
-  return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
+  return <SpectrumNumberCell {...props} isValid={isEmpty(props.errors)} />;
 };
 
 export const spectrumNumberControlTester: RankedTester = rankWith(

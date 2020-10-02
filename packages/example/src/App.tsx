@@ -30,7 +30,6 @@ import React, { Component, CSSProperties } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
 import './App.css';
 import { AppProps, initializedConnect } from './reduxUtil';
-import { defaultTheme, Provider } from '@adobe/react-spectrum';
 
 const preStyle: CSSProperties = {
   overflowX: 'auto'
@@ -39,7 +38,6 @@ class App extends Component<AppProps> {
   render() {
     return (
       <JsonFormsReduxContext>
-        <Provider theme={defaultTheme}>
           <div>
             <div className='App'>
               <header className='App-header'>
@@ -78,7 +76,6 @@ class App extends Component<AppProps> {
               <JsonFormsDispatch onChange={this.props.onChange} />
             </div>
           </div>
-        </Provider>
       </JsonFormsReduxContext>
     );
   }

@@ -3,9 +3,6 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
-  Copyright (c) 2020 headwire.com, Inc
-  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,19 +22,40 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import React from 'react';
 import {
   CellProps,
   isNumberControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import React from 'react';
-import { SpectrumInputNumber } from '../mui-controls/SpectrumInputNumber';
+import { SpectrumRendererProps } from '../index';
+import { withVanillaCellProps } from '../util/index';
+import { TextField } from '@adobe/react-spectrum';
 
-export const SpectrumNumberCell = (props: CellProps) => (
-  <SpectrumInputNumber {...props} />
-);
+export const SpectrumNumberCell = (
+  props: CellProps & SpectrumRendererProps
+) => {
+  const { data, id, label, enabled, uischema, path, handleChange } = props;
+
+  const toNumber = (value: string) =>
+    value === '' ? undefined : parseFloat(value);
+
+  return (
+    <TextField
+      label={label}
+      type='number'
+      inputMode='numeric'
+      value={data === undefined || data === null ? '' : data}
+      onChange={(value) => handleChange(path, toNumber(value))}
+      id={id}
+      isDisabled={!enabled}
+      autoFocus={uischema.options && uischema.options.focus}
+    />
+  );
+};
+
 /**
  * Default tester for number controls.
  * @type {RankedTester}
@@ -46,4 +64,5 @@ export const spectrumNumberCellTester: RankedTester = rankWith(
   2,
   isNumberControl
 );
-export default withJsonFormsCellProps(SpectrumNumberCell);
+
+export default withJsonFormsCellProps(withVanillaCellProps(SpectrumNumberCell));

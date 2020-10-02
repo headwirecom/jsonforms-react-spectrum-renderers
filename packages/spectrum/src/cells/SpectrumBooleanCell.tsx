@@ -25,20 +25,56 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import React from 'react';
 import {
   CellProps,
   isBooleanControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import React from 'react';
-import { SpectrumCheckbox } from '../mui-controls/SpectrumCheckbox';
+import { FunctionComponent } from 'react';
+import { VanillaRendererProps } from '../index';
+import { Checkbox } from '@adobe/react-spectrum';
+import { merge } from 'lodash';
 
-export const SpectrumBooleanCell = (props: CellProps) => {
-  return <SpectrumCheckbox {...props} />;
+export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
+  props: React.PropsWithChildren<CellProps> & VanillaRendererProps
+) => {
+  const {
+    data,
+    id,
+    enabled,
+    uischema,
+    path,
+    handleChange,
+    config,
+    isValid,
+  } = props;
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const autoFocus = !!appliedUiSchemaOptions.focus;
+  // !! causes undefined value to be converted to false, otherwise has no effect
+  const isSelected = !!data;
+  const validationState = !!isValid ? 'valid' : 'invalid';
+
+  return (
+    <Checkbox
+      isSelected={isSelected}
+      onChange={(selected) => handleChange(path, selected)}
+      id={id}
+      isDisabled={!enabled}
+      autoFocus={autoFocus}
+      validationState={validationState}
+    >
+      {props.children}
+    </Checkbox>
+  );
 };
 
+/**
+ * Default tester for boolean controls.
+ * @type {RankedTester}
+ */
 export const spectrumBooleanCellTester: RankedTester = rankWith(
   2,
   isBooleanControl

@@ -41,6 +41,8 @@ import { getExamples } from '@jsonforms/examples';
 import { AdditionalStoreParams, exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
 
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
+
 const setupStore = (
   exampleData: ReactExampleDescription[],
   cells: JsonFormsCellRendererRegistryEntry[],
@@ -128,7 +130,9 @@ export const renderExample = (
   );
   ReactDOM.render(
     <Provider store={store}>
+      <SpectrumThemeProvider theme={defaultTheme}>
       <App />
+      </SpectrumThemeProvider>
     </Provider>,
     document.getElementById('root')
   );

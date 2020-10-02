@@ -1,7 +1,7 @@
 /*
   The MIT License
 
-  Copyright (c) 2018-2019 EclipseSource Munich
+  Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Copyright (c) 2020 headwire.com, Inc
@@ -26,25 +26,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
+import React from 'react';
+import { SpectrumIntegerCell } from '../cells/CustomizableCells';
 import {
   ControlProps,
   isIntegerControl,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import React from 'react';
-import { SpectrumInputNumber } from '../mui-controls';
+import { isEmpty } from 'lodash';
 
-// TODO: seems to be quite the same as SpectrumNumberControl...
-// I want to keep it for know, because there will probably be some nuances...
 export const SpectrumIntegerControl = (props: ControlProps) => {
-  const { errors, label } = props;
-  const isValid = errors.length === 0;
-  return <SpectrumInputNumber {...props} label={label} isValid={isValid} />;
+  return <SpectrumIntegerCell {...props} isValid={isEmpty(props.errors)} />;
 };
+
 export const spectrumIntegerControlTester: RankedTester = rankWith(
   2,
   isIntegerControl
 );
+
 export default withJsonFormsControlProps(SpectrumIntegerControl);
