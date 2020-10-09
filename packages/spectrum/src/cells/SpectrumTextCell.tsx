@@ -47,6 +47,7 @@ export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
     label,
     enabled,
     uischema,
+    required,
     isValid,
     path,
     handleChange,
@@ -68,9 +69,14 @@ export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
   }
   const onChange = (value: string) => handleChange(path, value);
 
+  // TODO: react-spectrum has no concept of "hide the asterisk" - the value is either required or not
+  // check if setting required to false has some unwanted consequences
+  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+
   return (
     <TextField
       type={appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'}
+      isRequired={isRequired}
       value={data || ''}
       label={label}
       onChange={onChange}

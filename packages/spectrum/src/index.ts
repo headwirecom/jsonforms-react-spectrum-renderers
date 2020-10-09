@@ -111,6 +111,7 @@ export interface VanillaRendererProps extends WithClassname {
 
 export interface SpectrumRendererProps {
   label?: string | Labels;
+  required?: boolean;
 }
 
 export interface WithChildren {

@@ -43,6 +43,7 @@ export const SpectrumTextControl = ({
   label,
   id,
   enabled,
+  required,
   uischema,
   schema,
   rootSchema,
@@ -66,6 +67,7 @@ export const SpectrumTextControl = ({
       handleChange={handleChange}
       errors={errors}
       config={config}
+      required={required}
     />
   );
 };
