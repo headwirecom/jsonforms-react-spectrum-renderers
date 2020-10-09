@@ -31,15 +31,38 @@ import React from 'react';
 import { SpectrumNumberCell } from '../cells/CustomizableCells';
 import {
   ControlProps,
+  ControlState,
+  isDescriptionHidden,
   isNumberControl,
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { isEmpty } from 'lodash';
+import { isEmpty, merge } from 'lodash';
+import { VanillaRendererProps } from '..';
+import { Flex, Text } from '@adobe/react-spectrum';
 
-export const SpectrumNumberControl = (props: ControlProps) => {
-  return <SpectrumNumberCell {...props} isValid={isEmpty(props.errors)} />;
+export const SpectrumNumberControl = (
+  props: ControlProps & VanillaRendererProps & ControlState
+) => {
+  const { errors, config, uischema, visible, description, isFocused } = props;
+
+  const isValid = errors.length === 0;
+
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const showDescription = !isDescriptionHidden(
+    visible,
+    description,
+    isFocused,
+    appliedUiSchemaOptions.showUnfocusedDescription
+  );
+
+  return (
+    <Flex direction='column'>
+      <SpectrumNumberCell {...props} isValid={isEmpty(props.errors)} />
+      <Text>{!isValid ? errors : showDescription ? description : null}</Text>
+    </Flex>
+  );
 };
 
 export const spectrumNumberControlTester: RankedTester = rankWith(
