@@ -26,51 +26,76 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import { Flex, Text } from '@adobe/react-spectrum';
 import {
   ControlProps,
+  ControlState,
+  isDescriptionHidden,
   isStringControl,
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
-import { withJsonFormsControlProps } from '@jsonforms/react';
+import { Control, withJsonFormsControlProps } from '@jsonforms/react';
+import { merge } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import React from 'react';
+import { VanillaRendererProps } from '..';
 import { SpectrumTextCell } from '../cells/CustomizableCells';
 
-export const SpectrumTextControl = ({
-  data,
-  visible,
-  label,
-  id,
-  enabled,
-  required,
-  uischema,
-  schema,
-  rootSchema,
-  handleChange,
-  errors,
-  path,
-  config,
-}: ControlProps) => {
-  return (
-    <SpectrumTextCell
-      id={`${id}-input`}
-      isValid={isEmpty(errors)}
-      data={data}
-      label={label}
-      enabled={enabled}
-      visible={visible}
-      path={path}
-      uischema={uischema}
-      schema={schema}
-      rootSchema={rootSchema}
-      handleChange={handleChange}
-      errors={errors}
-      config={config}
-      required={required}
-    />
-  );
-};
+export class SpectrumTextControl extends Control<
+  ControlProps & VanillaRendererProps,
+  ControlState
+> {
+  render() {
+    const {
+      data,
+      description,
+      id,
+      errors,
+      label,
+      uischema,
+      schema,
+      visible,
+      required,
+      rootSchema,
+      handleChange,
+      path,
+      enabled,
+      config,
+    } = this.props;
+
+    const isValid = errors.length === 0;
+
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const showDescription = !isDescriptionHidden(
+      visible,
+      description,
+      this.state.isFocused,
+      appliedUiSchemaOptions.showUnfocusedDescription
+    );
+    return (
+      <Flex direction='column'>
+        <SpectrumTextCell
+          id={`${id}-input`}
+          isValid={isEmpty(errors)}
+          data={data}
+          label={label}
+          enabled={enabled}
+          visible={visible}
+          path={path}
+          uischema={uischema}
+          schema={schema}
+          rootSchema={rootSchema}
+          handleChange={handleChange}
+          errors={errors}
+          config={config}
+          required={required}
+        />
+        <Text>{!isValid ? errors : showDescription ? description : null}</Text>
+      </Flex>
+    );
+  }
+}
 
 export const spectrumTextControlTester: RankedTester = rankWith(
   2,
