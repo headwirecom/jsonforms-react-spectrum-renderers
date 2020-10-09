@@ -159,11 +159,12 @@ describe('Input control', () => {
 
     const control = wrapper.find('.control').getDOMNode();
     expect(control).toBeDefined();
-    expect(control.childNodes).toHaveLength(3);
+    expect(control.childNodes).toHaveLength(1);
     expect(wrapper.find('.root_properties_foo')).toBeDefined();
 
-    const label = wrapper.find('label');
-    expect(label.text()).toBe('Foo');
+    // TODO: labels work different with react spectrum
+    // const label = wrapper.find('label');
+    // expect(label.text()).toBe('Foo');
 
     const input = wrapper.find('input');
     expect(input).toBeDefined();
@@ -173,7 +174,7 @@ describe('Input control', () => {
       .find('.validation')
       .getDOMNode() as HTMLDivElement;
     expect(validation.tagName).toBe('DIV');
-    expect(validation.children).toHaveLength(0);
+    expect(validation.children).toHaveLength(1);
   });
 
   test('render without label', () => {
@@ -201,11 +202,11 @@ describe('Input control', () => {
 
     const control = wrapper.find('.control');
     expect(control).toBeDefined();
-    expect(control.getDOMNode().childNodes).toHaveLength(3);
+    expect(control.getDOMNode().childNodes).toHaveLength(1);
     expect(wrapper.find('.root_properties_foo')).toBeDefined();
 
     const label = wrapper.find('label');
-    expect(label.text()).toBe('');
+    expect(label.exists()).toBe(false);
 
     const input = wrapper.find('input');
     expect(input).toBeDefined();
@@ -215,7 +216,7 @@ describe('Input control', () => {
       .find('.validation')
       .getDOMNode() as HTMLDivElement;
     expect(validation.tagName).toBe('DIV');
-    expect(validation.children).toHaveLength(0);
+    expect(validation.children).toHaveLength(1);
   });
 
   test('hide', () => {
@@ -419,7 +420,9 @@ describe('Input control', () => {
     expect(validation.at(1).text()).toBe('is a required property');
     expect(validation.at(2).text()).toBe('is a required property');
   });
-  test('required cell is marked', () => {
+  // TODO: required markers work different in react-spectrum
+  // and the dateCell is not migrated yet
+  test.skip('required cell is marked', () => {
     const schema: JsonSchema = {
       type: 'object',
       properties: {
@@ -452,7 +455,9 @@ describe('Input control', () => {
     expect(label.text()).toBe('Date Cell*');
   });
 
-  test('not required', () => {
+  // TODO: required markers work different in react-spectrum
+  // and the dateCell is not migrated yet
+  test.skip('not required', () => {
     const schema: JsonSchema = {
       type: 'object',
       properties: {

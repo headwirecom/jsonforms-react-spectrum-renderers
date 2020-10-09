@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { Labels, RankedTester } from '@jsonforms/core';
+import { RankedTester } from '@jsonforms/core';
 
 import {
   BooleanCell,
@@ -51,14 +51,6 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
-  SpectrumIntegerControl,
-  spectrumIntegerControlTester,
-  SpectrumNumberControl,
-  spectrumNumberControlTester,
-  SpectrumTextAreaControl,
-  spectrumTextAreaControlTester,
-  SpectrumTextControl,
-  spectrumTextControlTester,
 } from './controls';
 
 import {
@@ -110,7 +102,6 @@ export interface VanillaRendererProps extends WithClassname {
 }
 
 export interface SpectrumRendererProps {
-  label?: string | Labels;
   required?: boolean;
 }
 
@@ -129,10 +120,6 @@ export * from './util';
 export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
-  { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
-  { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
-  { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
-  { tester: spectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: labelRendererTester, renderer: LabelRenderer },
   { tester: categorizationTester, renderer: Categorization },

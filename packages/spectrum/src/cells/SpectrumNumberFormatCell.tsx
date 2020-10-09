@@ -32,13 +32,24 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
+import { getLabelText, withVanillaCellProps } from '../util/index';
 import { TextField } from '@adobe/react-spectrum';
+import { merge } from 'lodash';
 
 export const SpectrumNumberFormatCell = (
   props: CellProps & SpectrumRendererProps & Formatted<number>
 ) => {
-  const { id, label, enabled, uischema, path, handleChange, schema } = props;
+  const {
+    id,
+    enabled,
+    required,
+    errors,
+    config,
+    uischema,
+    path,
+    handleChange,
+    schema,
+  } = props;
   const maxLength = schema.maxLength;
   const formattedNumber: string = props.toFormatted(props.data);
 
@@ -47,17 +58,26 @@ export const SpectrumNumberFormatCell = (
     handleChange(path, validStringNumber);
   };
 
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+
+  const labelText = getLabelText(uischema.label);
+
+  const isValid = errors.length === 0;
+
   return (
     <TextField
-      label={label}
+      label={labelText}
       type='text'
       inputMode='numeric'
       value={formattedNumber}
+      isRequired={isRequired}
       onChange={onChange}
       id={id}
       isDisabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
       maxLength={maxLength}
+      validationState={isValid ? 'valid' : 'invalid'}
     />
   );
 };

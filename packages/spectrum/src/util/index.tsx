@@ -29,12 +29,13 @@ import {
   convertToValidClassName,
   getConfig,
   JsonFormsState,
+  LabelDescription,
   OwnPropsOfCell,
   OwnPropsOfControl,
   OwnPropsOfRenderer,
   RendererProps,
   StatePropsOfCell,
-  StatePropsOfControl
+  StatePropsOfControl,
 } from '@jsonforms/core';
 import { useJsonForms } from '@jsonforms/react';
 import { getStyle, getStyleAsClassName } from '../reducers';
@@ -63,37 +64,39 @@ export const addVanillaControlProps = <P extends StatePropsOfControl>(
   state: JsonFormsState,
   ownProps: OwnPropsOfControl
 ): StatePropsOfControl & VanillaRendererProps => {
-    const props: StatePropsOfControl = mapStateToProps(state, ownProps);
-    const config = getConfig(state);
-    const trim = config.trim;
-    const controlElement = props.uischema as ControlElement;
-    const isValid = isEmpty(props.errors);
-    const styles = getStyle(state)('control');
-    let classNames: string[] = !isEmpty(controlElement.scope)
-      ? styles.concat([`${convertToValidClassName(controlElement.scope)}`])
-      : [''];
+  const props: StatePropsOfControl = mapStateToProps(state, ownProps);
+  const config = getConfig(state);
+  const trim = config.trim;
+  const controlElement = props.uischema as ControlElement;
+  const isValid = isEmpty(props.errors);
+  const styles = getStyle(state)('control');
+  let classNames: string[] = !isEmpty(controlElement.scope)
+    ? styles.concat([`${convertToValidClassName(controlElement.scope)}`])
+    : [''];
 
-    if (trim) {
-      classNames = classNames.concat(getStyle(state)('control.trim'));
-    }
-    const labelClass = getStyleAsClassName(state)('control.label');
-    const descriptionClassName = getStyleAsClassName(state)('input.description');
-    const inputClassName = ['validate'].concat(isValid ? 'valid' : 'invalid');
+  if (trim) {
+    classNames = classNames.concat(getStyle(state)('control.trim'));
+  }
+  const labelClass = getStyleAsClassName(state)('control.label');
+  const descriptionClassName = getStyleAsClassName(state)('input.description');
+  const inputClassName = ['validate'].concat(isValid ? 'valid' : 'invalid');
 
-    return {
-      ...props,
-      getStyleAsClassName: getStyleAsClassName(state),
-      getStyle: getStyle(state),
-      classNames: {
-        wrapper: classNames.join(' '),
-        input: inputClassName.join(' '),
-        label: labelClass,
-        description: descriptionClassName
-      }
-    };
+  return {
+    ...props,
+    getStyleAsClassName: getStyleAsClassName(state),
+    getStyle: getStyle(state),
+    classNames: {
+      wrapper: classNames.join(' '),
+      input: inputClassName.join(' '),
+      label: labelClass,
+      description: descriptionClassName,
+    },
   };
+};
 
-export const withVanillaControlProps = (Component: ComponentType<any>) => (props: any) => {
+export const withVanillaControlProps = (Component: ComponentType<any>) => (
+  props: any
+) => {
   const ctx = useJsonForms();
   const controlElement = props.uischema as ControlElement;
   const config = ctx.config;
@@ -108,7 +111,9 @@ export const withVanillaControlProps = (Component: ComponentType<any>) => (props
   }
   const isValid = isEmpty(props.errors);
   const labelClass = findStyleAsClassName(ctx.styles)('control.label');
-  const descriptionClassName = findStyleAsClassName(ctx.styles)('input.description');
+  const descriptionClassName = findStyleAsClassName(ctx.styles)(
+    'input.description'
+  );
   const inputClassName = ['validate'].concat(isValid ? 'valid' : 'invalid');
   return (
     <Component
@@ -119,11 +124,11 @@ export const withVanillaControlProps = (Component: ComponentType<any>) => (props
         wrapper: classNames.join(' '),
         input: inputClassName.join(' '),
         label: labelClass,
-        description: descriptionClassName
+        description: descriptionClassName,
       }}
     />
   );
-}
+};
 
 /**
  * Add vanilla props to the return value of calling the given
@@ -138,14 +143,14 @@ export const addVanillaLayoutProps = (
   state: JsonFormsState,
   ownProps: OwnPropsOfRenderer
 ): RendererProps & VanillaRendererProps => {
-    const props = mapStateToProps(state, ownProps);
+  const props = mapStateToProps(state, ownProps);
 
-    return {
-      ...props,
-      getStyleAsClassName: getStyleAsClassName(state),
-      getStyle: getStyle(state)
-    };
+  return {
+    ...props,
+    getStyleAsClassName: getStyleAsClassName(state),
+    getStyle: getStyle(state),
   };
+};
 
 export const addVanillaCellProps = (
   mapStateToCellsProps: (
@@ -156,17 +161,17 @@ export const addVanillaCellProps = (
   state: JsonFormsState,
   ownProps: OwnPropsOfCell
 ): StatePropsOfCell & VanillaRendererProps => {
-    const props = mapStateToCellsProps(state, ownProps);
-    const inputClassName = ['validate'].concat(
-      props.isValid ? 'valid' : 'invalid'
-    );
-    return {
-      ...props,
-      className: inputClassName.join(' '),
-      getStyleAsClassName: getStyleAsClassName(state),
-      getStyle: getStyle(state)
-    };
+  const props = mapStateToCellsProps(state, ownProps);
+  const inputClassName = ['validate'].concat(
+    props.isValid ? 'valid' : 'invalid'
+  );
+  return {
+    ...props,
+    className: inputClassName.join(' '),
+    getStyleAsClassName: getStyleAsClassName(state),
+    getStyle: getStyle(state),
   };
+};
 
 const withVanillaCellPropsForType = (type: string) => (
   Component: ComponentType<any>
@@ -206,70 +211,84 @@ export const withVanillaEnumCellProps = withVanillaCellPropsForType(
 export const vanillaStyles = [
   {
     name: 'control',
-    classNames: ['control']
+    classNames: ['control'],
   },
   {
     name: 'control.trim',
-    classNames: ['trim']
+    classNames: ['trim'],
   },
   {
     name: 'control.input',
-    classNames: ['input']
+    classNames: ['input'],
   },
   {
     name: 'control.select',
-    classNames: ['select']
+    classNames: ['select'],
   },
   {
     name: 'control.validation',
-    classNames: ['validation']
+    classNames: ['validation'],
   },
   {
     name: 'categorization',
-    classNames: ['categorization']
+    classNames: ['categorization'],
   },
   {
     name: 'categorization.master',
-    classNames: ['categorization-master']
+    classNames: ['categorization-master'],
   },
   {
     name: 'categorization.detail',
-    classNames: ['categorization-detail']
+    classNames: ['categorization-detail'],
   },
   {
     name: 'category.group',
-    classNames: ['category-group']
+    classNames: ['category-group'],
   },
   {
     name: 'array.layout',
-    classNames: ['array-layout']
+    classNames: ['array-layout'],
   },
   {
     name: 'array.children',
-    classNames: ['children']
+    classNames: ['children'],
   },
   {
     name: 'group.layout',
-    classNames: ['group-layout']
+    classNames: ['group-layout'],
   },
   {
     name: 'horizontal.layout',
-    classNames: ['horizontal-layout']
+    classNames: ['horizontal-layout'],
   },
   {
     name: 'horizontal.layout.item',
-    classNames: ([size]: number[]) => [`horizontal-layout-${size}`]
+    classNames: ([size]: number[]) => [`horizontal-layout-${size}`],
   },
   {
     name: 'vertical.layout',
-    classNames: ['vertical-layout']
+    classNames: ['vertical-layout'],
   },
   {
     name: 'array.table',
-    classNames: ['array-table-layout', 'control']
+    classNames: ['array-table-layout', 'control'],
   },
   {
     name: 'input.description',
-    classNames: ['input-description']
-  }
+    classNames: ['input-description'],
+  },
 ];
+
+// TODO: get the label text - workaround for labels. discuss this
+export const getLabelText = (label: string | boolean | LabelDescription) => {
+  if (!label) {
+    return '';
+  }
+  if (typeof label === 'string') {
+    return label;
+  }
+  if (typeof label === 'boolean') {
+    return '';
+  }
+  return label.text || '';
+};

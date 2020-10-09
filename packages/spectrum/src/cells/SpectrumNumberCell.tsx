@@ -31,20 +31,37 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
+import { getLabelText, withVanillaCellProps } from '../util/index';
 import { TextField } from '@adobe/react-spectrum';
+import { merge } from 'lodash';
 
 export const SpectrumNumberCell = (
   props: CellProps & SpectrumRendererProps
 ) => {
-  const { data, id, label, enabled, uischema, path, handleChange } = props;
+  const {
+    data,
+    errors,
+    config,
+    id,
+    required,
+    enabled,
+    uischema,
+    path,
+    handleChange,
+  } = props;
+
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+
+  const labelText = getLabelText(uischema.label);
+  const isValid = errors.length === 0;
 
   const toNumber = (value: string) =>
     value === '' ? undefined : parseFloat(value);
 
   return (
     <TextField
-      label={label}
+      label={labelText}
       type='number'
       inputMode='numeric'
       value={data === undefined || data === null ? '' : data}
@@ -52,6 +69,8 @@ export const SpectrumNumberCell = (
       id={id}
       isDisabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
+      isRequired={isRequired}
+      validationState={isValid ? 'valid' : 'invalid'}
     />
   );
 };

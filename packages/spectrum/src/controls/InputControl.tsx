@@ -25,24 +25,23 @@
 import maxBy from 'lodash/maxBy';
 import React from 'react';
 import {
-  computeLabel,
   ControlProps,
   ControlState,
   isControl,
   isDescriptionHidden,
-  isPlainLabel,
   NOT_APPLICABLE,
   RankedTester,
-  rankWith
+  rankWith,
 } from '@jsonforms/core';
 import {
   Control,
   DispatchCell,
-  withJsonFormsControlProps
+  withJsonFormsControlProps,
 } from '@jsonforms/react';
 import { withVanillaControlProps } from '../util';
 import { VanillaRendererProps } from '../index';
 import merge from 'lodash/merge';
+import { Flex, Text } from '@adobe/react-spectrum';
 
 export class InputControl extends Control<
   ControlProps & VanillaRendererProps,
@@ -54,14 +53,12 @@ export class InputControl extends Control<
       description,
       id,
       errors,
-      label,
       uischema,
       schema,
       visible,
-      required,
       path,
       cells,
-      config
+      config,
     } = this.props;
 
     const isValid = errors.length === 0;
@@ -76,8 +73,8 @@ export class InputControl extends Control<
       this.state.isFocused,
       appliedUiSchemaOptions.showUnfocusedDescription
     );
-    const labelText = isPlainLabel(label) ? label : label.default;
-    const cell = maxBy(cells, r => r.tester(uischema, schema));
+
+    const cell = maxBy(cells, (r) => r.tester(uischema, schema));
     if (
       cell === undefined ||
       cell.tester(uischema, schema) === NOT_APPLICABLE
@@ -93,22 +90,19 @@ export class InputControl extends Control<
           onBlur={this.onBlur}
           id={id}
         >
-          <label htmlFor={id + '-input'} className={classNames.label}>
-            {computeLabel(
-              labelText,
-              required,
-              appliedUiSchemaOptions.hideRequiredAsterisk
-            )}
-          </label>
-          <DispatchCell
-            uischema={uischema}
-            schema={schema}
-            path={path}
-            id={id + '-input'}
-          />
-          <div className={divClassNames}>
-            {!isValid ? errors : showDescription ? description : null}
-          </div>
+          <Flex direction='column'>
+            <DispatchCell
+              uischema={uischema}
+              schema={schema}
+              path={path}
+              id={id + '-input'}
+            />
+            <div className={divClassNames}>
+              <Text>
+                {!isValid ? errors : showDescription ? description : null}
+              </Text>
+            </div>
+          </Flex>
         </div>
       );
     }

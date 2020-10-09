@@ -35,7 +35,7 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
+import { getLabelText, withVanillaCellProps } from '../util/index';
 import merge from 'lodash/merge';
 import { TextField } from '@adobe/react-spectrum';
 
@@ -44,7 +44,6 @@ export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
     data,
     config,
     id,
-    label,
     enabled,
     uischema,
     required,
@@ -57,28 +56,19 @@ export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
   const maxLength = schema.maxLength;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-  let inputProps: any;
-  if (appliedUiSchemaOptions.restrict) {
-    inputProps = { maxLength: maxLength };
-  } else {
-    inputProps = {};
-  }
-
-  if (appliedUiSchemaOptions.trim && maxLength !== undefined) {
-    inputProps.size = maxLength;
-  }
   const onChange = (value: string) => handleChange(path, value);
 
   // TODO: react-spectrum has no concept of "hide the asterisk" - the value is either required or not
   // check if setting required to false has some unwanted consequences
   const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+  const labelText = getLabelText(uischema.label);
 
   return (
     <TextField
       type={appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'}
       isRequired={isRequired}
       value={data || ''}
-      label={label}
+      label={labelText}
       onChange={onChange}
       id={`${id}-input`}
       isDisabled={!enabled}

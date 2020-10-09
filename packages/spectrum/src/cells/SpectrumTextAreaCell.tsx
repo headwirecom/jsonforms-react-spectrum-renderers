@@ -34,37 +34,40 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
+import { getLabelText, withVanillaCellProps } from '../util/index';
 import { TextArea } from '@adobe/react-spectrum';
+import { merge } from 'lodash';
 
 export const SpectrumTextAreaCell = (
   props: CellProps & SpectrumRendererProps
 ) => {
   const {
     data,
-    label,
+    config,
     id,
     enabled,
     uischema,
     path,
     handleChange,
-    isValid,
-    schema,
+    required,
   } = props;
 
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
   const onChange = (value: string) => handleChange(path, value);
-  const maxLength = schema.maxLength;
+  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+
+  const labelText = getLabelText(uischema.label);
 
   return (
     <TextArea
       value={data || ''}
-      label={label}
+      label={labelText}
+      isRequired={isRequired}
       onChange={onChange}
       id={`${id}-input`}
       isDisabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
-      maxLength={maxLength}
-      validationState={isValid ? 'valid' : 'invalid'}
     />
   );
 };
