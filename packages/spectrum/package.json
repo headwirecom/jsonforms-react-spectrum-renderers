@@ -44,7 +44,7 @@
   "peerDependencies": {
     "@jsonforms/core": "^2.4.1",
     "@jsonforms/react": "^2.4.1",
-    "@adobe/react-spectrum": "^3.3.0",
+    "@adobe/react-spectrum": "^3.4.0",
     "react-redux": "^7.1.3"
   },
   "devDependencies": {
