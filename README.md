@@ -33,4 +33,4 @@ The React Spectrum JSONForms project is build and tested via [Travis](https://tr
 
 # License
 
-The JSONForms project is licensed under the MIT License. See the [LICENSE file]https://github.com/headwirecom/jsonforms-react-spectrum-renderers/blob/master/LICENSE) for more information.
+The JSONForms project is licensed under the MIT License. See the [LICENSE file](https://github.com/headwirecom/jsonforms-react-spectrum-renderers/blob/master/LICENSE) for more information.
