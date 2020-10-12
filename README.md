@@ -14,14 +14,16 @@ Current status: [![Build Status](https://travis-ci.com/headwirecom/jsonforms-rea
 - Install dependencies: `npm ci`
 - Hook up dependencies between packages: `npm run init`
 
+## Start the example application locally
+- Run React Spectrum examples: `cd packages/spectrum && npm run dev`
+
 ## Build & Testing
+- Run React Spectrum tests in watch mode: `cd packages/spectrum && npx jest --watch`
+- Check Formatting: `npm run check-format`
 
 - Build (all packages): `npm run build`
 - Test (all packages): `npm run test`
 - Clean (delete `dist` folder of all packages): `npm run clean`
-- Run React Spectrum examples: `cd packages/spectrum && npm run dev`
-- Run React Spectrum tests in watch mode: `cd packages/spectrum && npx jest --watch`
-- Check Formatting: `npm run check-format`
 
 ## Dependency & Release management
 
