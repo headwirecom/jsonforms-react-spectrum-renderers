@@ -35,49 +35,12 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { getLabelText, withVanillaCellProps } from '../util/index';
-import merge from 'lodash/merge';
-import { TextField } from '@adobe/react-spectrum';
+import { withVanillaCellProps } from '../util/index';
+import { InputText } from '../spectrum-control';
 
-export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => {
-  const {
-    data,
-    config,
-    id,
-    enabled,
-    uischema,
-    required,
-    isValid,
-    path,
-    handleChange,
-    schema,
-  } = props;
-
-  const maxLength = schema.maxLength;
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
-  const onChange = (value: string) => handleChange(path, value);
-
-  // TODO: react-spectrum has no concept of "hide the asterisk" - the value is either required or not
-  // check if setting required to false has some unwanted consequences
-  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-  const labelText = getLabelText(uischema.label);
-
-  return (
-    <TextField
-      type={appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'}
-      isRequired={isRequired}
-      value={data || ''}
-      label={labelText}
-      onChange={onChange}
-      id={`${id}-input`}
-      isDisabled={!enabled}
-      autoFocus={appliedUiSchemaOptions.focus}
-      maxLength={maxLength}
-      validationState={isValid ? 'valid' : 'invalid'}
-    />
-  );
-};
+export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => (
+  <InputText {...props} />
+);
 
 /**
  * Default tester for text-based/string controls.

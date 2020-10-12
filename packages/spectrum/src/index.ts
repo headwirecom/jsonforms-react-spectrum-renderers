@@ -51,6 +51,8 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester,
 } from './controls';
 
 import {
@@ -120,6 +122,7 @@ export * from './util';
 export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
+  { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: labelRendererTester, renderer: LabelRenderer },
   { tester: categorizationTester, renderer: Categorization },
