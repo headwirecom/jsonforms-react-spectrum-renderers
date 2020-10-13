@@ -70,6 +70,8 @@ import {
   categorizationTester,
   LabelRenderer,
   labelRendererTester,
+  spectrumObjectControlTester,
+  SpectrumObjectRenderer,
   TableArrayControl,
   tableArrayControlTester,
 } from './complex';
@@ -141,6 +143,7 @@ export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: labelRendererTester, renderer: LabelRenderer },
   { tester: categorizationTester, renderer: Categorization },
+  { tester: spectrumObjectControlTester, renderer: SpectrumObjectRenderer },
   { tester: tableArrayControlTester, renderer: TableArrayControl },
   { tester: groupTester, renderer: GroupLayout },
   { tester: verticalLayoutTester, renderer: VerticalLayout },
