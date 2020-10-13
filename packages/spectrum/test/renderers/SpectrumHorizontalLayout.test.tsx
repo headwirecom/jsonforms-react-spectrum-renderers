@@ -3,6 +3,9 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +26,36 @@
   THE SOFTWARE.
 */
 import * as React from 'react';
+import {
+  HorizontalLayout,
+  UISchemaElement
+} from '@jsonforms/core';
 import { Provider } from 'react-redux';
-import { UISchemaElement, VerticalLayout } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import VerticalLayoutRenderer, { verticalLayoutTester } from '../../src/layouts/VerticalLayout';
+import SpectrumHorizontalLayoutRenderer, {
+  spectrumHorizontalLayoutTester
+} from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { JsonFormsReduxContext } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+const fixture = {
+  uischema: {
+    type: 'HorizontalLayout',
+    elements: [{ type: 'Control' }]
+  },
+};
+
 test('tester', () => {
-  expect(verticalLayoutTester(undefined, undefined)).toBe(-1);
-  expect(verticalLayoutTester(null, undefined)).toBe(-1);
-  expect(verticalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(verticalLayoutTester({ type: 'VerticalLayout' }, undefined)).toBe(1);
+  expect(spectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
+  expect(spectrumHorizontalLayoutTester(null, undefined)).toBe(-1);
+  expect(spectrumHorizontalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(spectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)).toBe(1);
 });
 
-describe('Vertical layout', () => {
+describe('Horizontal layout', () => {
 
   let wrapper: ReactWrapper;
 
@@ -48,7 +63,7 @@ describe('Vertical layout', () => {
 
   test('render with undefined elements', () => {
     const uischema: UISchemaElement = {
-      type: 'VerticalLayout'
+      type: 'HorizontalLayout'
     };
     const store = initJsonFormsVanillaStore({
       data: {},
@@ -58,19 +73,18 @@ describe('Vertical layout', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <VerticalLayoutRenderer uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );
 
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild as HTMLDivElement;
-
-    expect(verticalLayout?.children).toHaveLength(0);
+    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with null elements', () => {
-    const uischema: VerticalLayout = {
-      type: 'VerticalLayout',
+    const uischema: HorizontalLayout = {
+      type: 'HorizontalLayout',
       elements: null
     };
     const store = initJsonFormsVanillaStore({
@@ -81,19 +95,21 @@ describe('Vertical layout', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <VerticalLayoutRenderer uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );
-
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild;
-    expect(verticalLayout?.children).toHaveLength(0);
+    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
-    const uischema: VerticalLayout = {
-      type: 'VerticalLayout',
-      elements: [{ type: 'Control' }, { type: 'Control' }]
+    const uischema: HorizontalLayout = {
+      type: 'HorizontalLayout',
+      elements: [
+        { type: 'Control' },
+        { type: 'Control' }
+      ]
     };
     const store = initJsonFormsVanillaStore({
       data: {},
@@ -103,58 +119,48 @@ describe('Vertical layout', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <VerticalLayoutRenderer uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild;
-    expect(verticalLayout?.children).toHaveLength(2);
+    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(2);
   });
 
   test('hide', () => {
-    const uischema: VerticalLayout = {
-      type: 'VerticalLayout',
-      elements: [{ type: 'Control' }],
-    };
     const store = initJsonFormsVanillaStore({
       data: {},
       schema: {},
-      uischema,
+      uischema: fixture.uischema,
     });
-
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <VerticalLayoutRenderer
-            uischema={uischema}
+          <SpectrumHorizontalLayoutRenderer
+            uischema={fixture.uischema}
             visible={false}
           />
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLElement;
-    expect(verticalLayout.style.display).toBe('none');
+    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
+    expect(horizontalLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
-    const uischema: VerticalLayout = {
-      type: 'VerticalLayout',
-      elements: [{ type: 'Control' }],
-    };
     const store = initJsonFormsVanillaStore({
       data: {},
       schema: {},
-      uischema,
+      uischema: fixture.uischema,
     });
-
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <VerticalLayoutRenderer uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer uischema={fixture.uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLElement;
-    expect(verticalLayout.style.display).not.toBe('none');
+    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
+    expect(horizontalLayout.style.display).not.toBe('none');
   });
 });

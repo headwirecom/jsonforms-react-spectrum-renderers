@@ -40,7 +40,7 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumTextAreaCell, {
   spectrumTextAreaCellTester,
 } from '../../src/cells/SpectrumTextAreaCell';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -111,7 +111,7 @@ describe('Text area cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
       </Provider>
     );
     const inputs = wrapper.find('input');

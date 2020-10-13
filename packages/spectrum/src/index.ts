@@ -77,12 +77,12 @@ import {
 } from './complex';
 
 import {
-  GroupLayout,
-  groupTester,
-  HorizontalLayout,
-  horizontalLayoutTester,
-  VerticalLayout,
-  verticalLayoutTester,
+  SpectrumGroupLayout,
+  spectrumGroupLayoutTester,
+  SpectrumHorizontalLayout,
+  spectrumHorizontalLayoutTester,
+  SpectrumVerticalLayout,
+  spectrumVerticalLayoutTester,
 } from './layouts';
 import DateTimeCell from './cells/DateTimeCell';
 
@@ -145,9 +145,9 @@ export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: categorizationTester, renderer: Categorization },
   { tester: spectrumObjectControlTester, renderer: SpectrumObjectRenderer },
   { tester: tableArrayControlTester, renderer: TableArrayControl },
-  { tester: groupTester, renderer: GroupLayout },
-  { tester: verticalLayoutTester, renderer: VerticalLayout },
-  { tester: horizontalLayoutTester, renderer: HorizontalLayout },
+  { tester: spectrumGroupLayoutTester, renderer: SpectrumGroupLayout },
+  { tester: spectrumVerticalLayoutTester, renderer: SpectrumVerticalLayout },
+  { tester: spectrumHorizontalLayoutTester, renderer: SpectrumHorizontalLayout },
 ];
 
 export const vanillaCells: { tester: RankedTester; cell: any }[] = [

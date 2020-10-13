@@ -45,7 +45,7 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester,
 } from '../../src/cells/SpectrumBooleanCell';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 import { vanillaRenderers } from '../../src';
 import { InputControl } from '../../src/controls/InputControl';
@@ -177,7 +177,7 @@ describe('Boolean cell', () => {
       <Provider store={store}>
         <SpectrumThemeProvider theme={defaultTheme}>
           <JsonFormsReduxContext>
-            <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+            <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
           </JsonFormsReduxContext>
         </SpectrumThemeProvider>
       </Provider>

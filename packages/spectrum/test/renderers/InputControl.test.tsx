@@ -38,9 +38,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
-import HorizontalLayoutRenderer, {
-  horizontalLayoutTester,
-} from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer, {
+  spectrumHorizontalLayoutTester,
+} from '../../src/layouts/SpectrumHorizontalLayout';
 import InputControl, {
   inputControlTester,
 } from '../../src/controls/InputControl';
@@ -121,7 +121,7 @@ describe('Input control', () => {
       uischema,
       renderers: [
         { tester: inputControlTester, renderer: InputControl },
-        { tester: horizontalLayoutTester, renderer: HorizontalLayoutRenderer },
+        { tester: spectrumHorizontalLayoutTester, renderer: SpectrumHorizontalLayoutRenderer },
       ],
       cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
@@ -411,7 +411,7 @@ describe('Input control', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );

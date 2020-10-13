@@ -3,6 +3,9 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +31,7 @@ import { JsonFormsReduxContext } from '@jsonforms/react';
 import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import GroupLayoutRenderer, { groupTester } from '../../src/layouts/GroupLayout';
+import GroupLayoutRenderer, { spectrumGroupLayoutTester } from '../../src/layouts/SpectrumGroupLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -41,10 +44,10 @@ const fixture = {
 };
 
 test('tester', () => {
-  expect(groupTester(undefined, undefined)).toBe(-1);
-  expect(groupTester(null, undefined)).toBe(-1);
-  expect(groupTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(groupTester({ type: 'Group' }, undefined)).toBe(1);
+  expect(spectrumGroupLayoutTester(undefined, undefined)).toBe(-1);
+  expect(spectrumGroupLayoutTester(null, undefined)).toBe(-1);
+  expect(spectrumGroupLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(spectrumGroupLayoutTester({ type: 'Group' }, undefined)).toBe(1);
 });
 
 describe('Group layout', () => {

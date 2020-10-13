@@ -3,6 +3,9 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,16 +36,16 @@ import {
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
 import { withVanillaControlProps } from '../util';
-import { JsonFormsLayout } from './JsonFormsLayout';
+import { SpectrumLayout } from './SpectrumLayout';
 import { renderChildren } from './util';
 
 /**
  * Default tester for a vertical layout.
  * @type {RankedTester}
  */
-export const verticalLayoutTester: RankedTester = rankWith(1, uiTypeIs('VerticalLayout'));
+export const spectrumVerticalLayoutTester: RankedTester = rankWith(1, uiTypeIs('VerticalLayout'));
 
-export const VerticalLayoutRenderer: FunctionComponent<RendererProps> = (
+export const SpectrumVerticalLayoutRenderer: FunctionComponent<RendererProps> = (
   {
     schema,
     uischema,
@@ -60,7 +63,7 @@ export const VerticalLayoutRenderer: FunctionComponent<RendererProps> = (
   };
 
   return (
-    <JsonFormsLayout
+    <SpectrumLayout
       direction={direction}
       uischema={uischema}
       schema={schema}
@@ -69,8 +72,8 @@ export const VerticalLayoutRenderer: FunctionComponent<RendererProps> = (
       path={path}
     >
       {renderChildren(verticalLayout, schema, childrenStyles, path)}
-    </JsonFormsLayout>
+    </SpectrumLayout>
   );
 };
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(VerticalLayoutRenderer));
+export default withVanillaControlProps(withJsonFormsLayoutProps(SpectrumVerticalLayoutRenderer));

@@ -40,7 +40,7 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumNumberCell, {
   spectrumNumberCellTester,
 } from '../../src/cells/SpectrumNumberCell';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -175,7 +175,7 @@ describe('Number cell', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );

@@ -1,19 +1,22 @@
 /*
   The MIT License
-
+  
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
+  
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
+  
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,49 +25,56 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import isEmpty from 'lodash/isEmpty';
 import React, { FunctionComponent } from 'react';
-import { GroupLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
+import {
+  HorizontalLayout,
+  RankedTester,
+  rankWith,
+  RendererProps,
+  uiTypeIs
+} from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { View, Heading, Divider, Content } from '@adobe/react-spectrum';
-import { renderChildren } from './util';
+import { StyleProps } from '@react-types/shared';
 import { withVanillaControlProps } from '../util';
+import { SpectrumLayout } from './SpectrumLayout';
+import { renderChildren } from './util';
 
 /**
- * Default tester for a group layout.
- *
+ * Default tester for a horizontal layout.
  * @type {RankedTester}
  */
-export const groupTester: RankedTester = rankWith(1, uiTypeIs('Group'));
+export const spectrumHorizontalLayoutTester: RankedTester = rankWith(1, uiTypeIs('HorizontalLayout'));
 
-export const GroupLayoutRenderer: FunctionComponent<RendererProps> = (
+const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = (
   {
     schema,
     uischema,
-    path,
+    enabled,
     visible,
-  }: RendererProps) => {
-  const group = uischema as GroupLayout;
+    path
+  }: RendererProps
+) => {
+
+  const horizontalLayout = uischema as HorizontalLayout;
+  const direction = 'row';
+  const childrenStyles: StyleProps = {
+    flexGrow: 1,
+    maxWidth: '100%',
+    flexBasis: 0,
+  };
 
   return (
-    <View
-      isHidden={visible === undefined || visible === null ? false : !visible}
-      borderWidth='thin'
-      borderColor='dark'
-      borderRadius='medium'
-      padding='size-250'
+    <SpectrumLayout
+      direction={direction}
+      visible={visible}
+      enabled={enabled}
+      path={path}
+      uischema={uischema}
+      schema={schema}
     >
-      {
-        !isEmpty(group.label)
-          ? <Heading level={4} margin={0}>{group.label}</Heading>
-          : ''
-      }
-      <Divider size='M' marginTop='size-150' marginBottom='size-200' />
-      <Content>
-        {renderChildren(group, schema, {}, path)}
-      </Content>
-    </View>
+      {renderChildren(horizontalLayout, schema, childrenStyles, path)}
+    </SpectrumLayout>
   );
 };
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(GroupLayoutRenderer));
+export default withVanillaControlProps(withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer));

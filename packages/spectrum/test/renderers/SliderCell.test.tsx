@@ -35,7 +35,7 @@ import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SliderCell, { sliderCellTester } from '../../src/cells/SliderCell';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -282,7 +282,7 @@ describe('Slider cell', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );

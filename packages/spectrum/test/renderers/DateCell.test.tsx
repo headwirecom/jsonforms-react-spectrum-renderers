@@ -33,7 +33,7 @@ import {
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import DateCell, { dateCellTester } from '../../src/cells/DateCell';
 import { Provider } from 'react-redux';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
@@ -169,7 +169,7 @@ describe('Date cell', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
         </JsonFormsReduxContext>
       </Provider>
     );

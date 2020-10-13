@@ -37,7 +37,7 @@ import { JsonFormsReduxContext } from '@jsonforms/react';
 import TableArrayControl, {
   tableArrayControlTester,
 } from '../../src/complex/TableArrayControl';
-import HorizontalLayoutRenderer from '../../src/layouts/HorizontalLayout';
+import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import '../../src';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 import SpectrumIntegerCell, {
@@ -639,7 +639,7 @@ describe('Tabe array control', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <HorizontalLayoutRenderer schema={schema} uischema={uischema} />
+        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
       </Provider>
     );
     const validation = wrapper.find('.valdiation');
