@@ -31,49 +31,12 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { SpectrumRendererProps } from '../index';
-import { getLabelText, withVanillaCellProps } from '../util/index';
-import { TextField } from '@adobe/react-spectrum';
-import { merge } from 'lodash';
+import { withVanillaCellProps } from '../util/index';
+import { InputInteger } from '../spectrum-control';
 
 export const SpectrumIntegerCell = (
   props: CellProps & SpectrumRendererProps
-) => {
-  const {
-    config,
-    uischema,
-    data,
-    errors,
-    id,
-    enabled,
-    required,
-    path,
-    handleChange,
-  } = props;
-
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-
-  const labelText = getLabelText(uischema.label);
-
-  const isValid = errors.length === 0;
-
-  return (
-    <div>
-      <TextField
-        label={labelText}
-        type='number'
-        inputMode='numeric'
-        value={data === undefined || data === null ? '' : data}
-        isRequired={isRequired}
-        onChange={(value) => handleChange(path, parseInt(value, 10))}
-        id={id}
-        isDisabled={!enabled}
-        autoFocus={uischema.options && uischema.options.focus}
-        validationState={isValid ? 'valid' : 'invalid'}
-      />
-    </div>
-  );
-};
+) => <InputInteger {...props} />;
 /**
  * Default tester for integer controls.
  * @type {RankedTester}

@@ -22,14 +22,42 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import InputControl, { inputControlTester } from './InputControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
+import {
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
+} from './SpectrumIntegerControl';
+import SpectrumNumberControl, {
+  spectrumNumberControlTester,
+} from './SpectrumNumberControl';
+import {
+  SpectrumNumberFormattedControl,
+  spectrumNumberFormattedControlTester,
+} from './SpectrumNumberFormattedControl';
+import SpectrumTextAreaControl, {
+  spectrumTextAreaControlTester,
+} from './SpectrumTextAreaControl';
+import SpectrumTextControl, {
+  spectrumTextControlTester,
+} from './SpectrumTextControl';
 
 export {
   InputControl,
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
+  SpectrumNumberFormattedControl,
+  spectrumNumberFormattedControlTester,
+  SpectrumTextAreaControl,
+  spectrumTextAreaControlTester,
+  SpectrumTextControl,
+  spectrumTextControlTester,
 };
