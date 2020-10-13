@@ -22,13 +22,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import maxBy from 'lodash/maxBy';
 import React from 'react';
 import {
   ControlProps,
   ControlState,
   isDescriptionHidden,
-  NOT_APPLICABLE,
 } from '@jsonforms/core';
 import { Control } from '@jsonforms/react';
 import { VanillaRendererProps } from '../index';
@@ -50,9 +48,7 @@ export class SpectrumInputControl extends Control<
       id,
       errors,
       uischema,
-      schema,
       visible,
-      cells,
       config,
       input,
     } = this.props;
@@ -72,32 +68,27 @@ export class SpectrumInputControl extends Control<
       appliedUiSchemaOptions.showUnfocusedDescription
     );
 
-    const cell = maxBy(cells, (r) => r.tester(uischema, schema));
-    if (
-      cell === undefined ||
-      cell.tester(uischema, schema) === NOT_APPLICABLE
-    ) {
-      console.warn('No applicable cell found.', uischema, schema);
-      return null;
-    } else {
-      return (
-        <div
-          //className={classNames.wrapper}
-          hidden={!visible}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          id={id}
-        >
-          <Flex direction='column'>
-            <InnerComponent {...this.props} />
-            <div>
-              <Text>
-                {!isValid ? errors : showDescription ? description : null}
-              </Text>
-            </div>
-          </Flex>
-        </div>
-      );
-    }
+    return (
+      <div
+        //className={classNames.wrapper}
+        hidden={!visible}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        id={id}
+      >
+        <Flex direction='column'>
+          <InnerComponent
+            {...this.props}
+            id={id + '-input'}
+            isValid={isValid}
+          />
+          <div>
+            <Text>
+              {!isValid ? errors : showDescription ? description : null}
+            </Text>
+          </div>
+        </Flex>
+      </div>
+    );
   }
 }

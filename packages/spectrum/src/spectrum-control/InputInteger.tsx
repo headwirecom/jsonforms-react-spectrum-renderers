@@ -16,7 +16,7 @@ export class InputInteger extends React.PureComponent<
       config,
       uischema,
       data,
-      errors,
+      isValid,
       id,
       enabled,
       required,
@@ -27,8 +27,6 @@ export class InputInteger extends React.PureComponent<
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-
-    const isValid = errors ? errors.length === 0 : true;
 
     return (
       <div>

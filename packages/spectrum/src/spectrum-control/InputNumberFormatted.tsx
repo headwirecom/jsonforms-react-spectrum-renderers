@@ -16,7 +16,7 @@ export class InputNumberFormatted extends React.PureComponent<
       id,
       enabled,
       required,
-      errors,
+      isValid,
       config,
       uischema,
       path,
@@ -40,8 +40,6 @@ export class InputNumberFormatted extends React.PureComponent<
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-
-    const isValid = errors.length === 0;
 
     return (
       <TextField

@@ -14,7 +14,7 @@ export class InputNumber extends React.PureComponent<
   render() {
     const {
       data,
-      errors,
+      isValid,
       config,
       id,
       required,
@@ -27,8 +27,6 @@ export class InputNumber extends React.PureComponent<
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-
-    const isValid = errors ? errors.length === 0 : true;
 
     const toNumber = (value: string) =>
       value === '' ? undefined : parseFloat(value);
