@@ -70,7 +70,10 @@ describe('Vertical layout', () => {
       </Provider>
     );
 
-    expect(wrapper.find('.vertical-layout')).toBeDefined();
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
+
+    expect(verticalLayout).toBeDefined();
+    expect(verticalLayout.children).toHaveLength(0);
   });
 
   test('render with null elements', () => {
@@ -92,7 +95,9 @@ describe('Vertical layout', () => {
       </Provider>
     );
 
-    expect(wrapper.find('.vertical-layout')).toBeDefined();
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
+    expect(verticalLayout).toBeDefined();
+    expect(verticalLayout.children).toHaveLength(0);
   });
 
   test('render with children', () => {
@@ -113,9 +118,8 @@ describe('Vertical layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode();
-
-    expect(verticalLayout.tagName).toBe('DIV');
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
+    expect(verticalLayout).toBeDefined();
     expect(verticalLayout.children).toHaveLength(2);
   });
 
@@ -142,7 +146,7 @@ describe('Vertical layout', () => {
       </Provider>
     );
     const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLDivElement;
-    expect(verticalLayout.hidden).toBe(true);
+    expect(verticalLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
@@ -165,6 +169,6 @@ describe('Vertical layout', () => {
       </Provider>
     );
     const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLDivElement;
-    expect(verticalLayout.hidden).toBe(false);
+    expect(verticalLayout.style.display).not.toBe('none');
   });
 });

@@ -82,8 +82,7 @@ describe('Horizontal layout', () => {
       </Provider>
     );
 
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
-
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div');
     expect(horizontalLayout).toBeDefined();
     expect(horizontalLayout.children).toHaveLength(0);
   });
@@ -106,7 +105,7 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div') as HTMLDivElement;
     expect(horizontalLayout).toBeDefined();
     expect(horizontalLayout.children).toHaveLength(0);
   });
@@ -132,7 +131,7 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div');
     expect(horizontalLayout).toBeDefined();
     expect(horizontalLayout.children).toHaveLength(2);
   });
@@ -155,7 +154,7 @@ describe('Horizontal layout', () => {
       </Provider>
     );
     const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
-    expect(horizontalLayout.hidden).toBe(true);
+    expect(horizontalLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
@@ -173,6 +172,6 @@ describe('Horizontal layout', () => {
       </Provider>
     );
     const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
-    expect(horizontalLayout.hidden).toBe(false);
+    expect(horizontalLayout.style.display).not.toBe('none');
   });
 });

@@ -24,19 +24,21 @@
 */
 import React from 'react';
 import { RendererProps } from '@jsonforms/core';
-import { VanillaRendererProps, WithChildren } from '../index';
+import { Flex } from '@adobe/react-spectrum';
+import { FlexProps } from '@react-types/layout';
 
 // tslint:disable:variable-name
 export const JsonFormsLayout =
-    ({ className, children, visible }: RendererProps & VanillaRendererProps & WithChildren) => {
+    ({ children, visible, ...flexProps }: RendererProps & FlexProps) => {
 // tslint:enable:variable-name
 
   return (
-    <div
-      className={className}
-      hidden={visible === undefined || visible === null ? false : !visible}
+    <Flex
+      isHidden={visible === undefined || visible === null ? false : !visible}
+      gap='size-100'
+      {...flexProps}
     >
       {children}
-    </div>
+    </Flex>
   );
 };
