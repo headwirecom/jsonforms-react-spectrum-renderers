@@ -51,6 +51,8 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumIntegerControl,
+  spectrumIntegerControlTester,
   SpectrumTextAreaControl,
   spectrumTextAreaControlTester,
   SpectrumTextControl,
@@ -124,6 +126,7 @@ export * from './util';
 export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
+  { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
   { tester: spectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
 

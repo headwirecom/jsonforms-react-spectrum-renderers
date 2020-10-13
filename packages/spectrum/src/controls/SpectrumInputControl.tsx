@@ -59,7 +59,7 @@ export class SpectrumInputControl extends Control<
 
     const InnerComponent = input;
 
-    const isValid = errors.length === 0;
+    const isValid = errors ? errors.length === 0 : true;
     // const divClassNames = `validation  ${
     //   isValid ? classNames.description : 'validation_error'
     // }`;
