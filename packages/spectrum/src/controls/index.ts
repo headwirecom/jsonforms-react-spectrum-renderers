@@ -22,6 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import InputControl, { inputControlTester } from './InputControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
@@ -30,6 +31,9 @@ import {
   SpectrumIntegerControl,
   spectrumIntegerControlTester,
 } from './SpectrumIntegerControl';
+import SpectrumNumberControl, {
+  spectrumNumberControlTester,
+} from './SpectrumNumberControl';
 import SpectrumTextAreaControl, {
   spectrumTextAreaControlTester,
 } from './SpectrumTextAreaControl';
@@ -44,6 +48,8 @@ export {
   spectrumBooleanControlTester,
   SpectrumIntegerControl,
   spectrumIntegerControlTester,
+  SpectrumNumberControl,
+  spectrumNumberControlTester,
   SpectrumTextAreaControl,
   spectrumTextAreaControlTester,
   SpectrumTextControl,
