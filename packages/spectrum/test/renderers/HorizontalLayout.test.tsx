@@ -43,12 +43,6 @@ const fixture = {
     type: 'HorizontalLayout',
     elements: [{ type: 'Control' }]
   },
-  styles: [
-    {
-      name: 'horizontal.layout',
-      classNames: ['horizontal-layout']
-    }
-  ]
 };
 
 test('tester', () => {
@@ -72,7 +66,6 @@ describe('Horizontal layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -82,9 +75,8 @@ describe('Horizontal layout', () => {
       </Provider>
     );
 
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div');
-    expect(horizontalLayout).toBeDefined();
-    expect(horizontalLayout.children).toHaveLength(0);
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with null elements', () => {
@@ -96,7 +88,6 @@ describe('Horizontal layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -105,9 +96,8 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div') as HTMLDivElement;
-    expect(horizontalLayout).toBeDefined();
-    expect(horizontalLayout.children).toHaveLength(0);
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
@@ -122,7 +112,6 @@ describe('Horizontal layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -131,9 +120,8 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().querySelector('div');
-    expect(horizontalLayout).toBeDefined();
-    expect(horizontalLayout.children).toHaveLength(2);
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(horizontalLayout?.children).toHaveLength(2);
   });
 
   test('hide', () => {
@@ -141,7 +129,6 @@ describe('Horizontal layout', () => {
       data: {},
       schema: {},
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -153,7 +140,7 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).toBe('none');
   });
 
@@ -162,7 +149,6 @@ describe('Horizontal layout', () => {
       data: {},
       schema: {},
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -171,7 +157,7 @@ describe('Horizontal layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const horizontalLayout = wrapper.find(HorizontalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).not.toBe('none');
   });
 });

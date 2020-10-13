@@ -38,12 +38,6 @@ const fixture = {
     type: 'Group',
     elements: [{ type: 'Control' }]
   },
-  styles: [
-    {
-      name: 'group.layout',
-      classNames: ['group-layout']
-    }
-  ]
 };
 
 test('tester', () => {
@@ -59,6 +53,28 @@ describe('Group layout', () => {
 
   afterEach(() => wrapper.unmount());
 
+  test('render without label', () => {
+    const uischema: GroupLayout = {
+      type: 'Group',
+      elements: [],
+    };
+    const store = initJsonFormsVanillaStore({
+      data: {},
+      schema: {},
+      uischema,
+    });
+    wrapper = mount(
+      <Provider store={store}>
+        <JsonFormsReduxContext>
+          <GroupLayoutRenderer uischema={uischema} />
+        </JsonFormsReduxContext>
+      </Provider>
+    );
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
+    const heading = groupLayout.querySelector('h4');
+    expect(heading).toBeNull();
+  });
+  
   test('render with label', () => {
     const uischema: GroupLayout = {
       type: 'Group',
@@ -69,7 +85,6 @@ describe('Group layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -78,14 +93,9 @@ describe('Group layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const groupLayout = wrapper.find('.group-layout').getDOMNode();
-    const legend = groupLayout.children[0];
-
-    expect(groupLayout.tagName).toBe('FIELDSET');
-    expect(groupLayout.className).toBe('group-layout');
-    expect(groupLayout.children).toHaveLength(1);
-    expect(legend.tagName).toBe('LEGEND');
-    expect(legend.textContent).toBe('Foo');
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
+    const heading = groupLayout.querySelector('h4');
+    expect(heading?.textContent).toBe('Foo');
   });
 
   test('render with null elements', () => {
@@ -97,7 +107,6 @@ describe('Group layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -106,9 +115,9 @@ describe('Group layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const groupLayout = wrapper.find('.group-layout').getDOMNode();
-    expect(groupLayout.tagName).toBe('FIELDSET');
-    expect(groupLayout.children).toHaveLength(0);
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
+    const content = groupLayout.querySelector('section');
+    expect(content?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
@@ -123,7 +132,6 @@ describe('Group layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -132,9 +140,9 @@ describe('Group layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const groupLayout = wrapper.find('.group-layout').getDOMNode();
-    expect(groupLayout.tagName).toBe('FIELDSET');
-    expect(groupLayout.children).toHaveLength(2);
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
+    const content = groupLayout.querySelector('section');
+    expect(content?.children).toHaveLength(2);
   });
 
   test('hide', () => {
@@ -142,7 +150,6 @@ describe('Group layout', () => {
       data: {},
       schema: {},
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -154,8 +161,9 @@ describe('Group layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const groupLayout = wrapper.find('.group-layout');
-    expect(groupLayout.props().hidden).toBe(true);
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode() as HTMLElement
+;
+    expect(groupLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
@@ -163,7 +171,6 @@ describe('Group layout', () => {
       data: {},
       schema: {},
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -172,7 +179,8 @@ describe('Group layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const groupLayout = wrapper.find('.group-layout');
-    expect(groupLayout.props().hidden).toBe(false);
+    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode() as HTMLElement
+;
+    expect(groupLayout.style.display).not.toBe('none');
   });
 });

@@ -32,14 +32,14 @@ import { View } from '@adobe/react-spectrum';
 export interface RenderChildrenProps {
   layout: Layout;
   schema: JsonSchema;
-  styles: StyleProps;
+  styleProps: StyleProps;
   path: string;
 }
 
 export const renderChildren = (
   layout: Layout,
   schema: JsonSchema,
-  styles: StyleProps,
+  styleProps: StyleProps,
   path: string
 ) => {
   if (isEmpty(layout.elements)) {
@@ -50,7 +50,7 @@ export const renderChildren = (
 
   return layout.elements.map((child, index) => {
     return (
-      <View key={`${path}-${index}`} {...styles}>
+      <View key={`${path}-${index}`} {...styleProps}>
         <ResolvedJsonFormsDispatch
           renderers={renderers}
           cells={cells}

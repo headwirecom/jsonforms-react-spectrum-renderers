@@ -26,8 +26,8 @@ import isEmpty from 'lodash/isEmpty';
 import React, { FunctionComponent } from 'react';
 import { GroupLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import { View, Heading, Divider, Content } from '@adobe/react-spectrum';
 import { renderChildren } from './util';
-import { VanillaRendererProps } from '../index';
 import { withVanillaControlProps } from '../util';
 
 /**
@@ -37,35 +37,33 @@ import { withVanillaControlProps } from '../util';
  */
 export const groupTester: RankedTester = rankWith(1, uiTypeIs('Group'));
 
-export const GroupLayoutRenderer: FunctionComponent<RendererProps & VanillaRendererProps> = (
+export const GroupLayoutRenderer: FunctionComponent<RendererProps> = (
   {
     schema,
     uischema,
     path,
     visible,
-    // getStyle,
-    getStyleAsClassName
-  }: RendererProps & VanillaRendererProps) => {
+  }: RendererProps) => {
   const group = uischema as GroupLayout;
-  // const elementsSize = group.elements ? group.elements.length : 0;
-  const classNames = getStyleAsClassName('group.layout');
-  // const childClassNames = getStyle('group.layout.item', elementsSize)
-  //   .concat(['group-layout-item'])
-  //   .join(' ');
 
   return (
-    <fieldset
-      className={classNames}
-      hidden={visible === undefined || visible === null ? false : !visible}
+    <View
+      isHidden={visible === undefined || visible === null ? false : !visible}
+      borderWidth='thin'
+      borderColor='dark'
+      borderRadius='medium'
+      padding='size-250'
     >
       {
-        !isEmpty(group.label) ?
-          <legend className={getStyleAsClassName('group.label')}>
-            {group.label}
-          </legend> : ''
+        !isEmpty(group.label)
+          ? <Heading level={4} margin={0}>{group.label}</Heading>
+          : ''
       }
-      {renderChildren(group, schema, /*childClassNames*/ {}, path)}
-    </fieldset>
+      <Divider size='M' marginTop='size-150' marginBottom='size-200' />
+      <Content>
+        {renderChildren(group, schema, {}, path)}
+      </Content>
+    </View>
   );
 };
 

@@ -33,13 +33,6 @@ import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const styles = [
-  {
-    name: 'vertical.layout',
-    classNames: ['vertical-layout']
-  }
-];
-
 test('tester', () => {
   expect(verticalLayoutTester(undefined, undefined)).toBe(-1);
   expect(verticalLayoutTester(null, undefined)).toBe(-1);
@@ -70,10 +63,9 @@ describe('Vertical layout', () => {
       </Provider>
     );
 
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild as HTMLDivElement;
 
-    expect(verticalLayout).toBeDefined();
-    expect(verticalLayout.children).toHaveLength(0);
+    expect(verticalLayout?.children).toHaveLength(0);
   });
 
   test('render with null elements', () => {
@@ -85,7 +77,6 @@ describe('Vertical layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -95,9 +86,8 @@ describe('Vertical layout', () => {
       </Provider>
     );
 
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
-    expect(verticalLayout).toBeDefined();
-    expect(verticalLayout.children).toHaveLength(0);
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(verticalLayout?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
@@ -109,7 +99,6 @@ describe('Vertical layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -118,9 +107,8 @@ describe('Vertical layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().querySelector('div');
-    expect(verticalLayout).toBeDefined();
-    expect(verticalLayout.children).toHaveLength(2);
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode().firstElementChild;
+    expect(verticalLayout?.children).toHaveLength(2);
   });
 
   test('hide', () => {
@@ -132,7 +120,6 @@ describe('Vertical layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles
     });
 
     wrapper = mount(
@@ -145,7 +132,7 @@ describe('Vertical layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(verticalLayout.style.display).toBe('none');
   });
 
@@ -158,7 +145,6 @@ describe('Vertical layout', () => {
       data: {},
       schema: {},
       uischema,
-      styles,
     });
 
     wrapper = mount(
@@ -168,7 +154,7 @@ describe('Vertical layout', () => {
         </JsonFormsReduxContext>
       </Provider>
     );
-    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLDivElement;
+    const verticalLayout = wrapper.find(VerticalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(verticalLayout.style.display).not.toBe('none');
   });
 });
