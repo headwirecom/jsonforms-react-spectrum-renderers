@@ -31,10 +31,10 @@ import {
   VerticalLayout
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import { StyleProps } from '@react-types/shared';
 import { withVanillaControlProps } from '../util';
 import { JsonFormsLayout } from './JsonFormsLayout';
 import { renderChildren } from './util';
-import { VanillaRendererProps } from '../index';
 
 /**
  * Default tester for a vertical layout.
@@ -42,36 +42,33 @@ import { VanillaRendererProps } from '../index';
  */
 export const verticalLayoutTester: RankedTester = rankWith(1, uiTypeIs('VerticalLayout'));
 
-export const VerticalLayoutRenderer: FunctionComponent<RendererProps & VanillaRendererProps> = (
+export const VerticalLayoutRenderer: FunctionComponent<RendererProps> = (
   {
     schema,
     uischema,
     path,
     visible,
     enabled,
-    getStyle,
-    getStyleAsClassName
-  }: RendererProps & VanillaRendererProps) => {
+  }: RendererProps) => {
 
   const verticalLayout = uischema as VerticalLayout;
-  const elementsSize = verticalLayout.elements ? verticalLayout.elements.length : 0;
-  const layoutClassName = getStyleAsClassName('vertical.layout');
-  const childClassNames = getStyle('vertical.layout.item', elementsSize)
-    .concat(['vertical-layout-item'])
-    .join(' ');
+  const direction = 'column';
+  const childrenStyles: StyleProps = {
+    flexGrow: 1,
+    maxWidth: '100%',
+    flexBasis: 0,
+  };
 
   return (
     <JsonFormsLayout
-      className={layoutClassName}
+      direction={direction}
       uischema={uischema}
       schema={schema}
       visible={visible}
       enabled={enabled}
       path={path}
-      getStyle={getStyle}
-      getStyleAsClassName={getStyleAsClassName}
     >
-      {renderChildren(verticalLayout, schema, childClassNames, path)}
+      {renderChildren(verticalLayout, schema, childrenStyles, path)}
     </JsonFormsLayout>
   );
 };

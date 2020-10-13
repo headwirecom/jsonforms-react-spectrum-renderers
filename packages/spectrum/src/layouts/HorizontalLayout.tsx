@@ -31,10 +31,10 @@ import {
   uiTypeIs
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import { StyleProps } from '@react-types/shared';
 import { withVanillaControlProps } from '../util';
 import { JsonFormsLayout } from './JsonFormsLayout';
 import { renderChildren } from './util';
-import { VanillaRendererProps } from '../index';
 
 /**
  * Default tester for a horizontal layout.
@@ -42,37 +42,34 @@ import { VanillaRendererProps } from '../index';
  */
 export const horizontalLayoutTester: RankedTester = rankWith(1, uiTypeIs('HorizontalLayout'));
 
-const HorizontalLayoutRenderer: FunctionComponent<RendererProps & VanillaRendererProps> = (
+const HorizontalLayoutRenderer: FunctionComponent<RendererProps> = (
   {
     schema,
     uischema,
-    getStyle,
-    getStyleAsClassName,
     enabled,
     visible,
     path
-  }: RendererProps & VanillaRendererProps
+  }: RendererProps
 ) => {
 
   const horizontalLayout = uischema as HorizontalLayout;
-  const elementsSize = horizontalLayout.elements ? horizontalLayout.elements.length : 0;
-  const layoutClassName = getStyleAsClassName('horizontal.layout');
-  const childClassNames = getStyle('horizontal.layout.item', elementsSize)
-    .concat(['horizontal-layout-item'])
-    .join(' ');
+  const direction = 'row';
+  const childrenStyles: StyleProps = {
+    flexGrow: 1,
+    maxWidth: '100%',
+    flexBasis: 0,
+  };
 
   return (
     <JsonFormsLayout
-      className={layoutClassName}
+      direction={direction}
       visible={visible}
       enabled={enabled}
       path={path}
       uischema={uischema}
       schema={schema}
-      getStyle={getStyle}
-      getStyleAsClassName={getStyleAsClassName}
     >
-      {renderChildren(horizontalLayout, schema, childClassNames, path)}
+      {renderChildren(horizontalLayout, schema, childrenStyles, path)}
     </JsonFormsLayout>
   );
 };

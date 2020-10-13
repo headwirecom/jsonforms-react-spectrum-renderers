@@ -26,17 +26,20 @@ import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { JsonSchema, Layout } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch, useJsonForms } from '@jsonforms/react';
+import { StyleProps } from '@react-types/shared';
+import { View } from '@adobe/react-spectrum';
+
 export interface RenderChildrenProps {
   layout: Layout;
   schema: JsonSchema;
-  className: string;
+  styles: StyleProps;
   path: string;
 }
 
 export const renderChildren = (
   layout: Layout,
   schema: JsonSchema,
-  className: string,
+  styles: StyleProps,
   path: string
 ) => {
   if (isEmpty(layout.elements)) {
@@ -47,7 +50,7 @@ export const renderChildren = (
 
   return layout.elements.map((child, index) => {
     return (
-      <div className={className} key={`${path}-${index}`}>
+      <View key={`${path}-${index}`} {...styles}>
         <ResolvedJsonFormsDispatch
           renderers={renderers}
           cells={cells}
@@ -55,7 +58,7 @@ export const renderChildren = (
           schema={schema}
           path={path}
         />
-      </div>
+      </View>
     );
   });
 };

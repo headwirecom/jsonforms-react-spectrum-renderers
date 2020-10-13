@@ -43,15 +43,15 @@ export const GroupLayoutRenderer: FunctionComponent<RendererProps & VanillaRende
     uischema,
     path,
     visible,
-    getStyle,
+    // getStyle,
     getStyleAsClassName
   }: RendererProps & VanillaRendererProps) => {
   const group = uischema as GroupLayout;
-  const elementsSize = group.elements ? group.elements.length : 0;
+  // const elementsSize = group.elements ? group.elements.length : 0;
   const classNames = getStyleAsClassName('group.layout');
-  const childClassNames = getStyle('group.layout.item', elementsSize)
-    .concat(['group-layout-item'])
-    .join(' ');
+  // const childClassNames = getStyle('group.layout.item', elementsSize)
+  //   .concat(['group-layout-item'])
+  //   .join(' ');
 
   return (
     <fieldset
@@ -64,7 +64,7 @@ export const GroupLayoutRenderer: FunctionComponent<RendererProps & VanillaRende
             {group.label}
           </legend> : ''
       }
-      {renderChildren(group, schema, childClassNames, path)}
+      {renderChildren(group, schema, /*childClassNames*/ {}, path)}
     </fieldset>
   );
 };
