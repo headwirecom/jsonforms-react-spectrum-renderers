@@ -22,11 +22,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import SpectrumObjectRenderer, {
+  spectrumObjectControlTester,
+} from './SpectrumObjectRenderer';
 import ArrayControl, { arrayControlTester } from './array';
 import Categorization, { categorizationTester } from './categorization';
 import LabelRenderer, { labelRendererTester } from './LabelRenderer';
 import TableArrayControl, {
-  tableArrayControlTester
+  tableArrayControlTester,
 } from './TableArrayControl';
 
 export {
@@ -36,6 +39,8 @@ export {
   categorizationTester,
   LabelRenderer,
   labelRendererTester,
+  SpectrumObjectRenderer,
+  spectrumObjectControlTester,
   TableArrayControl,
-  tableArrayControlTester
+  tableArrayControlTester,
 };
