@@ -25,19 +25,18 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import * as React from 'react';
 import {
   HorizontalLayout,
-  UISchemaElement
+  UISchemaElement,
+  RuleEffect,
+  SchemaBasedCondition
 } from '@jsonforms/core';
-import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { mount, ReactWrapper } from 'enzyme';
+import Enzyme, { ReactWrapper } from 'enzyme';
 import SpectrumHorizontalLayoutRenderer, {
   spectrumHorizontalLayoutTester
 } from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
-import { JsonFormsReduxContext } from '@jsonforms/react';
+import { mountForm } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -65,18 +64,7 @@ describe('Horizontal layout', () => {
     const uischema: UISchemaElement = {
       type: 'HorizontalLayout'
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
 
     const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(0);
@@ -87,18 +75,7 @@ describe('Horizontal layout', () => {
       type: 'HorizontalLayout',
       elements: null
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
     const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(0);
   });
@@ -111,55 +88,31 @@ describe('Horizontal layout', () => {
         { type: 'Control' }
       ]
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
     const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(2);
   });
 
   test('hide', () => {
-    const store = initJsonFormsVanillaStore({
-      data: {},
+    // Condition that evaluates to false
+    const condition: SchemaBasedCondition = {
+      scope: '',
       schema: {},
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer
-            uischema={fixture.uischema}
-            visible={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    };
+    const uischema: UISchemaElement = {
+      ...fixture.uischema,
+      rule: {
+        effect: RuleEffect.HIDE,
+        condition
+      }
+    };
+    wrapper = mountForm(uischema);
     const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer uischema={fixture.uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(fixture.uischema);
     const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).not.toBe('none');
   });
