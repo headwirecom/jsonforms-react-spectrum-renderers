@@ -26,6 +26,9 @@ import InputControl, { inputControlTester } from './InputControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
+import SpectrumTextAreaControl, {
+  spectrumTextAreaControlTester,
+} from './SpectrumTextAreaControl';
 import SpectrumTextControl, {
   spectrumTextControlTester,
 } from './SpectrumTextControl';
@@ -35,6 +38,8 @@ export {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumTextAreaControl,
+  spectrumTextAreaControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
 };
