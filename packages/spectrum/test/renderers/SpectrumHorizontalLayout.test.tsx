@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -29,12 +29,12 @@ import {
   HorizontalLayout,
   UISchemaElement,
   RuleEffect,
-  SchemaBasedCondition
+  SchemaBasedCondition,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { ReactWrapper } from 'enzyme';
 import SpectrumHorizontalLayoutRenderer, {
-  spectrumHorizontalLayoutTester
+  spectrumHorizontalLayoutTester,
 } from '../../src/layouts/SpectrumHorizontalLayout';
 import { mountForm } from '../util';
 
@@ -51,45 +51,51 @@ test('tester', () => {
   expect(spectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
   expect(spectrumHorizontalLayoutTester(null, undefined)).toBe(-1);
   expect(spectrumHorizontalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)).toBe(1);
+  expect(
+    spectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)
+  ).toBe(1);
 });
 
 describe('Horizontal layout', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
 
   test('render with undefined elements', () => {
     const uischema: UISchemaElement = {
-      type: 'HorizontalLayout'
+      type: 'HorizontalLayout',
     };
     wrapper = mountForm(uischema);
 
-    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+    const horizontalLayout = wrapper
+      .find(SpectrumHorizontalLayoutRenderer)
+      .getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with null elements', () => {
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: null
+      elements: null,
     };
     wrapper = mountForm(uischema);
-    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+
+    const horizontalLayout = wrapper
+      .find(SpectrumHorizontalLayoutRenderer)
+      .getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: [
-        { type: 'Control' },
-        { type: 'Control' }
-      ]
+      elements: [{ type: 'Control' }, { type: 'Control' }],
     };
     wrapper = mountForm(uischema);
-    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode().firstElementChild;
+
+    const horizontalLayout = wrapper
+      .find(SpectrumHorizontalLayoutRenderer)
+      .getDOMNode().firstElementChild;
     expect(horizontalLayout?.children).toHaveLength(2);
   });
 
@@ -103,17 +109,27 @@ describe('Horizontal layout', () => {
       ...fixture.uischema,
       rule: {
         effect: RuleEffect.HIDE,
-        condition
-      }
+        condition,
+      },
     };
     wrapper = mountForm(uischema);
-    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
+
+    const horizontalLayout = wrapper
+      .find(SpectrumHorizontalLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
-    wrapper = mountForm(fixture.uischema);
-    const horizontalLayout = wrapper.find(SpectrumHorizontalLayoutRenderer).getDOMNode() as HTMLElement;
+    const uischema: HorizontalLayout = {
+      type: 'HorizontalLayout',
+      elements: [{ type: 'Control' }],
+    };
+    wrapper = mountForm(uischema);
+
+    const horizontalLayout = wrapper
+      .find(SpectrumHorizontalLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(horizontalLayout.style.display).not.toBe('none');
   });
 });

@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -31,7 +31,7 @@ import {
   RankedTester,
   rankWith,
   RendererProps,
-  uiTypeIs
+  uiTypeIs,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
@@ -43,18 +43,18 @@ import { renderChildren } from './util';
  * Default tester for a horizontal layout.
  * @type {RankedTester}
  */
-export const spectrumHorizontalLayoutTester: RankedTester = rankWith(1, uiTypeIs('HorizontalLayout'));
+export const spectrumHorizontalLayoutTester: RankedTester = rankWith(
+  1,
+  uiTypeIs('HorizontalLayout')
+);
 
-const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = (
-  {
-    schema,
-    uischema,
-    enabled,
-    visible,
-    path
-  }: RendererProps
-) => {
-
+const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
+  schema,
+  uischema,
+  enabled,
+  visible,
+  path,
+}: RendererProps) => {
   const horizontalLayout = uischema as HorizontalLayout;
   const direction = 'row';
   const childrenStyles: StyleProps = {
@@ -77,4 +77,6 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = (
   );
 };
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer));
+export default withVanillaControlProps(
+  withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer)
+);

@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -25,14 +25,18 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import * as React from 'react';
-import { Provider } from 'react-redux';
-import { UISchemaElement, VerticalLayout } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
+import {
+  VerticalLayout,
+  UISchemaElement,
+  RuleEffect,
+  SchemaBasedCondition,
+} from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumVerticalLayoutRenderer, { spectrumVerticalLayoutTester } from '../../src/layouts/SpectrumVerticalLayout';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import Enzyme, { ReactWrapper } from 'enzyme';
+import SpectrumVerticalLayoutRenderer, {
+  spectrumVerticalLayoutTester,
+} from '../../src/layouts/SpectrumVerticalLayout';
+import { mountForm } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -40,33 +44,25 @@ test('tester', () => {
   expect(spectrumVerticalLayoutTester(undefined, undefined)).toBe(-1);
   expect(spectrumVerticalLayoutTester(null, undefined)).toBe(-1);
   expect(spectrumVerticalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)).toBe(1);
+  expect(
+    spectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)
+  ).toBe(1);
 });
 
 describe('Vertical layout', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
 
   test('render with undefined elements', () => {
     const uischema: UISchemaElement = {
-      type: 'VerticalLayout'
+      type: 'VerticalLayout',
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumVerticalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
 
-    const verticalLayout = wrapper.find(SpectrumVerticalLayoutRenderer).getDOMNode().firstElementChild as HTMLDivElement;
+    const verticalLayout = wrapper
+      .find(SpectrumVerticalLayoutRenderer)
+      .getDOMNode().firstElementChild as HTMLDivElement;
 
     expect(verticalLayout?.children).toHaveLength(0);
   });
@@ -74,68 +70,48 @@ describe('Vertical layout', () => {
   test('render with null elements', () => {
     const uischema: VerticalLayout = {
       type: 'VerticalLayout',
-      elements: null
+      elements: null,
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumVerticalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
 
-    const verticalLayout = wrapper.find(SpectrumVerticalLayoutRenderer).getDOMNode().firstElementChild;
+    const verticalLayout = wrapper
+      .find(SpectrumVerticalLayoutRenderer)
+      .getDOMNode().firstElementChild;
     expect(verticalLayout?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
     const uischema: VerticalLayout = {
       type: 'VerticalLayout',
-      elements: [{ type: 'Control' }, { type: 'Control' }]
+      elements: [{ type: 'Control' }, { type: 'Control' }],
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumVerticalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const verticalLayout = wrapper.find(SpectrumVerticalLayoutRenderer).getDOMNode().firstElementChild;
+    wrapper = mountForm(uischema);
+
+    const verticalLayout = wrapper
+      .find(SpectrumVerticalLayoutRenderer)
+      .getDOMNode().firstElementChild;
     expect(verticalLayout?.children).toHaveLength(2);
   });
 
   test('hide', () => {
+    // Condition that evaluates to false
+    const condition: SchemaBasedCondition = {
+      scope: '',
+      schema: {},
+    };
     const uischema: VerticalLayout = {
       type: 'VerticalLayout',
       elements: [{ type: 'Control' }],
+      rule: {
+        effect: RuleEffect.HIDE,
+        condition,
+      },
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
+    wrapper = mountForm(uischema);
 
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumVerticalLayoutRenderer
-            uischema={uischema}
-            visible={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const verticalLayout = wrapper.find(SpectrumVerticalLayoutRenderer).getDOMNode() as HTMLElement;
+    const verticalLayout = wrapper
+      .find(SpectrumVerticalLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(verticalLayout.style.display).toBe('none');
   });
 
@@ -144,20 +120,11 @@ describe('Vertical layout', () => {
       type: 'VerticalLayout',
       elements: [{ type: 'Control' }],
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
+    wrapper = mountForm(uischema);
 
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumVerticalLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const verticalLayout = wrapper.find(SpectrumVerticalLayoutRenderer).getDOMNode() as HTMLElement;
+    const verticalLayout = wrapper
+      .find(SpectrumVerticalLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(verticalLayout.style.display).not.toBe('none');
   });
 });

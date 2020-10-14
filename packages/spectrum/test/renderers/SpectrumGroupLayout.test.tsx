@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -25,23 +25,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import * as React from 'react';
-import { GroupLayout } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
+import { GroupLayout, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import GroupLayoutRenderer, { spectrumGroupLayoutTester } from '../../src/layouts/SpectrumGroupLayout';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import Enzyme, { ReactWrapper } from 'enzyme';
+import GroupLayoutRenderer, {
+  spectrumGroupLayoutTester,
+} from '../../src/layouts/SpectrumGroupLayout';
+import { mountForm } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
-
-const fixture = {
-  uischema: {
-    type: 'Group',
-    elements: [{ type: 'Control' }]
-  },
-};
 
 test('tester', () => {
   expect(spectrumGroupLayoutTester(undefined, undefined)).toBe(-1);
@@ -51,7 +43,6 @@ test('tester', () => {
 });
 
 describe('Group layout', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -61,41 +52,21 @@ describe('Group layout', () => {
       type: 'Group',
       elements: [],
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
+
     const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
     const heading = groupLayout.querySelector('h4');
     expect(heading).toBeNull();
   });
-  
+
   test('render with label', () => {
     const uischema: GroupLayout = {
       type: 'Group',
       label: 'Foo',
       elements: [],
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
+
     const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
     const heading = groupLayout.querySelector('h4');
     expect(heading?.textContent).toBe('Foo');
@@ -104,20 +75,10 @@ describe('Group layout', () => {
   test('render with null elements', () => {
     const uischema: GroupLayout = {
       type: 'Group',
-      elements: null
+      elements: null,
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
+
     const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
     const content = groupLayout.querySelector('section');
     expect(content?.children).toHaveLength(0);
@@ -126,64 +87,47 @@ describe('Group layout', () => {
   test('render with children', () => {
     const uischema: GroupLayout = {
       type: 'Group',
-      elements: [
-        { type: 'Control' },
-        { type: 'Control' }
-      ]
+      elements: [{ type: 'Control' }, { type: 'Control' }],
     };
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(uischema);
+
     const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
     const content = groupLayout.querySelector('section');
     expect(content?.children).toHaveLength(2);
   });
 
   test('hide', () => {
-    const store = initJsonFormsVanillaStore({
-      data: {},
+    // Condition that evaluates to false
+    const condition: SchemaBasedCondition = {
+      scope: '',
       schema: {},
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer
-            uischema={fixture.uischema}
-            visible={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode() as HTMLElement
-;
+    };
+    const uischema: GroupLayout = {
+      type: 'Group',
+      elements: [{ type: 'Control' }],
+      rule: {
+        effect: RuleEffect.HIDE,
+        condition,
+      },
+    };
+    wrapper = mountForm(uischema);
+
+    const groupLayout = wrapper
+      .find(GroupLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(groupLayout.style.display).toBe('none');
   });
 
   test('show by default', () => {
-    const store = initJsonFormsVanillaStore({
-      data: {},
-      schema: {},
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <GroupLayoutRenderer uischema={fixture.uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode() as HTMLElement
-;
+    const uischema: GroupLayout = {
+      type: 'Group',
+      elements: [{ type: 'Control' }],
+    };
+    wrapper = mountForm(uischema);
+
+    const groupLayout = wrapper
+      .find(GroupLayoutRenderer)
+      .getDOMNode() as HTMLElement;
     expect(groupLayout.style.display).not.toBe('none');
   });
 });

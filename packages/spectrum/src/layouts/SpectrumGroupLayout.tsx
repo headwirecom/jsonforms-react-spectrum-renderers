@@ -3,7 +3,7 @@
 
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -27,7 +27,13 @@
 */
 import isEmpty from 'lodash/isEmpty';
 import React, { FunctionComponent } from 'react';
-import { GroupLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
+import {
+  GroupLayout,
+  RankedTester,
+  rankWith,
+  RendererProps,
+  uiTypeIs,
+} from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { View, Heading, Divider, Content } from '@adobe/react-spectrum';
 import { renderChildren } from './util';
@@ -38,15 +44,17 @@ import { withVanillaControlProps } from '../util';
  *
  * @type {RankedTester}
  */
-export const spectrumGroupLayoutTester: RankedTester = rankWith(1, uiTypeIs('Group'));
+export const spectrumGroupLayoutTester: RankedTester = rankWith(
+  1,
+  uiTypeIs('Group')
+);
 
-export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = (
-  {
-    schema,
-    uischema,
-    path,
-    visible,
-  }: RendererProps) => {
+export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
+  schema,
+  uischema,
+  path,
+  visible,
+}: RendererProps) => {
   const group = uischema as GroupLayout;
 
   return (
@@ -57,17 +65,19 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = (
       borderRadius='medium'
       padding='size-250'
     >
-      {
-        !isEmpty(group.label)
-          ? <Heading level={4} margin={0}>{group.label}</Heading>
-          : ''
-      }
+      {!isEmpty(group.label) ? (
+        <Heading level={4} margin={0}>
+          {group.label}
+        </Heading>
+      ) : (
+        ''
+      )}
       <Divider size='M' marginTop='size-150' marginBottom='size-200' />
-      <Content>
-        {renderChildren(group, schema, {}, path)}
-      </Content>
+      <Content>{renderChildren(group, schema, {}, path)}</Content>
     </View>
   );
 };
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(SpectrumGroupLayoutRenderer));
+export default withVanillaControlProps(
+  withJsonFormsLayoutProps(SpectrumGroupLayoutRenderer)
+);

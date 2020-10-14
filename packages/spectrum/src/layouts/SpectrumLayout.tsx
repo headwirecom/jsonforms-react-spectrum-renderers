@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -30,9 +30,11 @@ import { RendererProps } from '@jsonforms/core';
 import { Flex } from '@adobe/react-spectrum';
 import { FlexProps } from '@react-types/layout';
 
-export const SpectrumLayout =
-    ({ children, visible, ...flexProps }: RendererProps & FlexProps) => {
-
+export const SpectrumLayout = ({
+  children,
+  visible,
+  ...flexProps
+}: RendererProps & FlexProps) => {
   return (
     <Flex
       isHidden={visible === undefined || visible === null ? false : !visible}

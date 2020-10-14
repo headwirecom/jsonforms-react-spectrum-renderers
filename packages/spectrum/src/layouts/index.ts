@@ -3,7 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -25,9 +25,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import SpectrumGroupLayout, { spectrumGroupLayoutTester } from './SpectrumGroupLayout';
-import SpectrumHorizontalLayout, { spectrumHorizontalLayoutTester } from './SpectrumHorizontalLayout';
-import SpectrumVerticalLayout, { spectrumVerticalLayoutTester } from './SpectrumVerticalLayout';
+import SpectrumGroupLayout, {
+  spectrumGroupLayoutTester,
+} from './SpectrumGroupLayout';
+import SpectrumHorizontalLayout, {
+  spectrumHorizontalLayoutTester,
+} from './SpectrumHorizontalLayout';
+import SpectrumVerticalLayout, {
+  spectrumVerticalLayoutTester,
+} from './SpectrumVerticalLayout';
 
 export {
   SpectrumGroupLayout,
@@ -35,5 +41,5 @@ export {
   SpectrumHorizontalLayout,
   spectrumHorizontalLayoutTester,
   SpectrumVerticalLayout,
-  spectrumVerticalLayoutTester
+  spectrumVerticalLayoutTester,
 };
