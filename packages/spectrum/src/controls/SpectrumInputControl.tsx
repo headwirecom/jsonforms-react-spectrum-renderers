@@ -74,12 +74,11 @@ export class SpectrumInputControl extends Control<
 
     return (
       <div
-        hidden={!visible}
+        hidden={visible === undefined || visible === null ? false : !visible}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         id={id}
       >
-        test - SpectrumInputControl
         <Flex direction='column'>
           <InnerComponent
             {...this.props}
