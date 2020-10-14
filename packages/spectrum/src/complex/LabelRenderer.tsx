@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -23,10 +26,16 @@
   THE SOFTWARE.
 */
 import React, { FunctionComponent } from 'react';
-import { LabelElement, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
+import {
+  LabelElement,
+  RankedTester,
+  rankWith,
+  RendererProps,
+  uiTypeIs,
+} from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
 import { withVanillaControlProps } from '../util';
+import { Text, View } from '@adobe/react-spectrum';
 
 /**
  * Default tester for a label.
@@ -37,20 +46,23 @@ export const labelRendererTester: RankedTester = rankWith(1, uiTypeIs('Label'));
 /**
  * Default renderer for a label.
  */
-export const LabelRenderer: FunctionComponent<RendererProps & VanillaRendererProps> =
-  ({ uischema, visible, getStyleAsClassName }) => {
-    const labelElement: LabelElement = uischema as LabelElement;
-    const classNames = getStyleAsClassName('label-control');
-    const isHidden = !visible;
+export const LabelRenderer: FunctionComponent<RendererProps> = ({
+  uischema,
+  visible,
+}) => {
+  const labelElement: LabelElement = uischema as LabelElement;
 
-    return (
-      <label
-        hidden={isHidden}
-        className={classNames}
-      >
-        {labelElement.text !== undefined && labelElement.text !== null && labelElement.text}
-      </label>
-    );
-  };
+  const isHidden = !visible;
+
+  return (
+    <View isHidden={isHidden}>
+      <Text>
+        {labelElement.text !== undefined &&
+          labelElement.text !== null &&
+          labelElement.text}
+      </Text>
+    </View>
+  );
+};
 
 export default withVanillaControlProps(withJsonFormsLayoutProps(LabelRenderer));
