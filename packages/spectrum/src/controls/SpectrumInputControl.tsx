@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -31,7 +34,7 @@ import {
 import { Control } from '@jsonforms/react';
 import { VanillaRendererProps } from '../index';
 import merge from 'lodash/merge';
-import { Flex, Text } from '@adobe/react-spectrum';
+import { Flex, Text, View } from '@adobe/react-spectrum';
 
 interface WithInput {
   input: any;
@@ -43,7 +46,6 @@ export class SpectrumInputControl extends Control<
 > {
   render() {
     const {
-      //classNames,
       description,
       id,
       errors,
@@ -56,9 +58,6 @@ export class SpectrumInputControl extends Control<
     const InnerComponent = input;
 
     const isValid = errors ? errors.length === 0 : true;
-    // const divClassNames = `validation  ${
-    //   isValid ? classNames.description : 'validation_error'
-    // }`;
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const showDescription = !isDescriptionHidden(
@@ -68,25 +67,30 @@ export class SpectrumInputControl extends Control<
       appliedUiSchemaOptions.showUnfocusedDescription
     );
 
+    // use UNSAFE style property for now, since text colors are not supported yet, see https://github.com/adobe/react-spectrum/issues/864
+    const UNSAFE_error = {
+      color: 'rgb(215, 55, 63)',
+    };
+
     return (
       <div
-        //className={classNames.wrapper}
         hidden={!visible}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         id={id}
       >
+        test - SpectrumInputControl
         <Flex direction='column'>
           <InnerComponent
             {...this.props}
             id={id + '-input'}
             isValid={isValid}
           />
-          <div>
+          <View UNSAFE_style={!isValid ? UNSAFE_error : {}}>
             <Text>
               {!isValid ? errors : showDescription ? description : null}
             </Text>
-          </div>
+          </View>
         </Flex>
       </div>
     );
