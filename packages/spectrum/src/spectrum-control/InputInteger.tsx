@@ -38,7 +38,7 @@ export class InputInteger extends React.PureComponent<
           isRequired={isRequired}
           onChange={(value) => handleChange(path, parseInt(value, 10))}
           id={id}
-          isDisabled={!enabled}
+          isDisabled={enabled === undefined ? false : !enabled}
           autoFocus={uischema.options && uischema.options.focus}
           validationState={isValid ? 'valid' : 'invalid'}
         />

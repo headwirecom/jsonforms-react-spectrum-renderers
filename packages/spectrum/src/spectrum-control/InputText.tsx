@@ -27,6 +27,8 @@ export class InputText extends React.PureComponent<
     } = this.props;
 
     const maxLength = schema.maxLength;
+    const minLength = schema.minLength;
+
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
     const onChange = (value: string) => handleChange(path, value);
@@ -48,6 +50,7 @@ export class InputText extends React.PureComponent<
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
         maxLength={maxLength}
+        minLength={minLength}
         validationState={isValid ? 'valid' : 'invalid'}
       />
     );
