@@ -60,28 +60,6 @@ const fixture = {
     label: 'A',
     elements: [category]
   },
-  styles: [
-    {
-      name: 'categorization',
-      classNames: ['categorization']
-    },
-    {
-      name: 'categorization.master',
-      classNames: ['categorization-master']
-    },
-    {
-      name: 'category.group',
-      classNames: ['category-group']
-    },
-    {
-      name: 'category.subcategories',
-      classNames: ['category-subcategories']
-    },
-    {
-      name: 'categorization.detail',
-      classNames: ['categorization-detail']
-    }
-  ]
 };
 
 describe('Categorization tester', () => {
@@ -274,7 +252,6 @@ describe('Categorization renderer', () => {
       data: fixture.data,
       schema,
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -364,7 +341,6 @@ describe('Categorization renderer', () => {
       data,
       schema: fixture.schema,
       uischema,
-      styles: fixture.styles
     });
 
     wrapper = mount(
@@ -427,7 +403,6 @@ describe('Categorization renderer', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema,
-      styles: fixture.styles
     });
 
     wrapper = mount(
@@ -462,7 +437,6 @@ describe('Categorization renderer', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>

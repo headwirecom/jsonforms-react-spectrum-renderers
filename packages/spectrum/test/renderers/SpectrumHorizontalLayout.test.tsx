@@ -27,9 +27,9 @@
 */
 import {
   HorizontalLayout,
-  UISchemaElement,
   RuleEffect,
   SchemaBasedCondition,
+  UISchemaElement,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { ReactWrapper } from 'enzyme';

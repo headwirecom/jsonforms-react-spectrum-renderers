@@ -40,12 +40,6 @@ const fixture = {
     properties: { name: { type: 'string' } },
   },
   uischema: { type: 'Label', text: 'Bar' },
-  styles: [
-    {
-      name: 'label-control',
-      classNames: ['jsf-label'],
-    },
-  ],
 };
 
 describe('Label tester', () => {

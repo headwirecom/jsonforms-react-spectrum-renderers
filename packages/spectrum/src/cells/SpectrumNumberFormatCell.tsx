@@ -31,12 +31,10 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
-import { InputNumberFormatted } from '../spectrum-control';
+import { InputNumberFormatted, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumNumberFormatCell = (
-  props: CellProps & SpectrumRendererProps & Formatted<number>
+  props: CellProps & SpectrumInputProps & Formatted<number>
 ) => <InputNumberFormatted {...props} />;
 
 /**
@@ -48,6 +46,4 @@ export const spectrumNumberFormatCellTester: RankedTester = rankWith(
   isNumberFormatControl
 );
 
-export default withJsonFormsCellProps(
-  withVanillaCellProps(SpectrumNumberFormatCell)
-);
+export default withJsonFormsCellProps(SpectrumNumberFormatCell);

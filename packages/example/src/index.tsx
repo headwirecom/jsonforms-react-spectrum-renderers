@@ -129,11 +129,13 @@ export const renderExample = (
     additionalStoreParams
   );
   ReactDOM.render(
-    <Provider store={store}>
-      <SpectrumThemeProvider theme={defaultTheme}>
-      <App />
-      </SpectrumThemeProvider>
-    </Provider>,
+    (
+      <Provider store={store}>
+        <SpectrumThemeProvider theme={defaultTheme}>
+        <App />
+        </SpectrumThemeProvider>
+      </Provider>
+    ),
     document.getElementById('root')
   );
 };

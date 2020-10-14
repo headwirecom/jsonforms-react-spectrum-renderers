@@ -4,7 +4,6 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
   
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -42,7 +41,6 @@ import {
   withJsonFormsDetailProps,
 } from '@jsonforms/react';
 import React from 'react';
-import { withVanillaControlProps } from '../util';
 
 const SpectrumObjectRenderer = ({
   renderers,
@@ -89,6 +87,4 @@ export const spectrumObjectControlTester: RankedTester = rankWith(
   2,
   isObjectControl
 );
-export default withVanillaControlProps(
-  withJsonFormsDetailProps(SpectrumObjectRenderer)
-);
+export default withJsonFormsDetailProps(SpectrumObjectRenderer);

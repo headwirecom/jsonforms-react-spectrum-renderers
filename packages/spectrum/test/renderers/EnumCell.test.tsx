@@ -45,16 +45,6 @@ const fixture = {
     enum: ['a', 'b'],
   },
   uischema: control,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control']
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation']
-    }
-  ]
 };
 
 test('tester', () => {
@@ -157,7 +147,8 @@ describe('Enum cell', () => {
     expect(select.options.item(2).value).toBe('b');
   });
 
-  test('has classes set', () => {
+  // TODO: update test after implementing with Spectrum
+  test.skip('has classes set', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
@@ -345,4 +336,4 @@ describe('Enum cell', () => {
     const select = wrapper.find('select');
     expect(select.props().disabled).toBe(false);
   });
-})
+});

@@ -30,12 +30,10 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
-import { InputInteger } from '../spectrum-control';
+import { InputInteger, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumIntegerCell = (
-  props: CellProps & SpectrumRendererProps
+  props: CellProps & SpectrumInputProps
 ) => <InputInteger {...props} />;
 /**
  * Default tester for integer controls.
@@ -46,6 +44,4 @@ export const spectrumIntegerCellTester: RankedTester = rankWith(
   isIntegerControl
 );
 
-export default withJsonFormsCellProps(
-  withVanillaCellProps(SpectrumIntegerCell)
-);
+export default withJsonFormsCellProps(SpectrumIntegerCell);

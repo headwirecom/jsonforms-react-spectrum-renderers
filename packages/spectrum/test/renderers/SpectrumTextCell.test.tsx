@@ -65,16 +65,6 @@ const fixture = {
   },
   schema: { type: 'string' },
   uischema: controlElement,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control'],
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation'],
-    },
-  ],
 };
 
 test('Text cell tester', () => {

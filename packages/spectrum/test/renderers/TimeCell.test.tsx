@@ -52,16 +52,6 @@ const fixture = {
     format: 'time'
   },
   uischema: controlElement,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control']
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation']
-    }
-  ]
 };
 
 describe('Time cell tester', () => {
@@ -245,7 +235,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -260,7 +249,8 @@ describe('Time cell', () => {
     expect(input.value).toBe('13:37');
   });
 
-  test('has classes set', () => {
+  // TODO: update test after implementing with Spectrum
+  test.skip('has classes set', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
@@ -285,7 +275,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -305,7 +294,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -324,7 +312,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -341,7 +328,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -360,7 +346,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -379,7 +364,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -398,7 +382,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -417,7 +400,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>
@@ -435,7 +417,6 @@ describe('Time cell', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles
     });
     wrapper = mount(
       <Provider store={store}>

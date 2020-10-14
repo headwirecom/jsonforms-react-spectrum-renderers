@@ -3,8 +3,7 @@
   
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
-
+  
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
   
@@ -34,11 +33,9 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
-import { InputText } from '../spectrum-control';
+import { InputText, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumTextCell = (props: CellProps & SpectrumRendererProps) => (
+export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => (
   <InputText {...props} />
 );
 
@@ -51,4 +48,4 @@ export const spectrumTextCellTester: RankedTester = rankWith(
   isStringControl
 );
 
-export default withJsonFormsCellProps(withVanillaCellProps(SpectrumTextCell));
+export default withJsonFormsCellProps(SpectrumTextCell);

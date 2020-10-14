@@ -23,9 +23,11 @@
   THE SOFTWARE.
 */
 import {
-    isEnumControl,
-    rankWith,
-    update
+  ControlElement,
+  isEnumControl,
+  JsonSchema,
+  rankWith,
+  update,
 } from '@jsonforms/core';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import * as React from 'react';
@@ -39,7 +41,7 @@ import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const fixture = {
+const fixture: { schema: JsonSchema, uischema: ControlElement, data: any } = {
     data: { foo: 'D' },
     schema: {
         type: 'object',

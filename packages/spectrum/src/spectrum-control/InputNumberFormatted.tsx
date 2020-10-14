@@ -3,11 +3,9 @@ import React from 'react';
 import { CellProps, Formatted } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { TextField } from '@adobe/react-spectrum';
+import { DimensionValue } from '@react-types/shared';
+import { SpectrumInputProps } from './index';
 
-interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-}
 export class InputNumberFormatted extends React.PureComponent<
   CellProps & SpectrumInputProps & Formatted<number>
 > {
@@ -38,6 +36,8 @@ export class InputNumberFormatted extends React.PureComponent<
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
 
+    const width: DimensionValue = appliedUiSchemaOptions.trim ? undefined : '100%';
+
     return (
       <TextField
         label={label}
@@ -51,6 +51,7 @@ export class InputNumberFormatted extends React.PureComponent<
         autoFocus={uischema.options && uischema.options.focus}
         maxLength={maxLength}
         validationState={isValid ? 'valid' : 'invalid'}
+        width={width}
       />
     );
   }

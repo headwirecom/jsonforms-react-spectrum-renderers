@@ -31,17 +31,14 @@ import {
   isPlainLabel
 } from '@jsonforms/core';
 import { Control, withJsonFormsControlProps } from '@jsonforms/react';
-import { withVanillaControlProps } from '../util';
-import { VanillaRendererProps } from '../index';
 import merge from 'lodash/merge';
 
 export class RadioGroupControl extends Control<
-  ControlProps & VanillaRendererProps,
+  ControlProps,
   ControlState
 > {
   render() {
     const {
-      classNames,
       id,
       label,
       required,
@@ -53,6 +50,7 @@ export class RadioGroupControl extends Control<
       visible,
       config
     } = this.props;
+    const classNames: any = {}; // TODO: remove when fully implemented with Spectrum (implement trim!)
     const isValid = errors.length === 0;
     const divClassNames = `validation  ${
       isValid ? classNames.description : 'validation_error'
@@ -110,6 +108,4 @@ export class RadioGroupControl extends Control<
   }
 }
 
-export default withVanillaControlProps(
-  withJsonFormsControlProps(RadioGroupControl)
-);
+export default withJsonFormsControlProps(RadioGroupControl);

@@ -30,12 +30,10 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
 import { InputNumber } from '../spectrum-control';
 
 export const SpectrumNumberCell = (
-  props: CellProps & SpectrumRendererProps
+  props: CellProps
 ) => <InputNumber {...props} />;
 
 /**
@@ -47,4 +45,4 @@ export const spectrumNumberCellTester: RankedTester = rankWith(
   isNumberControl
 );
 
-export default withJsonFormsCellProps(withVanillaCellProps(SpectrumNumberCell));
+export default withJsonFormsCellProps(SpectrumNumberCell);

@@ -26,10 +26,10 @@
   THE SOFTWARE.
 */
 import {
-  VerticalLayout,
-  UISchemaElement,
   RuleEffect,
   SchemaBasedCondition,
+  UISchemaElement,
+  VerticalLayout,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { ReactWrapper } from 'enzyme';
