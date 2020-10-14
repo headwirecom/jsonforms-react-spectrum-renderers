@@ -25,16 +25,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  LabelElement,
-  RuleEffect,
-  SchemaBasedCondition,
-  UISchemaElement,
-} from '@jsonforms/core';
+import { LabelElement, RuleEffect, UISchemaElement } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { ReactWrapper } from 'enzyme';
 import { labelRendererTester } from '../../src/complex/LabelRenderer';
-import { mountForm } from '../util';
+import { falseCondition, mountForm } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -97,17 +92,11 @@ describe('Label', () => {
   });
 
   test('hide', () => {
-    // Condition that evaluates to false
-    const condition: SchemaBasedCondition = {
-      scope: '',
-      schema: {},
-    };
-
     const uischema: UISchemaElement = {
       ...fixture.uischema,
       rule: {
         effect: RuleEffect.HIDE,
-        condition,
+        condition: falseCondition(),
       },
     };
     wrapper = mountForm(uischema, fixture.schema, fixture.data);

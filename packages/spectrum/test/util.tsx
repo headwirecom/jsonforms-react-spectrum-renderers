@@ -27,7 +27,11 @@
 */
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { UISchemaElement, JsonSchema } from '@jsonforms/core';
+import {
+  UISchemaElement,
+  JsonSchema,
+  SchemaBasedCondition,
+} from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
 import { vanillaRenderers } from '../src/index';
 
@@ -44,4 +48,11 @@ export function mountForm(
       renderers={vanillaRenderers}
     />
   );
+}
+
+export function falseCondition(): SchemaBasedCondition {
+  return {
+    scope: '',
+    schema: {},
+  };
 }
