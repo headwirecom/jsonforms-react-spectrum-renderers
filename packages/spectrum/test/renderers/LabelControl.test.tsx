@@ -28,7 +28,7 @@
 import { LabelElement, RuleEffect, UISchemaElement } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { ReactWrapper } from 'enzyme';
-import { labelRendererTester } from '../../src/complex/LabelRenderer';
+import { spectrumLabelRendererTester } from '../../src/complex/SpectrumLabelRenderer';
 import { falseCondition, mountForm } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -50,10 +50,10 @@ const fixture = {
 
 describe('Label tester', () => {
   test('tester', () => {
-    expect(labelRendererTester(undefined, undefined)).toBe(-1);
-    expect(labelRendererTester(null, undefined)).toBe(-1);
-    expect(labelRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(labelRendererTester({ type: 'Label' }, undefined)).toBe(1);
+    expect(spectrumLabelRendererTester(undefined, undefined)).toBe(-1);
+    expect(spectrumLabelRendererTester(null, undefined)).toBe(-1);
+    expect(spectrumLabelRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(spectrumLabelRendererTester({ type: 'Label' }, undefined)).toBe(1);
   });
 });
 
