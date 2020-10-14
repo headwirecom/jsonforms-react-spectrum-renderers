@@ -68,8 +68,8 @@ import {
   arrayControlTester,
   Categorization,
   categorizationTester,
-  LabelRenderer,
-  labelRendererTester,
+  SpectrumLabelRenderer,
+  spectrumLabelRendererTester,
   spectrumObjectControlTester,
   SpectrumObjectRenderer,
   TableArrayControl,
@@ -141,13 +141,16 @@ export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: spectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: arrayControlTester, renderer: ArrayControl },
-  { tester: labelRendererTester, renderer: LabelRenderer },
+  { tester: spectrumLabelRendererTester, renderer: SpectrumLabelRenderer },
   { tester: categorizationTester, renderer: Categorization },
   { tester: spectrumObjectControlTester, renderer: SpectrumObjectRenderer },
   { tester: tableArrayControlTester, renderer: TableArrayControl },
   { tester: spectrumGroupLayoutTester, renderer: SpectrumGroupLayout },
   { tester: spectrumVerticalLayoutTester, renderer: SpectrumVerticalLayout },
-  { tester: spectrumHorizontalLayoutTester, renderer: SpectrumHorizontalLayout },
+  {
+    tester: spectrumHorizontalLayoutTester,
+    renderer: SpectrumHorizontalLayout,
+  },
 ];
 
 export const vanillaCells: { tester: RankedTester; cell: any }[] = [

@@ -41,12 +41,15 @@ import { Text, View } from '@adobe/react-spectrum';
  * Default tester for a label.
  * @type {RankedTester}
  */
-export const labelRendererTester: RankedTester = rankWith(1, uiTypeIs('Label'));
+export const spectrumLabelRendererTester: RankedTester = rankWith(
+  1,
+  uiTypeIs('Label')
+);
 
 /**
  * Default renderer for a label.
  */
-export const LabelRenderer: FunctionComponent<RendererProps> = ({
+export const SpectrumLabelRenderer: FunctionComponent<RendererProps> = ({
   uischema,
   visible,
 }) => {
@@ -65,4 +68,6 @@ export const LabelRenderer: FunctionComponent<RendererProps> = ({
   );
 };
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(LabelRenderer));
+export default withVanillaControlProps(
+  withJsonFormsLayoutProps(SpectrumLabelRenderer)
+);
