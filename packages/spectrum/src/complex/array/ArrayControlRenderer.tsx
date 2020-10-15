@@ -31,8 +31,6 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { ArrayControl } from './ArrayControl';
-import { withVanillaControlProps } from '../../util';
-import { VanillaRendererProps } from '../../index';
 
 const ArrayControlRenderer =
     ({
@@ -43,37 +41,33 @@ const ArrayControlRenderer =
         rootSchema,
         uischemas,
         addItem,
-        getStyle,
-        getStyleAsClassName,
         removeItems,
         id,
         visible,
         enabled,
         errors
-    }: ArrayControlProps & VanillaRendererProps) => {
+    }: ArrayControlProps) => {
 
         const controlElement = uischema as ControlElement;
         const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
         const label = labelDescription.show ? labelDescription.text : '';
-        const controlClassName =
-            `control ${(Helpers.convertToValidClassName(controlElement.scope))}`;
-        const fieldSetClassName = getStyleAsClassName('array.layout');
-        const buttonClassName = getStyleAsClassName('array.button');
-        const childrenClassName = getStyleAsClassName('array.children');
-        const classNames: { [className: string]: string } = {
-            wrapper: controlClassName,
-            fieldSet: fieldSetClassName,
-            button: buttonClassName,
-            children: childrenClassName
-        };
+        // const controlClassName =
+        //     `control ${(Helpers.convertToValidClassName(controlElement.scope))}`;
+        // const fieldSetClassName = getStyleAsClassName('array.layout');
+        // const buttonClassName = getStyleAsClassName('array.button');
+        // const childrenClassName = getStyleAsClassName('array.children');
+        // const classNames: { [className: string]: string } = {
+        //     wrapper: controlClassName,
+        //     fieldSet: fieldSetClassName,
+        //     button: buttonClassName,
+        //     children: childrenClassName
+        // };
 
         return (
             <ArrayControl
                 errors={errors}
-                getStyle={getStyle}
-                getStyleAsClassName={getStyleAsClassName}
                 removeItems={removeItems}
-                classNames={classNames}
+                // classNames={classNames}
                 data={data}
                 label={label}
                 path={path}
@@ -89,4 +83,4 @@ const ArrayControlRenderer =
         );
     };
 
-export default withVanillaControlProps(withJsonFormsArrayControlProps(ArrayControlRenderer));
+export default withJsonFormsArrayControlProps(ArrayControlRenderer);

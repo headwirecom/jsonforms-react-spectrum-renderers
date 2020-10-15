@@ -35,9 +35,8 @@ import {
   uiTypeIs,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { View, Heading, Divider, Content } from '@adobe/react-spectrum';
+import { Content, Divider, Heading, View } from '@adobe/react-spectrum';
 import { renderChildren } from './util';
-import { withVanillaControlProps } from '../util';
 
 /**
  * Default tester for a group layout.
@@ -78,6 +77,4 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
   );
 };
 
-export default withVanillaControlProps(
-  withJsonFormsLayoutProps(SpectrumGroupLayoutRenderer)
-);
+export default withJsonFormsLayoutProps(SpectrumGroupLayoutRenderer);

@@ -57,16 +57,6 @@ const fixture = {
     minimum: 5,
   },
   uischema: controlElement,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control'],
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation'],
-    },
-  ],
 };
 
 describe('Number cell tester', () => {
@@ -289,7 +279,7 @@ describe('Number cell', () => {
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.type).toBe('number');
     // todo: react-spectrum does not yet support the step attribute
-    //expect(input.step).toBe('0.1');
+    // expect(input.step).toBe('0.1');
     expect(input.value).toBe('3.14');
   });
 

@@ -28,31 +28,31 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import {
-  UISchemaElement,
   JsonSchema,
   SchemaBasedCondition,
+  UISchemaElement,
 } from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
-import { vanillaRenderers } from '../src/index';
+import { spectrumRenderers } from '../src/index';
 
-export function mountForm(
+export const mountForm = (
   uischema: UISchemaElement,
   schema: JsonSchema = {},
   data: any = {}
-): ReactWrapper {
+): ReactWrapper => {
   return mount(
     <JsonForms
       schema={schema}
       uischema={uischema}
       data={data}
-      renderers={vanillaRenderers}
+      renderers={spectrumRenderers}
     />
   );
-}
+};
 
-export function falseCondition(): SchemaBasedCondition {
+export const falseCondition = (): SchemaBasedCondition => {
   return {
     scope: '',
     schema: {},
   };
-}
+};

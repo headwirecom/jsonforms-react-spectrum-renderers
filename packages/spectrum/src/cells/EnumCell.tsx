@@ -30,19 +30,18 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsEnumCellProps } from '@jsonforms/react';
-import { withVanillaEnumCellProps } from '../util';
-import { VanillaRendererProps } from '../index';
 
-export const EnumCell = (props: EnumCellProps & VanillaRendererProps) => {
-  const { data, className, id, enabled, uischema, path, handleChange, options } = props;
+export const EnumCell = (props: EnumCellProps) => {
+  const { data, id, enabled, uischema, path, handleChange, options } = props;
 
   return (
     <select
-      className={className}
+      className='select' // TODO: obsolete in the future, but implement trim!
+
       id={id}
       disabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
-      value={data || ''}
+      value={data ?? ''}
       onChange={ev => handleChange(path, ev.target.value)}
     >
       {
@@ -63,4 +62,4 @@ export const EnumCell = (props: EnumCellProps & VanillaRendererProps) => {
  */
 export const enumCellTester: RankedTester = rankWith(2, isEnumControl);
 
-export default withJsonFormsEnumCellProps(withVanillaEnumCellProps(EnumCell));
+export default withJsonFormsEnumCellProps(EnumCell);

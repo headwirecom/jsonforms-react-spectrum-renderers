@@ -57,16 +57,6 @@ const fixture = {
     minLength: 3,
   },
   uischema: controlElement,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control'],
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation'],
-    },
-  ],
 };
 
 describe('Text area cell', () => {

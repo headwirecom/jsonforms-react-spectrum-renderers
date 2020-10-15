@@ -29,6 +29,7 @@ import {
   ControlElement,
   getData,
   HorizontalLayout,
+  JsonSchema,
   update,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
@@ -46,7 +47,7 @@ import SpectrumIntegerCell, {
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const fixture = {
+const fixture: { schema: JsonSchema, uischema: ControlElement, data: any } = {
   schema: {
     type: 'object',
     properties: {
@@ -69,15 +70,9 @@ const fixture = {
   data: {
     test: [{ x: 1, y: 3 }],
   },
-  styles: [
-    {
-      name: 'array.table',
-      classNames: ['array-table-layout', 'control'],
-    },
-  ],
 };
 
-describe('Tabe array tester', () => {
+describe('Table array tester', () => {
   test('tester with recursive document ref only', () => {
     const control: ControlElement = {
       type: 'Control',
@@ -86,7 +81,7 @@ describe('Tabe array tester', () => {
     expect(tableArrayControlTester(control, undefined)).toBe(-1);
   });
 
-  test(' tester with prop of wrong type', () => {
+  test('tester with prop of wrong type', () => {
     const control: ControlElement = {
       type: 'Control',
       scope: '#/properties/x',
@@ -165,7 +160,7 @@ describe('Tabe array tester', () => {
     expect(tableArrayControlTester({ type: 'Foo' }, null)).toBe(-1));
 });
 
-describe('Tabe array control', () => {
+describe('Table array control', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -472,7 +467,6 @@ describe('Tabe array control', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -494,7 +488,6 @@ describe('Tabe array control', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      styles: fixture.styles,
     });
     wrapper = mount(
       <Provider store={store}>

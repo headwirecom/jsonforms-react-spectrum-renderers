@@ -32,8 +32,8 @@ import {
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
 import { Provider } from 'react-redux';
 import {
-  Provider as SpectrumThemeProvider,
   defaultTheme,
+  Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -52,7 +52,7 @@ import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const fixture = {
+const fixture: { schema: JsonSchema, uischema: ControlElement, data: any } = {
   data: { foo: 'foo' },
   schema: {
     type: 'object',

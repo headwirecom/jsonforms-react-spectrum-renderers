@@ -30,18 +30,16 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
 
-export const TimeCell = (props: CellProps & VanillaRendererProps) => {
-  const { data, className, id, enabled, uischema, path, handleChange } = props;
+export const TimeCell = (props: CellProps) => {
+  const { data, id, enabled, uischema, path, handleChange } = props;
 
   return (
     <input
       type='time'
-      value={data || ''}
+      value={data ?? ''}
       onChange={ev => handleChange(path, ev.target.value)}
-      className={className}
+      className='input' // TODO: obsolete in the future, but implement trim!
       id={id}
       disabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
@@ -54,4 +52,4 @@ export const TimeCell = (props: CellProps & VanillaRendererProps) => {
  */
 export const timeCellTester: RankedTester = rankWith(2, isTimeControl);
 
-export default withJsonFormsCellProps(withVanillaCellProps(TimeCell));
+export default withJsonFormsCellProps(TimeCell);

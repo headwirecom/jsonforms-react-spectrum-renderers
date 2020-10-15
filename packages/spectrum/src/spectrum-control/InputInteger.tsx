@@ -3,11 +3,8 @@ import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { TextField } from '@adobe/react-spectrum';
+import { SpectrumInputProps } from './index';
 
-interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-}
 export class InputInteger extends React.PureComponent<
   CellProps & SpectrumInputProps
 > {
@@ -34,9 +31,9 @@ export class InputInteger extends React.PureComponent<
           label={label}
           type='number'
           inputMode='numeric'
-          value={data === undefined || data === null ? '' : data}
+          value={data ?? ''}
           isRequired={isRequired}
-          onChange={(value) => handleChange(path, parseInt(value, 10))}
+          onChange={value => handleChange(path, parseInt(value, 10))}
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           autoFocus={uischema.options && uischema.options.focus}

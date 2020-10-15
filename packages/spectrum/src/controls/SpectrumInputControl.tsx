@@ -32,7 +32,6 @@ import {
   isDescriptionHidden,
 } from '@jsonforms/core';
 import { Control } from '@jsonforms/react';
-import { VanillaRendererProps } from '../index';
 import merge from 'lodash/merge';
 import { Flex, Text, View } from '@adobe/react-spectrum';
 
@@ -41,7 +40,7 @@ interface WithInput {
 }
 
 export class SpectrumInputControl extends Control<
-  ControlProps & VanillaRendererProps & WithInput,
+  ControlProps & WithInput,
   ControlState
 > {
   render() {

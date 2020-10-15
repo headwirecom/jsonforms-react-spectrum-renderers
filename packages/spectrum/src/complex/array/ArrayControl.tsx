@@ -26,10 +26,8 @@ import range from 'lodash/range';
 import React from 'react';
 import { ArrayControlProps, composePaths, createDefaultValue, findUISchema } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
-import { VanillaRendererProps } from '../../index';
 
 export const ArrayControl = ({
-  classNames,
   data,
   label,
   path,
@@ -38,7 +36,8 @@ export const ArrayControl = ({
   uischema,
   uischemas,
   renderers
-}: ArrayControlProps & VanillaRendererProps) => {
+}: ArrayControlProps) => {
+  const classNames: any = {}; // TODO: obsolete in the future, but implement trim?
   return (
     <div className={classNames.wrapper}>
       <fieldset className={classNames.fieldSet}>

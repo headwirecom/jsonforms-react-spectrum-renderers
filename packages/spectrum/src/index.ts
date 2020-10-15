@@ -25,19 +25,19 @@
 import { RankedTester } from '@jsonforms/core';
 
 import {
-  BooleanCell,
-  spectrumBooleanCellTester,
   DateCell,
   dateCellTester,
   dateTimeCellTester,
   EnumCell,
   enumCellTester,
+  SliderCell,
+  sliderCellTester,
+  SpectrumBooleanCell,
+  spectrumBooleanCellTester,
   SpectrumIntegerCell,
   spectrumIntegerCellTester,
   SpectrumNumberCell,
   spectrumNumberCellTester,
-  SliderCell,
-  sliderCellTester,
   SpectrumTextAreaCell,
   spectrumTextAreaCellTester,
   SpectrumTextCell,
@@ -86,50 +86,13 @@ import {
 } from './layouts';
 import DateTimeCell from './cells/DateTimeCell';
 
-export interface WithClassname {
-  className?: string;
-}
-
-/**
- * Additional renderer props specific to vanilla renderers.
- */
-export interface VanillaRendererProps extends WithClassname {
-  classNames?: { [className: string]: string };
-
-  /**
-   * Returns all classes associated with the given style.
-   * @param {string} string the style name
-   * @param args any additional args necessary to calculate the classes
-   * @returns {string[]} array of class names
-   */
-  getStyle?(string: string, ...args: any[]): string[];
-
-  /**
-   * Returns all classes associated with the given style as a single class name.
-   * @param {string} string the style name
-   * @param args any additional args necessary to calculate the classes
-   * @returns {string[]} array of class names
-   */
-  getStyleAsClassName?(string: string, ...args: any[]): string;
-}
-
-export interface SpectrumRendererProps {
-  required?: boolean;
-}
-
-export interface WithChildren {
-  children: any;
-}
-
-export * from './actions';
 export * from './controls';
 export * from './complex';
 export * from './cells';
 export * from './layouts';
-export * from './reducers';
-export * from './util';
+// export * from './util';
 
-export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
+export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
@@ -153,8 +116,8 @@ export const vanillaRenderers: { tester: RankedTester; renderer: any }[] = [
   },
 ];
 
-export const vanillaCells: { tester: RankedTester; cell: any }[] = [
-  { tester: spectrumBooleanCellTester, cell: BooleanCell },
+export const spectrumCells: { tester: RankedTester; cell: any }[] = [
+  { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
   { tester: dateCellTester, cell: DateCell },
   { tester: dateTimeCellTester, cell: DateTimeCell },
   { tester: enumCellTester, cell: EnumCell },

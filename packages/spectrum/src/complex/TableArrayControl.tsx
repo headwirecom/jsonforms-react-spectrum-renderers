@@ -42,8 +42,6 @@ import {
   Test
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
-import { withVanillaControlProps } from '../util';
-import { VanillaRendererProps } from '../index';
 
 const { createLabelDescriptionFrom, convertToValidClassName } = Helpers;
 
@@ -59,7 +57,7 @@ export const tableArrayControlTester: RankedTester = rankWith(
   or(isObjectArrayControl, isPrimitiveArrayControl)
 );
 
-class TableArrayControl extends React.Component<ArrayControlProps & VanillaRendererProps, any> {
+class TableArrayControl extends React.Component<ArrayControlProps, any> {
 
   confirmDelete = (path: string, index: number) => {
     const p = path.substring(0, path.lastIndexOf(('.')));
@@ -77,16 +75,15 @@ class TableArrayControl extends React.Component<ArrayControlProps & VanillaRende
       visible,
       errors,
       label,
-      getStyleAsClassName,
       childErrors
     } = this.props;
 
     const controlElement = uischema as ControlElement;
-    const tableClass = getStyleAsClassName('array.table.table');
-    const labelClass = getStyleAsClassName('array.table.label');
-    const buttonClass = getStyleAsClassName('array.table.button');
+    const tableClass = ''; // getStyleAsClassName('array.table.table');
+    const labelClass = ''; // getStyleAsClassName('array.table.label');
+    const buttonClass = ''; // getStyleAsClassName('array.table.button');
     const controlClass = [
-      getStyleAsClassName('array.table'),
+      'array-table-layout control', // getStyleAsClassName('array.table'),
       convertToValidClassName(controlElement.scope)
     ].join(' ');
     const createControlElement = (key?: string): ControlElement => ({
@@ -187,9 +184,9 @@ class TableArrayControl extends React.Component<ArrayControlProps & VanillaRende
                       <td>
                         {errorsPerEntry ? (
                           <span
-                            className={getStyleAsClassName(
+                            className={'todo'/* getStyleAsClassName(
                               'array.validation.error'
-                            )}
+                            ) */}
                           >
                             {join(errorsPerEntry.map(e => e.message), ' and ')}
                           </span>
@@ -220,4 +217,4 @@ class TableArrayControl extends React.Component<ArrayControlProps & VanillaRende
   }
 }
 
-export default withVanillaControlProps(withJsonFormsArrayControlProps(TableArrayControl));
+export default withJsonFormsArrayControlProps(TableArrayControl);

@@ -30,8 +30,6 @@ import {
   JsonSchema,
   UISchemaElement
 } from '@jsonforms/core';
-import { vanillaStyles } from '../src/util';
-import { stylingReducer } from '../src/reducers';
 
 export const initJsonFormsVanillaStore = ({
   data,
@@ -46,12 +44,12 @@ export const initJsonFormsVanillaStore = ({
 }): Store<JsonFormsState> => {
   const store: Store<JsonFormsState> = createStore(
     combineReducers({
-      jsonforms: jsonformsReducer({ styles: stylingReducer })
+      jsonforms: jsonformsReducer({/* styles: stylingReducer */})
     }),
     {
       // TODO
       jsonforms: {
-        styles: vanillaStyles,
+        // styles: vanillaStyles,
         ...other
       } as any
     }

@@ -57,16 +57,6 @@ const fixture = {
     minimum: 5,
   },
   uischema: control,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control'],
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation'],
-    },
-  ],
 };
 
 describe('Integer cell tester', () => {

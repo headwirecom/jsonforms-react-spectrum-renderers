@@ -25,8 +25,9 @@
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { ControlElement, JsonSchema } from '@jsonforms/core';
 import ArrayControl from '../../src/complex/array/ArrayControlRenderer';
-import { vanillaRenderers } from '../../src/index';
+import { spectrumRenderers } from '../../src/index';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
@@ -37,7 +38,7 @@ import Enzyme, { mount } from 'enzyme';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const fixture = {
+const fixture: { schema: JsonSchema, uischema: ControlElement, data: any } = {
   schema: {
     type: 'object',
     properties: {
@@ -60,11 +61,6 @@ const fixture = {
   data: {
     test: [{ x: 1, y: 3 }],
   },
-  styles: [
-    {
-      name: 'array.table',
-    },
-  ],
 };
 
 describe('Array control renderer', () => {
@@ -73,7 +69,7 @@ describe('Array control renderer', () => {
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
-      renderers: vanillaRenderers,
+      renderers: spectrumRenderers,
       cells: [
         {
           tester: spectrumIntegerCellTester,

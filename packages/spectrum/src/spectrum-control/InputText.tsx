@@ -3,11 +3,9 @@ import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { TextField } from '@adobe/react-spectrum';
+import { DimensionValue } from '@react-types/shared';
+import { SpectrumInputProps } from './index';
 
-interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-}
 export class InputText extends React.PureComponent<
   CellProps & SpectrumInputProps
 > {
@@ -37,13 +35,15 @@ export class InputText extends React.PureComponent<
     // check if setting required to false has some unwanted consequences
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
 
+    const width: DimensionValue = appliedUiSchemaOptions.trim ? undefined : '100%';
+
     return (
       <TextField
         type={
           appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'
         }
         isRequired={isRequired}
-        value={data || ''}
+        value={data ?? ''}
         label={label}
         onChange={onChange}
         id={`${id}-input`}
@@ -52,6 +52,7 @@ export class InputText extends React.PureComponent<
         maxLength={maxLength}
         minLength={minLength}
         validationState={isValid ? 'valid' : 'invalid'}
+        width={width}
       />
     );
   }

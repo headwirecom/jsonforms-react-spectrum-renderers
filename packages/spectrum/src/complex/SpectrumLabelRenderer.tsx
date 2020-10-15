@@ -34,7 +34,6 @@ import {
   uiTypeIs,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { withVanillaControlProps } from '../util';
 import { Text, View } from '@adobe/react-spectrum';
 
 /**
@@ -68,6 +67,4 @@ export const SpectrumLabelRenderer: FunctionComponent<RendererProps> = ({
   );
 };
 
-export default withVanillaControlProps(
-  withJsonFormsLayoutProps(SpectrumLabelRenderer)
-);
+export default withJsonFormsLayoutProps(SpectrumLabelRenderer);

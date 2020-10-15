@@ -32,15 +32,13 @@ import { RendererComponent, withJsonFormsLayoutProps } from '@jsonforms/react';
 import { CategorizationList } from './CategorizationList';
 import { SingleCategory } from './SingleCategory';
 import { isCategorization } from './tester';
-import { withVanillaControlProps } from '../../util';
-import { VanillaRendererProps } from '../../index';
 
 export interface CategorizationState {
   selectedCategory: Category;
 }
 
 class CategorizationRenderer extends RendererComponent<
-  LayoutProps & VanillaRendererProps,
+  LayoutProps,
   CategorizationState
 > {
   onCategorySelected = (category: Category) => () => {
@@ -51,16 +49,16 @@ class CategorizationRenderer extends RendererComponent<
    * @inheritDoc
    */
   render() {
-    const { uischema, visible, getStyleAsClassName } = this.props;
+    const { uischema, visible } = this.props;
     const categorization = uischema as Categorization;
-    const classNames = getStyleAsClassName('categorization');
-    const masterClassNames = getStyleAsClassName('categorization.master');
-    const detailClassNames = getStyleAsClassName('categorization.detail');
+    const classNames = 'categorization'; // getStyleAsClassName('categorization');
+    const masterClassNames = 'categorization-master'; // getStyleAsClassName('categorization.master');
+    const detailClassNames = 'categorization-detail'; // getStyleAsClassName('categorization.detail');
     const selectedCategory = this.findCategory(categorization);
-    const subcategoriesClassName = getStyleAsClassName(
+    const subcategoriesClassName = 'category-subcategories'; /* getStyleAsClassName(
       'category.subcategories'
-    );
-    const groupClassName = getStyleAsClassName('category.group');
+    ); */
+    const groupClassName = 'category-group'; // getStyleAsClassName('category.group');
 
     return (
       <div
@@ -103,4 +101,4 @@ class CategorizationRenderer extends RendererComponent<
   }
 }
 
-export default withVanillaControlProps(withJsonFormsLayoutProps(CategorizationRenderer));
+export default withJsonFormsLayoutProps(CategorizationRenderer);

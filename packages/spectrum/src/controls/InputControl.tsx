@@ -38,18 +38,15 @@ import {
   DispatchCell,
   withJsonFormsControlProps,
 } from '@jsonforms/react';
-import { withVanillaControlProps } from '../util';
-import { VanillaRendererProps } from '../index';
 import merge from 'lodash/merge';
 import { Flex, Text } from '@adobe/react-spectrum';
 
 export class InputControl extends Control<
-  ControlProps & VanillaRendererProps,
+  ControlProps,
   ControlState
 > {
   render() {
     const {
-      classNames,
       description,
       id,
       errors,
@@ -60,7 +57,10 @@ export class InputControl extends Control<
       cells,
       config,
     } = this.props;
-
+    const classNames: any = {
+      wrapper: 'control',
+      description: 'input-description'
+    }; // TODO: remove when fully implemented with Spectrum
     const isValid = errors.length === 0;
     const divClassNames = `validation  ${
       isValid ? classNames.description : 'validation_error'
@@ -74,7 +74,7 @@ export class InputControl extends Control<
       appliedUiSchemaOptions.showUnfocusedDescription
     );
 
-    const cell = maxBy(cells, (r) => r.tester(uischema, schema));
+    const cell = maxBy(cells, r => r.tester(uischema, schema));
     if (
       cell === undefined ||
       cell.tester(uischema, schema) === NOT_APPLICABLE
@@ -111,4 +111,4 @@ export class InputControl extends Control<
 
 export const inputControlTester: RankedTester = rankWith(1, isControl);
 
-export default withVanillaControlProps(withJsonFormsControlProps(InputControl));
+export default withJsonFormsControlProps(InputControl);

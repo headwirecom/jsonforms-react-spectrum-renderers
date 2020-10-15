@@ -35,7 +35,6 @@ import {
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
-import { withVanillaControlProps } from '../util';
 import { SpectrumLayout } from './SpectrumLayout';
 import { renderChildren } from './util';
 
@@ -77,6 +76,4 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
   );
 };
 
-export default withVanillaControlProps(
-  withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer)
-);
+export default withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer);

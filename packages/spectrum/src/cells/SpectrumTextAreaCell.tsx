@@ -33,12 +33,10 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { SpectrumRendererProps } from '../index';
-import { withVanillaCellProps } from '../util/index';
-import { InputTextArea } from '../spectrum-control/InputTextArea';
+import { InputTextArea, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumTextAreaCell = (
-  props: CellProps & SpectrumRendererProps
+  props: CellProps & SpectrumInputProps
 ) => <InputTextArea {...props} />;
 
 /**
@@ -50,6 +48,4 @@ export const spectrumTextAreaCellTester: RankedTester = rankWith(
   isMultiLineControl
 );
 
-export default withJsonFormsCellProps(
-  withVanillaCellProps(SpectrumTextAreaCell)
-);
+export default withJsonFormsCellProps(SpectrumTextAreaCell);

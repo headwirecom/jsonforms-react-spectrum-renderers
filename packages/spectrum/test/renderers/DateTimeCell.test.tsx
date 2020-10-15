@@ -52,16 +52,6 @@ const fixture = {
     format: 'date-time'
   },
   uischema: control,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control']
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation']
-    }
-  ]
 };
 
 describe('Date time cell tester', () => {
@@ -283,7 +273,8 @@ describe('date time cell', () => {
     expect(input.props().value).toBe('1980-04-04T13:37');
   });
 
-  test('has classes set', () => {
+  // TODO: update test after implementing with Spectrum
+  test.skip('has classes set', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,

@@ -37,8 +37,8 @@ import {
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import { Provider } from 'react-redux';
 import {
-  Provider as SpectrumThemeProvider,
   defaultTheme,
+  Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -47,7 +47,7 @@ import SpectrumBooleanCell, {
 } from '../../src/cells/SpectrumBooleanCell';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsVanillaStore } from '../vanillaStore';
-import { vanillaRenderers } from '../../src';
+import { spectrumRenderers } from '../../src';
 import { InputControl } from '../../src/controls/InputControl';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -61,16 +61,6 @@ const fixture = {
   data: { foo: true },
   schema: { type: 'boolean' },
   uischema: control,
-  styles: [
-    {
-      name: 'control',
-      classNames: ['control'],
-    },
-    {
-      name: 'control.validation',
-      classNames: ['validation'],
-    },
-  ],
 };
 
 describe('Boolean cell tester', () => {
@@ -171,7 +161,7 @@ describe('Boolean cell', () => {
       data,
       schema,
       uischema,
-      renderers: vanillaRenderers,
+      renderers: spectrumRenderers,
     });
     wrapper = mount(
       <Provider store={store}>
