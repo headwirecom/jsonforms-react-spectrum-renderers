@@ -2,8 +2,8 @@
   "name": "@jsonforms/react-spectrum-renderers",
   "version": "2.4.1",
   "description": "Default Renderer Set for JSON Forms",
-  "repository": "https://github.com/eclipsesource/jsonforms",
-  "bugs": "https://github.com/eclipsesource/jsonforms/issues",
+  "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
+  "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
   "homepage": "http://jsonforms.io/",
   "license": "MIT",
   "main": "lib/index.js",
@@ -17,10 +17,11 @@
     "report": "../../node_modules/.bin/nyc report --reporter=html",
     "test": "jest --no-cache",
     "test-cov": "jest --no-cache --coverage",
-    "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms Vanilla Renderers' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
+    "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms React Spectrum Renderers' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
   },
   "keywords": [
-    "vanilla",
+    "react-spectrum",
+    "spectrum",
     "form",
     "forms",
     "json",
