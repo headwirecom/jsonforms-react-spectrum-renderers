@@ -1,19 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,7 +42,7 @@ const control: ControlElement = {
 };
 
 const fixture = {
-  data: { 'foo': 'a' },
+  data: { foo: 'a' },
   schema: {
     type: 'string',
     enum: ['a', 'b'],
@@ -56,70 +59,60 @@ test('tester', () => {
 
 test('tester with wrong prop type', () => {
   expect(
-    enumCellTester(
-      fixture.uischema,
-      { type: 'object', properties: { foo: { type: 'string' } } }
-    )
+    enumCellTester(fixture.uischema, {
+      type: 'object',
+      properties: { foo: { type: 'string' } },
+    })
   ).toBe(-1);
 });
 
 test('tester with wrong prop type, but sibling has correct one', () => {
   expect(
-    enumCellTester(
-      fixture.uischema,
-      {
-        'type': 'object',
-        'properties': {
-          'foo': {
-            'type': 'string'
-          },
-          'bar': {
-            'type': 'string',
-            'enum': ['a', 'b']
-          }
-        }
-      }
-    )
+    enumCellTester(fixture.uischema, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+        },
+        bar: {
+          type: 'string',
+          enum: ['a', 'b'],
+        },
+      },
+    })
   ).toBe(-1);
 });
 
 test('tester with matching string type', () => {
   expect(
-    enumCellTester(
-      fixture.uischema,
-      {
-        'type': 'object',
-        'properties': {
-          'foo': {
-            'type': 'string',
-            'enum': ['a', 'b']
-          }
-        }
-      }
-    )
+    enumCellTester(fixture.uischema, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+          enum: ['a', 'b'],
+        },
+      },
+    })
   ).toBe(2);
 });
 
 test('tester with matching numeric type', () => {
   // TODO should expect be true?
   expect(
-    enumCellTester(
-      fixture.uischema,
-      {
-        'type': 'object',
-        'properties': {
-          'foo': {
-            'type': 'number',
-            'enum': [1, 2]
-          }
-        }
-      }
-    )
+    enumCellTester(fixture.uischema, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'number',
+          enum: [1, 2],
+        },
+      },
+    })
   ).toBe(2);
 });
 
 describe('Enum cell', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -128,12 +121,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -152,12 +149,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -172,12 +173,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -187,16 +192,20 @@ describe('Enum cell', () => {
   });
 
   test('update via action', () => {
-    const data = { 'foo': 'b' };
+    const data = { foo: 'b' };
     const store = initJsonFormsVanillaStore({
       data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -210,12 +219,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -229,12 +242,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -248,12 +265,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -268,12 +289,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -288,12 +313,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -307,12 +336,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} enabled={false} />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            enabled={false}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -324,12 +357,16 @@ describe('Enum cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <EnumCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <EnumCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );

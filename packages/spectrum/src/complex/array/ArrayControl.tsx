@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -24,7 +27,12 @@
 */
 import range from 'lodash/range';
 import React from 'react';
-import { ArrayControlProps, composePaths, createDefaultValue, findUISchema } from '@jsonforms/core';
+import {
+  ArrayControlProps,
+  composePaths,
+  createDefaultValue,
+  findUISchema,
+} from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
 
 export const ArrayControl = ({
@@ -35,7 +43,7 @@ export const ArrayControl = ({
   addItem,
   uischema,
   uischemas,
-  renderers
+  renderers,
 }: ArrayControlProps) => {
   const classNames: any = {}; // TODO: obsolete in the future, but implement trim?
   return (
@@ -52,8 +60,13 @@ export const ArrayControl = ({
         </legend>
         <div className={classNames.children}>
           {data ? (
-            range(0, data.length).map(index => {
-              const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
+            range(0, data.length).map((index) => {
+              const foundUISchema = findUISchema(
+                uischemas,
+                schema,
+                uischema.scope,
+                path
+              );
               const childPath = composePaths(path, `${index}`);
 
               return (
@@ -67,8 +80,8 @@ export const ArrayControl = ({
               );
             })
           ) : (
-              <p>No data</p>
-            )}
+            <p>No data</p>
+          )}
         </div>
       </fieldset>
     </div>

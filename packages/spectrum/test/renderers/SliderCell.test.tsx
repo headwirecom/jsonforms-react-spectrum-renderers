@@ -1,19 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +31,7 @@ import {
   getData,
   HorizontalLayout,
   JsonSchema,
-  update
+  update,
 } from '@jsonforms/core';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import { Provider } from 'react-redux';
@@ -42,16 +45,16 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const controlElement: ControlElement = {
   type: 'Control',
-  scope: '#/properties/foo'
+  scope: '#/properties/foo',
 };
 
 const fixture = {
-  data: { 'foo': 5 },
+  data: { foo: 5 },
   schema: {
     type: 'number',
     maximum: 10,
     minimum: 2,
-    default: 6
+    default: 6,
   },
   uischema: controlElement,
 };
@@ -67,139 +70,115 @@ describe('Slider cell tester', () => {
   test('tester with wrong schema type', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(
-        control,
-        {
-          type: 'object',
-          properties: {
-            foo: { type: 'string' }
-          }
-        }
-      )
+      sliderCellTester(control, {
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with wrong schema type, but sibling has correct one', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(
-        control,
-        {
-          type: 'object',
-          properties: {
-            foo: { type: 'string' },
-            bar: { type: 'number' }
-          }
-        }
-      )
+      sliderCellTester(control, {
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+          bar: { type: 'number' },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with correct schema type, but missing maximum and minimum cells', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(
-        control,
-        {
-          type: 'object',
-          properties: {
-            foo: { type: 'number' }
-          }
-        }
-      )
+      sliderCellTester(control, {
+        type: 'object',
+        properties: {
+          foo: { type: 'number' },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with correct schema type, but missing maximum', () => {
     expect(
-      sliderCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'number',
-              minimum: 2
-            }
-          }
-        }
-      )
+      sliderCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'number',
+            minimum: 2,
+          },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with correct schema type, but missing minimum', () => {
     expect(
-      sliderCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'number',
-              maximum: 10
-            }
-          }
-        }
-      )
+      sliderCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'number',
+            maximum: 10,
+          },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with matching schema type (number) without default', () => {
     expect(
-      sliderCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'number',
-              maximum: 10,
-              minimum: 2
-            }
-          }
-        }
-      )
+      sliderCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'number',
+            maximum: 10,
+            minimum: 2,
+          },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with matching schema type (integer) without default', () => {
     expect(
-      sliderCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'integer',
-              maximum: 10,
-              minimum: 2
-            }
-          }
-        }
-      )
+      sliderCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'integer',
+            maximum: 10,
+            minimum: 2,
+          },
+        },
+      })
     ).toBe(-1);
   });
 
   test('tester with matching schema type (number) with default', () => {
     const control: ControlElement = {
       ...fixture.uischema,
-      options: { slider: true }
+      options: { slider: true },
     };
     expect(
-      sliderCellTester(
-        control,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'number',
-              maximum: 10,
-              minimum: 2,
-              default: 3
-            }
-          }
-        }
-      )
+      sliderCellTester(control, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'number',
+            maximum: 10,
+            minimum: 2,
+            default: 3,
+          },
+        },
+      })
     ).toBe(4);
   });
 
@@ -207,26 +186,22 @@ describe('Slider cell tester', () => {
     const control: ControlElement = fixture.uischema;
     control.options = { slider: true };
     expect(
-      sliderCellTester(
-        control,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'integer',
-              maximum: 10,
-              minimum: 2,
-              default: 4
-            }
-          }
-        }
-      )
+      sliderCellTester(control, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'integer',
+            maximum: 10,
+            minimum: 2,
+            default: 4,
+          },
+        },
+      })
     ).toBe(4);
   });
 });
 
 describe('Slider cell', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -236,43 +211,43 @@ describe('Slider cell', () => {
       type: 'object',
       properties: {
         firstSliderCell: { type: 'number', minimum: 5, maximum: 10 },
-        secondSliderCell: { type: 'number', minimum: 5, maximum: 10 }
-      }
+        secondSliderCell: { type: 'number', minimum: 5, maximum: 10 },
+      },
     };
     const firstControlElement: ControlElement = {
       type: 'Control',
       scope: '#/properties/firstSliderCell',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
     const secondControlElement: ControlElement = {
       type: 'Control',
       scope: '#/properties/secondSliderCell',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: [
-        firstControlElement,
-        secondControlElement
-      ]
+      elements: [firstControlElement, secondControlElement],
     };
     const data = {
       firstSliderCell: 3.14,
-      secondSliderCell: 5.12
+      secondSliderCell: 5.12,
     };
     const store = initJsonFormsVanillaStore({
       data,
       schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer
+            schema={schema}
+            uischema={uischema}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -286,21 +261,17 @@ describe('Slider cell', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
-      options: { focus: true }
+      options: { focus: true },
     };
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={uischema}
-            path='foo'
-          />
+          <SliderCell schema={fixture.schema} uischema={uischema} path='foo' />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -312,21 +283,17 @@ describe('Slider cell', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
-      options: { focus: false }
+      options: { focus: false },
     };
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={uischema}
-            path='foo'
-          />
+          <SliderCell schema={fixture.schema} uischema={uischema} path='foo' />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -338,7 +305,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -363,23 +330,19 @@ describe('Slider cell', () => {
           type: 'number',
           maximum: 10,
           minimum: 2,
-          default: 6
-        }
-      }
+          default: 6,
+        },
+      },
     };
     const store = initJsonFormsVanillaStore({
-      data: { 'foo': 5 },
+      data: { foo: 5 },
       schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SliderCell
-            schema={schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
+          <SliderCell schema={schema} uischema={fixture.uischema} path='foo' />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -393,7 +356,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -417,7 +380,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -438,9 +401,9 @@ describe('Slider cell', () => {
 
   test('update via action', () => {
     const store = initJsonFormsVanillaStore({
-      data: { 'foo': 3 },
+      data: { foo: 3 },
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -462,7 +425,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -484,7 +447,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -506,7 +469,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -528,7 +491,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -550,7 +513,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -572,7 +535,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -594,7 +557,7 @@ describe('Slider cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>

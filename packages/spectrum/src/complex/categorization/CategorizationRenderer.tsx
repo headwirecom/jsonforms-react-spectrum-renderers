@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -23,11 +26,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  Categorization,
-  Category,
-  LayoutProps
-} from '@jsonforms/core';
+import { Categorization, Category, LayoutProps } from '@jsonforms/core';
 import { RendererComponent, withJsonFormsLayoutProps } from '@jsonforms/react';
 import { CategorizationList } from './CategorizationList';
 import { SingleCategory } from './SingleCategory';
@@ -55,7 +54,8 @@ class CategorizationRenderer extends RendererComponent<
     const masterClassNames = 'categorization-master'; // getStyleAsClassName('categorization.master');
     const detailClassNames = 'categorization-detail'; // getStyleAsClassName('categorization.detail');
     const selectedCategory = this.findCategory(categorization);
-    const subcategoriesClassName = 'category-subcategories'; /* getStyleAsClassName(
+    const subcategoriesClassName =
+      'category-subcategories'; /* getStyleAsClassName(
       'category.subcategories'
     ); */
     const groupClassName = 'category-group'; // getStyleAsClassName('category.group');

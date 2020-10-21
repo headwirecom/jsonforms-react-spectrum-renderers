@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -34,14 +37,14 @@ import { withJsonFormsCellProps } from '@jsonforms/react';
 export const DateTimeCell = (props: CellProps) => {
   const { data, id, enabled, uischema, path, handleChange } = props;
   const toISOString = (inputDateTime: string) => {
-    return (inputDateTime === '' ? '' : inputDateTime + ':00.000Z');
+    return inputDateTime === '' ? '' : inputDateTime + ':00.000Z';
   };
 
   return (
     <input
       type='datetime-local'
       value={(data ?? '').substr(0, 16)}
-      onChange={ev => handleChange(path, toISOString(ev.target.value))}
+      onChange={(ev) => handleChange(path, toISOString(ev.target.value))}
       className='input' // TODO: obsolete in the future, but implement trim!
       id={id}
       disabled={!enabled}

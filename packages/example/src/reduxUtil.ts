@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -26,7 +29,7 @@ import { Actions, getData, JsonFormsCore } from '@jsonforms/core';
 import {
   CHANGE_EXAMPLE,
   changeExample,
-  ExampleDescription
+  ExampleDescription,
 } from '@jsonforms/examples';
 import { ReactExampleDescription } from './util';
 import * as React from 'react';
@@ -45,7 +48,7 @@ export const updateExampleExtensionState = (
   extensionState: any
 ): UpdateExampleExtensionStateAction => ({
   type: UPDATE_EXAMPLE_EXTENSION_STATE,
-  extensionState
+  extensionState,
 });
 
 export interface ExampleStateProps {
@@ -77,7 +80,7 @@ const mapStateToProps = (state: any) => {
     dataAsString: JSON.stringify(getData(state), null, 2),
     examples,
     selectedExample,
-    extensionState
+    extensionState,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
@@ -91,7 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
       ? example.customReactExtension(dispatch)
       : null,
   onChange: (example: ReactExampleDescription) =>
-    example.onChange ? example.onChange(dispatch) : undefined
+    example.onChange ? example.onChange(dispatch) : undefined,
 });
 const mergeProps = (
   stateProps: ExampleStateProps,
@@ -113,7 +116,7 @@ const mergeProps = (
       dispatchProps.onChange(stateProps.selectedExample) &&
       dispatchProps.onChange(stateProps.selectedExample)(
         stateProps.extensionState
-      )
+      ),
   });
 };
 
@@ -124,7 +127,7 @@ interface ExamplesState {
 
 const initState: ExamplesState = {
   data: [],
-  selectedExample: undefined
+  selectedExample: undefined,
 };
 
 export const exampleReducer = (
@@ -134,11 +137,11 @@ export const exampleReducer = (
   switch (action.type) {
     case CHANGE_EXAMPLE:
       return Object.assign({}, state, {
-        selectedExample: action.example
+        selectedExample: action.example,
       });
     case UPDATE_EXAMPLE_EXTENSION_STATE:
       return Object.assign({}, state, {
-        extensionState: action.extensionState
+        extensionState: action.extensionState,
       });
     default:
       return state;
