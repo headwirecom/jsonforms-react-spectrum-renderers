@@ -30,15 +30,13 @@ import InputControl, { inputControlTester } from './InputControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
-import {
-  SpectrumIntegerControl,
+import SpectrumIntegerControl, {
   spectrumIntegerControlTester,
 } from './SpectrumIntegerControl';
 import SpectrumNumberControl, {
   spectrumNumberControlTester,
 } from './SpectrumNumberControl';
-import {
-  SpectrumNumberFormattedControl,
+import SpectrumNumberFormattedControl, {
   spectrumNumberFormattedControlTester,
 } from './SpectrumNumberFormattedControl';
 import SpectrumTextAreaControl, {
