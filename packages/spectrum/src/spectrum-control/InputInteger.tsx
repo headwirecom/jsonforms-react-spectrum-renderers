@@ -27,6 +27,7 @@ import { CellProps } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { TextField } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
+import { DimensionValue } from '@react-types/shared';
 
 export class InputInteger extends React.PureComponent<
   CellProps & SpectrumInputProps
@@ -48,6 +49,10 @@ export class InputInteger extends React.PureComponent<
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
 
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
+
     return (
       <div>
         <TextField
@@ -61,6 +66,7 @@ export class InputInteger extends React.PureComponent<
           isDisabled={enabled === undefined ? false : !enabled}
           autoFocus={uischema.options && uischema.options.focus}
           validationState={isValid ? 'valid' : 'invalid'}
+          width={width}
         />
       </div>
     );
