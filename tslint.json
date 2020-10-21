@@ -91,7 +91,7 @@
         }
       }
     ],
-    "arrow-parens": [true, "ban-single-arg-parens"],
+    "arrow-parens": [true],
     "array-type": [true, "array"],
     "arrow-return-shorthand": true,
     "callable-types": true,
