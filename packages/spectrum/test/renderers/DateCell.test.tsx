@@ -1,19 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +31,7 @@ import {
   getData,
   HorizontalLayout,
   JsonSchema,
-  update
+  update,
 } from '@jsonforms/core';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import Adapter from 'enzyme-adapter-react-16';
@@ -49,7 +52,7 @@ const fixture = {
   data: { foo: '1980-04-04' },
   schema: {
     type: 'string',
-    format: 'date'
+    format: 'date',
   },
   uischema: control,
 };
@@ -64,56 +67,46 @@ describe('Date cell tester', () => {
 
   test('tester with wrong prop type', () => {
     expect(
-      dateCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: { type: 'string' },
-          },
+      dateCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
         },
-      )
+      })
     ).toBe(-1);
   });
 
   test('tester with wrong prop type, but sibling has correct one', () => {
     expect(
-      dateCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: { type: 'string' },
-            bar: {
-              type: 'string',
-              format: 'date',
-            },
+      dateCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+          bar: {
+            type: 'string',
+            format: 'date',
           },
         },
-      )
+      })
     ).toBe(-1);
   });
 
   test('tester with correct prop type', () => {
     expect(
-      dateCellTester(
-        fixture.uischema,
-        {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'string',
-              format: 'date',
-            },
+      dateCellTester(fixture.uischema, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'string',
+            format: 'date',
           },
         },
-      )
+      })
     ).toBe(2);
   });
 });
 
 describe('Date cell', () => {
-
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -123,43 +116,43 @@ describe('Date cell', () => {
       type: 'object',
       properties: {
         firstDate: { type: 'string', format: 'date' },
-        secondDate: { type: 'string', format: 'date' }
-      }
+        secondDate: { type: 'string', format: 'date' },
+      },
     };
     const firstControlElement: ControlElement = {
       type: 'Control',
       scope: '#/properties/firstDate',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
     const secondControlElement: ControlElement = {
       type: 'Control',
       scope: '#/properties/secondDate',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: [
-        firstControlElement,
-        secondControlElement
-      ]
+      elements: [firstControlElement, secondControlElement],
     };
     const data = {
-      'firstDate': '1980-04-04',
-      'secondDate': '1980-04-04'
+      firstDate: '1980-04-04',
+      secondDate: '1980-04-04',
     };
     const store = initJsonFormsVanillaStore({
       data,
       schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer
+            schema={schema}
+            uischema={uischema}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -173,13 +166,13 @@ describe('Date cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
       options: {
-        focus: true
-      }
+        focus: true,
+      },
     };
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema
+      uischema,
     });
 
     wrapper = mount(
@@ -198,13 +191,13 @@ describe('Date cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
       options: {
-        focus: false
-      }
+        focus: false,
+      },
     };
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -220,12 +213,12 @@ describe('Date cell', () => {
   test('autofocus inactive by default', () => {
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/foo'
+      scope: '#/properties/foo',
     };
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema
+      uischema,
     });
     wrapper = mount(
       <Provider store={store}>
@@ -242,12 +235,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -262,12 +259,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -281,12 +282,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -299,12 +304,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -318,12 +327,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -337,12 +350,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -356,12 +373,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -374,12 +395,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -392,12 +417,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -410,12 +439,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} enabled={false} />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            enabled={false}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -427,12 +460,16 @@ describe('Date cell', () => {
     const store = initJsonFormsVanillaStore({
       data: fixture.data,
       schema: fixture.schema,
-      uischema: fixture.uischema
+      uischema: fixture.uischema,
     });
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <DateCell schema={fixture.schema} uischema={fixture.uischema} path='foo' />
+          <DateCell
+            schema={fixture.schema}
+            uischema={fixture.uischema}
+            path='foo'
+          />
         </JsonFormsReduxContext>
       </Provider>
     );

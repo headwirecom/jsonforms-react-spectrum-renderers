@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -52,7 +55,7 @@ import { initJsonFormsVanillaStore } from '../vanillaStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const fixture: { schema: JsonSchema, uischema: ControlElement, data: any } = {
+const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   data: { foo: 'foo' },
   schema: {
     type: 'object',
@@ -121,7 +124,10 @@ describe('Input control', () => {
       uischema,
       renderers: [
         { tester: inputControlTester, renderer: InputControl },
-        { tester: spectrumHorizontalLayoutTester, renderer: SpectrumHorizontalLayoutRenderer },
+        {
+          tester: spectrumHorizontalLayoutTester,
+          renderer: SpectrumHorizontalLayoutRenderer,
+        },
       ],
       cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
     });
@@ -411,7 +417,10 @@ describe('Input control', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer
+            schema={schema}
+            uischema={uischema}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );

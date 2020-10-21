@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -29,7 +32,7 @@ import {
   i18n,
   issue_1220 as Issue1220Example,
   nestedArray as NestedArrayExample,
-  onChange as OnChangeExample
+  onChange as OnChangeExample,
 } from '@jsonforms/examples';
 import ConnectedRatingControl, { ratingControlTester } from './RatingControl';
 import {
@@ -39,7 +42,7 @@ import {
   setLocale,
   setSchema,
   setUISchema,
-  UISchemaElement
+  UISchemaElement,
 } from '@jsonforms/core';
 import { AnyAction, Dispatch } from 'redux';
 import { updateExampleExtensionState } from './reduxUtil';
@@ -47,7 +50,9 @@ import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
 import { ErrorObject } from 'ajv';
 
 export interface ReactExampleDescription extends ExampleDescription {
-  onChange?(dispatch: Dispatch<AnyAction>): (
+  onChange?(
+    dispatch: Dispatch<AnyAction>
+  ): (
     extensionState: any
   ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => AnyAction;
   customReactExtension?(dispatch: Dispatch<AnyAction>): React.Component;
@@ -68,7 +73,9 @@ export interface OwnPropsOfI18nExample {
   schema: JsonSchema;
   uischema: UISchemaElement;
   dispatch: Dispatch<AnyAction>;
-  onChange(dispatch: Dispatch<AnyAction>): (
+  onChange(
+    dispatch: Dispatch<AnyAction>
+  ): (
     extensionState: any
   ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => void;
 }
@@ -103,7 +110,7 @@ class I18nExampleRenderer extends React.Component<
 
     this.state = {
       localizedSchemas,
-      localizedUISchemas
+      localizedUISchemas,
     };
   }
 
@@ -131,7 +138,7 @@ const withContextToI18nProps = (
   Component: React.ComponentType<I18nExampleProps>
 ): React.ComponentType<OwnPropsOfI18nExample> => ({
   ctx,
-  props
+  props,
 }: JsonFormsStateContext & I18nExampleProps) => {
   const { data, errors } = ctx.core;
   return <Component {...props} data={data} errors={errors} />;
@@ -146,8 +153,8 @@ const I18nExample = withI18nProps(I18nExampleRenderer);
 
 export const enhanceExample: (
   examples: ExampleDescription[]
-) => ReactExampleDescription[] = examples =>
-  examples.map(e => {
+) => ReactExampleDescription[] = (examples) =>
+  examples.map((e) => {
     switch (e.name) {
       case 'day6':
         const day6 = Object.assign({}, e, {
@@ -160,7 +167,7 @@ export const enhanceExample: (
                 Unregister Custom Cell
               </button>
             </div>
-          )
+          ),
         });
         return day6;
       case 'nestedArray':
@@ -182,7 +189,7 @@ export const enhanceExample: (
                 Unregister NestedArray UISchema
               </button>
             </div>
-          )
+          ),
         });
         return nestedArray;
       case 'dynamic':
@@ -197,7 +204,7 @@ export const enhanceExample: (
                 Change data
               </button>
             </div>
-          )
+          ),
         });
         return dynamic;
       case 'rule-enable':
@@ -206,20 +213,22 @@ export const enhanceExample: (
             <div>
               <button
                 onClick={() => {
-                  dispatch(Actions.update('toggleTopLayout', bool => !bool));
+                  dispatch(Actions.update('toggleTopLayout', (bool) => !bool));
                 }}
               >
                 Enable/Disable top layout
               </button>
               <button
                 onClick={() => {
-                  dispatch(Actions.update('toggleBottomLayout', bool => !bool));
+                  dispatch(
+                    Actions.update('toggleBottomLayout', (bool) => !bool)
+                  );
                 }}
               >
                 Show/Hide bottom layout
               </button>
             </div>
-          )
+          ),
         });
       case 'array':
         const array = Object.assign({}, e, {
@@ -240,7 +249,7 @@ export const enhanceExample: (
                 Reload without sorting
               </button>
             </div>
-          )
+          ),
         });
         return array;
       case 'i18n':
@@ -253,7 +262,7 @@ export const enhanceExample: (
               onChange={i18n.onChange}
             />
           ),
-          onChange: i18n.onChange
+          onChange: i18n.onChange,
         });
       case '1220':
         const issue_1220 = Object.assign({}, e, {
@@ -274,13 +283,13 @@ export const enhanceExample: (
                 Unregister Issue 1220 UISchema
               </button>
             </div>
-          )
+          ),
         });
         return issue_1220;
       case 'onChange':
         return {
           ...e,
-          onChange: OnChangeExample.onChange
+          onChange: OnChangeExample.onChange,
         };
       default:
         return e;

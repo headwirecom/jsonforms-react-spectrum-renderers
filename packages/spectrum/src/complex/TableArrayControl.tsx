@@ -1,19 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,7 +42,7 @@ import {
   Paths,
   RankedTester,
   Resolve,
-  Test
+  Test,
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
 
@@ -58,9 +61,8 @@ export const tableArrayControlTester: RankedTester = rankWith(
 );
 
 class TableArrayControl extends React.Component<ArrayControlProps, any> {
-
   confirmDelete = (path: string, index: number) => {
-    const p = path.substring(0, path.lastIndexOf(('.')));
+    const p = path.substring(0, path.lastIndexOf('.'));
     this.props.removeItems(p, [index])();
   };
 
@@ -75,7 +77,7 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
       visible,
       errors,
       label,
-      childErrors
+      childErrors,
     } = this.props;
 
     const controlElement = uischema as ControlElement;
@@ -84,12 +86,12 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
     const buttonClass = ''; // getStyleAsClassName('array.table.button');
     const controlClass = [
       'array-table-layout control', // getStyleAsClassName('array.table'),
-      convertToValidClassName(controlElement.scope)
+      convertToValidClassName(controlElement.scope),
     ].join(' ');
     const createControlElement = (key?: string): ControlElement => ({
       type: 'Control',
       label: false,
-      scope: schema.type === 'object' ? `#/properties/${key}` : '#'
+      scope: schema.type === 'object' ? `#/properties/${key}` : '#',
     });
     const labelObject = createLabelDescriptionFrom(controlElement, schema);
     const isValid = errors.length === 0;
@@ -107,21 +109,19 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
             Add to {labelObject.text}
           </button>
         </header>
-        <div className={divClassNames}>
-          {!isValid ? errors : ''}
-        </div>
+        <div className={divClassNames}>{!isValid ? errors : ''}</div>
         <table className={tableClass}>
           <thead>
             <tr>
               {schema.properties ? (
                 fpflow(
                   fpkeys,
-                  fpfilter(prop => schema.properties[prop].type !== 'array'),
-                  fpmap(prop => <th key={prop}>{fpstartCase(prop)}</th>)
+                  fpfilter((prop) => schema.properties[prop].type !== 'array'),
+                  fpmap((prop) => <th key={prop}>{fpstartCase(prop)}</th>)
                 )(schema.properties)
               ) : (
-                  <th>Items</th>
-                )}
+                <th>Items</th>
+              )}
               <th>Valid</th>
               <th>&nbsp;</th>
             </tr>
@@ -132,84 +132,89 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
                 <td>No data</td>
               </tr>
             ) : (
-                data.map((_child, index) => {
-                  const childPath = Paths.compose(
-                    path,
-                    `${index}`
-                  );
-                  // TODO
-                  const errorsPerEntry: any[] = filter(childErrors, error =>
-                    error.dataPath.startsWith(childPath)
-                  );
+              data.map((_child, index) => {
+                const childPath = Paths.compose(path, `${index}`);
+                // TODO
+                const errorsPerEntry: any[] = filter(childErrors, (error) =>
+                  error.dataPath.startsWith(childPath)
+                );
 
-                  return (
-                    <tr key={childPath}>
-                      {schema.properties ? (
-                        fpflow(
-                          fpkeys,
-                          fpfilter(
-                            prop => schema.properties[prop].type !== 'array'
-                          ),
-                          fpmap(prop => {
-                            const childPropPath = Paths.compose(
-                              childPath,
-                              prop.toString()
-                            );
+                return (
+                  <tr key={childPath}>
+                    {schema.properties ? (
+                      fpflow(
+                        fpkeys,
+                        fpfilter(
+                          (prop) => schema.properties[prop].type !== 'array'
+                        ),
+                        fpmap((prop) => {
+                          const childPropPath = Paths.compose(
+                            childPath,
+                            prop.toString()
+                          );
 
-                            return (
-                              <td key={childPropPath}>
-                                <DispatchCell
-                                  schema={Resolve.schema(schema, `#/properties/${prop}`, rootSchema)}
-                                  uischema={createControlElement(prop)}
-                                  path={childPath + '.' + prop}
-                                />
-                              </td>
-                            );
-                          })
-                        )(schema.properties)
-                      ) : (
-                          <td
-                            key={Paths.compose(
-                              childPath,
-                              index.toString()
-                            )}
-                          >
-                            <DispatchCell
-                              schema={schema}
-                              uischema={createControlElement()}
-                              path={childPath}
-                            />
-                          </td>
-                        )}
-                      <td>
-                        {errorsPerEntry ? (
-                          <span
-                            className={'todo'/* getStyleAsClassName(
+                          return (
+                            <td key={childPropPath}>
+                              <DispatchCell
+                                schema={Resolve.schema(
+                                  schema,
+                                  `#/properties/${prop}`,
+                                  rootSchema
+                                )}
+                                uischema={createControlElement(prop)}
+                                path={childPath + '.' + prop}
+                              />
+                            </td>
+                          );
+                        })
+                      )(schema.properties)
+                    ) : (
+                      <td key={Paths.compose(childPath, index.toString())}>
+                        <DispatchCell
+                          schema={schema}
+                          uischema={createControlElement()}
+                          path={childPath}
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {errorsPerEntry ? (
+                        <span
+                          className={
+                            'todo' /* getStyleAsClassName(
                               'array.validation.error'
-                            ) */}
-                          >
-                            {join(errorsPerEntry.map(e => e.message), ' and ')}
-                          </span>
-                        ) : (
-                            <span>OK</span>
-                          )}
-                      </td>
-                      <td>
-                        <button
-                          aria-label={`Delete`}
-                          onClick={() => {
-                            if (window.confirm('Are you sure you wish to delete this item?')) {
-                              this.confirmDelete(childPath, index);
-                            }
-                          }}
+                            ) */
+                          }
                         >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
+                          {join(
+                            errorsPerEntry.map((e) => e.message),
+                            ' and '
+                          )}
+                        </span>
+                      ) : (
+                        <span>OK</span>
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        aria-label={`Delete`}
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              'Are you sure you wish to delete this item?'
+                            )
+                          ) {
+                            this.confirmDelete(childPath, index);
+                          }
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

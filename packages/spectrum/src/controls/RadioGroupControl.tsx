@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -28,15 +31,12 @@ import {
   ControlProps,
   ControlState,
   isDescriptionHidden,
-  isPlainLabel
+  isPlainLabel,
 } from '@jsonforms/core';
 import { Control, withJsonFormsControlProps } from '@jsonforms/react';
 import merge from 'lodash/merge';
 
-export class RadioGroupControl extends Control<
-  ControlProps,
-  ControlState
-> {
+export class RadioGroupControl extends Control<ControlProps, ControlState> {
   render() {
     const {
       id,
@@ -48,7 +48,7 @@ export class RadioGroupControl extends Control<
       schema,
       uischema,
       visible,
-      config
+      config,
     } = this.props;
     const classNames: any = {}; // TODO: remove when fully implemented with Spectrum (implement trim!)
     const isValid = errors.length === 0;
@@ -57,7 +57,7 @@ export class RadioGroupControl extends Control<
     }`;
     const groupStyle: { [x: string]: any } = {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
     };
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -86,7 +86,7 @@ export class RadioGroupControl extends Control<
         </label>
 
         <div style={groupStyle}>
-          {options.map(optionValue => (
+          {options.map((optionValue) => (
             <div key={optionValue}>
               <input
                 type='radio'
@@ -94,7 +94,7 @@ export class RadioGroupControl extends Control<
                 id={optionValue}
                 name={id}
                 checked={data === optionValue}
-                onChange={ev => this.handleChange(ev.currentTarget.value)}
+                onChange={(ev) => this.handleChange(ev.currentTarget.value)}
               />
               <label htmlFor={optionValue}>{optionValue}</label>
             </div>

@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -35,13 +38,16 @@ import {
   JsonFormsCellRendererRegistryEntry,
   jsonformsReducer,
   JsonFormsRendererRegistryEntry,
-  RankedTester
+  RankedTester,
 } from '@jsonforms/core';
 import { getExamples } from '@jsonforms/examples';
 import { AdditionalStoreParams, exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
 
-import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
+import {
+  defaultTheme,
+  Provider as SpectrumThemeProvider,
+} from '@adobe/react-spectrum';
 
 const setupStore = (
   exampleData: ReactExampleDescription[],
@@ -69,17 +75,17 @@ const setupStore = (
   );
   const reducer = combineReducers({
     jsonforms: jsonformsReducer({ ...additionalReducers }),
-    examples: exampleReducer
+    examples: exampleReducer,
   });
   const store = createStore(reducer, {
     jsonforms: {
       cells: cells,
       renderers: renderers,
-      ...additionalInitState
+      ...additionalInitState,
     },
     examples: {
-      data: exampleData
-    }
+      data: exampleData,
+    },
   } as any);
 
   // Resolve example configuration
@@ -94,7 +100,7 @@ const setupStore = (
     },
     read: () => {
       return JSON.stringify(geoschema);
-    }
+    },
   };
   // Add configuration to JSONForms
   store.dispatch(
@@ -106,9 +112,9 @@ const setupStore = (
         ajv: ajv,
         refParserOptions: {
           resolve: {
-            geo: geoResolver
-          } as any
-        }
+            geo: geoResolver,
+          } as any,
+        },
       }
     )
   );
@@ -129,13 +135,11 @@ export const renderExample = (
     additionalStoreParams
   );
   ReactDOM.render(
-    (
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
+    <Provider store={store}>
+      <SpectrumThemeProvider theme={defaultTheme}>
         <App />
-        </SpectrumThemeProvider>
-      </Provider>
-    ),
+      </SpectrumThemeProvider>
+    </Provider>,
     document.getElementById('root')
   );
 };

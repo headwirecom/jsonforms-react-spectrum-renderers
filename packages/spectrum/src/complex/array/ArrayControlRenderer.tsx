@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -24,63 +27,60 @@
 */
 import React from 'react';
 
-import {
-    ArrayControlProps,
-    ControlElement,
-    Helpers
-} from '@jsonforms/core';
+import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { ArrayControl } from './ArrayControl';
 
-const ArrayControlRenderer =
-    ({
-        schema,
-        uischema,
-        data,
-        path,
-        rootSchema,
-        uischemas,
-        addItem,
-        removeItems,
-        id,
-        visible,
-        enabled,
-        errors
-    }: ArrayControlProps) => {
+const ArrayControlRenderer = ({
+  schema,
+  uischema,
+  data,
+  path,
+  rootSchema,
+  uischemas,
+  addItem,
+  removeItems,
+  id,
+  visible,
+  enabled,
+  errors,
+}: ArrayControlProps) => {
+  const controlElement = uischema as ControlElement;
+  const labelDescription = Helpers.createLabelDescriptionFrom(
+    controlElement,
+    schema
+  );
+  const label = labelDescription.show ? labelDescription.text : '';
+  // const controlClassName =
+  //     `control ${(Helpers.convertToValidClassName(controlElement.scope))}`;
+  // const fieldSetClassName = getStyleAsClassName('array.layout');
+  // const buttonClassName = getStyleAsClassName('array.button');
+  // const childrenClassName = getStyleAsClassName('array.children');
+  // const classNames: { [className: string]: string } = {
+  //     wrapper: controlClassName,
+  //     fieldSet: fieldSetClassName,
+  //     button: buttonClassName,
+  //     children: childrenClassName
+  // };
 
-        const controlElement = uischema as ControlElement;
-        const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
-        const label = labelDescription.show ? labelDescription.text : '';
-        // const controlClassName =
-        //     `control ${(Helpers.convertToValidClassName(controlElement.scope))}`;
-        // const fieldSetClassName = getStyleAsClassName('array.layout');
-        // const buttonClassName = getStyleAsClassName('array.button');
-        // const childrenClassName = getStyleAsClassName('array.children');
-        // const classNames: { [className: string]: string } = {
-        //     wrapper: controlClassName,
-        //     fieldSet: fieldSetClassName,
-        //     button: buttonClassName,
-        //     children: childrenClassName
-        // };
-
-        return (
-            <ArrayControl
-                errors={errors}
-                removeItems={removeItems}
-                // classNames={classNames}
-                data={data}
-                label={label}
-                path={path}
-                addItem={addItem}
-                uischemas={uischemas}
-                uischema={uischema}
-                schema={schema}
-                rootSchema={rootSchema}
-                id={id}
-                visible={visible}
-                enabled={enabled}
-            />
-        );
-    };
+  return (
+    <ArrayControl
+      errors={errors}
+      removeItems={removeItems}
+      // classNames={classNames}
+      data={data}
+      label={label}
+      path={path}
+      addItem={addItem}
+      uischemas={uischemas}
+      uischema={uischema}
+      schema={schema}
+      rootSchema={rootSchema}
+      id={id}
+      visible={visible}
+      enabled={enabled}
+    />
+  );
+};
 
 export default withJsonFormsArrayControlProps(ArrayControlRenderer);

@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -41,10 +44,7 @@ import {
 import merge from 'lodash/merge';
 import { Flex, Text } from '@adobe/react-spectrum';
 
-export class InputControl extends Control<
-  ControlProps,
-  ControlState
-> {
+export class InputControl extends Control<ControlProps, ControlState> {
   render() {
     const {
       description,
@@ -59,7 +59,7 @@ export class InputControl extends Control<
     } = this.props;
     const classNames: any = {
       wrapper: 'control',
-      description: 'input-description'
+      description: 'input-description',
     }; // TODO: remove when fully implemented with Spectrum
     const isValid = errors.length === 0;
     const divClassNames = `validation  ${
@@ -74,7 +74,7 @@ export class InputControl extends Control<
       appliedUiSchemaOptions.showUnfocusedDescription
     );
 
-    const cell = maxBy(cells, r => r.tester(uischema, schema));
+    const cell = maxBy(cells, (r) => r.tester(uischema, schema));
     if (
       cell === undefined ||
       cell.tester(uischema, schema) === NOT_APPLICABLE

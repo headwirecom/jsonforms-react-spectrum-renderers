@@ -4,6 +4,9 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
+  Copyright (c) 2020 headwire.com, Inc
+  https://github.com/headwirecom/jsonforms-react-spectrum-renderers
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -37,22 +40,21 @@ export const EnumCell = (props: EnumCellProps) => {
   return (
     <select
       className='select' // TODO: obsolete in the future, but implement trim!
-
       id={id}
       disabled={!enabled}
       autoFocus={uischema.options && uischema.options.focus}
       value={data ?? ''}
-      onChange={ev => handleChange(path, ev.target.value)}
+      onChange={(ev) => handleChange(path, ev.target.value)}
     >
-      {
-        [<option value='' key={'empty'} />]
-          .concat(
-            options.map(optionValue =>
-              (
-                <option value={optionValue.value} label={optionValue.label} key={optionValue.value}/>
-              )
-            )
-          )}
+      {[<option value='' key={'empty'} />].concat(
+        options.map((optionValue) => (
+          <option
+            value={optionValue.value}
+            label={optionValue.label}
+            key={optionValue.value}
+          />
+        ))
+      )}
     </select>
   );
 };
