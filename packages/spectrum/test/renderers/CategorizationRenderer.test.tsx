@@ -40,7 +40,7 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import CategorizationRenderer, {
   categorizationTester,
 } from '../../src/complex/categorization';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -215,7 +215,7 @@ describe('Categorization renderer', () => {
       ],
     };
 
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema,
       uischema,
@@ -301,7 +301,7 @@ describe('Categorization renderer', () => {
         },
       ],
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema: fixture.schema,
       uischema,
@@ -360,7 +360,7 @@ describe('Categorization renderer', () => {
         },
       ],
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -394,7 +394,7 @@ describe('Categorization renderer', () => {
         },
       ],
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,

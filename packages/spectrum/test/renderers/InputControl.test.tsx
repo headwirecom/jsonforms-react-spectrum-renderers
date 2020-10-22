@@ -51,7 +51,7 @@ import SpectrumTextCell, {
   spectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
 import DateCell, { dateCellTester } from '../../src/cells/DateCell';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -118,7 +118,7 @@ describe('Input control', () => {
       firstTextCell: 'first',
       secondTextCell: 'second',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -146,7 +146,7 @@ describe('Input control', () => {
   });
 
   test('render', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -189,7 +189,7 @@ describe('Input control', () => {
       scope: '#/properties/foo',
       label: false,
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -226,7 +226,7 @@ describe('Input control', () => {
   });
 
   test('hide', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -252,7 +252,7 @@ describe('Input control', () => {
   });
 
   test('show by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -273,7 +273,7 @@ describe('Input control', () => {
   });
 
   test('single error', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -295,7 +295,7 @@ describe('Input control', () => {
   });
 
   test('multiple errors', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -318,7 +318,7 @@ describe('Input control', () => {
   });
 
   test('empty errors by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -339,7 +339,7 @@ describe('Input control', () => {
   });
 
   test('reset validation message', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -407,7 +407,7 @@ describe('Input control', () => {
       name: 'John Doe',
       personalData: {},
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -446,7 +446,7 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/dateCell',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: {},
       schema,
       uischema,
@@ -480,7 +480,7 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/dateCell',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: {},
       schema,
       uischema,
@@ -513,7 +513,7 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -548,7 +548,7 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -581,7 +581,7 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -618,7 +618,7 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -649,7 +649,7 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/expectedValue',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: {},
       schema,
       uischema,

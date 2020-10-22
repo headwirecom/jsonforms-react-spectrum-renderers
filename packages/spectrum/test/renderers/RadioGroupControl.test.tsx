@@ -40,7 +40,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import RadioGroupControl from '../../src/controls/RadioGroupControl';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -67,7 +67,7 @@ describe('Radio group control', () => {
   afterEach(() => wrapper.unmount());
 
   test('render', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -95,7 +95,7 @@ describe('Radio group control', () => {
   });
 
   test('Radio group should have only one selected option', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,

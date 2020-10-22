@@ -34,7 +34,7 @@ import {
   UISchemaElement,
 } from '@jsonforms/core';
 
-export const initJsonFormsVanillaStore = ({
+export const initJsonFormsSpectrumStore = ({
   data,
   schema,
   uischema,
@@ -54,7 +54,7 @@ export const initJsonFormsVanillaStore = ({
     {
       // TODO
       jsonforms: {
-        // styles: vanillaStyles,
+        // styles: spectrumStyles,
         ...other,
       } as any,
     }

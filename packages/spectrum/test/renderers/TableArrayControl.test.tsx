@@ -43,7 +43,7 @@ import TableArrayControl, {
 } from '../../src/complex/TableArrayControl';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import '../../src';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
@@ -169,7 +169,7 @@ describe('Table array control', () => {
   afterEach(() => wrapper.unmount());
 
   test('render two children', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -238,7 +238,7 @@ describe('Table array control', () => {
       type: 'Control',
       scope: '#/properties/test',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: {},
       schema: fixture.schema,
       uischema: control,
@@ -294,7 +294,7 @@ describe('Table array control', () => {
   });
 
   test('render new child (empty init data)', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { test: [] },
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -319,7 +319,7 @@ describe('Table array control', () => {
   });
 
   test('render new child (undefined data)', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { test: undefined },
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -344,7 +344,7 @@ describe('Table array control', () => {
   });
 
   test('render new child (null data)', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { test: null },
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -369,7 +369,7 @@ describe('Table array control', () => {
   });
 
   test('render new child', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -407,7 +407,7 @@ describe('Table array control', () => {
       type: 'Control',
       scope: '#/properties/test',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { test: ['foo', 'bars'] },
       schema,
       uischema,
@@ -428,7 +428,7 @@ describe('Table array control', () => {
   });
 
   test('update via action', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -466,7 +466,7 @@ describe('Table array control', () => {
   });
 
   test('hide', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -487,7 +487,7 @@ describe('Table array control', () => {
   });
 
   test('show by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -507,7 +507,7 @@ describe('Table array control', () => {
   });
 
   test('single error', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -528,7 +528,7 @@ describe('Table array control', () => {
   });
 
   test('multiple errors', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -549,7 +549,7 @@ describe('Table array control', () => {
   });
 
   test('empty errors by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -569,7 +569,7 @@ describe('Table array control', () => {
   });
 
   test('reset validation message', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -625,7 +625,7 @@ describe('Table array control', () => {
       type: 'HorizontalLayout',
       elements: [firstControl, secondControl, thirdControl],
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: {
         name: 'John Doe',
         personalData: {},
