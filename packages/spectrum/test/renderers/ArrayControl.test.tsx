@@ -31,7 +31,7 @@ import { Provider } from 'react-redux';
 import { ControlElement, JsonSchema } from '@jsonforms/core';
 import ArrayControl from '../../src/complex/array/ArrayControlRenderer';
 import { spectrumRenderers } from '../../src/index';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
@@ -68,7 +68,7 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
 
 describe('Array control renderer', () => {
   test('render two children', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
