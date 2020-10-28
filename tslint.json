@@ -2,6 +2,7 @@
   "extends": ["tslint-react"],
   "rules": {
     "jsx-no-multiline-js": false,
+    "jsx-wrap-multiline": false,
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
     "adjacent-overload-signatures": true,
