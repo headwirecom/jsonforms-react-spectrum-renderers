@@ -23,15 +23,23 @@
   THE SOFTWARE.
 */
 const merge = require('webpack-merge');
-const baseConfig = require('../../../webpack/webpack.dev.base.js');
+const baseConfig = require('../../../webpack/webpack.base.js');
+const path = require('path');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(baseConfig, {
+  mode: 'production',
+  entry: './example/index.ts',
+  output: {
+    filename: 'assets/bundle.js',
+    path: path.resolve('./', 'dist')
+  },
   plugins: [
     new copyWebpackPlugin([
-      { from: './example/example.css' },
-      { from: './example/example.dark.css' },
-      { from: '../example/src/logo.svg' },
+      { from: './example/index.html' },
+      { from: './example/example.css', to: 'assets' },
+      { from: './example/example.dark.css', to: 'assets' },
+      { from: '../example/src/logo.svg', to: 'assets' },
     ]),
   ],
 });

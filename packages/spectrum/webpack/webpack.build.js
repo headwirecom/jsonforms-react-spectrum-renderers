@@ -27,8 +27,8 @@ const baseConfig = require('../../../webpack/webpack.build.base.js');
 
 module.exports = merge(baseConfig, {
   output: {
-    filename: 'jsonforms-vanilla.js',
-    library: 'JSONFormsVanilla',
+    filename: 'jsonforms-react-spectrum.js',
+    library: 'JSONFormsReactSpectrum',
   },
   externals: {
     '@jsonforms/core': 'JSONFormsCore',
