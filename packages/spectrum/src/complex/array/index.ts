@@ -30,10 +30,10 @@ import {
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
-import ArrayControlRenderer from './ArrayControlRenderer';
-import { ArrayControl } from './ArrayControl';
+import ArrayControlRenderer from './SpectrumArrayControlRenderer';
+import { SpectrumArrayControl } from './SpectrumArrayControl';
 
-export { ArrayControl, ArrayControlRenderer };
+export { SpectrumArrayControl, ArrayControlRenderer };
 
 export const arrayControlTester: RankedTester = rankWith(
   2,

@@ -29,9 +29,9 @@ import React from 'react';
 
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
-import { ArrayControl } from './ArrayControl';
+import { SpectrumArrayControl } from './SpectrumArrayControl';
 
-const ArrayControlRenderer = ({
+const SpectrumArrayControlRenderer = ({
   schema,
   uischema,
   data,
@@ -64,7 +64,7 @@ const ArrayControlRenderer = ({
   // };
 
   return (
-    <ArrayControl
+    <SpectrumArrayControl
       errors={errors}
       removeItems={removeItems}
       // classNames={classNames}
@@ -83,4 +83,4 @@ const ArrayControlRenderer = ({
   );
 };
 
-export default withJsonFormsArrayControlProps(ArrayControlRenderer);
+export default withJsonFormsArrayControlProps(SpectrumArrayControlRenderer);

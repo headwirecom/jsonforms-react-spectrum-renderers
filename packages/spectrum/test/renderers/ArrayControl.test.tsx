@@ -29,7 +29,7 @@ import { JsonFormsReduxContext } from '@jsonforms/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ControlElement, JsonSchema } from '@jsonforms/core';
-import ArrayControl from '../../src/complex/array/ArrayControlRenderer';
+import ArrayControl from '../../src/complex/array/SpectrumArrayControlRenderer';
 import { spectrumRenderers } from '../../src/index';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
