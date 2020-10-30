@@ -1,4 +1,3 @@
-/* tslint:disable */
 /*
   The MIT License
 
@@ -47,12 +46,12 @@ import {
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
 import {
-  Table,
-  Row,
+  Cell,
   Column,
+  Row,
+  Table,
   TableBody,
   TableHeader,
-  Cell,
 } from '@react-spectrum/table';
 
 const { createLabelDescriptionFrom, convertToValidClassName } = Helpers;
@@ -64,12 +63,15 @@ const { or, isObjectArrayControl, isPrimitiveArrayControl, rankWith } = Test;
  * option is set.
  * @type {RankedTester}
  */
-export const tableArrayControlTester: RankedTester = rankWith(
+export const spectrumTableArrayControlTester: RankedTester = rankWith(
   3,
   or(isObjectArrayControl, isPrimitiveArrayControl)
 );
 
-class TableArrayControl extends React.Component<ArrayControlProps, any> {
+class SpectrumTableArrayControl extends React.Component<
+  ArrayControlProps,
+  any
+> {
   confirmDelete = (path: string, index: number) => {
     const p = path.substring(0, path.lastIndexOf('.'));
     this.props.removeItems(p, [index])();
@@ -236,4 +238,4 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
   }
 }
 
-export default withJsonFormsArrayControlProps(TableArrayControl);
+export default withJsonFormsArrayControlProps(SpectrumTableArrayControl);

@@ -33,9 +33,9 @@ import Categorization, { categorizationTester } from './categorization';
 import SpectrumLabelRenderer, {
   spectrumLabelRendererTester,
 } from './SpectrumLabelRenderer';
-import TableArrayControl, {
-  tableArrayControlTester,
-} from './TableArrayControl';
+import SpectrumTableArrayControl, {
+  spectrumTableArrayControlTester,
+} from './SpectrumTableArrayControl';
 
 export {
   ArrayControl,
@@ -46,6 +46,6 @@ export {
   spectrumLabelRendererTester,
   SpectrumObjectRenderer,
   spectrumObjectControlTester,
-  TableArrayControl,
-  tableArrayControlTester,
+  SpectrumTableArrayControl,
+  spectrumTableArrayControlTester,
 };

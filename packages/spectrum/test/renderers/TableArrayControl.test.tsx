@@ -39,8 +39,8 @@ import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import TableArrayControl, {
-  tableArrayControlTester,
-} from '../../src/complex/TableArrayControl';
+  spectrumTableArrayControlTester,
+} from '../../src/complex/SpectrumTableArrayControl';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import '../../src';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
@@ -81,7 +81,7 @@ describe('Table array tester', () => {
       type: 'Control',
       scope: '#',
     };
-    expect(tableArrayControlTester(control, undefined)).toBe(-1);
+    expect(spectrumTableArrayControlTester(control, undefined)).toBe(-1);
   });
 
   test('tester with prop of wrong type', () => {
@@ -90,7 +90,7 @@ describe('Table array tester', () => {
       scope: '#/properties/x',
     };
     expect(
-      tableArrayControlTester(control, {
+      spectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           x: { type: 'integer' },
@@ -105,7 +105,7 @@ describe('Table array tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      tableArrayControlTester(control, {
+      spectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'array' },
@@ -120,7 +120,7 @@ describe('Table array tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      tableArrayControlTester(control, {
+      spectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -138,7 +138,7 @@ describe('Table array tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      tableArrayControlTester(control, {
+      spectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -156,11 +156,11 @@ describe('Table array tester', () => {
       scope: '#/properties/test',
     };
 
-    expect(tableArrayControlTester(uischema, fixture.schema)).toBe(3);
+    expect(spectrumTableArrayControlTester(uischema, fixture.schema)).toBe(3);
   });
 
   test('tester - wrong type', () =>
-    expect(tableArrayControlTester({ type: 'Foo' }, null)).toBe(-1));
+    expect(spectrumTableArrayControlTester({ type: 'Foo' }, null)).toBe(-1));
 });
 
 describe('Table array control', () => {
