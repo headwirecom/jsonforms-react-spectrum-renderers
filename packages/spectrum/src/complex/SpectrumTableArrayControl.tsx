@@ -53,8 +53,9 @@ import {
   TableBody,
   TableHeader,
 } from '@react-spectrum/table';
+import { Button, Header, Heading, View, Well } from '@adobe/react-spectrum';
 
-const { createLabelDescriptionFrom, convertToValidClassName } = Helpers;
+const { createLabelDescriptionFrom } = Helpers;
 
 const { or, isObjectArrayControl, isPrimitiveArrayControl, rankWith } = Test;
 
@@ -92,12 +93,7 @@ class SpectrumTableArrayControl extends React.Component<
     } = this.props;
 
     const controlElement = uischema as ControlElement;
-    const labelClass = ''; // getStyleAsClassName('array.table.label');
-    const buttonClass = ''; // getStyleAsClassName('array.table.button');
-    const controlClass = [
-      'array-table-layout control', // getStyleAsClassName('array.table'),
-      convertToValidClassName(controlElement.scope),
-    ].join(' ');
+
     const createControlElement = (key?: string): ControlElement => ({
       type: 'Control',
       label: false,
@@ -105,7 +101,6 @@ class SpectrumTableArrayControl extends React.Component<
     });
     const labelObject = createLabelDescriptionFrom(controlElement, schema);
     const isValid = errors.length === 0;
-    const divClassNames = 'validation' + (isValid ? '' : ' validation_error');
     const labelText = isPlainLabel(label) ? label : label.default;
 
     const headerColumns: JSX.Element[] = schema.properties
@@ -114,20 +109,22 @@ class SpectrumTableArrayControl extends React.Component<
           fpfilter((prop) => schema.properties[prop].type !== 'array'),
           fpmap((prop) => <Column key={prop}>{fpstartCase(prop)}</Column>)
         )(schema.properties)
-      : [<Column>Items</Column>];
+      : [<Column key='items'>Items</Column>];
 
     return (
-      <div className={controlClass} hidden={!visible}>
-        <header>
-          <label className={labelClass}>{labelText}</label>
-          <button
-            className={buttonClass}
-            onClick={addItem(path, createDefaultValue(schema))}
+      <View
+        isHidden={visible === undefined || visible === null ? false : !visible}
+      >
+        <Header>
+          <Heading level={4}>{labelText}</Heading>
+          <Button
+            variant='primary'
+            onPress={addItem(path, createDefaultValue(schema))}
           >
             Add to {labelObject.text}
-          </button>
-        </header>
-        <div className={divClassNames}>{!isValid ? errors : ''}</div>
+          </Button>
+        </Header>
+        <Well isHidden={isValid}>{!isValid ? errors : ''}</Well>
         <Table>
           <TableHeader>
             {[
@@ -211,9 +208,10 @@ class SpectrumTableArrayControl extends React.Component<
                         )}
                       </Cell>,
                       <Cell key='delete'>
-                        <button
+                        <Button
+                          variant='primary'
                           aria-label={`Delete`}
-                          onClick={() => {
+                          onPress={() => {
                             if (
                               window.confirm(
                                 'Are you sure you wish to delete this item?'
@@ -224,7 +222,7 @@ class SpectrumTableArrayControl extends React.Component<
                           }}
                         >
                           Delete
-                        </button>
+                        </Button>
                       </Cell>,
                     ]}
                   </Row>
@@ -233,7 +231,7 @@ class SpectrumTableArrayControl extends React.Component<
             )}
           </TableBody>
         </Table>
-      </div>
+      </View>
     );
   }
 }
