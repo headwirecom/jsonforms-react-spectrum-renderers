@@ -90,7 +90,6 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
     } = this.props;
 
     const controlElement = uischema as ControlElement;
-    const tableClass = ''; // getStyleAsClassName('array.table.table');
     const labelClass = ''; // getStyleAsClassName('array.table.label');
     const buttonClass = ''; // getStyleAsClassName('array.table.button');
     const controlClass = [
@@ -129,13 +128,11 @@ class TableArrayControl extends React.Component<ArrayControlProps, any> {
         <div className={divClassNames}>{!isValid ? errors : ''}</div>
         <Table>
           <TableHeader>
-            <Row>
-              {[
-                ...headerColumns,
-                <Column key='valid'>Valid</Column>,
-                <Column key='none'>&nbsp;</Column>,
-              ]}
-            </Row>
+            {[
+              ...headerColumns,
+              <Column key='valid'>Valid</Column>,
+              <Column key='none'>&nbsp;</Column>,
+            ]}
           </TableHeader>
           <TableBody>
             {!data || !Array.isArray(data) || data.length === 0 ? (
