@@ -113,18 +113,22 @@ class SpectrumTableArrayControl extends React.Component<
 
     return (
       <View
+        id='table-view'
         isHidden={visible === undefined || visible === null ? false : !visible}
       >
         <Header>
           <Heading level={4}>{labelText}</Heading>
           <Button
             variant='primary'
+            id='button'
             onPress={addItem(path, createDefaultValue(schema))}
           >
             Add to {labelObject.text}
           </Button>
         </Header>
-        <Well isHidden={isValid}>{!isValid ? errors : ''}</Well>
+        <Well id='validation' isHidden={isValid}>
+          {!isValid ? errors : ''}
+        </Well>
         <Table>
           <TableHeader>
             {[
@@ -136,9 +140,9 @@ class SpectrumTableArrayControl extends React.Component<
           <TableBody>
             {!data || !Array.isArray(data) || data.length === 0 ? (
               <Row>
-                <Cell>No data</Cell>
-                <Cell>No data</Cell>
-                <Cell>No data</Cell>
+                {[...headerColumns, 3, 4].map((_, index) => (
+                  <Cell key={index}>No data</Cell>
+                ))}
               </Row>
             ) : (
               data.map((_child, index) => {

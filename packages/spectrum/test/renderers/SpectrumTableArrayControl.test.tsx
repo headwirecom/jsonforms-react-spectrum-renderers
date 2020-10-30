@@ -26,7 +26,6 @@
   THE SOFTWARE.
 */
 import * as React from 'react';
-import * as _ from 'lodash';
 import { Provider } from 'react-redux';
 import {
   ControlElement,
@@ -38,15 +37,20 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import { JsonFormsReduxContext } from '@jsonforms/react';
-import TableArrayControl, {
-  spectrumTableArrayControlTester,
-} from '../../src/complex/SpectrumTableArrayControl';
+import TableArrayControl from '../../src/complex/SpectrumTableArrayControl';
+import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import '../../src';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
+
+import {
+  defaultTheme,
+  Provider as SpectrumThemeProvider,
+} from '@adobe/react-spectrum';
+import { mountForm, simulateClick } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -166,70 +170,56 @@ describe('Table array tester', () => {
 describe('Table array control', () => {
   let wrapper: ReactWrapper;
 
+  let offsetWidth: any;
+  let offsetHeight: any;
+  beforeAll(() => {
+    offsetWidth = jest
+      .spyOn(window.HTMLElement.prototype, 'clientWidth', 'get')
+      .mockImplementation(() => 1000);
+    offsetHeight = jest
+      .spyOn(window.HTMLElement.prototype, 'clientHeight', 'get')
+      .mockImplementation(() => 1000);
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb: any) => cb());
+    jest.useFakeTimers();
+  });
+
+  afterAll(() => {
+    offsetWidth.mockReset();
+    offsetHeight.mockReset();
+  });
+
   afterEach(() => wrapper.unmount());
 
   test('render two children', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      cells: [{ tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell }],
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    const cells = {
+      tester: spectrumIntegerCellTester,
+      cell: SpectrumIntegerCell,
+    };
 
+    wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data, cells);
     const header = wrapper.find('header').getDOMNode();
-    const legendChildren = header.children;
+    const headerChildren = header.children;
 
-    const label = legendChildren.item(0);
-    expect(label.tagName).toBe('LABEL');
+    const label = headerChildren.item(0);
+    expect(label.tagName).toBe('H4');
     expect(label.innerHTML).toBe('Test');
 
-    const button = legendChildren.item(1);
+    const button = headerChildren.item(1);
     expect(button.tagName).toBe('BUTTON');
     expect(button.innerHTML).toBe('Add to Test');
 
-    const table = wrapper.find('table').getDOMNode() as HTMLInputElement;
-    const tableChildren = table.children;
-    expect(tableChildren).toHaveLength(2);
-    const tHead = tableChildren.item(0);
-    expect(tHead.tagName).toBe('THEAD');
-    expect(tHead.children).toHaveLength(1);
-    const headRow = tHead.children.item(0);
-    expect(headRow.tagName).toBe('TR');
     // two data columns + validation column + delete column
-    expect(headRow.children).toHaveLength(4);
+    const columnHeaders = wrapper.find('[role="columnheader"]');
+    expect(columnHeaders).toHaveLength(4);
+    expect(columnHeaders.at(0).text()).toBe('X');
+    expect(columnHeaders.at(1).text()).toBe('Y');
+    expect(columnHeaders.at(2).text()).toBe('Valid');
+    expect(columnHeaders.at(3).text().trim()).toBe('');
 
-    const headColumn1 = headRow.children.item(0);
-    expect(headColumn1.tagName).toBe('TH');
-    expect((headColumn1 as HTMLTableHeaderCellElement).textContent).toBe('X');
-
-    const headColumn2 = headRow.children.item(1);
-    expect(headColumn2.tagName).toBe('TH');
-    expect((headColumn2 as HTMLTableHeaderCellElement).textContent).toBe('Y');
-
-    const tBody = tableChildren.item(1);
-    expect(tBody.tagName).toBe('TBODY');
-    expect(tBody.children).toHaveLength(1);
-    const bodyRow = tBody.children.item(0);
-    expect(bodyRow.tagName).toBe('TR');
-    // two data columns + validation column + delete column
-    expect(bodyRow.children).toHaveLength(4);
-
-    const tds = wrapper.find('td');
-    expect(tds).toHaveLength(4);
-    expect(tds.at(0).getDOMNode().children).toHaveLength(1);
-    expect(tds.at(0).getDOMNode().children[0].id).toBe('');
-    expect(tds.at(1).getDOMNode().children).toHaveLength(1);
-    expect(tds.at(1).getDOMNode().children[0].id).toBe('');
+    const rows = wrapper.find('[role="row"]');
+    expect(rows).toHaveLength(2);
   });
 
   test('render empty data', () => {
@@ -238,59 +228,30 @@ describe('Table array control', () => {
       type: 'Control',
       scope: '#/properties/test',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: {},
-      schema: fixture.schema,
-      uischema: control,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl schema={fixture.schema} uischema={control} />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(control, fixture.schema);
 
     const header = wrapper.find('header').getDOMNode();
     const legendChildren = header.children;
-    const label = legendChildren.item(0) as HTMLLabelElement;
-    expect(label.tagName).toBe('LABEL');
-    expect(label.textContent).toBe('');
+
+    const label = legendChildren.item(0);
+    expect(label.tagName).toBe('H4');
+    expect(label.innerHTML).toBe('');
 
     const button = legendChildren.item(1);
     expect(button.tagName).toBe('BUTTON');
-    expect(button.textContent).toBe('Add to Test');
+    expect(button.innerHTML).toBe('Add to Test');
 
-    const table = wrapper.find('table').getDOMNode();
-    const tableChildren = table.children;
-    expect(tableChildren).toHaveLength(2);
+    const columnHeaders = wrapper.find('[role="columnheader"]');
+    expect(columnHeaders).toHaveLength(4);
+    expect(columnHeaders.at(0).text()).toBe('X');
+    expect(columnHeaders.at(1).text()).toBe('Y');
+    expect(columnHeaders.at(2).text()).toBe('Valid');
+    expect(columnHeaders.at(3).text().trim()).toBe('');
 
-    const tHead = tableChildren.item(0);
-    expect(tHead.tagName).toBe('THEAD');
-    expect(tHead.children).toHaveLength(1);
+    const rows = wrapper.find('[role="row"]');
+    expect(rows).toHaveLength(2);
 
-    const headRow = tHead.children.item(0);
-    expect(headRow.tagName).toBe('TR');
-    // two data columns + validation column + delete column
-    expect(headRow.children).toHaveLength(4);
-
-    const headColumn1 = headRow.children.item(0);
-    expect(headColumn1.tagName).toBe('TH');
-    expect((headColumn1 as HTMLTableHeaderCellElement).textContent).toBe('X');
-
-    const headColumn2 = headRow.children.item(1);
-    expect(headColumn2.tagName).toBe('TH');
-    expect((headColumn2 as HTMLTableHeaderCellElement).textContent).toBe('Y');
-
-    const tBody = tableChildren.item(1);
-    expect(tBody.tagName).toBe('TBODY');
-    expect(tBody.children).toHaveLength(1);
-    const noDataRow = tBody.children[0];
-    expect(noDataRow.tagName).toBe('TR');
-    expect(noDataRow.children).toHaveLength(1);
-    const noDataColumn = noDataRow.children[0];
-    expect(noDataColumn.tagName).toBe('TD');
-    expect(noDataColumn.textContent).toBe('No data');
+    expect(rows.contains('No data')).toBeTruthy();
   });
 
   test('render new child (empty init data)', () => {
@@ -299,22 +260,25 @@ describe('Table array control', () => {
       schema: fixture.schema,
       uischema: fixture.uischema,
     });
+
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
 
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('button');
-    button.simulate('click');
+    const button = wrapper.find('#button').first();
+    simulateClick(button);
     expect(getData(store.getState()).test).toHaveLength(1);
   });
 
@@ -326,20 +290,22 @@ describe('Table array control', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
 
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('button');
-    button.simulate('click');
+    const button = wrapper.find('#button').first();
+    simulateClick(button);
     expect(getData(store.getState()).test).toHaveLength(1);
   });
 
@@ -350,21 +316,23 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
 
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('button');
-    button.simulate('click');
+    const button = wrapper.find('#button').first();
+    simulateClick(button);
     expect(getData(store.getState()).test).toHaveLength(1);
   });
 
@@ -376,17 +344,19 @@ describe('Table array control', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
 
-    const addButton = wrapper.find('button').first();
-    addButton.simulate('click');
+    const addButton = wrapper.find('#button').first();
+    simulateClick(addButton);
     expect(getData(store.getState()).test).toHaveLength(2);
   });
 
@@ -413,17 +383,18 @@ describe('Table array control', () => {
       uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl schema={schema} uischema={uischema} />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
-    const rows = wrapper.find('tr');
-    const lastRow = rows.last().getDOMNode() as HTMLTableRowElement;
-    expect(lastRow.children.item(1).textContent).toBe(
-      'should NOT be longer than 3 characters'
-    );
+    const cell = wrapper.find('[aria-colindex=2]').last();
+    expect(cell.text()).toBe('should NOT be longer than 3 characters');
+
+    const rows = wrapper.find('[role="row"]');
     expect(rows).toHaveLength(3);
   });
 
@@ -434,18 +405,19 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
 
-    const children = wrapper.find('tbody').getDOMNode();
-    expect(children.childNodes).toHaveLength(1);
+    expect(wrapper.find('[role="row"]')).toHaveLength(2); // one in the header, one in the body
 
     store.dispatch(
       update('test', () => [
@@ -453,8 +425,8 @@ describe('Table array control', () => {
         { x: 2, y: 3 },
       ])
     );
-    expect(children.childNodes).toHaveLength(2);
-
+    wrapper.update();
+    expect(wrapper.find('[role="row"]')).toHaveLength(3); // successfully added a new row
     store.dispatch(
       update(undefined, () => [
         { x: 1, y: 3 },
@@ -462,7 +434,7 @@ describe('Table array control', () => {
         { x: 3, y: 3 },
       ])
     );
-    expect(children.childNodes).toHaveLength(2);
+    expect(wrapper.find('[role="row"]')).toHaveLength(3); // should not have changed anything
   });
 
   test('hide', () => {
@@ -472,18 +444,23 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            visible={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              visible={false}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
-    const control = wrapper.find('.control').getDOMNode() as HTMLElement;
-    expect(control.hidden).toBe(true);
+    const tableView = wrapper
+      .find('#table-view')
+      .first()
+      .getDOMNode() as HTMLElement;
+    expect(tableView.hidden).toBe(true);
   });
 
   test('show by default', () => {
@@ -493,17 +470,22 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
-    const control = wrapper.find('.control').getDOMNode() as HTMLElement;
-    expect(control.hidden).toBe(false);
+    const tableView = wrapper
+      .find('#table-view')
+      .first()
+      .getDOMNode() as HTMLElement;
+    expect(tableView.hidden).toBe(false);
   });
 
   test('single error', () => {
@@ -513,17 +495,24 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
     store.dispatch(update('test', () => 2));
-    const validation = wrapper.find('.validation').getDOMNode();
+    const validationWell = wrapper
+      .find('#validation')
+      .first()
+      .getDOMNode() as HTMLElement;
+    expect(validationWell.hidden).toBeFalsy();
+    const validation = wrapper.find('#validation').last().getDOMNode();
     expect(validation.textContent).toBe('should be array');
   });
 
@@ -534,17 +523,24 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
     store.dispatch(update('test', () => 3));
-    const validation = wrapper.find('.validation').getDOMNode();
+    const validationWell = wrapper
+      .find('#validation')
+      .first()
+      .getDOMNode() as HTMLElement;
+    expect(validationWell.hidden).toBeFalsy();
+    const validation = wrapper.find('#validation').last().getDOMNode();
     expect(validation.textContent).toBe('should be array');
   });
 
@@ -555,17 +551,23 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
-    const validation = wrapper.find('.validation').getDOMNode();
-    expect(validation.textContent).toBe('');
+
+    const validationWell = wrapper
+      .find('#validation')
+      .first()
+      .getDOMNode() as HTMLElement;
+    expect(validationWell.hidden).toBeTruthy();
   });
 
   test('reset validation message', () => {
@@ -575,16 +577,19 @@ describe('Table array control', () => {
       uischema: fixture.uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TableArrayControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <JsonFormsReduxContext>
+            <TableArrayControl
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+            />
+          </JsonFormsReduxContext>
+        </Provider>
+      </SpectrumThemeProvider>
     );
-    const validation = wrapper.find('.validation').getDOMNode();
+
+    const validation = wrapper.find('#validation').last().getDOMNode();
     store.dispatch(update('test', () => 3));
     wrapper.update();
     expect(validation.textContent).toBe('should be array');
@@ -634,9 +639,14 @@ describe('Table array control', () => {
       uischema,
     });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <SpectrumHorizontalLayoutRenderer
+            schema={schema}
+            uischema={uischema}
+          />
+        </Provider>
+      </SpectrumThemeProvider>
     );
     const validation = wrapper.find('.valdiation');
     expect(validation.at(0).getDOMNode().textContent).toBe('');
