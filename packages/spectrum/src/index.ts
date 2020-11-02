@@ -69,8 +69,8 @@ import {
 import {
   ArrayControl,
   arrayControlTester,
-  Categorization,
-  categorizationTester,
+  SpectrumCategorizationRenderer,
+  spectrumCategorizationRendererTester,
   SpectrumLabelRenderer,
   spectrumLabelRendererTester,
   spectrumObjectControlTester,
@@ -93,7 +93,7 @@ export * from './controls';
 export * from './complex';
 export * from './cells';
 export * from './layouts';
-// export * from './util';
+export * from './util';
 
 export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
@@ -108,7 +108,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: spectrumLabelRendererTester, renderer: SpectrumLabelRenderer },
-  { tester: categorizationTester, renderer: Categorization },
+  {
+    tester: spectrumCategorizationRendererTester,
+    renderer: SpectrumCategorizationRenderer,
+  },
   { tester: spectrumObjectControlTester, renderer: SpectrumObjectRenderer },
   {
     tester: spectrumTableArrayControlTester,

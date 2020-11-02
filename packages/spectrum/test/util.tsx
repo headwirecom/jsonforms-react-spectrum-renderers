@@ -65,9 +65,15 @@ export function mountForm<T extends object>(
   );
 }
 
-export const simulateClick = (button: ReactWrapper) => {
-  const prop = button.prop<Function>('onPress');
-  act(() => prop());
+export const simulateClick = (element: ReactWrapper) => {
+  const clickHandler =
+    element.prop<Function | undefined>('onPress') ||
+    element.prop<Function | undefined>('onClick');
+  if (clickHandler) {
+    act(() => clickHandler());
+  } else {
+    throw new Error('Given element is not clickable');
+  }
 };
 
 export const falseCondition = (): SchemaBasedCondition => {
