@@ -23,9 +23,9 @@ after_success:
 
 deploy:
   provider: pages
-  local-dir: dist
-  skip-cleanup: true
-  deploy_key: $GITHUB_DEPLOY_KEY
-  keep-history: false
+  local_dir: dist
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: false
   on:
     branch: master
