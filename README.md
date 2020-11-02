@@ -1,4 +1,4 @@
-Current status: [![Build Status](https://travis-ci.com/headwirecom/jsonforms-react-spectrum-renderers.svg?branch=master)](https://travis-ci.org/eclipsesource/jsonforms) [![Coverage Status](https://coveralls.io/repos/puzzle/jsonforms/badge.svg?branch=master&service=github)](https://coveralls.io/github/puzzle/jsonforms?branch=master)
+Current status: [![Build Status](https://travis-ci.com/headwirecom/jsonforms-react-spectrum-renderers.svg?branch=master)](https://travis-ci.com/headwirecom/jsonforms-react-spectrum-renderers) [![Coverage Status](https://coveralls.io/repos/headwirecom/jsonforms-react-spectrum-renderers/badge.svg?branch=master&service=github)](https://coveralls.io/github/headwirecom/jsonforms-react-spectrum-renderers?branch=master)
 
 # React Spectrum Renderer Set for JSONForms
 
@@ -15,9 +15,11 @@ Current status: [![Build Status](https://travis-ci.com/headwirecom/jsonforms-rea
 - Hook up dependencies between packages: `npm run init`
 
 ## Start the example application locally
+
 - Run React Spectrum examples: `cd packages/spectrum && npm run dev`
 
 ## Build & Testing
+
 - Run React Spectrum tests in watch mode: `cd packages/spectrum && npx jest --watch`
 - Check Formatting: `npm run check-format`
 
