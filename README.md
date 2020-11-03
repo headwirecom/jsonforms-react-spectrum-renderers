@@ -2,7 +2,9 @@ Current status: [![Build Status](https://travis-ci.com/headwirecom/jsonforms-rea
 
 # React Spectrum Renderer Set for JSONForms
 
-!! Work in progress !!
+Notice: This renderer set is work in progress and integrates yet unreleased React Spectrum components.
+
+[Checkout the examples](https://headwirecom.github.io/jsonforms-react-spectrum-renderers/) to see the React Spectrum renderer set in action.
 
 # Developers Documentation
 
