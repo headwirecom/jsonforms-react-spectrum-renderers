@@ -55,7 +55,6 @@ import {
 } from '@react-spectrum/table';
 import {
   ActionButton,
-  Button,
   Flex,
   Header,
   Heading,
@@ -66,6 +65,7 @@ import {
 } from '@adobe/react-spectrum';
 
 import Add from '@spectrum-icons/workflow/Add';
+import Delete from '@spectrum-icons/workflow/Delete';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -154,7 +154,9 @@ class SpectrumTableArrayControl extends React.Component<
             {[
               ...headerColumns,
               <Column key='valid'>Valid</Column>,
-              <Column key='none'>&nbsp;</Column>,
+              <Column key='none' width={70}>
+                &nbsp;
+              </Column>,
             ]}
           </TableHeader>
           <TableBody>
@@ -232,21 +234,23 @@ class SpectrumTableArrayControl extends React.Component<
                         )}
                       </Cell>,
                       <Cell key='delete'>
-                        <Button
-                          variant='primary'
-                          aria-label={`Delete`}
-                          onPress={() => {
-                            if (
-                              window.confirm(
-                                'Are you sure you wish to delete this item?'
-                              )
-                            ) {
-                              this.confirmDelete(childPath, index);
-                            }
-                          }}
-                        >
-                          Delete
-                        </Button>
+                        <TooltipTrigger delay={0}>
+                          <ActionButton
+                            aria-label={`Delete`}
+                            onPress={() => {
+                              if (
+                                window.confirm(
+                                  'Are you sure you wish to delete this item?'
+                                )
+                              ) {
+                                this.confirmDelete(childPath, index);
+                              }
+                            }}
+                          >
+                            <Delete />
+                          </ActionButton>
+                          <Tooltip>Delete</Tooltip>
+                        </TooltipTrigger>
                       </Cell>,
                     ]}
                   </Row>
