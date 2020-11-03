@@ -28,6 +28,7 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import {
+  JsonFormsCellRendererRegistryEntry,
   JsonSchema,
   SchemaBasedCondition,
   UISchemaElement,
@@ -47,7 +48,7 @@ export function mountForm<T extends object>(
   uischema: UISchemaElement,
   schema: JsonSchema = {},
   data?: T,
-  cells: any = [],
+  cells: JsonFormsCellRendererRegistryEntry[] = [],
   onChange: OnChangeType<T> = () => undefined
 ): ReactWrapper {
   return mount(

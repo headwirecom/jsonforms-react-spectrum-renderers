@@ -32,6 +32,7 @@ import {
   HorizontalLayout,
   JsonSchema,
   update,
+  JsonFormsCellRendererRegistryEntry,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -191,10 +192,12 @@ describe('Table array control', () => {
   afterEach(() => wrapper.unmount());
 
   test('render two children', () => {
-    const cells = {
-      tester: spectrumIntegerCellTester,
-      cell: SpectrumIntegerCell,
-    };
+    const cells: JsonFormsCellRendererRegistryEntry[] = [
+      {
+        tester: spectrumIntegerCellTester,
+        cell: SpectrumIntegerCell,
+      },
+    ];
 
     wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data, cells);
     const header = wrapper.find('header').getDOMNode();
