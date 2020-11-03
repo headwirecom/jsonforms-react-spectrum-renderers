@@ -22,6 +22,8 @@ after_success:
   - 'npm run merge-report && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
 
 deploy:
+  script:
+    - sed -i 's/<base href="\/">/<base href="\/jsonforms-react-spectrum-renderers\/">/g' packages/spectrum/dist/index.html
   provider: pages
   local_dir: packages/spectrum/dist
   skip_cleanup: true
