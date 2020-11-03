@@ -18,12 +18,13 @@ script:
   - npm run test-cov
   - npm run check-format
 
+  # Adjust HTML base path of example for deployment to GH pages
+  - sed -i -e 's~<base href="/">~<base href="/jsonforms-react-spectrum-renderers/">~g' packages/spectrum/dist/index.html
+
 after_success:
   - 'npm run merge-report && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
 
 deploy:
-  script:
-    - sed -i -e 's~<base href="/">~<base href="/jsonforms-react-spectrum-renderers/">~g' packages/spectrum/dist/index.html
   provider: pages
   local_dir: packages/spectrum/dist
   skip_cleanup: true
