@@ -53,7 +53,19 @@ import {
   TableBody,
   TableHeader,
 } from '@react-spectrum/table';
-import { Button, Header, Heading, View, Well } from '@adobe/react-spectrum';
+import {
+  ActionButton,
+  Button,
+  Flex,
+  Header,
+  Heading,
+  Tooltip,
+  TooltipTrigger,
+  View,
+  Well,
+} from '@adobe/react-spectrum';
+
+import Add from '@spectrum-icons/workflow/Add';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -117,14 +129,22 @@ class SpectrumTableArrayControl extends React.Component<
         isHidden={visible === undefined || visible === null ? false : !visible}
       >
         <Header>
-          <Heading level={4}>{labelText}</Heading>
-          <Button
-            variant='primary'
-            id='button'
-            onPress={addItem(path, createDefaultValue(schema))}
+          <Flex
+            direction='row'
+            alignItems='center'
+            justifyContent='space-between'
           >
-            Add to {labelObject.text}
-          </Button>
+            <Heading level={4}>{labelText}</Heading>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                id='add-button'
+                onPress={addItem(path, createDefaultValue(schema))}
+              >
+                <Add />
+              </ActionButton>
+              <Tooltip>Add to {labelObject.text}</Tooltip>
+            </TooltipTrigger>
+          </Flex>
         </Header>
         <Well id='validation' isHidden={isValid}>
           {!isValid ? errors : ''}

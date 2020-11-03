@@ -49,6 +49,7 @@
     "@jsonforms/react": "^2.4.1",
     "@adobe/react-spectrum": "^3.4.0",
     "@react-spectrum/table": "^3.0.0-alpha.7",
+    "@spectrum-icons/workflow": "^3.2.0",
     "react-redux": "^7.1.3"
   },
   "devDependencies": {

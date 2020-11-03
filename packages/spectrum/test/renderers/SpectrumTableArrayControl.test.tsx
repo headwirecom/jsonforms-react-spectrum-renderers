@@ -30,9 +30,9 @@ import { Provider } from 'react-redux';
 import {
   ControlElement,
   HorizontalLayout,
+  JsonFormsCellRendererRegistryEntry,
   JsonSchema,
   update,
-  JsonFormsCellRendererRegistryEntry,
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -171,6 +171,11 @@ describe('Table array control', () => {
 
   let offsetWidth: any;
   let offsetHeight: any;
+
+  beforeEach(() => {
+    // by firing an event at the beginning of each test, we can put ourselves into
+    // keyboard modality for the test
+  });
   beforeAll(() => {
     offsetWidth = jest
       .spyOn(window.HTMLElement.prototype, 'clientWidth', 'get')
@@ -187,6 +192,7 @@ describe('Table array control', () => {
   afterAll(() => {
     offsetWidth.mockReset();
     offsetHeight.mockReset();
+    jest.useRealTimers();
   });
 
   afterEach(() => wrapper.unmount());
@@ -200,16 +206,12 @@ describe('Table array control', () => {
     ];
 
     wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data, cells);
-    const header = wrapper.find('header').getDOMNode();
-    const headerChildren = header.children;
+    const header = wrapper.find('header');
 
-    const label = headerChildren.item(0);
-    expect(label.tagName).toBe('H4');
-    expect(label.innerHTML).toBe('Test');
+    const label = header.find('h4');
+    expect(label.text()).toBe('Test');
 
-    const button = headerChildren.item(1);
-    expect(button.tagName).toBe('BUTTON');
-    expect(button.innerHTML).toBe('Add to Test');
+    // TODO: test that tooltip on the button reads "add to test"
 
     // two data columns + validation column + delete column
     const columnHeaders = wrapper.find('[role="columnheader"]');
@@ -230,17 +232,17 @@ describe('Table array control', () => {
       scope: '#/properties/test',
     };
     wrapper = mountForm(control, fixture.schema);
+    wrapper.simulate('keyDown', { key: 'Tab' });
+    wrapper.simulate('keyUp', { key: 'Tab' });
+    wrapper.simulate('keydown', { key: 'Tab' });
+    wrapper.simulate('keyup', { key: 'Tab' });
+    wrapper.update();
+    const header = wrapper.find('header');
 
-    const header = wrapper.find('header').getDOMNode();
-    const legendChildren = header.children;
+    const label = header.find('h4');
+    expect(label.text()).toBe('');
 
-    const label = legendChildren.item(0);
-    expect(label.tagName).toBe('H4');
-    expect(label.innerHTML).toBe('');
-
-    const button = legendChildren.item(1);
-    expect(button.tagName).toBe('BUTTON');
-    expect(button.innerHTML).toBe('Add to Test');
+    // TODO: test that tooltip on the button reads "add to test"
 
     const columnHeaders = wrapper.find('[role="columnheader"]');
     expect(columnHeaders).toHaveLength(4);
@@ -272,7 +274,7 @@ describe('Table array control', () => {
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#button').first();
+    const button = wrapper.find('#add-button').first();
     simulateClick(button);
     wrapper.update();
     expect(state).toHaveLength(1);
@@ -295,7 +297,7 @@ describe('Table array control', () => {
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#button').first();
+    const button = wrapper.find('#add-button').first();
     simulateClick(button);
     expect(state).toHaveLength(1);
   });
@@ -317,7 +319,7 @@ describe('Table array control', () => {
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#button').first();
+    const button = wrapper.find('#add-button').first();
 
     simulateClick(button);
     expect(state).toHaveLength(1);
@@ -337,7 +339,7 @@ describe('Table array control', () => {
       }
     );
 
-    const addButton = wrapper.find('#button').first();
+    const addButton = wrapper.find('#add-button').first();
     simulateClick(addButton);
     expect(state).toHaveLength(2);
   });
