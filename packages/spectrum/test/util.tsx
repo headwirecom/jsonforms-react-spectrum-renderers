@@ -38,29 +38,35 @@ import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
+import { act } from 'react-dom/test-utils';
 
-export const mountForm = (
+type OnChangeType<T> = (change: { errors: any; data: T }) => void;
+
+// tslint:disable-next-line:only-arrow-functions
+export function mountForm<T extends object>(
   uischema: UISchemaElement,
   schema: JsonSchema = {},
-  data: any = {},
-  cells: any = []
-): ReactWrapper => {
+  data?: T,
+  cells: any = [],
+  onChange: OnChangeType<T> = () => undefined
+): ReactWrapper {
   return mount(
     <SpectrumThemeProvider theme={defaultTheme} scale='medium'>
       <JsonForms
         schema={schema}
         uischema={uischema}
-        data={data}
+        data={data ?? {}}
         renderers={spectrumRenderers}
         cells={cells}
+        onChange={onChange}
       />
     </SpectrumThemeProvider>
   );
-};
+}
 
 export const simulateClick = (button: ReactWrapper) => {
-  const prop: any = button.prop('onPress');
-  prop();
+  const prop = button.prop<Function>('onPress');
+  act(() => prop());
 };
 
 export const falseCondition = (): SchemaBasedCondition => {

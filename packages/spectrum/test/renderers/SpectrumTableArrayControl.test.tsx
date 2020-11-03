@@ -29,7 +29,6 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
   update,
@@ -40,7 +39,6 @@ import { JsonFormsReduxContext } from '@jsonforms/react';
 import TableArrayControl from '../../src/complex/SpectrumTableArrayControl';
 import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import '../../src';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
@@ -255,23 +253,17 @@ describe('Table array control', () => {
   });
 
   test('render new child (empty init data)', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: { test: [] },
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const initialData: { test: object[] } = { test: [] };
+    let state: object[] = [];
 
-    wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+    wrapper = mountForm(
+      fixture.uischema,
+      fixture.schema,
+      initialData,
+      [],
+      ({ data }) => {
+        state = data.test;
+      }
     );
 
     const control = wrapper.find('.root_properties_test');
@@ -279,26 +271,22 @@ describe('Table array control', () => {
 
     const button = wrapper.find('#button').first();
     simulateClick(button);
-    expect(getData(store.getState()).test).toHaveLength(1);
+    wrapper.update();
+    expect(state).toHaveLength(1);
   });
 
   test('render new child (undefined data)', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: { test: undefined },
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+    const initialData: { test: object[] } = { test: undefined };
+    let state: object[] = [];
+
+    wrapper = mountForm(
+      fixture.uischema,
+      fixture.schema,
+      initialData,
+      [],
+      ({ data }) => {
+        state = data.test;
+      }
     );
 
     const control = wrapper.find('.root_properties_test');
@@ -306,58 +294,49 @@ describe('Table array control', () => {
 
     const button = wrapper.find('#button').first();
     simulateClick(button);
-    expect(getData(store.getState()).test).toHaveLength(1);
+    expect(state).toHaveLength(1);
   });
 
   test('render new child (null data)', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: { test: null },
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
+    const initialData: { test: object[] } = null;
+    let state: object[] = [];
+
+    wrapper = mountForm(
+      fixture.uischema,
+      fixture.schema,
+      initialData,
+      [],
+      ({ data }) => {
+        state = data.test;
+      }
     );
 
     const control = wrapper.find('.root_properties_test');
     expect(control).toBeDefined();
 
     const button = wrapper.find('#button').first();
+
     simulateClick(button);
-    expect(getData(store.getState()).test).toHaveLength(1);
+    expect(state).toHaveLength(1);
   });
 
   test('render new child', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+    const initialData: { test: object[] } = fixture.data;
+    let state: object[] = [];
+
+    wrapper = mountForm(
+      fixture.uischema,
+      fixture.schema,
+      initialData,
+      [],
+      ({ data }) => {
+        state = data.test;
+      }
     );
 
     const addButton = wrapper.find('#button').first();
     simulateClick(addButton);
-    expect(getData(store.getState()).test).toHaveLength(2);
+    expect(state).toHaveLength(2);
   });
 
   test('render primitives ', () => {
@@ -377,20 +356,11 @@ describe('Table array control', () => {
       type: 'Control',
       scope: '#/properties/test',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: { test: ['foo', 'bars'] },
-      schema,
-      uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl schema={schema} uischema={uischema} />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
+
+    const data: { test: string[] } = { test: ['foo', 'bars'] };
+
+    wrapper = mountForm(uischema, schema, data);
+
     const cell = wrapper.find('[aria-colindex=2]').last();
     expect(cell.text()).toBe('should NOT be longer than 3 characters');
 
