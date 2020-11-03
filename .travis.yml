@@ -23,7 +23,7 @@ after_success:
 
 deploy:
   script:
-    - sed -i 's/<base href="\/">/<base href="\/jsonforms-react-spectrum-renderers\/">/g' packages/spectrum/dist/index.html
+    - sed -i -e 's~<base href="/">~<base href="/jsonforms-react-spectrum-renderers/">~g' packages/spectrum/dist/index.html
   provider: pages
   local_dir: packages/spectrum/dist
   skip_cleanup: true
