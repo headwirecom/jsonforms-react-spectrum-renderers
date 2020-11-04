@@ -29,6 +29,9 @@ import SpectrumObjectRenderer, {
   spectrumObjectControlTester,
 } from './SpectrumObjectRenderer';
 import ArrayControl, { arrayControlTester } from './array';
+import SpectrumAnyOfRenderer, {
+  spectrumAnyOfRendererTester,
+} from './SpectrumAnyOfRenderer';
 import SpectrumCategorizationRenderer, {
   spectrumCategorizationRendererTester,
 } from './SpectrumCategorizationRenderer';
@@ -45,6 +48,8 @@ import SpectrumTableArrayControl, {
 export {
   ArrayControl,
   arrayControlTester,
+  SpectrumAnyOfRenderer,
+  spectrumAnyOfRendererTester,
   SpectrumCategorizationRenderer,
   spectrumCategorizationRendererTester,
   SpectrumLabelRenderer,
