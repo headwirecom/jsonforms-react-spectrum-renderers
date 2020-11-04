@@ -215,7 +215,7 @@ class SpectrumTableArrayControl extends React.Component<
                   <Row key={childPath}>
                     {[
                       ...rowCells,
-                      <Cell key='errors'>
+                      <Cell key={`errors-row-${index}`}>
                         {errorsPerEntry ? (
                           <span
                             className={
@@ -233,10 +233,10 @@ class SpectrumTableArrayControl extends React.Component<
                           <span>OK</span>
                         )}
                       </Cell>,
-                      <Cell key='delete'>
+                      <Cell key={`delete-row-${index}`}>
                         <TooltipTrigger delay={0}>
                           <ActionButton
-                            aria-label={`Delete`}
+                            aria-label={`Delete row at ${index}`}
                             onPress={() => {
                               if (
                                 window.confirm(
