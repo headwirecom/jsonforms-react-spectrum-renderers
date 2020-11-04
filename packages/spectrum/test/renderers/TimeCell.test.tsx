@@ -39,7 +39,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import TimeCell, { timeCellTester } from '../../src/cells/TimeCell';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -141,7 +141,7 @@ describe('Time cell', () => {
       firstDate: '1980-04-04',
       secondDate: '1980-04-04',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -164,7 +164,7 @@ describe('Time cell', () => {
         focus: true,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -186,7 +186,7 @@ describe('Time cell', () => {
         focus: false,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -205,7 +205,7 @@ describe('Time cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -220,7 +220,7 @@ describe('Time cell', () => {
   });
 
   test('render', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -244,7 +244,7 @@ describe('Time cell', () => {
 
   // TODO: update test after implementing with Spectrum
   test.skip('has classes set', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -268,7 +268,7 @@ describe('Time cell', () => {
   });
 
   test('update via event', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -291,7 +291,7 @@ describe('Time cell', () => {
   });
 
   test('update via action', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -313,7 +313,7 @@ describe('Time cell', () => {
   });
 
   test('update with null value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -333,7 +333,7 @@ describe('Time cell', () => {
   });
 
   test('update with undefined value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -355,7 +355,7 @@ describe('Time cell', () => {
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -377,7 +377,7 @@ describe('Time cell', () => {
   });
 
   test('update with null ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -399,7 +399,7 @@ describe('Time cell', () => {
   });
 
   test('update with undefined ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -421,7 +421,7 @@ describe('Time cell', () => {
   });
 
   test('disable', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -443,7 +443,7 @@ describe('Time cell', () => {
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,

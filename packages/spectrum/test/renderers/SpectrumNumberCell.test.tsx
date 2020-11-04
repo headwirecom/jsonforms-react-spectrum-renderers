@@ -1,22 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,7 @@ import SpectrumNumberCell, {
   spectrumNumberCellTester,
 } from '../../src/cells/SpectrumNumberCell';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -157,7 +157,7 @@ describe('Number cell', () => {
       firstNumberCell: 3.14,
       secondNumberCell: 5.12,
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -165,7 +165,10 @@ describe('Number cell', () => {
     wrapper = mount(
       <Provider store={store}>
         <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
+          <SpectrumHorizontalLayoutRenderer
+            schema={schema}
+            uischema={uischema}
+          />
         </JsonFormsReduxContext>
       </Provider>
     );
@@ -183,7 +186,7 @@ describe('Number cell', () => {
         focus: true,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -211,7 +214,7 @@ describe('Number cell', () => {
         focus: false,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -237,7 +240,7 @@ describe('Number cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -259,7 +262,7 @@ describe('Number cell', () => {
 
   test('render', () => {
     const schema: JsonSchema = { type: 'number' };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { foo: 3.14 },
       schema,
       uischema: fixture.uischema,
@@ -284,7 +287,7 @@ describe('Number cell', () => {
   });
 
   test.skip('has classes set', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -308,7 +311,7 @@ describe('Number cell', () => {
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -331,7 +334,7 @@ describe('Number cell', () => {
   });
 
   test('update via action', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: { foo: 2.72 },
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -355,7 +358,7 @@ describe('Number cell', () => {
   });
 
   test('update with undefined value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -377,7 +380,7 @@ describe('Number cell', () => {
   });
 
   test('update with null value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -399,7 +402,7 @@ describe('Number cell', () => {
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -421,7 +424,7 @@ describe('Number cell', () => {
   });
 
   test('update with null ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -443,7 +446,7 @@ describe('Number cell', () => {
   });
 
   test('update with undefined ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -465,7 +468,7 @@ describe('Number cell', () => {
   });
 
   test('disable', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -486,7 +489,7 @@ describe('Number cell', () => {
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,

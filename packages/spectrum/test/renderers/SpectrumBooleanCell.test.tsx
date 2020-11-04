@@ -46,7 +46,7 @@ import SpectrumBooleanCell, {
   spectrumBooleanCellTester,
 } from '../../src/cells/SpectrumBooleanCell';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsVanillaStore } from '../vanillaStore';
+import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import { spectrumRenderers } from '../../src';
 import { InputControl } from '../../src/controls/InputControl';
 
@@ -157,7 +157,7 @@ describe('Boolean cell', () => {
       firstBooleanCell: true,
       secondBooleanCell: false,
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema,
       uischema,
@@ -167,7 +167,10 @@ describe('Boolean cell', () => {
       <Provider store={store}>
         <SpectrumThemeProvider theme={defaultTheme}>
           <JsonFormsReduxContext>
-            <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
+            <SpectrumHorizontalLayoutRenderer
+              schema={schema}
+              uischema={uischema}
+            />
           </JsonFormsReduxContext>
         </SpectrumThemeProvider>
       </Provider>
@@ -185,7 +188,7 @@ describe('Boolean cell', () => {
         focus: true,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -215,7 +218,7 @@ describe('Boolean cell', () => {
         focus: false,
       },
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -242,7 +245,7 @@ describe('Boolean cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema,
@@ -265,7 +268,7 @@ describe('Boolean cell', () => {
   });
 
   test('render', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -290,7 +293,7 @@ describe('Boolean cell', () => {
   });
 
   test.skip('has classes set', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -313,7 +316,7 @@ describe('Boolean cell', () => {
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -339,7 +342,7 @@ describe('Boolean cell', () => {
 
   test('update via action', () => {
     const data = { foo: false };
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -364,7 +367,7 @@ describe('Boolean cell', () => {
   });
 
   test.skip('update with undefined value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -388,7 +391,7 @@ describe('Boolean cell', () => {
   });
 
   test.skip('update with null value', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -412,7 +415,7 @@ describe('Boolean cell', () => {
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -436,7 +439,7 @@ describe('Boolean cell', () => {
   });
 
   test('update with null ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -460,7 +463,7 @@ describe('Boolean cell', () => {
   });
 
   test('update with undefined ref', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -484,7 +487,7 @@ describe('Boolean cell', () => {
   });
 
   test('disable', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,
@@ -507,7 +510,7 @@ describe('Boolean cell', () => {
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsVanillaStore({
+    const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
       uischema: fixture.uischema,

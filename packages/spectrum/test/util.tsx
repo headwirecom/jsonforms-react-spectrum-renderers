@@ -1,22 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,26 +28,46 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import {
+  JsonFormsCellRendererRegistryEntry,
   JsonSchema,
   SchemaBasedCondition,
   UISchemaElement,
 } from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
 import { spectrumRenderers } from '../src/index';
+import {
+  defaultTheme,
+  Provider as SpectrumThemeProvider,
+} from '@adobe/react-spectrum';
+import { act } from 'react-dom/test-utils';
 
-export const mountForm = (
+type OnChangeType<T> = (change: { errors: any; data: T }) => void;
+
+// tslint:disable-next-line:only-arrow-functions
+export function mountForm<T extends object>(
   uischema: UISchemaElement,
   schema: JsonSchema = {},
-  data: any = {}
-): ReactWrapper => {
+  data?: T,
+  cells: JsonFormsCellRendererRegistryEntry[] = [],
+  onChange: OnChangeType<T> = () => undefined
+): ReactWrapper {
   return mount(
-    <JsonForms
-      schema={schema}
-      uischema={uischema}
-      data={data}
-      renderers={spectrumRenderers}
-    />
+    <SpectrumThemeProvider theme={defaultTheme} scale='medium'>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data ?? {}}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
+    </SpectrumThemeProvider>
   );
+}
+
+export const simulateClick = (button: ReactWrapper) => {
+  const prop = button.prop<Function>('onPress');
+  act(() => prop());
 };
 
 export const falseCondition = (): SchemaBasedCondition => {

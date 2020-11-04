@@ -34,8 +34,9 @@ import {
   findUISchema,
 } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
+import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 
-export const ArrayControl = ({
+export const SpectrumArrayControl = ({
   data,
   label,
   path,
@@ -45,45 +46,43 @@ export const ArrayControl = ({
   uischemas,
   renderers,
 }: ArrayControlProps) => {
-  const classNames: any = {}; // TODO: obsolete in the future, but implement trim?
   return (
-    <div className={classNames.wrapper}>
-      <fieldset className={classNames.fieldSet}>
-        <legend>
-          <button
-            className={classNames.button}
-            onClick={() => addItem(path, createDefaultValue(schema))}
-          >
-            +
-          </button>
-          <label className={'array.label'}>{label}</label>
-        </legend>
-        <div className={classNames.children}>
-          {data ? (
-            range(0, data.length).map((index) => {
-              const foundUISchema = findUISchema(
-                uischemas,
-                schema,
-                uischema.scope,
-                path
-              );
-              const childPath = composePaths(path, `${index}`);
+    <View>
+      <Flex direction='row' justifyContent='space-between'>
+        <Heading level={4}>{label}</Heading>
+        <Button
+          variant='primary'
+          alignSelf='center'
+          onPress={() => addItem(path, createDefaultValue(schema))}
+        >
+          +
+        </Button>
+      </Flex>
+      <View>
+        {data ? (
+          range(0, data.length).map((index) => {
+            const foundUISchema = findUISchema(
+              uischemas,
+              schema,
+              uischema.scope,
+              path
+            );
+            const childPath = composePaths(path, `${index}`);
 
-              return (
-                <ResolvedJsonFormsDispatch
-                  schema={schema}
-                  uischema={foundUISchema || uischema}
-                  path={childPath}
-                  key={childPath}
-                  renderers={renderers}
-                />
-              );
-            })
-          ) : (
-            <p>No data</p>
-          )}
-        </div>
-      </fieldset>
-    </div>
+            return (
+              <ResolvedJsonFormsDispatch
+                schema={schema}
+                uischema={foundUISchema || uischema}
+                path={childPath}
+                key={childPath}
+                renderers={renderers}
+              />
+            );
+          })
+        ) : (
+          <Text>No data</Text>
+        )}
+      </View>
+    </View>
   );
 };
