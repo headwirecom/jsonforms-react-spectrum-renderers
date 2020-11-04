@@ -29,8 +29,6 @@ import React from 'react';
 import fpfilter from 'lodash/fp/filter';
 import fpmap from 'lodash/fp/map';
 import fpflow from 'lodash/fp/flow';
-import filter from 'lodash/filter';
-import join from 'lodash/join';
 import fpkeys from 'lodash/fp/keys';
 import fpstartCase from 'lodash/fp/startCase';
 import {
@@ -67,6 +65,7 @@ import {
 
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
+import { ErrorObject } from 'ajv';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -112,6 +111,21 @@ class SpectrumTableArrayControl extends React.Component<
       label: false,
       scope: schema.type === 'object' ? `#/properties/${key}` : '#',
     });
+
+    const getError = (e: ErrorObject[]) => (p: string) => {
+      const childPropErrors = e.filter(
+        (localError) => localError.dataPath === p
+      );
+
+      if (childPropErrors.length > 0) {
+        // TODO: is it possible to have multiple errors on a property?
+        return childPropErrors[0].message;
+      } else {
+        return '';
+      }
+    };
+
+    const getChildErrorMessage = getError(childErrors);
     const labelObject = createLabelDescriptionFrom(controlElement, schema);
     const isValid = errors.length === 0;
     const labelText = isPlainLabel(label) ? label : label.default;
@@ -159,7 +173,6 @@ class SpectrumTableArrayControl extends React.Component<
           <TableHeader>
             {[
               ...headerColumns,
-              <Column key='valid'>Valid</Column>,
               <Column key='none' width={70}>
                 &nbsp;
               </Column>,
@@ -168,7 +181,7 @@ class SpectrumTableArrayControl extends React.Component<
           <TableBody>
             {!data || !Array.isArray(data) || data.length === 0 ? (
               <Row>
-                {[...headerColumns, 3, 4].map((_, index) =>
+                {[...headerColumns, 3].map((_, index) =>
                   index === 0 ? (
                     <Cell key={index}>No data</Cell>
                   ) : (
@@ -179,11 +192,6 @@ class SpectrumTableArrayControl extends React.Component<
             ) : (
               data.map((_child, index) => {
                 const childPath = Paths.compose(path, `${index}`);
-
-                // TODO
-                const errorsPerEntry: any[] = filter(childErrors, (error) =>
-                  error.dataPath.startsWith(childPath)
-                );
 
                 const rowCells: JSX.Element[] = schema.properties
                   ? fpflow(
@@ -196,16 +204,6 @@ class SpectrumTableArrayControl extends React.Component<
                           childPath,
                           prop.toString()
                         );
-
-                        const childPropErrors = childErrors.filter(
-                          (error) => error.dataPath === childPropPath
-                        );
-
-                        let childPropErrorMessage = '';
-                        if (childPropErrors.length > 0) {
-                          // TODO: is it possible to have multiple errors on a property?
-                          childPropErrorMessage = childPropErrors[0].message;
-                        }
 
                         return (
                           <Cell key={childPropPath}>
@@ -221,9 +219,13 @@ class SpectrumTableArrayControl extends React.Component<
                               />
                               <View
                                 UNSAFE_style={UNSAFE_error}
-                                isHidden={childPropErrorMessage === ''}
+                                isHidden={
+                                  getChildErrorMessage(childPropPath) === ''
+                                }
                               >
-                                <Text>{childPropErrorMessage}</Text>
+                                <Text>
+                                  {getChildErrorMessage(childPropPath)}
+                                </Text>
                               </View>
                             </Flex>
                           </Cell>
@@ -232,11 +234,19 @@ class SpectrumTableArrayControl extends React.Component<
                     )(schema.properties)
                   : [
                       <Cell key={Paths.compose(childPath, index.toString())}>
-                        <DispatchCell
-                          schema={schema}
-                          uischema={createControlElement()}
-                          path={childPath}
-                        />
+                        <Flex direction='column'>
+                          <DispatchCell
+                            schema={schema}
+                            uischema={createControlElement()}
+                            path={childPath}
+                          />
+                          <View
+                            UNSAFE_style={UNSAFE_error}
+                            isHidden={getChildErrorMessage(childPath) === ''}
+                          >
+                            <Text>{getChildErrorMessage(childPath)}</Text>
+                          </View>
+                        </Flex>
                       </Cell>,
                     ];
 
@@ -244,24 +254,6 @@ class SpectrumTableArrayControl extends React.Component<
                   <Row key={childPath}>
                     {[
                       ...rowCells,
-                      <Cell key={`errors-row-${index}`}>
-                        {errorsPerEntry ? (
-                          <span
-                            className={
-                              'todo' /* getStyleAsClassName(
-                              'array.validation.error'
-                            ) */
-                            }
-                          >
-                            {join(
-                              errorsPerEntry.map((e) => e.message),
-                              ' and '
-                            )}
-                          </span>
-                        ) : (
-                          <span>OK</span>
-                        )}
-                      </Cell>,
                       <Cell key={`delete-row-${index}`}>
                         <TooltipTrigger delay={0}>
                           <ActionButton

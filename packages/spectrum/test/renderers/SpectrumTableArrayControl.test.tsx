@@ -213,13 +213,12 @@ describe('Table array control', () => {
 
     // TODO: test that tooltip on the button reads "add to test"
 
-    // two data columns + validation column + delete column
+    // two data columns + delete column
     const columnHeaders = wrapper.find('[role="columnheader"]');
-    expect(columnHeaders).toHaveLength(4);
+    expect(columnHeaders).toHaveLength(3);
     expect(columnHeaders.at(0).text()).toBe('X');
     expect(columnHeaders.at(1).text()).toBe('Y');
-    expect(columnHeaders.at(2).text()).toBe('Valid');
-    expect(columnHeaders.at(3).text().trim()).toBe('');
+    expect(columnHeaders.at(2).text().trim()).toBe('');
 
     const rows = wrapper.find('[role="row"]');
     expect(rows).toHaveLength(2);
@@ -245,11 +244,10 @@ describe('Table array control', () => {
     // TODO: test that tooltip on the button reads "add to test"
 
     const columnHeaders = wrapper.find('[role="columnheader"]');
-    expect(columnHeaders).toHaveLength(4);
+    expect(columnHeaders).toHaveLength(3);
     expect(columnHeaders.at(0).text()).toBe('X');
     expect(columnHeaders.at(1).text()).toBe('Y');
-    expect(columnHeaders.at(2).text()).toBe('Valid');
-    expect(columnHeaders.at(3).text().trim()).toBe('');
+    expect(columnHeaders.at(2).text().trim()).toBe('');
 
     const rows = wrapper.find('[role="row"]');
     expect(rows).toHaveLength(2);
@@ -366,8 +364,10 @@ describe('Table array control', () => {
 
     wrapper = mountForm(uischema, schema, data);
 
-    const cell = wrapper.find('[aria-colindex=2]').last();
-    expect(cell.text()).toBe('should NOT be longer than 3 characters');
+    const cell = wrapper.find('[aria-colindex=1]').last();
+    expect(
+      cell.contains('should NOT be longer than 3 characters')
+    ).toBeTruthy();
 
     const rows = wrapper.find('[role="row"]');
     expect(rows).toHaveLength(3);
