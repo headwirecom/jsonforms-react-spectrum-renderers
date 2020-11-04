@@ -25,3 +25,22 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
+import React from 'react';
+import { ComponentType } from 'react';
+import { Ajv } from 'ajv';
+import { getAjv } from '@jsonforms/core';
+import { useJsonForms } from '@jsonforms/react';
+
+export interface AjvProps {
+  ajv: Ajv;
+}
+
+export const withAjvProps = <P extends {}>(
+  Component: ComponentType<AjvProps & P>
+) => (props: P) => {
+  const ctx = useJsonForms();
+  const ajv = getAjv({ jsonforms: { ...ctx } });
+
+  return <Component {...props} ajv={ajv} />;
+};

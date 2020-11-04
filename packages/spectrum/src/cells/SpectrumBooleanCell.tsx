@@ -56,12 +56,14 @@ export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
   // !! causes undefined value to be converted to false, otherwise has no effect
   const isSelected = !!data;
   const validationState = !!isValid ? 'valid' : 'invalid';
-  const width: DimensionValue = appliedUiSchemaOptions.trim ? undefined : '100%';
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
   return (
     <Checkbox
       isSelected={isSelected}
-      onChange={selected => handleChange(path, selected)}
+      onChange={(selected) => handleChange(path, selected)}
       id={id}
       isDisabled={!enabled}
       autoFocus={autoFocus}
