@@ -27,6 +27,7 @@ export * from './InputTextArea';
 export * from './InputInteger';
 export * from './InputNumber';
 export * from './InputNumberFormatted';
+export * from './InputEnum';
 
 /**
  * Additional props for Spectrum input controls
