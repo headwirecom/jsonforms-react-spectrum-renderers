@@ -58,6 +58,7 @@ import {
   Flex,
   Header,
   Heading,
+  Text,
   Tooltip,
   TooltipTrigger,
   View,
@@ -115,6 +116,10 @@ class SpectrumTableArrayControl extends React.Component<
     const isValid = errors.length === 0;
     const labelText = isPlainLabel(label) ? label : label.default;
 
+    const UNSAFE_error = {
+      color: 'rgb(215, 55, 63)',
+    };
+
     const headerColumns: JSX.Element[] = schema.properties
       ? fpflow(
           fpkeys,
@@ -146,10 +151,11 @@ class SpectrumTableArrayControl extends React.Component<
             </TooltipTrigger>
           </Flex>
         </Header>
+
         <Well id='validation' isHidden={isValid}>
           {!isValid ? errors : ''}
         </Well>
-        <Table>
+        <Table overflowMode='wrap' density='compact'>
           <TableHeader>
             {[
               ...headerColumns,
@@ -162,13 +168,18 @@ class SpectrumTableArrayControl extends React.Component<
           <TableBody>
             {!data || !Array.isArray(data) || data.length === 0 ? (
               <Row>
-                {[...headerColumns, 3, 4].map((_, index) => (
-                  <Cell key={index}>No data</Cell>
-                ))}
+                {[...headerColumns, 3, 4].map((_, index) =>
+                  index === 0 ? (
+                    <Cell key={index}>No data</Cell>
+                  ) : (
+                    <Cell key={index}>&nbsp;</Cell>
+                  )
+                )}
               </Row>
             ) : (
               data.map((_child, index) => {
                 const childPath = Paths.compose(path, `${index}`);
+
                 // TODO
                 const errorsPerEntry: any[] = filter(childErrors, (error) =>
                   error.dataPath.startsWith(childPath)
@@ -186,17 +197,35 @@ class SpectrumTableArrayControl extends React.Component<
                           prop.toString()
                         );
 
+                        const childPropErrors = childErrors.filter(
+                          (error) => error.dataPath === childPropPath
+                        );
+
+                        let childPropErrorMessage = '';
+                        if (childPropErrors.length > 0) {
+                          // TODO: is it possible to have multiple errors on a property?
+                          childPropErrorMessage = childPropErrors[0].message;
+                        }
+
                         return (
                           <Cell key={childPropPath}>
-                            <DispatchCell
-                              schema={Resolve.schema(
-                                schema,
-                                `#/properties/${prop}`,
-                                rootSchema
-                              )}
-                              uischema={createControlElement(prop)}
-                              path={childPath + '.' + prop}
-                            />
+                            <Flex direction='column'>
+                              <DispatchCell
+                                schema={Resolve.schema(
+                                  schema,
+                                  `#/properties/${prop}`,
+                                  rootSchema
+                                )}
+                                uischema={createControlElement(prop)}
+                                path={childPath + '.' + prop}
+                              />
+                              <View
+                                UNSAFE_style={UNSAFE_error}
+                                isHidden={childPropErrorMessage === ''}
+                              >
+                                <Text>{childPropErrorMessage}</Text>
+                              </View>
+                            </Flex>
                           </Cell>
                         );
                       })
