@@ -27,10 +27,13 @@
 */
 import DateCell, { dateCellTester } from './DateCell';
 import DateTimeCell, { dateTimeCellTester } from './DateTimeCell';
-import EnumCell, { enumCellTester } from './EnumCell';
+import SpectrumEnumCell, { spectrumEnumCellTester } from './SpectrumEnumCell';
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester,
 } from './SpectrumBooleanCell';
+import SpectrumEnumControl, {
+  spectrumEnumControlTester,
+} from '../controls/SpectrumEnumControl';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from './SpectrumIntegerCell';
@@ -53,10 +56,12 @@ export {
   dateCellTester,
   DateTimeCell,
   dateTimeCellTester,
-  EnumCell,
-  enumCellTester,
+  SpectrumEnumCell,
+  spectrumEnumCellTester,
   SpectrumBooleanCell,
   spectrumBooleanCellTester,
+  SpectrumEnumControl,
+  spectrumEnumControlTester,
   SpectrumIntegerCell,
   spectrumIntegerCellTester,
   SpectrumNumberCell,

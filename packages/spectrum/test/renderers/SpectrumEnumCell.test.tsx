@@ -26,13 +26,20 @@
   THE SOFTWARE.
 */
 import * as React from 'react';
-import { ControlElement, getData, update } from '@jsonforms/core';
+import { ControlElement, update } from '@jsonforms/core';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import EnumCell, { enumCellTester } from '../../src/cells/EnumCell';
+import EnumCell, {
+  spectrumEnumCellTester,
+} from '../../src/cells/SpectrumEnumCell';
 import { Provider } from 'react-redux';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { mountForm } from '../util';
+import {
+  defaultTheme,
+  Provider as SpectrumThemeProvider,
+} from '@adobe/react-spectrum';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -51,15 +58,15 @@ const fixture = {
 };
 
 test('tester', () => {
-  expect(enumCellTester(undefined, undefined)).toBe(-1);
-  expect(enumCellTester(null, undefined)).toBe(-1);
-  expect(enumCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(enumCellTester({ type: 'Control' }, undefined)).toBe(-1);
+  expect(spectrumEnumCellTester(undefined, undefined)).toBe(-1);
+  expect(spectrumEnumCellTester(null, undefined)).toBe(-1);
+  expect(spectrumEnumCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(spectrumEnumCellTester({ type: 'Control' }, undefined)).toBe(-1);
 });
 
 test('tester with wrong prop type', () => {
   expect(
-    enumCellTester(fixture.uischema, {
+    spectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: { foo: { type: 'string' } },
     })
@@ -68,7 +75,7 @@ test('tester with wrong prop type', () => {
 
 test('tester with wrong prop type, but sibling has correct one', () => {
   expect(
-    enumCellTester(fixture.uischema, {
+    spectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -85,7 +92,7 @@ test('tester with wrong prop type, but sibling has correct one', () => {
 
 test('tester with matching string type', () => {
   expect(
-    enumCellTester(fixture.uischema, {
+    spectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -100,7 +107,7 @@ test('tester with matching string type', () => {
 test('tester with matching numeric type', () => {
   // TODO should expect be true?
   expect(
-    enumCellTester(fixture.uischema, {
+    spectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -118,77 +125,28 @@ describe('Enum cell', () => {
   afterEach(() => wrapper.unmount());
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data);
 
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
     expect(select.tagName).toBe('SELECT');
     expect(select.value).toBe('a');
-    expect(select.options).toHaveLength(3);
-    expect(select.options.item(0).value).toBe('');
-    expect(select.options.item(1).value).toBe('a');
-    expect(select.options.item(2).value).toBe('b');
-  });
-
-  // TODO: update test after implementing with Spectrum
-  test.skip('has classes set', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-
-    const input = wrapper.find('select');
-    expect(input.hasClass('select')).toBe(true);
-    expect(input.hasClass('validate')).toBe(true);
-    expect(input.hasClass('valid')).toBe(true);
+    expect(select.options).toHaveLength(2);
+    expect(select.options.item(0).value).toBe('a');
+    expect(select.options.item(1).value).toBe('b');
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+    let state = '';
+    wrapper = mountForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data,
+      [],
+      (d) => (state = d.data.foo)
     );
     const select = wrapper.find('select');
     select.simulate('change', { target: { value: 'b' } });
-    expect(getData(store.getState()).foo).toBe('b');
+    expect(state).toBe('b');
   });
 
   test('update via action', () => {
@@ -200,19 +158,21 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
     store.dispatch(update('foo', () => 'b'));
     expect(select.value).toBe('b');
-    expect(select.selectedIndex).toBe(2);
+    expect(select.selectedIndex).toBe(1);
   });
 
   test('update with undefined value', () => {
@@ -223,19 +183,21 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
     store.dispatch(update('foo', () => undefined));
     expect(select.selectedIndex).toBe(0);
-    expect(select.value).toBe('');
+    expect(select.value).toBe('a');
   });
 
   test('update with null value', () => {
@@ -246,19 +208,21 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
     store.dispatch(update('foo', () => null));
     expect(select.selectedIndex).toBe(0);
-    expect(select.value).toBe('');
+    expect(select.value).toBe('a');
   });
 
   test('update with wrong ref', () => {
@@ -269,19 +233,21 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     store.dispatch(update('bar', () => 'Bar'));
     wrapper.update();
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    expect(select.selectedIndex).toBe(1);
+    expect(select.selectedIndex).toBe(0);
     expect(select.value).toBe('a');
   });
 
@@ -293,19 +259,21 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     store.dispatch(update(null, () => false));
     wrapper.update();
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    expect(select.selectedIndex).toBe(1);
+    expect(select.selectedIndex).toBe(0);
     expect(select.value).toBe('a');
   });
 
@@ -317,18 +285,20 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     store.dispatch(update(undefined, () => false));
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    expect(select.selectedIndex).toBe(1);
+    expect(select.selectedIndex).toBe(0);
     expect(select.value).toBe('a');
   });
 
@@ -340,13 +310,15 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            enabled={false}
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              enabled={false}
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     const select = wrapper.find('select');
@@ -361,13 +333,15 @@ describe('Enum cell', () => {
     });
     wrapper = mount(
       <Provider store={store}>
-        <JsonFormsReduxContext>
-          <EnumCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
+        <SpectrumThemeProvider theme={defaultTheme}>
+          <JsonFormsReduxContext>
+            <EnumCell
+              schema={fixture.schema}
+              uischema={fixture.uischema}
+              path='foo'
+            />
+          </JsonFormsReduxContext>
+        </SpectrumThemeProvider>
       </Provider>
     );
     const select = wrapper.find('select');

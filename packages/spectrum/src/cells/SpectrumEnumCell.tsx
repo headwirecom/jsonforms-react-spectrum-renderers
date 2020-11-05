@@ -25,45 +25,24 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import React from 'react';
+import {
+  EnumCellProps,
+  isEnumControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsEnumCellProps } from '@jsonforms/react';
+import { SpectrumInputProps } from '../spectrum-control';
+import { InputEnum } from '../spectrum-control/InputEnum';
 
-import InputControl, { inputControlTester } from './InputControl';
-import SpectrumBooleanControl, {
-  spectrumBooleanControlTester,
-} from './SpectrumBooleanControl';
-import SpectrumEnumControl, {
-  spectrumEnumControlTester,
-} from './SpectrumEnumControl';
-import SpectrumIntegerControl, {
-  spectrumIntegerControlTester,
-} from './SpectrumIntegerControl';
-import SpectrumNumberControl, {
-  spectrumNumberControlTester,
-} from './SpectrumNumberControl';
-import SpectrumNumberFormattedControl, {
-  spectrumNumberFormattedControlTester,
-} from './SpectrumNumberFormattedControl';
-import SpectrumTextAreaControl, {
-  spectrumTextAreaControlTester,
-} from './SpectrumTextAreaControl';
-import SpectrumTextControl, {
-  spectrumTextControlTester,
-} from './SpectrumTextControl';
+export const SpectrumEnumCell = (props: EnumCellProps & SpectrumInputProps) => (
+  <InputEnum {...props} />
+);
+/**
+ * Default tester for enum controls.
+ * @type {RankedTester}
+ */
+export const spectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
 
-export {
-  InputControl,
-  inputControlTester,
-  SpectrumBooleanControl,
-  spectrumBooleanControlTester,
-  SpectrumEnumControl,
-  spectrumEnumControlTester,
-  SpectrumIntegerControl,
-  spectrumIntegerControlTester,
-  SpectrumNumberControl,
-  spectrumNumberControlTester,
-  SpectrumNumberFormattedControl,
-  spectrumNumberFormattedControlTester,
-  SpectrumTextAreaControl,
-  spectrumTextAreaControlTester,
-  SpectrumTextControl,
-  spectrumTextControlTester,
-};
+export default withJsonFormsEnumCellProps(SpectrumEnumCell);

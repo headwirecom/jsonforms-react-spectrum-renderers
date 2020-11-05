@@ -1,9 +1,6 @@
 /*
   The MIT License
 
-  Copyright (c) 2017-2019 EclipseSource Munich
-  https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -25,14 +22,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export { SpectrumBooleanCell } from './SpectrumBooleanCell';
-export { DateCell } from './DateCell';
-export { DateTimeCell } from './DateTimeCell';
-export { SpectrumEnumCell } from './SpectrumEnumCell';
-export { SpectrumIntegerCell } from './SpectrumIntegerCell';
-export { SpectrumNumberCell } from './SpectrumNumberCell';
-export { SpectrumNumberFormatCell } from './SpectrumNumberFormatCell';
-export { SliderCell } from './SliderCell';
-export { SpectrumTextCell } from './SpectrumTextCell';
-export { SpectrumTextAreaCell } from './SpectrumTextAreaCell';
-export { TimeCell } from './TimeCell';
+
+import {
+  ControlProps,
+  isEnumControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsEnumProps } from '@jsonforms/react';
+import React from 'react';
+import { SpectrumInputControl } from './SpectrumInputControl';
+import { InputEnum } from '../spectrum-control/InputEnum';
+
+export const SpectrumEnumControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputEnum} />
+);
+
+export const spectrumEnumControlTester: RankedTester = rankWith(
+  3,
+  isEnumControl
+);
+
+export default withJsonFormsEnumProps(SpectrumEnumControl);

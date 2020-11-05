@@ -1,9 +1,6 @@
 /*
   The MIT License
 
-  Copyright (c) 2017-2019 EclipseSource Munich
-  https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -26,42 +23,51 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  EnumCellProps,
-  isEnumControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
-import { withJsonFormsEnumCellProps } from '@jsonforms/react';
+import { EnumCellProps } from '@jsonforms/core';
+import { merge } from 'lodash';
+import { SpectrumInputProps } from './index';
+import { DimensionValue } from '@react-types/shared';
+import { Item, Picker } from '@adobe/react-spectrum';
 
-export const EnumCell = (props: EnumCellProps) => {
-  const { data, id, enabled, uischema, path, handleChange, options } = props;
+export class InputEnum extends React.PureComponent<
+  EnumCellProps & SpectrumInputProps
+> {
+  render() {
+    const {
+      config,
+      uischema,
+      options,
+      data,
+      // isValid,
+      id,
+      enabled,
+      required,
+      path,
+      handleChange,
+      label,
+    } = this.props;
 
-  return (
-    <select
-      className='select' // TODO: obsolete in the future, but implement trim!
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-      value={data ?? ''}
-      onChange={(ev) => handleChange(path, ev.target.value)}
-    >
-      {[<option value='' key={'empty'} />].concat(
-        options.map((optionValue) => (
-          <option
-            value={optionValue.value}
-            label={optionValue.label}
-            key={optionValue.value}
-          />
-        ))
-      )}
-    </select>
-  );
-};
-/**
- * Default tester for enum controls.
- * @type {RankedTester}
- */
-export const enumCellTester: RankedTester = rankWith(2, isEnumControl);
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
 
-export default withJsonFormsEnumCellProps(EnumCell);
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
+
+    return (
+      <Picker
+        key={id}
+        id={id}
+        label={label}
+        isRequired={isRequired}
+        isDisabled={!enabled}
+        width={width}
+        items={options}
+        selectedKey={data}
+        onSelectionChange={(ev) => handleChange(path, ev)}
+      >
+        {(item) => <Item key={item.value}>{item.label}</Item>}
+      </Picker>
+    );
+  }
+}
