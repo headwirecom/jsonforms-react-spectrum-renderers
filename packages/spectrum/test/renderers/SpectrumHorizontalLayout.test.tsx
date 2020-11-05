@@ -43,7 +43,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const fixture = {
   uischema: {
     type: 'HorizontalLayout',
-    elements: [{ type: 'Control' }]
+    elements: [{ type: 'Control' }],
   },
 };
 

@@ -73,6 +73,8 @@ import {
   arrayControlTester,
   SpectrumAnyOfRenderer,
   spectrumAnyOfRendererTester,
+  SpectrumAllOfRenderer,
+  spectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
   spectrumCategorizationRendererTester,
   SpectrumLabelRenderer,
@@ -127,6 +129,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: spectrumAnyOfRendererTester,
     renderer: SpectrumAnyOfRenderer,
+  },
+  {
+    tester: spectrumAllOfRendererTester,
+    renderer: SpectrumAllOfRenderer,
   },
   {
     tester: spectrumTableArrayControlTester,
