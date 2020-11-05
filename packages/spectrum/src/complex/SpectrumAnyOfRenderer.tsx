@@ -41,7 +41,7 @@ import {
   withJsonFormsAnyOfProps,
 } from '@jsonforms/react';
 import CombinatorProperties from './CombinatorProperties';
-import { Item, View } from '@adobe/react-spectrum';
+import { Content, Item, View } from '@adobe/react-spectrum';
 import { Tabs } from '@react-spectrum/tabs';
 
 const SpectrumAnyOfRenderer = ({
@@ -83,7 +83,8 @@ const SpectrumAnyOfRenderer = ({
         onSelectionChange={handleChange}
       >
         {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-          <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
+            <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
+            <Content margin='size-160'>
             <ResolvedJsonFormsDispatch
               key={anyOfIndex}
               schema={anyOfRenderInfo.schema}
@@ -92,6 +93,7 @@ const SpectrumAnyOfRenderer = ({
               renderers={renderers}
               cells={cells}
             />
+            </Content>
           </Item>
         ))}
       </Tabs>
