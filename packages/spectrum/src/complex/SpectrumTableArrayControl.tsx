@@ -63,6 +63,8 @@ import {
   Well,
 } from '@adobe/react-spectrum';
 
+import './table-cell.css';
+
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { ErrorObject } from 'ajv';
