@@ -1,22 +1,22 @@
 /*
   The MIT License
-  
+
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-  
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,11 +25,12 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { Key, useCallback, useState } from 'react';
+import React from 'react';
 
 import {
   createCombinatorRenderInfos,
-  isAnyOfControl,
+  findMatchingUISchema,
+  isAllOfControl,
   JsonSchema,
   RankedTester,
   rankWith,
@@ -38,34 +39,43 @@ import {
 } from '@jsonforms/core';
 import {
   ResolvedJsonFormsDispatch,
-  withJsonFormsAnyOfProps,
+  withJsonFormsAllOfProps,
 } from '@jsonforms/react';
-import CombinatorProperties from './CombinatorProperties';
-import { Content, Item, View } from '@adobe/react-spectrum';
-import { Tabs } from '@react-spectrum/tabs';
+import { View } from '@adobe/react-spectrum';
 
-const SpectrumAnyOfRenderer = ({
+const SpectrumAllOfRenderer = ({
   schema,
   rootSchema,
-  indexOfFittingSchema,
   visible,
-  path,
   renderers,
   cells,
-  uischema,
+  path,
   uischemas,
+  uischema,
 }: StatePropsOfCombinator) => {
-  const [selectedAnyOf, setSelectedAnyOf] = useState(indexOfFittingSchema || 0);
-  const handleChange = useCallback(
-    (value: Key) => setSelectedAnyOf(Number(value)),
-    [setSelectedAnyOf]
+  const _schema = resolveSubSchemas(schema, rootSchema, 'allOf');
+  const delegateUISchema = findMatchingUISchema(uischemas)(
+    _schema,
+    uischema.scope,
+    path
   );
-  const anyOf = 'anyOf';
-  const _schema = resolveSubSchemas(schema, rootSchema, anyOf);
-  const anyOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).anyOf,
+  if (delegateUISchema) {
+    return (
+      <View isHidden={!visible}>
+        <ResolvedJsonFormsDispatch
+          schema={_schema}
+          uischema={delegateUISchema}
+          path={path}
+          renderers={renderers}
+          cells={cells}
+        />
+      </View>
+    );
+  }
+  const allOfRenderInfos = createCombinatorRenderInfos(
+    (_schema as JsonSchema).allOf,
     rootSchema,
-    anyOf,
+    'allOf',
     uischema,
     path,
     uischemas
@@ -73,36 +83,22 @@ const SpectrumAnyOfRenderer = ({
 
   return (
     <View isHidden={!visible}>
-      <CombinatorProperties
-        schema={_schema}
-        combinatorKeyword={'anyOf'}
-        path={path}
-      />
-      <Tabs
-        selectedKey={String(selectedAnyOf)}
-        onSelectionChange={handleChange}
-      >
-        {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-            <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
-            <Content margin='size-160'>
-            <ResolvedJsonFormsDispatch
-              key={anyOfIndex}
-              schema={anyOfRenderInfo.schema}
-              uischema={anyOfRenderInfo.uischema}
-              path={path}
-              renderers={renderers}
-              cells={cells}
-            />
-            </Content>
-          </Item>
-        ))}
-      </Tabs>
+      {allOfRenderInfos.map((allOfRenderInfo, allOfIndex) => (
+        <ResolvedJsonFormsDispatch
+          key={allOfIndex}
+          schema={allOfRenderInfo.schema}
+          uischema={allOfRenderInfo.uischema}
+          path={path}
+          renderers={renderers}
+          cells={cells}
+        />
+      ))}
     </View>
   );
 };
 
-export const spectrumAnyOfRendererTester: RankedTester = rankWith(
-  3,
-  isAnyOfControl
+export const spectrumAllOfRendererTester: RankedTester = rankWith(
+  4,
+  isAllOfControl
 );
-export default withJsonFormsAnyOfProps(SpectrumAnyOfRenderer);
+export default withJsonFormsAllOfProps(SpectrumAllOfRenderer);

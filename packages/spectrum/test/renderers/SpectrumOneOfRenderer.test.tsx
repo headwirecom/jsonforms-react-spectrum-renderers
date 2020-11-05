@@ -29,7 +29,9 @@
 import Enzyme, { ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {
-  ControlElement, RuleEffect, SchemaBasedCondition,
+  ControlElement,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
 import { mountForm } from '../util';
 import { Tab } from '@react-spectrum/tabs';
@@ -38,7 +40,7 @@ import { SpectrumOneOfRenderer } from '../../src';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
+const waitForAsync = () => new Promise((resolve) => setImmediate(resolve));
 
 const clickAddButton = (wrapper: ReactWrapper, times: number) => {
   // click add button
@@ -62,21 +64,12 @@ const selectOneOfTab = (
 
   if (expectConfim) {
     // confirm dialog
-    console.log(wrapper.find(Dialog).length)
-    const confirmButton = wrapper
-      .find(Dialog)
-      .find('button')
-      .at(1);
+    console.log(wrapper.find(Dialog).length);
+    const confirmButton = wrapper.find(Dialog).find('button').at(1);
     confirmButton.simulate('click');
     wrapper.update();
   } else {
-    expect(
-      wrapper
-        .find(Dialog)
-        .find('button')
-        .at(1)
-        .exists()
-    ).toBe(false);
+    expect(wrapper.find(Dialog).find('button').at(1).exists()).toBe(false);
   }
 };
 
@@ -93,28 +86,28 @@ describe('Spectrum oneOf renderer', () => {
           oneOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
 
     wrapper = mountForm(uischema, schema);
-    
-    const firstTab =wrapper.find(Tab).first()
-    expect(firstTab.getDOMNode().className).toContain('is-selected')
+
+    const firstTab = wrapper.find(Tab).first();
+    expect(firstTab.getDOMNode().className).toContain('is-selected');
   });
-  
+
   it('should render and select second tab due to datatype', () => {
     const schema = {
       type: 'object',
@@ -123,28 +116,28 @@ describe('Spectrum oneOf renderer', () => {
           oneOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
 
     wrapper = mountForm(uischema, schema, { value: 5 });
 
     const secondTab = wrapper.find(Tab).at(1);
-    expect(secondTab.getDOMNode().className).toContain('is-selected')
+    expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
-  
+
   it('should render and select second tab due to schema with additionalProperties', () => {
     const schema = {
       type: 'object',
@@ -155,34 +148,34 @@ describe('Spectrum oneOf renderer', () => {
               title: 'String',
               type: 'object',
               properties: {
-                foo: { type: 'string' }
+                foo: { type: 'string' },
               },
-              additionalProperties: false
+              additionalProperties: false,
             },
             {
               title: 'Number',
               type: 'object',
               properties: {
-                bar: { type: 'string' }
+                bar: { type: 'string' },
               },
-              additionalProperties: false
-            }
-          ]
-        }
-      }
+              additionalProperties: false,
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
-    
+
     wrapper = mountForm(uischema, schema, { value: { bar: 'bar' } });
 
     const secondTab = wrapper.find(Tab).at(1);
-    expect(secondTab.getDOMNode().className).toContain('is-selected')
+    expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
-  
+
   it('should render and select second tab due to schema with required', () => {
     const schema = {
       type: 'object',
@@ -193,36 +186,36 @@ describe('Spectrum oneOf renderer', () => {
               title: 'String',
               type: 'object',
               properties: {
-                foo: { type: 'string' }
+                foo: { type: 'string' },
               },
-              required: ['foo']
+              required: ['foo'],
             },
             {
               title: 'Number',
               type: 'object',
               properties: {
-                bar: { type: 'string' }
+                bar: { type: 'string' },
               },
-              required: ['bar']
-            }
-          ]
-        }
-      }
+              required: ['bar'],
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
 
     wrapper = mountForm(uischema, schema, { value: { bar: 'bar' } });
-    
+
     const secondTab = wrapper.find(Tab).at(1);
-    expect(secondTab.getDOMNode().className).toContain('is-selected')
+    expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
 
   it('should add an item at correct path', () => {
-    let state = {}
+    let state = {};
     const schema = {
       type: 'object',
       properties: {
@@ -230,29 +223,35 @@ describe('Spectrum oneOf renderer', () => {
           oneOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
-    
-    wrapper = mountForm(uischema, schema, undefined, undefined, ({data}) => state = data);
-    
+
+    wrapper = mountForm(
+      uischema,
+      schema,
+      undefined,
+      undefined,
+      ({ data }) => (state = data)
+    );
+
     const input = wrapper.find('input').first();
     input.simulate('change', { target: { value: 'test' } });
     wrapper.update();
     expect(state).toEqual({
-      value: 'test'
+      value: 'test',
     });
   });
 
@@ -264,31 +263,31 @@ describe('Spectrum oneOf renderer', () => {
         thingOrThings: {
           oneOf: [
             {
-              $ref: '#/definitions/thing'
+              $ref: '#/definitions/thing',
             },
             {
-              $ref: '#/definitions/thingArray'
-            }
-          ]
-        }
+              $ref: '#/definitions/thingArray',
+            },
+          ],
+        },
       },
       definitions: {
         thing: {
           title: 'Thing',
-          type: 'string'
+          type: 'string',
         },
         thingArray: {
           title: 'Things',
           type: 'array',
           items: {
-            $ref: '#/definitions/thing'
-          }
-        }
-      }
+            $ref: '#/definitions/thing',
+          },
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/thingOrThings'
+      scope: '#/properties/thingOrThings',
     };
 
     wrapper = mountForm(uischema, schema, {});
@@ -310,7 +309,7 @@ describe('Spectrum oneOf renderer', () => {
 
   // TODO: how to select Spectrum tab in selectOneOfTab?
   it.skip('should add an object within an array', async () => {
-    let state: any = {}
+    let state: any = {};
     const schema = {
       type: 'object',
       properties: {
@@ -321,36 +320,42 @@ describe('Spectrum oneOf renderer', () => {
               type: 'object',
               properties: {
                 thing: {
-                  $ref: '#/definitions/thing'
-                }
-              }
+                  $ref: '#/definitions/thing',
+                },
+              },
             },
             {
-              $ref: '#/definitions/thingArray'
-            }
-          ]
-        }
+              $ref: '#/definitions/thingArray',
+            },
+          ],
+        },
       },
       definitions: {
         thing: {
           title: 'Thing',
-          type: 'string'
+          type: 'string',
         },
         thingArray: {
           title: 'Things',
           type: 'array',
           items: {
-            $ref: '#/definitions/thing'
-          }
-        }
-      }
+            $ref: '#/definitions/thing',
+          },
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/thingOrThings'
+      scope: '#/properties/thingOrThings',
     };
 
-    wrapper = mountForm(uischema, schema, {}, undefined, ({data}) => state = data)
+    wrapper = mountForm(
+      uischema,
+      schema,
+      {},
+      undefined,
+      ({ data }) => (state = data)
+    );
 
     await waitForAsync();
 
@@ -367,13 +372,13 @@ describe('Spectrum oneOf renderer', () => {
     // 1 header row + 2 data rows (one is replacing the 'No data' one)
     expect(nrOfRowsAfterAdd.length).toBe(3);
     expect(state).toEqual({
-      thingOrThings: ['', '']
+      thingOrThings: ['', ''],
     });
   });
 
   // TODO: how to select Spectrum tab in selectOneOfTab?
   it.skip('should switch to array based oneOf subschema, then switch back, then edit', async () => {
-    let state: any = {}
+    let state: any = {};
     const schema = {
       type: 'object',
       properties: {
@@ -384,36 +389,42 @@ describe('Spectrum oneOf renderer', () => {
               type: 'object',
               properties: {
                 thing: {
-                  $ref: '#/definitions/thing'
-                }
-              }
+                  $ref: '#/definitions/thing',
+                },
+              },
             },
             {
-              $ref: '#/definitions/thingArray'
-            }
-          ]
-        }
+              $ref: '#/definitions/thingArray',
+            },
+          ],
+        },
       },
       definitions: {
         thing: {
           title: 'Thing',
-          type: 'string'
+          type: 'string',
         },
         thingArray: {
           title: 'Things',
           type: 'array',
           items: {
-            $ref: '#/definitions/thing'
-          }
-        }
-      }
+            $ref: '#/definitions/thing',
+          },
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/thingOrThings'
+      scope: '#/properties/thingOrThings',
     };
 
-    wrapper = mountForm(uischema, schema, {}, undefined, ({data}) => state = data)
+    wrapper = mountForm(
+      uischema,
+      schema,
+      {},
+      undefined,
+      ({ data }) => (state = data)
+    );
 
     await waitForAsync();
 
@@ -427,7 +438,7 @@ describe('Spectrum oneOf renderer', () => {
     input.simulate('change', { target: { value: 'test' } });
     wrapper.update();
     expect(state).toEqual({
-      thingOrThings: { thing: 'test' }
+      thingOrThings: { thing: 'test' },
     });
   });
 
@@ -440,24 +451,24 @@ describe('Spectrum oneOf renderer', () => {
           oneOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
 
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
 
-    wrapper = mountForm(uischema, schema, { value: 'Foo Bar' })
+    wrapper = mountForm(uischema, schema, { value: 'Foo Bar' });
 
     await waitForAsync();
     wrapper.update();
@@ -476,15 +487,15 @@ describe('Spectrum oneOf renderer', () => {
           oneOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
@@ -496,7 +507,7 @@ describe('Spectrum oneOf renderer', () => {
       },
     };
 
-    wrapper = mountForm(uischema, schema)
+    wrapper = mountForm(uischema, schema);
     const renderer = wrapper
       .find(SpectrumOneOfRenderer)
       .getDOMNode() as HTMLElement;
