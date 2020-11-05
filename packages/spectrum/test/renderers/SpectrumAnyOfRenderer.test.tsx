@@ -29,7 +29,9 @@
 import Enzyme, { ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {
-  ControlElement, RuleEffect, SchemaBasedCondition,
+  ControlElement,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
 import { Tab } from '@react-spectrum/tabs';
 import { mountForm } from '../util';
@@ -37,7 +39,7 @@ import { SpectrumAnyOfRenderer } from '../../src';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
+const waitForAsync = () => new Promise((resolve) => setImmediate(resolve));
 
 const clickAddButton = (wrapper: ReactWrapper, times: number) => {
   const buttons = wrapper.find('button');
@@ -54,13 +56,13 @@ const selectanyOfTab = (wrapper: ReactWrapper, at: number) => {
   wrapper.update();
 };
 
-describe('Material anyOf renderer', () => {
+describe('Spectrum anyOf renderer', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
 
   it('should add an item at correct path', () => {
-    let state: any = undefined
+    let state: any = undefined;
     const schema = {
       type: 'object',
       properties: {
@@ -68,28 +70,34 @@ describe('Material anyOf renderer', () => {
           anyOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
       label: 'Value',
-      scope: '#/properties/value'
+      scope: '#/properties/value',
     };
-    wrapper = mountForm(uischema, schema, undefined, undefined, ({data}) => state = data)
+    wrapper = mountForm(
+      uischema,
+      schema,
+      undefined,
+      undefined,
+      ({ data }) => (state = data)
+    );
 
     const input = wrapper.find('input').first();
     input.simulate('change', { target: { value: 'test' } });
     wrapper.update();
     expect(state).toEqual({
-      value: 'test'
+      value: 'test',
     });
   });
 
@@ -101,13 +109,13 @@ describe('Material anyOf renderer', () => {
         myThingsAndOrYourThings: {
           anyOf: [
             {
-              $ref: '#/definitions/myThings'
+              $ref: '#/definitions/myThings',
             },
             {
-              $ref: '#/definitions/yourThings'
-            }
-          ]
-        }
+              $ref: '#/definitions/yourThings',
+            },
+          ],
+        },
       },
       definitions: {
         myThings: {
@@ -117,10 +125,10 @@ describe('Material anyOf renderer', () => {
             type: 'object',
             properties: {
               name: {
-                type: 'string'
-              }
-            }
-          }
+                type: 'string',
+              },
+            },
+          },
         },
         yourThings: {
           title: 'YourThings',
@@ -129,19 +137,19 @@ describe('Material anyOf renderer', () => {
             type: 'object',
             properties: {
               age: {
-                type: 'number'
-              }
-            }
-          }
-        }
-      }
+                type: 'number',
+              },
+            },
+          },
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/myThingsAndOrYourThings'
+      scope: '#/properties/myThingsAndOrYourThings',
     };
 
-    wrapper = mountForm(uischema, schema, {})
+    wrapper = mountForm(uischema, schema, {});
 
     await waitForAsync();
 
@@ -167,13 +175,13 @@ describe('Material anyOf renderer', () => {
         myThingsAndOrYourThings: {
           anyOf: [
             {
-              $ref: '#/definitions/myThings'
+              $ref: '#/definitions/myThings',
             },
             {
-              $ref: '#/definitions/yourThings'
-            }
-          ]
-        }
+              $ref: '#/definitions/yourThings',
+            },
+          ],
+        },
       },
       definitions: {
         myThings: {
@@ -183,10 +191,10 @@ describe('Material anyOf renderer', () => {
             type: 'object',
             properties: {
               name: {
-                type: 'string'
-              }
-            }
-          }
+                type: 'string',
+              },
+            },
+          },
         },
         yourThings: {
           title: 'YourThings',
@@ -195,20 +203,25 @@ describe('Material anyOf renderer', () => {
             type: 'object',
             properties: {
               age: {
-                type: 'number'
-              }
-            }
-          }
-        }
-      }
+                type: 'number',
+              },
+            },
+          },
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/myThingsAndOrYourThings'
+      scope: '#/properties/myThingsAndOrYourThings',
     };
 
-
-    wrapper = mountForm(uischema, schema, {}, undefined, ({data}) => state = data);
+    wrapper = mountForm(
+      uischema,
+      schema,
+      {},
+      undefined,
+      ({ data }) => (state = data)
+    );
 
     await waitForAsync();
 
@@ -228,7 +241,7 @@ describe('Material anyOf renderer', () => {
     wrapper.update();
 
     expect(state).toEqual({
-      myThingsAndOrYourThings: [{ age: 5, name: 'test' }]
+      myThingsAndOrYourThings: [{ age: 5, name: 'test' }],
     });
   });
 
@@ -244,15 +257,15 @@ describe('Material anyOf renderer', () => {
           anyOf: [
             {
               title: 'String',
-              type: 'string'
+              type: 'string',
             },
             {
               title: 'Number',
-              type: 'number'
-            }
-          ]
-        }
-      }
+              type: 'number',
+            },
+          ],
+        },
+      },
     };
     const uischema: ControlElement = {
       type: 'Control',
@@ -264,7 +277,7 @@ describe('Material anyOf renderer', () => {
       },
     };
 
-    wrapper = mountForm(uischema, schema)
+    wrapper = mountForm(uischema, schema);
 
     const renderer = wrapper
       .find(SpectrumAnyOfRenderer)
