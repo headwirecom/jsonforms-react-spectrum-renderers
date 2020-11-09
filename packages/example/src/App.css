@@ -4,7 +4,6 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-header {
@@ -14,17 +13,53 @@
   color: white;
 }
 
+.container {
+  display: flex; /* or inline-flex */
+  flex-flow: row nowrap;
+}
+
+.container > * {
+  flex: 1 100%;
+}
+
+.App-header ul > li {
+  display: inline-block;
+  width: 9em;
+  font-size: 1.1em;
+}
+
 .App-title {
-  font-size: 1.5em;
+  font-size: 1.1em;
+}
+
+.App-header > h1 {
+  margin-block-start: 0px;
 }
 
 .App-intro {
   font-size: large;
 }
 
+.App-Form {
+  flex: 8 0px;
+  padding-top: 1em;
+}
+
+.App-selection {
+  flex: 1 auto;
+}
+
+.App-Data {
+  flex: 2 auto;
+}
+
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .data-title {
@@ -37,7 +72,50 @@
   justify-content: center;
 }
 
+.data-content > pre {
+  width: 100%;
+}
+
 .demoform {
   width: 80%;
   margin: auto;
+}
+
+.tabs {
+  position: relative;
+  min-height: 200px; /* This part sucks */
+  clear: both;
+  margin: 25px 0;
+}
+.tab {
+  float: left;
+}
+.tab label {
+  background: #eee;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-left: -1px;
+  position: relative;
+  left: 1px;
+}
+.tab [type='radio'] {
+  display: none;
+}
+.content {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background: white;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+[type='radio']:checked ~ label {
+  background: white;
+  border-bottom: 1px solid white;
+  z-index: 2;
+}
+[type='radio']:checked ~ label ~ .content {
+  z-index: 1;
 }

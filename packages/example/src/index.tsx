@@ -40,7 +40,7 @@ import {
   JsonFormsRendererRegistryEntry,
   RankedTester,
 } from '@jsonforms/core';
-import { getExamples } from '@jsonforms/examples';
+import { getExamples, registerExamples } from '@jsonforms/examples';
 import { AdditionalStoreParams, exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
 
@@ -48,6 +48,21 @@ import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
+
+const getExampleSchemas = () => {
+  registerExamples([
+    {
+      name: 'spectrum-test',
+      label: 'test',
+      data: { name: 'a sample name' },
+      schema: undefined,
+      uischema: undefined,
+    },
+  ]);
+
+  const examples = getExamples();
+  return examples;
+};
 
 const setupStore = (
   exampleData: ReactExampleDescription[],
@@ -126,7 +141,7 @@ export const renderExample = (
   enhancer?: (examples: ReactExampleDescription[]) => ReactExampleDescription[],
   ...additionalStoreParams: AdditionalStoreParams[]
 ) => {
-  const exampleData = enhanceExample(getExamples());
+  const exampleData = enhanceExample(getExampleSchemas());
   const enhancedExampleData = enhancer ? enhancer(exampleData) : exampleData;
   const store = setupStore(
     enhancedExampleData,
