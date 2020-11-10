@@ -26,12 +26,8 @@
   THE SOFTWARE.
 */
 import { LabelElement, RuleEffect, UISchemaElement } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { ReactWrapper } from 'enzyme';
 import { spectrumLabelRendererTester } from '../../src/complex/SpectrumLabelRenderer';
-import { falseCondition, mountForm } from '../util';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { falseCondition, renderForm } from '../util';
 
 const fixture = {
   data: { name: 'Foo' },
@@ -52,17 +48,12 @@ describe('Label tester', () => {
 });
 
 describe('Label', () => {
-  let wrapper: ReactWrapper;
-
-  afterEach(() => wrapper.unmount());
-
   test('render with undefined text', () => {
     const uischema: UISchemaElement = { type: 'Label' };
 
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema);
 
-    const label = wrapper.find('span').getDOMNode();
-    expect(label.textContent).toBe('');
+    expect(container.querySelector('span').textContent).toBe('');
   });
 
   test('render with null text', () => {
@@ -71,18 +62,19 @@ describe('Label', () => {
       text: null,
     };
 
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema);
 
-    const label = wrapper.find('span').getDOMNode();
-    expect(label.textContent).toBe('');
+    expect(container.querySelector('span').textContent).toBe('');
   });
 
   test('render with text', () => {
-    wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data);
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
 
-    const label = wrapper.find('span').getDOMNode();
-    expect(label.childNodes).toHaveLength(1);
-    expect(label.textContent).toBe('Bar');
+    expect(container.querySelector('span').textContent).toBe('Bar');
   });
 
   test('hide', () => {
@@ -93,15 +85,19 @@ describe('Label', () => {
         condition: falseCondition(),
       },
     };
-    wrapper = mountForm(uischema, fixture.schema, fixture.data);
 
-    const label = wrapper.find('div').last().getDOMNode() as HTMLLabelElement;
-    expect(label.hidden).toBe(true);
+    const { getByText } = renderForm(uischema, fixture.schema, fixture.data);
+
+    expect(getByText('Bar').hidden).toBeTruthy();
   });
 
   test('show by default', () => {
-    wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data);
-    const label = wrapper.find('div').last().getDOMNode() as HTMLLabelElement;
-    expect(label.hidden).toBe(false);
+    const { getByText } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
+
+    expect(getByText('Bar').hidden).toBe(false);
   });
 });
