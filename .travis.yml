@@ -19,7 +19,7 @@ script:
   - npm run check-format
 
   # Adjust HTML base path of example for deployment to GH pages
-  - sed -i -e 's~<base href="/">~<base href="/jsonforms-react-spectrum-renderers/">~g' packages/spectrum/dist/index.html
+  - sed -i -e 's~<base href="/" />~<base href="/jsonforms-react-spectrum-renderers/" />~g' packages/spectrum/dist/index.html
 
 after_success:
   - 'npm run merge-report && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
