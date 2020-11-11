@@ -79,7 +79,7 @@ describe('Spectrum anyOf renderer', () => {
     });
   });
 
-  it('should add a "mything"', async () => {
+  it.skip('should add a "mything"', async () => {
     const schema = {
       type: 'object',
       properties: {
