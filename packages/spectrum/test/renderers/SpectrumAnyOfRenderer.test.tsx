@@ -26,41 +26,19 @@
   THE SOFTWARE.
 */
 
-import Enzyme, { ReactWrapper } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import {
   ControlElement,
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import { Tab } from '@react-spectrum/tabs';
-import { mountForm } from '../util';
-import { SpectrumAnyOfRenderer } from '../../src';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { renderForm, triggerPress } from '../util';
+import { within } from '@testing-library/dom';
 
 const waitForAsync = () => new Promise((resolve) => setImmediate(resolve));
 
-const clickAddButton = (wrapper: ReactWrapper, times: number) => {
-  const buttons = wrapper.find('button');
-  const addButton = buttons.first();
-  for (let i = 0; i < times; i++) {
-    addButton.simulate('click');
-  }
-  wrapper.update();
-};
-
-const selectanyOfTab = (wrapper: ReactWrapper, at: number) => {
-  const buttons = wrapper.find(Tab);
-  buttons.at(at).simulate('click'); // TODO: how to select Spectrum tab?
-  wrapper.update();
-};
-
 describe('Spectrum anyOf renderer', () => {
-  let wrapper: ReactWrapper;
-
-  afterEach(() => wrapper.unmount());
-
   it('should add an item at correct path', () => {
     let state: any = undefined;
     const schema = {
@@ -85,7 +63,8 @@ describe('Spectrum anyOf renderer', () => {
       label: 'Value',
       scope: '#/properties/value',
     };
-    wrapper = mountForm(
+
+    const { container } = renderForm(
       uischema,
       schema,
       undefined,
@@ -93,15 +72,14 @@ describe('Spectrum anyOf renderer', () => {
       ({ data }) => (state = data)
     );
 
-    const input = wrapper.find('input').first();
-    input.simulate('change', { target: { value: 'test' } });
-    wrapper.update();
+    const input = container.querySelector('input');
+    userEvent.type(input, 'test');
     expect(state).toEqual({
       value: 'test',
     });
   });
 
-  // TODO: how to select Spectrum tab in selectanyOfTab?
+  // i don't understand why switching a tab should add a mything..
   it.skip('should add a "mything"', async () => {
     const schema = {
       type: 'object',
@@ -144,29 +122,32 @@ describe('Spectrum anyOf renderer', () => {
         },
       },
     };
+
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/myThingsAndOrYourThings',
     };
 
-    wrapper = mountForm(uischema, schema, {});
+    const { getByRole, getAllByRole } = renderForm(uischema, schema, {});
+    await waitForAsync(); // TODO: how to do it with the testing-library...
 
-    await waitForAsync();
+    let tablist = getByRole('tablist');
+    let tabs = within(tablist).getAllByRole('tab');
+    let firstItem = tabs[0];
+    expect(firstItem).toHaveAttribute('aria-selected', 'true');
+    triggerPress(firstItem);
 
-    wrapper.update();
+    await waitForAsync(); // TODO: how to do it with the testing-library...
+    expect(getAllByRole('row').length).toBe(2);
 
-    selectanyOfTab(wrapper, 1);
-    const nrOfRowsBeforeAdd = wrapper.find('tr');
-    clickAddButton(wrapper, 2);
-    const nrOfRowsAfterAdd = wrapper.find('tr');
-
-    // 2 header row + 1 no data row
-    expect(nrOfRowsBeforeAdd.length).toBe(3);
-    // 2 header row + 2 data rows (one is replacing the 'No data' one)
-    expect(nrOfRowsAfterAdd.length).toBe(4);
+    const secondItem = tabs[1];
+    triggerPress(secondItem);
+    expect(secondItem).toHaveAttribute('aria-selected', 'true');
+    await waitForAsync(); // TODO: how to do it with the testing-library...
+    expect(getAllByRole('row').length).toBe(3);
   });
 
-  // TODO: how to select Spectrum tab in selectanyOfTab?
+  // TODO: there seems to be no input field...
   it.skip('should switch to "yourThing" edit, then switch back, then edit', async () => {
     let state: any = {};
     const schema = {
@@ -215,30 +196,36 @@ describe('Spectrum anyOf renderer', () => {
       scope: '#/properties/myThingsAndOrYourThings',
     };
 
-    wrapper = mountForm(
+    const { container, getByRole } = renderForm(
       uischema,
       schema,
       {},
       undefined,
       ({ data }) => (state = data)
     );
+    await waitForAsync(); // TODO: how to do it with the testing-library...
+
+    let tablist = getByRole('tablist');
+    let tabs = within(tablist).getAllByRole('tab');
+    let firstItem = tabs[0];
+    let secondItem = tabs[1];
+    triggerPress(secondItem);
+
+    expect(secondItem).toHaveAttribute('aria-selected', 'true');
+
+    const addButton = container.querySelector('button');
+    userEvent.click(addButton);
 
     await waitForAsync();
 
-    wrapper.update();
+    // todo: there is no input field available... what is missing here?
 
-    selectanyOfTab(wrapper, 1);
-    clickAddButton(wrapper, 1);
-    wrapper
-      .find('input')
-      .first()
-      .simulate('change', { target: { value: 5 } });
-    wrapper.update();
-    selectanyOfTab(wrapper, 0);
+    triggerPress(firstItem);
+    expect(firstItem).toHaveAttribute('aria-selected', 'true');
 
-    const input = wrapper.find('input').first();
-    input.simulate('change', { target: { value: 'test' } });
-    wrapper.update();
+    // todo: there is no input field available... what is missing here?
+    // const input = container.querySelector('input');
+    // userEvent.type(input, 'test');
 
     expect(state).toEqual({
       myThingsAndOrYourThings: [{ age: 5, name: 'test' }],
@@ -277,11 +264,8 @@ describe('Spectrum anyOf renderer', () => {
       },
     };
 
-    wrapper = mountForm(uischema, schema);
-
-    const renderer = wrapper
-      .find(SpectrumAnyOfRenderer)
-      .getDOMNode() as HTMLElement;
-    expect(renderer.style.display).toBe('none');
+    const { container } = renderForm(uischema, schema);
+    const renderer = container.querySelector('.anyof-renderer') as HTMLElement;
+    expect(renderer.hidden).toBe(true);
   });
 });

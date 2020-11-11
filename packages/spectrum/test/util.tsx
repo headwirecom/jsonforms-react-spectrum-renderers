@@ -41,6 +41,7 @@ import {
 } from '@adobe/react-spectrum';
 import { act } from 'react-dom/test-utils';
 import { render, RenderResult } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 type OnChangeType<T> = (change: { errors: any; data: T }) => void;
 
@@ -63,6 +64,14 @@ export function renderForm<T extends object>(
       />
     </SpectrumThemeProvider>
   );
+}
+
+// Triggers a "press" event on an element.
+// TODO: move to somewhere more common
+export function triggerPress(element: any, opts = {}) {
+  fireEvent.mouseDown(element, { detail: 1, ...opts });
+  fireEvent.mouseUp(element, { detail: 1, ...opts });
+  fireEvent.click(element, { detail: 1, ...opts });
 }
 
 // deprecated

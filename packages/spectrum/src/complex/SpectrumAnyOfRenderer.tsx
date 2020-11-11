@@ -72,7 +72,7 @@ const SpectrumAnyOfRenderer = ({
   );
 
   return (
-    <View isHidden={!visible}>
+    <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
       <CombinatorProperties
         schema={_schema}
         combinatorKeyword={'anyOf'}
@@ -83,16 +83,16 @@ const SpectrumAnyOfRenderer = ({
         onSelectionChange={handleChange}
       >
         {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-            <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
+          <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
             <Content margin='size-160'>
-            <ResolvedJsonFormsDispatch
-              key={anyOfIndex}
-              schema={anyOfRenderInfo.schema}
-              uischema={anyOfRenderInfo.uischema}
-              path={path}
-              renderers={renderers}
-              cells={cells}
-            />
+              <ResolvedJsonFormsDispatch
+                key={anyOfIndex}
+                schema={anyOfRenderInfo.schema}
+                uischema={anyOfRenderInfo.uischema}
+                path={path}
+                renderers={renderers}
+                cells={cells}
+              />
             </Content>
           </Item>
         ))}
