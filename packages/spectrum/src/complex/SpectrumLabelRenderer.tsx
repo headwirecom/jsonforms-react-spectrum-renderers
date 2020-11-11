@@ -34,7 +34,7 @@ import {
   uiTypeIs,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { Text, View } from '@adobe/react-spectrum';
+import { Text } from '@adobe/react-spectrum';
 
 /**
  * Default tester for a label.
@@ -57,13 +57,11 @@ export const SpectrumLabelRenderer: FunctionComponent<RendererProps> = ({
   const isHidden = !visible;
 
   return (
-    <View isHidden={isHidden}>
-      <Text>
-        {labelElement.text !== undefined &&
-          labelElement.text !== null &&
-          labelElement.text}
-      </Text>
-    </View>
+    <Text isHidden={isHidden}>
+      {labelElement.text !== undefined &&
+        labelElement.text !== null &&
+        labelElement.text}
+    </Text>
   );
 };
 

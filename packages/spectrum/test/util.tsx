@@ -40,9 +40,40 @@ import {
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
 import { act } from 'react-dom/test-utils';
+import { render, RenderResult } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 type OnChangeType<T> = (change: { errors: any; data: T }) => void;
 
+export function renderForm<T extends object>(
+  uischema: UISchemaElement,
+  schema: JsonSchema = {},
+  data?: T,
+  cells: JsonFormsCellRendererRegistryEntry[] = [],
+  onChange: OnChangeType<T> = () => undefined
+): RenderResult {
+  return render(
+    <SpectrumThemeProvider theme={defaultTheme} scale='medium'>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data ?? {}}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
+    </SpectrumThemeProvider>
+  );
+}
+
+// Triggers a "press" event on an element.
+export function triggerPress(element: any, opts = {}) {
+  fireEvent.mouseDown(element, { detail: 1, ...opts });
+  fireEvent.mouseUp(element, { detail: 1, ...opts });
+  fireEvent.click(element, { detail: 1, ...opts });
+}
+
+// deprecated
 // tslint:disable-next-line:only-arrow-functions
 export function mountForm<T extends object>(
   uischema: UISchemaElement,
