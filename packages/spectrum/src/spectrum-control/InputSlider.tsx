@@ -22,18 +22,49 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputText';
-export * from './InputTextArea';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputNumberFormatted';
-export * from './InputEnum';
-export * from './InputSlider';
+import React from 'react';
+import { CellProps } from '@jsonforms/core';
+import { merge } from 'lodash';
+import { DimensionValue } from '@react-types/shared';
+import { SpectrumInputProps } from './index';
+import { Slider } from '@react-spectrum/slider';
 
-/**
- * Additional props for Spectrum input controls
- */
-export interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
+export class InputSlider extends React.PureComponent<
+  CellProps & SpectrumInputProps
+> {
+  render() {
+    const {
+      data,
+      config,
+      enabled,
+      uischema,
+      path,
+      handleChange,
+      label,
+      visible,
+      schema,
+    } = this.props;
+
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+
+    const onChange = (value: any) => handleChange(path, value);
+
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
+
+    return (
+      <Slider
+        value={data ?? ''}
+        label={label}
+        minValue={schema.minimum}
+        maxValue={schema.maximum}
+        isHidden={!visible}
+        onChange={onChange}
+        isDisabled={!enabled}
+        width={width}
+        step={schema.multipleOf || 1}
+      />
+    );
+  }
 }
