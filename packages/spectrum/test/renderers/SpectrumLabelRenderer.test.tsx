@@ -25,6 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import '@testing-library/jest-dom';
 import { LabelElement, RuleEffect, UISchemaElement } from '@jsonforms/core';
 import { spectrumLabelRendererTester } from '../../src/complex/SpectrumLabelRenderer';
 import { falseCondition, renderForm } from '../util';
@@ -53,7 +54,7 @@ describe('Label', () => {
 
     const { container } = renderForm(uischema);
 
-    expect(container.querySelector('span').textContent).toBe('');
+    expect(container.querySelector('span')).toHaveTextContent('');
   });
 
   test('render with null text', () => {
@@ -64,7 +65,7 @@ describe('Label', () => {
 
     const { container } = renderForm(uischema);
 
-    expect(container.querySelector('span').textContent).toBe('');
+    expect(container.querySelector('span')).toHaveTextContent('');
   });
 
   test('render with text', () => {
@@ -74,7 +75,7 @@ describe('Label', () => {
       fixture.data
     );
 
-    expect(container.querySelector('span').textContent).toBe('Bar');
+    expect(container.querySelector('span')).toHaveTextContent('Bar');
   });
 
   test('hide', () => {
@@ -88,7 +89,7 @@ describe('Label', () => {
 
     const { getByText } = renderForm(uischema, fixture.schema, fixture.data);
 
-    expect(getByText('Bar').hidden).toBeTruthy();
+    expect(getByText('Bar')).not.toBeVisible();
   });
 
   test('show by default', () => {
@@ -98,6 +99,6 @@ describe('Label', () => {
       fixture.data
     );
 
-    expect(getByText('Bar').hidden).toBe(false);
+    expect(getByText('Bar')).toBeVisible();
   });
 });
