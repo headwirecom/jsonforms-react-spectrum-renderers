@@ -79,8 +79,7 @@ describe('Spectrum anyOf renderer', () => {
     });
   });
 
-  // i don't understand why switching a tab should add a mything..
-  it.skip('should add a "mything"', async () => {
+  it('should add a "mything"', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -128,14 +127,18 @@ describe('Spectrum anyOf renderer', () => {
       scope: '#/properties/myThingsAndOrYourThings',
     };
 
-    const { getByRole, getAllByRole } = renderForm(uischema, schema, {});
+    const { container, getByRole, getAllByRole } = renderForm(
+      uischema,
+      schema,
+      {}
+    );
     await waitForAsync(); // TODO: how to do it with the testing-library...
 
-    let tablist = getByRole('tablist');
-    let tabs = within(tablist).getAllByRole('tab');
-    let firstItem = tabs[0];
+    const tablist = getByRole('tablist');
+    const tabs = within(tablist).getAllByRole('tab');
+    const firstItem = tabs[0];
+
     expect(firstItem).toHaveAttribute('aria-selected', 'true');
-    triggerPress(firstItem);
 
     await waitForAsync(); // TODO: how to do it with the testing-library...
     expect(getAllByRole('row').length).toBe(2);
@@ -144,6 +147,9 @@ describe('Spectrum anyOf renderer', () => {
     triggerPress(secondItem);
     expect(secondItem).toHaveAttribute('aria-selected', 'true');
     await waitForAsync(); // TODO: how to do it with the testing-library...
+    const button = container.querySelector('button');
+    userEvent.click(button);
+
     expect(getAllByRole('row').length).toBe(3);
   });
 
