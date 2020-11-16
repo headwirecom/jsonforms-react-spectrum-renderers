@@ -25,8 +25,8 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import DateCell, { dateCellTester } from './DateCell';
-import DateTimeCell, { dateTimeCellTester } from './DateTimeCell';
+import SpectrumDateCell, { spectrumDateCellTester } from './SpectrumDateCell';
+import SpectrumDateTimeCell, { spectrumDateTimeCellTester } from './SpectrumDateTimeCell';
 import SpectrumEnumCell, { spectrumEnumCellTester } from './SpectrumEnumCell';
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester,
@@ -48,14 +48,14 @@ import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
 import SpectrumTextAreaCell, {
   spectrumTextAreaCellTester,
 } from './SpectrumTextAreaCell';
-import TimeCell, { timeCellTester } from './TimeCell';
+import SpectrumTimeCell, { spectrumTimeCellTester } from './SpectrumTimeCell';
 import * as Customizable from './CustomizableCells';
 
 export {
-  DateCell,
-  dateCellTester,
-  DateTimeCell,
-  dateTimeCellTester,
+  SpectrumDateCell,
+  spectrumDateCellTester,
+  SpectrumDateTimeCell,
+  spectrumDateTimeCellTester,
   SpectrumEnumCell,
   spectrumEnumCellTester,
   SpectrumBooleanCell,
@@ -74,7 +74,7 @@ export {
   spectrumTextCellTester,
   SpectrumTextAreaCell,
   spectrumTextAreaCellTester,
-  TimeCell,
-  timeCellTester,
+  SpectrumTimeCell,
+  spectrumTimeCellTester,
 };
 export { Customizable };

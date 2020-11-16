@@ -1,9 +1,6 @@
 /*
   The MIT License
 
-  Copyright (c) 2017-2019 EclipseSource Munich
-  https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -25,37 +22,23 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+
 import {
-  CellProps,
+  ControlProps,
   isDateTimeControl,
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import React from 'react';
+import { InputDate } from '../spectrum-control';
+import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const DateTimeCell = (props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange } = props;
-  const toISOString = (inputDateTime: string) => {
-    return inputDateTime === '' ? '' : inputDateTime + ':00.000Z';
-  };
+export const SpectrumDateTimeControl = (props: ControlProps) => (<SpectrumInputControl {...props} input={InputDate} />);
 
-  return (
-    <input
-      type='datetime-local'
-      value={(data ?? '').substr(0, 16)}
-      onChange={(ev) => handleChange(path, toISOString(ev.target.value))}
-      className='input' // TODO: obsolete in the future, but implement trim!
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-    />
-  );
-};
-/**
- * Default tester for datetime controls.
- * @type {RankedTester}
- */
-export const dateTimeCellTester: RankedTester = rankWith(2, isDateTimeControl);
+export const spectrumDateTimeControlTester: RankedTester = rankWith(
+  3,
+  isDateTimeControl
+);
 
-export default withJsonFormsCellProps(DateTimeCell);
+export default withJsonFormsControlProps(SpectrumDateTimeControl);
