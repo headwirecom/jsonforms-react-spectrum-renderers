@@ -26,8 +26,8 @@
   THE SOFTWARE.
 */
 export { SpectrumBooleanCell } from './SpectrumBooleanCell';
-export { DateCell } from './DateCell';
-export { DateTimeCell } from './DateTimeCell';
+export { SpectrumDateCell } from './SpectrumDateCell';
+export { SpectrumDateTimeCell } from './SpectrumDateTimeCell';
 export { SpectrumEnumCell } from './SpectrumEnumCell';
 export { SpectrumIntegerCell } from './SpectrumIntegerCell';
 export { SpectrumNumberCell } from './SpectrumNumberCell';
@@ -35,4 +35,4 @@ export { SpectrumNumberFormatCell } from './SpectrumNumberFormatCell';
 export { SliderCell } from './SliderCell';
 export { SpectrumTextCell } from './SpectrumTextCell';
 export { SpectrumTextAreaCell } from './SpectrumTextAreaCell';
-export { TimeCell } from './TimeCell';
+export { SpectrumTimeCell} from './SpectrumTimeCell';
