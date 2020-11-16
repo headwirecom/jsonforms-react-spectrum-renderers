@@ -25,12 +25,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
+import '@testing-library/jest-dom';
 import * as React from 'react';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
+  RuleEffect,
+  SchemaBasedCondition,
   update,
 } from '@jsonforms/core';
 import { JsonFormsReduxContext } from '@jsonforms/react';
@@ -40,6 +43,8 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SliderCell, { sliderCellTester } from '../../src/cells/SliderCell';
 import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { renderForm } from '../util';
+import { fireEvent } from '@testing-library/dom';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -204,8 +209,7 @@ describe('Slider cell tester', () => {
 describe('Slider cell', () => {
   let wrapper: ReactWrapper;
 
-  afterEach(() => wrapper.unmount());
-
+  // the react-spectrum slider does not support a focus propery
   test.skip('autofocus on first element', () => {
     const schema: JsonSchema = {
       type: 'object',
@@ -255,9 +259,11 @@ describe('Slider cell', () => {
     const inputs = wrapper.find('input');
     expect(document.activeElement).toBe(inputs.at(0).getDOMNode());
     expect(document.activeElement).toBe(inputs.at(1).getDOMNode());
+    wrapper.unmount();
   });
 
-  test('autofocus active', () => {
+  // the react-spectrum slider does not support a focus propery
+  test.skip('autofocus active', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
@@ -277,9 +283,11 @@ describe('Slider cell', () => {
     );
     const input = wrapper.find('input');
     expect(document.activeElement).toBe(input.getDOMNode());
+    wrapper.unmount();
   });
 
-  test('autofocus inactive', () => {
+  // the react-spectrum slider does not support a focus propery
+  test.skip('autofocus inactive', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
@@ -299,9 +307,11 @@ describe('Slider cell', () => {
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
+    wrapper.unmount();
   });
 
-  test('autofocus inactive by default', () => {
+  // the react-spectrum slider does not support a focus propery
+  test.skip('autofocus inactive by default', () => {
     const store = initJsonFormsSpectrumStore({
       data: fixture.data,
       schema: fixture.schema,
@@ -320,6 +330,7 @@ describe('Slider cell', () => {
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
+    wrapper.unmount();
   });
 
   test('render', () => {
@@ -334,92 +345,32 @@ describe('Slider cell', () => {
         },
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: { foo: 5 },
-      schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell schema={schema} uischema={fixture.uischema} path='foo' />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.type).toBe('range');
-    expect(input.value).toBe('5');
-  });
 
-  // TODO: update test after implementing with Spectrum
-  test.skip('has classes set', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
+    const { container } = renderForm(fixture.uischema, schema, { foo: 5 });
 
-    const input = wrapper.find('input');
-    expect(input.hasClass('input')).toBe(true);
-    expect(input.hasClass('validate')).toBe(true);
-    expect(input.hasClass('valid')).toBe(true);
+    const slider = container.querySelector('input');
+    expect(slider.type).toBe('range');
+    expect(slider.value).toBe('5');
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+    const initialData: { foo: number } = { foo: 0 };
+    let state: { foo: number };
+
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      initialData,
+      [],
+      ({ data }) => {
+        state = data;
+      }
     );
-    const input = wrapper.find('input');
-    input.simulate('change', { target: { value: 3 } });
-    wrapper.update();
-    expect(getData(store.getState()).foo).toBe(3);
+    const slider = container.querySelector('input');
+    fireEvent.change(slider, { target: { value: 3 } });
+    expect(state.foo).toBe(3);
   });
 
-  test('update via action', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: { foo: 3 },
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(update('foo', () => 4));
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('4');
-  });
   // FIXME expect moves the slider and changes the value
   test.skip('update with undefined value', () => {
     const store = initJsonFormsSpectrumStore({
@@ -442,6 +393,7 @@ describe('Slider cell', () => {
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('');
   });
+
   // FIXME expect moves the slider and changes the value
   test.skip('update with null value', () => {
     const store = initJsonFormsSpectrumStore({
@@ -532,45 +484,32 @@ describe('Slider cell', () => {
   });
 
   test('disable', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-            enabled={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    const condition: SchemaBasedCondition = {
+      scope: '',
+      schema: {},
+    };
+
+    const uischema: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+      rule: {
+        effect: RuleEffect.DISABLE,
+        condition,
+      },
+    };
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
+
+    const input = container.querySelector('input');
     expect(input.disabled).toBe(true);
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SliderCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
     );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    const input = container.querySelector('input');
     expect(input.disabled).toBe(false);
   });
 });
