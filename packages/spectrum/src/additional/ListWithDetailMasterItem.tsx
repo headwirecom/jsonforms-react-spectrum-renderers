@@ -35,28 +35,34 @@ import Delete from '@spectrum-icons/workflow/Delete';
 const ListWithDetailMasterItem = ({
   index,
   childLabel,
-  //selected, // todo: style selected element.
+  selected, // todo: style selected element.
   removeItem,
   path,
   handleSelect,
 }: StatePropsOfMasterItem) => {
-  return (
-    <Flex direction='row' margin='size-30' justifyContent='space-around'>
+  const withSelection = (children: JSX.Element) => (
+    <View backgroundColor='gray-200'>{children}</View>
+  );
+
+  const item = (
+    <Flex direction='row' margin='size-50' justifyContent='space-between'>
       <View borderRadius='large' backgroundColor='gray-200'>
         <View padding='size-100'>
           <Text>{index}</Text>
         </View>
       </View>
-      <ActionButton isQuiet onPress={handleSelect(index)}>
-        <Text>{childLabel}</Text>
+      <ActionButton flex='auto' isQuiet onPress={handleSelect(index)}>
+        <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
       </ActionButton>
-      <View alignSelf='flex-end'>
+      <View>
         <ActionButton onPress={removeItem(path, index)}>
           <Delete />
         </ActionButton>
       </View>
     </Flex>
   );
+  const content = selected ? withSelection(item) : item;
+  return content;
 };
 
 export default withJsonFormsMasterListItemProps(ListWithDetailMasterItem);

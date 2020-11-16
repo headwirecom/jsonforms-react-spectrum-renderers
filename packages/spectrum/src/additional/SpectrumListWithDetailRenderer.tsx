@@ -112,7 +112,7 @@ export const SpectrumListWithDetailRenderer = ({
         createDefault={handleCreateDefaultValue}
       />
       <Flex direction='row'>
-        <Flex direction='column' margin='size-50'>
+        <Flex direction='column' margin='size-200'>
           {data > 0 ? (
             map(range(data), (index) => (
               <ListWithDetailMasterItem
@@ -131,7 +131,7 @@ export const SpectrumListWithDetailRenderer = ({
             </View>
           )}
         </Flex>
-        <View>
+        <View flex='auto'>
           {selectedIndex !== undefined ? (
             <ResolvedJsonFormsDispatch
               renderers={renderers}
