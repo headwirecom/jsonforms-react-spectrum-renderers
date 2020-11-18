@@ -98,6 +98,11 @@ export const SpectrumListWithDetailRenderer = ({
   );
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+  const addItemAndSelectNewItem = (p: string, v: any) => () => {
+    addItem(p, v)();
+    setSelectedIndex(data);
+  };
+
   return (
     <View isHidden={!visible}>
       <ArrayLayoutToolbar
@@ -108,7 +113,7 @@ export const SpectrumListWithDetailRenderer = ({
         )}
         errors={errors}
         path={path}
-        addItem={addItem}
+        addItem={addItemAndSelectNewItem}
         createDefault={handleCreateDefaultValue}
       />
       <Flex direction='row'>
