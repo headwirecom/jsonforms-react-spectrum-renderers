@@ -45,7 +45,12 @@ const ListWithDetailMasterItem = ({
   );
 
   const item = (
-    <Flex direction='row' margin='size-50' justifyContent='space-between'>
+    <Flex
+      direction='row'
+      margin='size-50'
+      justifyContent='space-between'
+      alignItems='center'
+    >
       <View borderRadius='large' backgroundColor='gray-200'>
         <View padding='size-100'>
           <Text>{index}</Text>

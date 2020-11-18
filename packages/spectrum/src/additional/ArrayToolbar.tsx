@@ -56,9 +56,9 @@ export const ArrayLayoutToolbar = React.memo(
     createDefault,
   }: ArrayLayoutToolbarProps) => {
     return (
-      <Flex direction='row' justifyContent='space-between'>
+      <Flex direction='row' alignItems='center'>
         <Heading level={4}>{label}</Heading>
-        <View isHidden={errors.length === 0}>
+        <View isHidden={errors.length === 0} marginEnd='auto'>
           <TooltipTrigger delay={0}>
             <Button isQuiet variant='negative'>
               <AlertCircle color='negative' />
