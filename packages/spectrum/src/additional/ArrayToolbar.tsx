@@ -61,7 +61,13 @@ export const ArrayLayoutToolbar = React.memo(
         <View isHidden={errors.length !== 0} marginEnd='auto' />
         <View isHidden={errors.length === 0} marginEnd='auto'>
           <TooltipTrigger delay={0}>
-            <Button isQuiet variant='negative'>
+            <Button
+              isQuiet
+              variant='negative'
+              margin='size-50'
+              minWidth='size-0'
+              width='size-10'
+            >
               <AlertCircle color='negative' />
             </Button>
             <Tooltip>{errors}</Tooltip>
