@@ -99,14 +99,20 @@ import {
 } from './layouts';
 import DateTimeCell from './cells/DateTimeCell';
 
+import   {SpectrumListWithDetailRenderer,  
+  spectrumListWithDetailTester} from './additional';
+
+
 export * from './controls';
 export * from './complex';
 export * from './cells';
 export * from './layouts';
 export * from './util';
+export * from './additional';
 
 export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
+  { tester: spectrumListWithDetailTester, renderer: SpectrumListWithDetailRenderer },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
   { tester: spectrumEnumControlTester, renderer: SpectrumEnumControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
