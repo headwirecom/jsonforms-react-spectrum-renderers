@@ -69,7 +69,10 @@ export const ArrayLayoutToolbar = React.memo(
         </View>
         <View>
           <TooltipTrigger delay={0}>
-            <ActionButton onPress={addItem(path, createDefault())}>
+            <ActionButton
+              aria-label='add'
+              onPress={addItem(path, createDefault())}
+            >
               <Add />
             </ActionButton>
             <Tooltip>{`Add to ${label}`}</Tooltip>

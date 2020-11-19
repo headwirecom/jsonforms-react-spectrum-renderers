@@ -35,7 +35,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 const ListWithDetailMasterItem = ({
   index,
   childLabel,
-  selected, // todo: style selected element.
+  selected,
   removeItem,
   path,
   handleSelect,
@@ -56,11 +56,19 @@ const ListWithDetailMasterItem = ({
           <Text>{index}</Text>
         </View>
       </View>
-      <ActionButton flex='auto' isQuiet onPress={handleSelect(index)}>
+      <ActionButton
+        flex='auto'
+        isQuiet
+        onPress={handleSelect(index)}
+        aria-label={`select-item-${childLabel}`}
+      >
         <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
       </ActionButton>
       <View>
-        <ActionButton onPress={removeItem(path, index)}>
+        <ActionButton
+          aria-label={`delete-item-${childLabel}`}
+          onPress={removeItem(path, index)}
+        >
           <Delete />
         </ActionButton>
       </View>

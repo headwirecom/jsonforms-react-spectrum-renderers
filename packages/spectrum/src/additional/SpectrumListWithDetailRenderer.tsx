@@ -104,7 +104,7 @@ export const SpectrumListWithDetailRenderer = ({
   };
 
   return (
-    <View isHidden={!visible}>
+    <View isHidden={!visible} id={`${label}-list-with-details`}>
       <ArrayLayoutToolbar
         label={computeLabel(
           isPlainLabel(label) ? label : label.default,
@@ -156,7 +156,7 @@ export const SpectrumListWithDetailRenderer = ({
 };
 
 export const spectrumListWithDetailTester: RankedTester = rankWith(
-  6,
+  4,
   and(uiTypeIs('ListWithDetail'), isObjectArray)
 );
 
