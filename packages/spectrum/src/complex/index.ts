@@ -38,6 +38,9 @@ import SpectrumAllOfRenderer, {
 import SpectrumCategorizationRenderer, {
   spectrumCategorizationRendererTester,
 } from './SpectrumCategorizationRenderer';
+import SpectrumCategorizationStepperRenderer, {
+  spectrumCategorizationStepperRendererTester,
+} from './SpectrumCategorizationStepperRenderer';
 import SpectrumLabelRenderer, {
   spectrumLabelRendererTester,
 } from './SpectrumLabelRenderer';
@@ -57,6 +60,8 @@ export {
   spectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
   spectrumCategorizationRendererTester,
+  SpectrumCategorizationStepperRenderer,
+  spectrumCategorizationStepperRendererTester,
   SpectrumLabelRenderer,
   spectrumLabelRendererTester,
   SpectrumObjectRenderer,
