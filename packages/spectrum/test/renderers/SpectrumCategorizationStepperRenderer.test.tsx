@@ -36,7 +36,7 @@ import {
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { renderForm } from '../util';
-import { spectrumCategorizationRendererTester } from '../../src/complex/SpectrumCategorizationRenderer';
+import { spectrumCategorizationStepperRendererTester } from '../../src/complex/SpectrumCategorizationStepperRenderer';
 
 const category: Category = {
   type: 'Category',
@@ -61,15 +61,19 @@ const fixture = {
   },
 };
 
-describe('Spectrum Categorization tester', () => {
+describe('Spectrum Categorization Stepper tester', () => {
   test('tester', () => {
-    expect(spectrumCategorizationRendererTester(undefined, undefined)).toBe(-1);
-    expect(spectrumCategorizationRendererTester(null, undefined)).toBe(-1);
     expect(
-      spectrumCategorizationRendererTester({ type: 'Foo' }, undefined)
+      spectrumCategorizationStepperRendererTester(undefined, undefined)
+    ).toBe(-1);
+    expect(spectrumCategorizationStepperRendererTester(null, undefined)).toBe(
+      -1
+    );
+    expect(
+      spectrumCategorizationStepperRendererTester({ type: 'Foo' }, undefined)
     ).toBe(-1);
     expect(
-      spectrumCategorizationRendererTester(
+      spectrumCategorizationStepperRendererTester(
         { type: 'Categorization' },
         undefined
       )
@@ -81,7 +85,9 @@ describe('Spectrum Categorization tester', () => {
       type: 'Categorization',
       elements: null,
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(
+      spectrumCategorizationStepperRendererTester(uischema, undefined)
+    ).toBe(-1);
   });
 
   test('tester with empty elements and no schema', () => {
@@ -89,7 +95,9 @@ describe('Spectrum Categorization tester', () => {
       type: 'Categorization',
       elements: [],
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(
+      spectrumCategorizationStepperRendererTester(uischema, undefined)
+    ).toBe(-1);
   });
 
   test('apply tester with single unknown element and no schema', () => {
@@ -101,7 +109,9 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(
+      spectrumCategorizationStepperRendererTester(uischema, undefined)
+    ).toBe(-1);
   });
 
   test('tester with single category and no schema', () => {
@@ -114,8 +124,43 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(1);
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
+    ).toBe(-1);
+  });
+
+  test('tester with single category and no schema with stepper variant', () => {
+    const categorization = {
+      type: 'Categorization',
+      elements: [
+        {
+          type: 'Category',
+        },
+      ],
+      options: {
+        variant: 'stepper',
+      },
+    };
+    expect(
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
+    ).toBe(2);
+  });
+
+  test('tester with single category and no schema with stepper variant and buttons', () => {
+    const categorization = {
+      type: 'Categorization',
+      elements: [
+        {
+          type: 'Category',
+        },
+      ],
+      options: {
+        variant: 'stepper',
+        showNavButtons: true,
+      },
+    };
+    expect(
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
+    ).toBe(2);
   });
 
   test('tester with nested categorization and single category and no schema', () => {
@@ -132,7 +177,7 @@ describe('Spectrum Categorization tester', () => {
       elements: [nestedCategorization],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -146,7 +191,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -162,7 +207,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -177,12 +222,12 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      spectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 });
 
-describe('Spectrum Categorization renderer', () => {
+describe('Spectrum Categorization Stepper renderer', () => {
   test('render', () => {
     const schema: JsonSchema = {
       type: 'object',
@@ -228,6 +273,9 @@ describe('Spectrum Categorization renderer', () => {
           elements: [colorControl],
         },
       ],
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { getByRole } = renderForm(uischema, schema, fixture.data);
@@ -292,6 +340,9 @@ describe('Spectrum Categorization renderer', () => {
           elements: null,
         },
       ],
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { getByRole } = renderForm(uischema, schema, data);
@@ -348,6 +399,9 @@ describe('Spectrum Categorization renderer', () => {
         effect: RuleEffect.HIDE,
         condition,
       },
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { queryByRole } = renderForm(uischema, fixture.schema, fixture.data);
@@ -365,6 +419,9 @@ describe('Spectrum Categorization renderer', () => {
           elements: [],
         },
       ],
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { queryByRole } = renderForm(uischema, fixture.schema, fixture.data);
@@ -395,6 +452,9 @@ describe('Spectrum Categorization renderer', () => {
           },
         },
       ],
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { getByRole } = renderForm(uischema, fixture.schema, fixture.data);
@@ -429,6 +489,9 @@ describe('Spectrum Categorization renderer', () => {
         effect: RuleEffect.DISABLE,
         condition,
       },
+      options: {
+        variant: 'stepper',
+      },
     };
 
     const { getByRole } = renderForm(uischema, fixture.schema, fixture.data);
@@ -437,5 +500,108 @@ describe('Spectrum Categorization renderer', () => {
     const tabs = tabList.querySelectorAll('[role="tab"]');
     expect(tabs).toHaveLength(1);
     expect(tabs[0].className).toContain('is-disabled');
+  });
+
+  describe('stepper buttons', () => {
+    const uischema: Categorization = {
+      type: 'Categorization',
+      label: 'Blah',
+      elements: [
+        {
+          type: 'Category',
+          label: 'Foo',
+          elements: [],
+        },
+        {
+          type: 'Category',
+          label: 'Bar',
+          elements: [],
+        },
+        {
+          type: 'Category',
+          label: 'Baz',
+          elements: [],
+        },
+      ],
+      options: {
+        variant: 'stepper',
+      },
+    };
+
+    test('does not render buttons per default', () => {
+      const { queryByRole } = renderForm(
+        uischema,
+        fixture.schema,
+        fixture.data
+      );
+
+      const previousButton = queryByRole('button', { name: 'Previous' });
+      const nextButton = queryByRole('button', { name: 'Next' });
+
+      expect(previousButton).not.toBeInTheDocument();
+      expect(nextButton).not.toBeInTheDocument();
+    });
+
+    test('renders buttons if enabled and steps forward/backward', () => {
+      uischema.options.showNavButtons = true;
+
+      const { getByRole } = renderForm(uischema, fixture.schema, fixture.data);
+
+      const tabList = getByRole('tablist');
+      const tabs = tabList.querySelectorAll('[role="tab"]');
+      expect(tabs).toHaveLength(3);
+      const fooTab = tabs[0];
+      const barTab = tabs[1];
+      const bazTab = tabs[2];
+      const previousButton = getByRole('button', { name: 'Previous' });
+      const nextButton = getByRole('button', { name: 'Next' });
+
+      // First step is selected initially
+      expect(fooTab.className).toContain('is-selected');
+      expect(barTab.className).not.toContain('is-selected');
+      expect(bazTab.className).not.toContain('is-selected');
+      expect(previousButton).toBeDisabled();
+      expect(nextButton).not.toBeDisabled();
+
+      // Step forward to second step
+      userEvent.click(nextButton);
+      expect(fooTab.className).not.toContain('is-selected');
+      expect(barTab.className).toContain('is-selected');
+      expect(bazTab.className).not.toContain('is-selected');
+      expect(previousButton).not.toBeDisabled();
+      expect(nextButton).not.toBeDisabled();
+
+      // Step forward to third step
+      userEvent.click(nextButton);
+      expect(fooTab.className).not.toContain('is-selected');
+      expect(barTab.className).not.toContain('is-selected');
+      expect(bazTab.className).toContain('is-selected');
+      expect(previousButton).not.toBeDisabled();
+      expect(nextButton).toBeDisabled();
+
+      // Step backward to second step
+      userEvent.click(previousButton);
+      expect(fooTab.className).not.toContain('is-selected');
+      expect(barTab.className).toContain('is-selected');
+      expect(bazTab.className).not.toContain('is-selected');
+      expect(previousButton).not.toBeDisabled();
+      expect(nextButton).not.toBeDisabled();
+
+      // Step backward to first step
+      userEvent.click(previousButton);
+      expect(fooTab.className).toContain('is-selected');
+      expect(barTab.className).not.toContain('is-selected');
+      expect(bazTab.className).not.toContain('is-selected');
+      expect(previousButton).toBeDisabled();
+      expect(nextButton).not.toBeDisabled();
+
+      // Navigate to last step via tab
+      userEvent.click(bazTab);
+      expect(fooTab.className).not.toContain('is-selected');
+      expect(barTab.className).not.toContain('is-selected');
+      expect(bazTab.className).toContain('is-selected');
+      expect(previousButton).not.toBeDisabled();
+      expect(nextButton).toBeDisabled();
+    });
   });
 });

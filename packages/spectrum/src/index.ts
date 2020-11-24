@@ -62,7 +62,7 @@ import {
   spectrumNumberControlTester,
   SpectrumNumberFormattedControl,
   spectrumNumberFormattedControlTester,
-  SpectrumSliderControl, 
+  SpectrumSliderControl,
   spectrumSliderControlTester,
   SpectrumTextAreaControl,
   spectrumTextAreaControlTester,
@@ -79,6 +79,8 @@ import {
   spectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
   spectrumCategorizationRendererTester,
+  SpectrumCategorizationStepperRenderer,
+  spectrumCategorizationStepperRendererTester,
   SpectrumLabelRenderer,
   spectrumLabelRendererTester,
   spectrumObjectControlTester,
@@ -99,9 +101,10 @@ import {
 } from './layouts';
 import DateTimeCell from './cells/DateTimeCell';
 
-import   {SpectrumListWithDetailRenderer,  
-  spectrumListWithDetailTester} from './additional';
-
+import {
+  SpectrumListWithDetailRenderer,
+  spectrumListWithDetailTester,
+} from './additional';
 
 export * from './controls';
 export * from './complex';
@@ -112,7 +115,10 @@ export * from './additional';
 
 export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
-  { tester: spectrumListWithDetailTester, renderer: SpectrumListWithDetailRenderer },
+  {
+    tester: spectrumListWithDetailTester,
+    renderer: SpectrumListWithDetailRenderer,
+  },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
   { tester: spectrumEnumControlTester, renderer: SpectrumEnumControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
@@ -129,6 +135,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
     tester: spectrumCategorizationRendererTester,
     renderer: SpectrumCategorizationRenderer,
   },
+  {
+    tester: spectrumCategorizationStepperRendererTester,
+    renderer: SpectrumCategorizationStepperRenderer,
+  },
   { tester: spectrumObjectControlTester, renderer: SpectrumObjectRenderer },
   {
     tester: spectrumOneOfRendererTester,
@@ -144,7 +154,7 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   },
   {
     tester: spectrumSliderControlTester,
-    renderer: SpectrumSliderControl
+    renderer: SpectrumSliderControl,
   },
   {
     tester: spectrumTableArrayControlTester,
