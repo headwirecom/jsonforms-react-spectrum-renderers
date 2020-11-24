@@ -48,7 +48,7 @@ import range from 'lodash/range';
 import React, { useCallback, useState } from 'react';
 import ListWithDetailMasterItem from './ListWithDetailMasterItem';
 import merge from 'lodash/merge';
-import { ArrayLayoutToolbar } from './ArrayToolbar';
+import { ArrayLayoutToolbar } from './ArrayLayoutToolbar';
 import { Flex, Heading, View } from '@adobe/react-spectrum';
 
 export const SpectrumListWithDetailRenderer = ({
@@ -117,7 +117,7 @@ export const SpectrumListWithDetailRenderer = ({
         createDefault={handleCreateDefaultValue}
       />
       <Flex direction='row'>
-        <Flex direction='column' margin='size-200'>
+        <Flex direction='column' marginY='size-200' marginEnd='size-200'>
           {data > 0 ? (
             map(range(data), (index) => (
               <ListWithDetailMasterItem

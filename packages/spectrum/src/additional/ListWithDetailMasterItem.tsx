@@ -32,6 +32,8 @@ import { StatePropsOfMasterItem } from '@jsonforms/core';
 import { withJsonFormsMasterListItemProps } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
 
+import './ListDetailMasterItem.css';
+
 const ListWithDetailMasterItem = ({
   index,
   childLabel,
@@ -40,42 +42,36 @@ const ListWithDetailMasterItem = ({
   path,
   handleSelect,
 }: StatePropsOfMasterItem) => {
-  const withSelection = (children: JSX.Element) => (
-    <View backgroundColor='gray-200'>{children}</View>
-  );
-
-  const item = (
-    <Flex
-      direction='row'
-      margin='size-50'
-      justifyContent='space-between'
-      alignItems='center'
-    >
-      <View borderRadius='large' backgroundColor='gray-200'>
-        <View padding='size-100'>
-          <Text>{index}</Text>
-        </View>
-      </View>
-      <ActionButton
-        flex='auto'
-        isQuiet
-        onPress={handleSelect(index)}
-        aria-label={`select-item-${childLabel}`}
+  return (
+    <div className='list-with-detail-master-item-row' aria-selected={selected}>
+      <Flex
+        direction='row'
+        margin='size-50'
+        justifyContent='space-between'
+        alignItems='center'
       >
-        <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
-      </ActionButton>
-      <View>
+        <View UNSAFE_className='list-with-detail-master-item-number'>
+          <Text>{index + 1}</Text>
+        </View>
         <ActionButton
-          aria-label={`delete-item-${childLabel}`}
-          onPress={removeItem(path, index)}
+          flex='auto'
+          isQuiet
+          onPress={handleSelect(index)}
+          aria-label={`select-item-${childLabel}`}
         >
-          <Delete />
+          <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
         </ActionButton>
-      </View>
-    </Flex>
+        <View>
+          <ActionButton
+            aria-label={`delete-item-${childLabel}`}
+            onPress={removeItem(path, index)}
+          >
+            <Delete />
+          </ActionButton>
+        </View>
+      </Flex>
+    </div>
   );
-  const content = selected ? withSelection(item) : item;
-  return content;
 };
 
 export default withJsonFormsMasterListItemProps(ListWithDetailMasterItem);
