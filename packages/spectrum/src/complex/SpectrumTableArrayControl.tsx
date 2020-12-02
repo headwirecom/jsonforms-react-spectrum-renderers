@@ -147,6 +147,7 @@ class SpectrumTableArrayControl extends React.Component<
     return (
       <View
         id='table-view'
+        UNSAFE_className='spectrum-table-array-control'
         isHidden={visible === undefined || visible === null ? false : !visible}
       >
         <Header>
@@ -209,7 +210,7 @@ class SpectrumTableArrayControl extends React.Component<
 
                         return (
                           <Cell key={childPropPath}>
-                            <Flex direction='column'>
+                            <Flex direction='column' width='100%'>
                               <DispatchCell
                                 schema={Resolve.schema(
                                   schema,
@@ -236,7 +237,7 @@ class SpectrumTableArrayControl extends React.Component<
                     )(schema.properties)
                   : [
                       <Cell key={Paths.compose(childPath, index.toString())}>
-                        <Flex direction='column'>
+                        <Flex direction='column' width='100%'>
                           <DispatchCell
                             schema={schema}
                             uischema={createControlElement()}

@@ -1,3 +1,4 @@
-div[role='gridcell'] > span {
+.spectrum-table-array-control div[role='rowheader'] > span,
+.spectrum-table-array-control div[role='gridcell'] > span {
   width: 100%;
 }
