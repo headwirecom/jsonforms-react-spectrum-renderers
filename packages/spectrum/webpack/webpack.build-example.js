@@ -40,6 +40,7 @@ module.exports = merge(baseConfig, {
       { from: './example/example.css', to: 'assets' },
       { from: './example/example.dark.css', to: 'assets' },
       { from: '../example/src/logo.svg', to: 'assets' },
+      { from: './examples/samples.js', to: '.' },
     ]),
   ],
 });
