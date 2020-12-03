@@ -53,6 +53,7 @@ import {
 } from '@react-spectrum/table';
 import {
   ActionButton,
+  Button,
   Flex,
   Header,
   Heading,
@@ -60,7 +61,6 @@ import {
   Tooltip,
   TooltipTrigger,
   View,
-  Well,
 } from '@adobe/react-spectrum';
 
 import './table-cell.css';
@@ -68,6 +68,7 @@ import './table-cell.css';
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { ErrorObject } from 'ajv';
+import AlertCircle from '@spectrum-icons/workflow/AlertCircle';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -157,6 +158,22 @@ class SpectrumTableArrayControl extends React.Component<
             justifyContent='space-between'
           >
             <Heading level={4}>{labelText}</Heading>
+            <View isHidden={!isValid} marginEnd='auto' />
+            <View isHidden={isValid} marginEnd='auto'>
+              <TooltipTrigger delay={0}>
+                <Button
+                  isQuiet
+                  aria-label='validation'
+                  variant='negative'
+                  margin='size-50'
+                  minWidth='size-0'
+                  width='size-10'
+                >
+                  <AlertCircle color='negative' />
+                </Button>
+                <Tooltip>{errors}</Tooltip>
+              </TooltipTrigger>
+            </View>
             <TooltipTrigger delay={0}>
               <ActionButton
                 id='add-button'
@@ -169,9 +186,6 @@ class SpectrumTableArrayControl extends React.Component<
           </Flex>
         </Header>
 
-        <Well id='validation' isHidden={isValid}>
-          {!isValid ? errors : ''}
-        </Well>
         <Table overflowMode='wrap' density='compact'>
           <TableHeader>
             {[
