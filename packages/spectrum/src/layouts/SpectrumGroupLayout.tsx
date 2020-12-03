@@ -71,7 +71,11 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
       ) : (
         ''
       )}
-      <Divider size='M' marginTop='size-150' marginBottom='size-200' />
+      {!isEmpty(group.label) ? (
+        <Divider size='M' marginTop='size-150' marginBottom='size-200' />
+      ) : (
+        ''
+      )}
       <Content>{renderChildren(group, schema, {}, path)}</Content>
     </View>
   );
