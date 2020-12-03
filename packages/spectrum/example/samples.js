@@ -2,7 +2,7 @@ var samples = [];
 
 samples.push({
   name: 'spectrum-array',
-  label: 'array',
+  label: 'Array',
   uischema: {
     type: 'VerticalLayout',
     elements: [
@@ -53,7 +53,7 @@ samples.push({
 
 samples.push({
   name: 'spectrum-categorization-1',
-  label: 'categorization-1',
+  label: 'Categorization',
   uischema: {
     type: 'Categorization',
     elements: [
@@ -257,7 +257,7 @@ samples.push({
 
 samples.push({
   name: 'spectrum-categorization-stepper',
-  label: 'categorization-stepper',
+  label: 'Categorization (stepper variant)',
   uischema: {
     type: 'Categorization',
     elements: [
@@ -464,7 +464,7 @@ samples.push({
 
 samples.push({
   name: 'spectrum-categorization-stepper-buttons',
-  label: 'categorization-stepper-buttons',
+  label: 'Categorization (stepper variant w/nav)',
   uischema: {
     type: 'Categorization',
     elements: [
@@ -670,13 +670,663 @@ samples.push({
   },
 });
 
-// samples.push({
-//   name: 'spectrum-categorization-stepper',
-//   label: 'categorization-stepper',
-//   uischema: {
-//   },
-//   schema: {
-//   },
-//   data: {
-//   },
-// });
+samples.push({
+  name: 'spectrum-custom-controls',
+  label: 'Custom Controls',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'Control',
+        label: false,
+        scope: '#/properties/done',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/description',
+        options: {
+          multi: true,
+        },
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/dueDate',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/rating',
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 1,
+      },
+      description: {
+        type: 'string',
+      },
+      done: {
+        type: 'boolean',
+      },
+      dueDate: {
+        type: 'string',
+        format: 'date',
+      },
+      rating: {
+        type: 'integer',
+        maximum: 5,
+      },
+    },
+    required: ['name'],
+  },
+  data: {
+    name: 'Send email to Adrian',
+    description: 'Confirm if you have passed the subject\nHereby ...',
+    done: true,
+    rating: 3,
+  },
+});
+
+samples.push({
+  name: 'spectrum-generate-ui-schema',
+  label: 'Generate UI Schema',
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+          },
+        },
+        additionalProperties: true,
+        required: ['age'],
+      },
+      postalCode: {
+        type: 'string',
+      },
+    },
+    additionalProperties: true,
+    required: ['name', 'vegetarian', 'birthDate', 'personalData', 'postalCode'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-generate-both-schemata',
+  label: 'Generate both schemata',
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-horizontal-layout',
+  label: 'Horizontal Layout',
+  uischema: {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Name',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'Control',
+        label: 'Birth Date',
+        scope: '#/properties/birthDate',
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        description: 'Please enter your name',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+        format: 'date',
+      },
+      nationality: {
+        type: 'string',
+        enum: ['DE', 'IT', 'JP', 'US', 'RU', 'Other'],
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+            description: 'Please enter your age.',
+          },
+          height: {
+            type: 'number',
+          },
+          drivingSkill: {
+            type: 'number',
+            maximum: 10,
+            minimum: 1,
+            default: 7,
+          },
+        },
+        required: ['age', 'height'],
+      },
+      occupation: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 5,
+      },
+    },
+    required: ['occupation', 'nationality'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-vertical-layout',
+  label: 'Vertical Layout',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Name',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'Control',
+        label: 'Birth Date',
+        scope: '#/properties/birthDate',
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        description: 'Please enter your name',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+        format: 'date',
+      },
+      nationality: {
+        type: 'string',
+        enum: ['DE', 'IT', 'JP', 'US', 'RU', 'Other'],
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+            description: 'Please enter your age.',
+          },
+          height: {
+            type: 'number',
+          },
+          drivingSkill: {
+            type: 'number',
+            maximum: 10,
+            minimum: 1,
+            default: 7,
+          },
+        },
+        required: ['age', 'height'],
+      },
+      occupation: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 5,
+      },
+    },
+    required: ['occupation', 'nationality'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-group-layout',
+  label: 'Group',
+  uischema: {
+    type: 'Group',
+    label: 'My Group',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Name',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'Control',
+        label: 'Birth Date',
+        scope: '#/properties/birthDate',
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        description: 'Please enter your name',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+        format: 'date',
+      },
+      nationality: {
+        type: 'string',
+        enum: ['DE', 'IT', 'JP', 'US', 'RU', 'Other'],
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+            description: 'Please enter your age.',
+          },
+          height: {
+            type: 'number',
+          },
+          drivingSkill: {
+            type: 'number',
+            maximum: 10,
+            minimum: 1,
+            default: 7,
+          },
+        },
+        required: ['age', 'height'],
+      },
+      occupation: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 5,
+      },
+    },
+    required: ['occupation', 'nationality'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-nested-layouts',
+  label: 'Nested Layouts',
+  uischema: {
+    type: 'Group',
+    label: 'My Group',
+    elements: [
+      {
+        type: 'HorizontalLayout',
+        elements: [
+          {
+            type: 'VerticalLayout',
+            elements: [
+              {
+                type: 'Control',
+                label: 'Name',
+                scope: '#/properties/name',
+              },
+              {
+                type: 'Control',
+                label: 'Birth Date',
+                scope: '#/properties/birthDate',
+              },
+            ],
+          },
+          {
+            type: 'VerticalLayout',
+            elements: [
+              {
+                type: 'Control',
+                label: 'Name',
+                scope: '#/properties/name',
+              },
+              {
+                type: 'Control',
+                label: 'Birth Date',
+                scope: '#/properties/birthDate',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        description: 'Please enter your name',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+        format: 'date',
+      },
+      nationality: {
+        type: 'string',
+        enum: ['DE', 'IT', 'JP', 'US', 'RU', 'Other'],
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+            description: 'Please enter your age.',
+          },
+          height: {
+            type: 'number',
+          },
+          drivingSkill: {
+            type: 'number',
+            maximum: 10,
+            minimum: 1,
+            default: 7,
+          },
+        },
+        required: ['age', 'height'],
+      },
+      occupation: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 5,
+      },
+    },
+    required: ['occupation', 'nationality'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-person',
+  label: 'Person',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'HorizontalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/name',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/personalData/properties/age',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/birthDate',
+          },
+        ],
+      },
+      {
+        type: 'Label',
+        text: 'Additional Information',
+      },
+      {
+        type: 'HorizontalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/personalData/properties/height',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/nationality',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/occupation',
+            suggestion: [
+              'Accountant',
+              'Engineer',
+              'Freelancer',
+              'Journalism',
+              'Physician',
+              'Student',
+              'Teacher',
+              'Other',
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        description: 'Please enter your name',
+      },
+      vegetarian: {
+        type: 'boolean',
+      },
+      birthDate: {
+        type: 'string',
+        format: 'date',
+      },
+      nationality: {
+        type: 'string',
+        enum: ['DE', 'IT', 'JP', 'US', 'RU', 'Other'],
+      },
+      personalData: {
+        type: 'object',
+        properties: {
+          age: {
+            type: 'integer',
+            description: 'Please enter your age.',
+          },
+          height: {
+            type: 'number',
+          },
+          drivingSkill: {
+            type: 'number',
+            maximum: 10,
+            minimum: 1,
+            default: 7,
+          },
+        },
+        required: ['age', 'height'],
+      },
+      occupation: {
+        type: 'string',
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 5,
+      },
+    },
+    required: ['occupation', 'nationality'],
+  },
+  data: {
+    name: 'John Doe',
+    vegetarian: false,
+    birthDate: '1985-06-02',
+    personalData: {
+      age: 34,
+    },
+    postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-rule',
+  label: 'Rule',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Name',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'Group',
+        elements: [
+          {
+            type: 'Control',
+            label: 'Is Dead?',
+            scope: '#/properties/dead',
+          },
+          {
+            type: 'Control',
+            label: 'Kind of dead',
+            scope: '#/properties/kindOfDead',
+            rule: {
+              effect: 'ENABLE',
+              condition: {
+                scope: '#/properties/dead',
+                schema: {
+                  const: true,
+                },
+              },
+            },
+          },
+        ],
+      },
+      {
+        type: 'Group',
+        elements: [
+          {
+            type: 'Control',
+            label: 'Eats vegetables?',
+            scope: '#/properties/vegetables',
+          },
+          {
+            type: 'Control',
+            label: 'Kind of vegetables',
+            scope: '#/properties/kindOfVegetables',
+            rule: {
+              effect: 'HIDE',
+              condition: {
+                scope: '#/properties/vegetables',
+                schema: {
+                  const: false,
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+      dead: {
+        type: 'boolean',
+      },
+      kindOfDead: {
+        type: 'string',
+        enum: ['Zombie', 'Vampire', 'Ghoul'],
+      },
+      vegetables: {
+        type: 'boolean',
+      },
+      kindOfVegetables: {
+        type: 'string',
+        enum: ['All', 'Some', 'Only potatoes'],
+      },
+    },
+  },
+  data: {
+    name: 'John Doe',
+    dead: false,
+    vegetables: false,
+  },
+});
