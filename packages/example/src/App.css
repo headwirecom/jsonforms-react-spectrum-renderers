@@ -13,9 +13,17 @@
   color: white;
 }
 
-.container {
-  display: flex; /* or inline-flex */
-  flex-flow: row nowrap;
+@media (max-width: 1200px) {
+  .App-header {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    display: flex; /* or inline-flex */
+    flex-flow: row nowrap;
+  }
 }
 
 .container > * {

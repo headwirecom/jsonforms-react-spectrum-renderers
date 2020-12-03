@@ -44,21 +44,31 @@ import { getExamples, registerExamples } from '@jsonforms/examples';
 import { AdditionalStoreParams, exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
 
+declare global {
+  interface Window {
+    samples: any;
+  }
+}
+
 import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
 
 const getExampleSchemas = () => {
-  registerExamples([
-    {
-      name: 'spectrum-test',
-      label: 'test',
-      data: { name: 'a sample name' },
-      schema: undefined,
-      uischema: undefined,
-    },
-  ]);
+  if (window.samples) {
+    registerExamples(window.samples);
+  } else {
+    registerExamples([
+      {
+        name: 'spectrum-test',
+        label: 'test',
+        data: { name: 'a sample name' },
+        schema: undefined,
+        uischema: undefined,
+      },
+    ]);
+  }
 
   const examples = getExamples();
   return examples;
