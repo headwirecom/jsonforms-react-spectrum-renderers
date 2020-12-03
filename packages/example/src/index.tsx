@@ -130,9 +130,9 @@ const setupStore = (
   // Add configuration to JSONForms
   store.dispatch(
     Actions.init(
-      exampleData[0].data,
-      exampleData[0].schema,
-      exampleData[0].uischema,
+      exampleData[exampleData.length - 1].data,
+      exampleData[exampleData.length - 1].schema,
+      exampleData[exampleData.length - 1].uischema,
       {
         ajv: ajv,
         refParserOptions: {

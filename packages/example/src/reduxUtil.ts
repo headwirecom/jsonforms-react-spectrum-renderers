@@ -74,7 +74,8 @@ export interface AppProps extends ExampleStateProps {
 
 const mapStateToProps = (state: any) => {
   const examples = state.examples.data;
-  const selectedExample = state.examples.selectedExample || examples[0];
+  const selectedExample =
+    state.examples.selectedExample || examples[examples.length - 1];
   const extensionState = state.examples.extensionState;
   return {
     dataAsString: JSON.stringify(getData(state), null, 2),

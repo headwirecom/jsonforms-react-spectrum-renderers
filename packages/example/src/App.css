@@ -8,8 +8,8 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  /* height: 150px; */
+  padding: 10px;
   color: white;
 }
 
@@ -33,11 +33,11 @@
 .App-header ul > li {
   display: inline-block;
   width: 9em;
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .App-title {
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .App-header > h1 {
@@ -45,11 +45,11 @@
 }
 
 .App-intro {
-  font-size: large;
+  font-size: medium;
 }
 
 .App-Form {
-  flex: 8 0px;
+  flex: 4 8 auto;
   padding-top: 1em;
 }
 
