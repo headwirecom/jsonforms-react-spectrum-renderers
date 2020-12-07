@@ -26,80 +26,22 @@
   THE SOFTWARE.
 */
 
-import React, { Component, CSSProperties } from 'react';
+import React, { Component } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
+import { Picker, Item, Section, Content, TextArea } from '@adobe/react-spectrum';
+import { Tabs } from '@react-spectrum/tabs'
 import './App.css';
 import { AppProps, initializedConnect } from './reduxUtil';
 
-const preStyle: CSSProperties = {
-  overflowX: 'auto',
-};
 class App extends Component<AppProps> {
   render() {
     return (
       <JsonFormsReduxContext>
         <div className='Shell'>
-          <div className='App'>
-            <header className='App-header'>
-              <ul>
-                <li>
-                  <img src='assets/logo.svg' className='App-logo' alt='logo' />
-                </li>
-                <li>
-                  <h1>React Spectrum</h1>
-                </li>
-                <li>
-                  <h1>JSON Forms</h1>
-                </li>
-              </ul>
-              <p className='App-intro'>More Forms. Less Code.</p>
-            </header>
-          </div>
-
           <div className='container'>
             <div className='App-selection'>
               <h4 className='data-title'>JsonForms Examples</h4>
-              <div className='data-content'>
-                <select
-                  value={this.props.selectedExample.name || ''}
-                  onChange={(ev) =>
-                    this.props.changeExample(ev.currentTarget.value)
-                  }
-                >
-                  <option value='-' disabled>
-                    ---- react spectrum tests ----
-                  </option>
-                  {this.props.examples
-                    .filter((optionValue) =>
-                      optionValue.name.startsWith('spectrum-')
-                    )
-                    .map((optionValue) => (
-                      <option
-                        value={optionValue.name}
-                        label={optionValue.label}
-                        key={optionValue.name}
-                      >
-                        {optionValue.label}
-                      </option>
-                    ))}
-                  <option value='-' disabled>
-                    ---- jsonforms tests ----
-                  </option>
-                  {this.props.examples
-                    .filter(
-                      (optionValue) => !optionValue.name.startsWith('spectrum-')
-                    )
-                    .map((optionValue) => (
-                      <option
-                        value={optionValue.name}
-                        label={optionValue.label}
-                        key={optionValue.name}
-                      >
-                        {optionValue.label}
-                      </option>
-                    ))}
-                </select>
-              </div>
+              <ExamplesPicker {...this.props} />
             </div>
 
             <div className='App-Form'>
@@ -110,40 +52,23 @@ class App extends Component<AppProps> {
             </div>
 
             <div className='App-Data tabs'>
-              <div className='tab'>
-                <input
-                  type='radio'
-                  id='tab-1'
-                  name='tab-group-1'
-                  defaultChecked
-                />
-                <label htmlFor='tab-1'>Bound data</label>
-                <div className='data-content content'>
-                  <pre style={preStyle}>{this.props.dataAsString}</pre>
-                </div>
-              </div>
-              <div className='tab'>
-                <input type='radio' id='tab-2' name='tab-group-1' />
-                <label htmlFor='tab-2'>UI Schema</label>
-                <div className='data-content content'>
-                  <pre style={preStyle}>
-                    {JSON.stringify(
-                      this.props.selectedExample.uischema,
-                      null,
-                      2
-                    )}
-                  </pre>
-                </div>
-              </div>
-              <div className='tab'>
-                <input type='radio' id='tab-3' name='tab-group-1' />
-                <label htmlFor='tab-3'>Schema</label>
-                <div className='data-content content'>
-                  <pre style={preStyle}>
-                    {JSON.stringify(this.props.selectedExample.schema, null, 2)}
-                  </pre>
-                </div>
-              </div>
+              <Tabs defaultSelectedKey='boundData'>
+                <Item key='boundData' title='Bound data'>
+                  <Content margin='size-100'>
+                    <TextArea width="100%" height="30em" aria-label='Bound data' value={this.props.dataAsString} />
+                  </Content>
+                </Item>
+                <Item key='uiSchema' title='UI Schema'>
+                  <Content margin='size-100'>
+                    <TextArea width="100%" height="30em" aria-label='UI Schema' value={JSON.stringify(this.props.selectedExample.uischema, null, 2)} />
+                  </Content>
+                </Item>
+                <Item key='schema' title='Schema'>
+                  <Content margin='size-100'>
+                    <TextArea width="100%" height="30em" aria-label='UI Schema' value={JSON.stringify(this.props.selectedExample.schema, null, 2)} />
+                  </Content>
+                </Item>
+              </Tabs>
             </div>
           </div>
         </div>
@@ -153,3 +78,34 @@ class App extends Component<AppProps> {
 }
 
 export default initializedConnect(App);
+
+function ExamplesPicker(props: AppProps) {
+  const options = [
+    {
+      name: 'React Spectrum Tests',
+      children: props.examples
+        .filter(example => example.name.startsWith('spectrum-')).map(item => ({ ...item, id: item.name }))
+    },
+    {
+      name: 'JSONForms Tests',
+      children: props.examples
+        .filter(example => !example.name.startsWith('spectrum-')).map(item => ({ ...item, id: item.name }))
+    }
+  ];
+
+  return (
+    <Picker
+      aria-label='JSONForms Examples'
+      items={options}
+      width="100%"
+      defaultSelectedKey={props.selectedExample.name}
+      onSelectionChange={props.changeExample}
+    >
+      {(item) => (
+        <Section key={item.name} items={item.children} title={item.name}>
+          {(item) => <Item>{item.name}</Item>}
+        </Section>
+      )}
+    </Picker>
+  );
+}
