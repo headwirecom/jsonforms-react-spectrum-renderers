@@ -136,8 +136,9 @@ describe('Spectrum List With Detail Renderer', () => {
       },
     };
     const { container } = renderForm(uischemaHiddenControl, schema, data);
-    const control = container.querySelector('#-list-with-detail-renderer');
-    expect(control).not.toBeInTheDocument();
+    const control = container.firstElementChild
+      .firstElementChild as HTMLElement;
+    expect(control.hidden).toBeTruthy();
   });
 
   test('select renders data in detail', () => {

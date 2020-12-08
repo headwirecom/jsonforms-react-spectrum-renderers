@@ -159,7 +159,7 @@ const SpectrumOneOfRenderer = ({
                 variant='cta'
                 onPress={confirm}
                 autoFocus
-                id={`oneOf-${id}-confirm-yes`}
+                id={id && `oneOf-${id}-confirm-yes`}
               >
                 Confirm
               </Button>

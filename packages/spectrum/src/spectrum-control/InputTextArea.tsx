@@ -60,7 +60,7 @@ export class InputTextArea extends React.PureComponent<
         label={label}
         isRequired={isRequired}
         onChange={onChange}
-        id={`${id}-input`}
+        id={id && `${id}-input`}
         isDisabled={!enabled}
         autoFocus={uischema.options && uischema.options.focus}
         width={width}

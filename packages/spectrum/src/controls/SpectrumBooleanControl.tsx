@@ -52,7 +52,7 @@ export const SpectrumBooleanControl = ({
 }: ControlProps) => {
   return (
     <SpectrumBooleanCell
-      id={`${id}-input`}
+      id={id && `${id}-input`}
       isValid={isEmpty(errors)}
       data={data}
       enabled={enabled}

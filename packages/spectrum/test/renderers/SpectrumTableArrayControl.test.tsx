@@ -26,31 +26,20 @@
   THE SOFTWARE.
 */
 import '@testing-library/jest-dom';
-import * as React from 'react';
-import { Provider } from 'react-redux';
 import {
   ControlElement,
   JsonFormsCellRendererRegistryEntry,
   JsonSchema,
-  update,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import TableArrayControl from '../../src/complex/SpectrumTableArrayControl';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
-
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
-import { mountForm, renderForm, simulateClick } from '../util';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { renderForm } from '../util';
 
 const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   schema: {
@@ -166,8 +155,6 @@ describe('Table array tester', () => {
 });
 
 describe('Table array control', () => {
-  let wrapper: ReactWrapper;
-
   let offsetWidth: any;
   let offsetHeight: any;
 
@@ -194,8 +181,6 @@ describe('Table array control', () => {
     jest.useRealTimers();
   });
 
-  afterEach(() => wrapper.unmount());
-
   test('render two children', () => {
     const cells: JsonFormsCellRendererRegistryEntry[] = [
       {
@@ -204,22 +189,25 @@ describe('Table array control', () => {
       },
     ];
 
-    wrapper = mountForm(fixture.uischema, fixture.schema, fixture.data, cells);
-    const header = wrapper.find('header');
+    const { container, getAllByRole } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data,
+      cells
+    );
 
-    const label = header.find('h4');
-    expect(label.text()).toBe('Test');
+    expect(container.querySelector('header h4').textContent).toBe('Test');
 
     // TODO: test that tooltip on the button reads "add to test"
 
     // two data columns + delete column
-    const columnHeaders = wrapper.find('[role="columnheader"]');
+    const columnHeaders = getAllByRole('columnheader');
     expect(columnHeaders).toHaveLength(3);
-    expect(columnHeaders.at(0).text()).toBe('X');
-    expect(columnHeaders.at(1).text()).toBe('Y');
-    expect(columnHeaders.at(2).text().trim()).toBe('');
+    expect(columnHeaders[0].textContent).toBe('X');
+    expect(columnHeaders[1].textContent).toBe('Y');
+    expect(columnHeaders[2].textContent.trim()).toBe('');
 
-    const rows = wrapper.find('[role="row"]');
+    const rows = getAllByRole('row');
     expect(rows).toHaveLength(2);
   });
 
@@ -229,36 +217,28 @@ describe('Table array control', () => {
       type: 'Control',
       scope: '#/properties/test',
     };
-    wrapper = mountForm(control, fixture.schema);
-    wrapper.simulate('keyDown', { key: 'Tab' });
-    wrapper.simulate('keyUp', { key: 'Tab' });
-    wrapper.simulate('keydown', { key: 'Tab' });
-    wrapper.simulate('keyup', { key: 'Tab' });
-    wrapper.update();
-    const header = wrapper.find('header');
-
-    const label = header.find('h4');
-    expect(label.text()).toBe('');
+    const { container, getAllByRole } = renderForm(control, fixture.schema);
+    expect(container.querySelector('header h4').textContent).toBe('');
 
     // TODO: test that tooltip on the button reads "add to test"
 
-    const columnHeaders = wrapper.find('[role="columnheader"]');
+    const columnHeaders = getAllByRole('columnheader');
     expect(columnHeaders).toHaveLength(3);
-    expect(columnHeaders.at(0).text()).toBe('X');
-    expect(columnHeaders.at(1).text()).toBe('Y');
-    expect(columnHeaders.at(2).text().trim()).toBe('');
+    expect(columnHeaders[0].textContent).toBe('X');
+    expect(columnHeaders[1].textContent).toBe('Y');
+    expect(columnHeaders[2].textContent.trim()).toBe('');
 
-    const rows = wrapper.find('[role="row"]');
+    const rows = getAllByRole('row');
     expect(rows).toHaveLength(2);
 
-    expect(rows.contains('No data')).toBeTruthy();
+    expect(rows.map((r) => r.textContent.trim())).toContain('No data');
   });
 
   test('render new child (empty init data)', () => {
     const initialData: { test: object[] } = { test: [] };
     let state: object[] = [];
 
-    wrapper = mountForm(
+    const { container } = renderForm(
       fixture.uischema,
       fixture.schema,
       initialData,
@@ -268,12 +248,11 @@ describe('Table array control', () => {
       }
     );
 
-    const control = wrapper.find('.root_properties_test');
+    const control = container.querySelector('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#add-button').first();
-    simulateClick(button);
-    wrapper.update();
+    const button = container.querySelector('.add-button');
+    userEvent.click(button);
     expect(state).toHaveLength(1);
   });
 
@@ -281,7 +260,7 @@ describe('Table array control', () => {
     const initialData: { test: object[] } = { test: undefined };
     let state: object[] = [];
 
-    wrapper = mountForm(
+    const { container } = renderForm(
       fixture.uischema,
       fixture.schema,
       initialData,
@@ -291,11 +270,11 @@ describe('Table array control', () => {
       }
     );
 
-    const control = wrapper.find('.root_properties_test');
+    const control = container.querySelector('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#add-button').first();
-    simulateClick(button);
+    const button = container.querySelector('.add-button');
+    userEvent.click(button);
     expect(state).toHaveLength(1);
   });
 
@@ -303,7 +282,7 @@ describe('Table array control', () => {
     const initialData: { test: object[] } = null;
     let state: object[] = [];
 
-    wrapper = mountForm(
+    const { container } = renderForm(
       fixture.uischema,
       fixture.schema,
       initialData,
@@ -313,12 +292,11 @@ describe('Table array control', () => {
       }
     );
 
-    const control = wrapper.find('.root_properties_test');
+    const control = container.querySelector('.root_properties_test');
     expect(control).toBeDefined();
 
-    const button = wrapper.find('#add-button').first();
-
-    simulateClick(button);
+    const button = container.querySelector('.add-button');
+    userEvent.click(button);
     expect(state).toHaveLength(1);
   });
 
@@ -326,7 +304,7 @@ describe('Table array control', () => {
     const initialData: { test: object[] } = fixture.data;
     let state: object[] = [];
 
-    wrapper = mountForm(
+    const { container } = renderForm(
       fixture.uischema,
       fixture.schema,
       initialData,
@@ -336,8 +314,8 @@ describe('Table array control', () => {
       }
     );
 
-    const addButton = wrapper.find('#add-button').first();
-    simulateClick(addButton);
+    const button = container.querySelector('.add-button');
+    userEvent.click(button);
     expect(state).toHaveLength(2);
   });
 
@@ -361,105 +339,50 @@ describe('Table array control', () => {
 
     const data: { test: string[] } = { test: ['foo', 'bars'] };
 
-    wrapper = mountForm(uischema, schema, data);
+    const { container, getAllByRole } = renderForm(uischema, schema, data);
 
-    const cell = wrapper.find('[aria-colindex=1]').last();
-    expect(
-      cell.contains('should NOT be longer than 3 characters')
-    ).toBeTruthy();
+    const cells = container.querySelectorAll('[aria-colindex="1"]');
+    const cell = cells[cells.length - 1];
+    expect(cell.textContent).toContain(
+      'should NOT be longer than 3 characters'
+    );
 
-    const rows = wrapper.find('[role="row"]');
+    const rows = getAllByRole('row');
     expect(rows).toHaveLength(3);
   });
 
-  test('update via action', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-
-    expect(wrapper.find('[role="row"]')).toHaveLength(2); // one in the header, one in the body
-
-    store.dispatch(
-      update('test', () => [
-        { x: 1, y: 3 },
-        { x: 2, y: 3 },
-      ])
-    );
-    wrapper.update();
-    expect(wrapper.find('[role="row"]')).toHaveLength(3); // successfully added a new row
-    store.dispatch(
-      update(undefined, () => [
-        { x: 1, y: 3 },
-        { x: 2, y: 3 },
-        { x: 3, y: 3 },
-      ])
-    );
-    expect(wrapper.find('[role="row"]')).toHaveLength(3); // should not have changed anything
-  });
-
   test('hide', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              visible={false}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-    const tableView = wrapper
-      .find('#table-view')
-      .first()
-      .getDOMNode() as HTMLElement;
-    expect(tableView.hidden).toBe(true);
+    const condition: SchemaBasedCondition = {
+      scope: '',
+      schema: {},
+    };
+    const uischema = {
+      type: 'Control',
+      scope: '#/properties/test',
+      rule: {
+        effect: RuleEffect.HIDE,
+        condition,
+      },
+    };
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
+
+    const tableView = container.querySelector(
+      '.spectrum-table-array-control'
+    ) as HTMLElement;
+    expect(tableView.hidden).toBeTruthy();
   });
 
   test('show by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
     );
-    const tableView = wrapper
-      .find('#table-view')
-      .first()
-      .getDOMNode() as HTMLElement;
-    expect(tableView.hidden).toBe(false);
+
+    const tableView = container.querySelector(
+      '.spectrum-table-array-control'
+    ) as HTMLElement;
+    expect(tableView.hidden).toBeFalsy();
   });
 });
 
