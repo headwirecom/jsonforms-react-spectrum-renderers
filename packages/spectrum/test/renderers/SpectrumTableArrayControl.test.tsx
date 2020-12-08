@@ -25,11 +25,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import '@testing-library/jest-dom';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import {
   ControlElement,
-  HorizontalLayout,
   JsonFormsCellRendererRegistryEntry,
   JsonSchema,
   update,
@@ -39,7 +39,6 @@ import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import TableArrayControl from '../../src/complex/SpectrumTableArrayControl';
 import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
-import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
@@ -49,7 +48,7 @@ import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
-import { mountForm, simulateClick } from '../util';
+import { mountForm, renderForm, simulateClick } from '../util';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -462,174 +461,25 @@ describe('Table array control', () => {
       .getDOMNode() as HTMLElement;
     expect(tableView.hidden).toBe(false);
   });
+});
 
+describe('validations messages', () => {
   test('single error', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-    store.dispatch(update('test', () => 2));
-    const validationWell = wrapper
-      .find('#validation')
-      .first()
-      .getDOMNode() as HTMLElement;
-    expect(validationWell.hidden).toBeFalsy();
-    const validation = wrapper.find('#validation').last().getDOMNode();
-    expect(validation.textContent).toBe('should be array');
-  });
+    const data = { test: 2 };
+    const { getByRole } = renderForm(fixture.uischema, fixture.schema, data);
 
-  test('multiple errors', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-    store.dispatch(update('test', () => 3));
-    const validationWell = wrapper
-      .find('#validation')
-      .first()
-      .getDOMNode() as HTMLElement;
-    expect(validationWell.hidden).toBeFalsy();
-    const validation = wrapper.find('#validation').last().getDOMNode();
-    expect(validation.textContent).toBe('should be array');
+    expect(getByRole('button', { name: /validation/ })).toBeInTheDocument();
   });
 
   test('empty errors by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
+    const { getByRole } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
     );
 
-    const validationWell = wrapper
-      .find('#validation')
-      .first()
-      .getDOMNode() as HTMLElement;
-    expect(validationWell.hidden).toBeTruthy();
-  });
-
-  test('reset validation message', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <JsonFormsReduxContext>
-            <TableArrayControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-            />
-          </JsonFormsReduxContext>
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-
-    const validation = wrapper.find('#validation').last().getDOMNode();
-    store.dispatch(update('test', () => 3));
-    wrapper.update();
-    expect(validation.textContent).toBe('should be array');
-    store.dispatch(update('test', () => []));
-    wrapper.update();
-    expect(validation.textContent).toBe('');
-  });
-  // must be thought through as to where to show validation errors
-  test.skip('validation of nested schema', () => {
-    const schema = {
-      type: 'object',
-      properties: {
-        name: { type: 'string' },
-        personalData: {
-          type: 'object',
-          properties: {
-            middleName: { type: 'string' },
-            lastName: { type: 'string' },
-          },
-          required: ['middleName', 'lastName'],
-        },
-      },
-      required: ['name'],
-    };
-    const firstControl: ControlElement = {
-      type: 'Control',
-      scope: '#/properties/name',
-    };
-    const secondControl: ControlElement = {
-      type: 'Control',
-      scope: '#/properties/personalData/properties/middleName',
-    };
-    const thirdControl: ControlElement = {
-      type: 'Control',
-      scope: '#/properties/personalData/properties/lastName',
-    };
-    const uischema: HorizontalLayout = {
-      type: 'HorizontalLayout',
-      elements: [firstControl, secondControl, thirdControl],
-    };
-    const store = initJsonFormsSpectrumStore({
-      data: {
-        name: 'John Doe',
-        personalData: {},
-      },
-      schema,
-      uischema,
-    });
-    wrapper = mount(
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <Provider store={store}>
-          <SpectrumHorizontalLayoutRenderer
-            schema={schema}
-            uischema={uischema}
-          />
-        </Provider>
-      </SpectrumThemeProvider>
-    );
-    const validation = wrapper.find('.valdiation');
-    expect(validation.at(0).getDOMNode().textContent).toBe('');
-    expect(validation.at(1).getDOMNode().textContent).toBe(
-      'is a required property'
-    );
-    expect(validation.at(2).getDOMNode().textContent).toBe(
-      'is a required property'
-    );
+    expect(() => {
+      getByRole('button', { name: /validation/ });
+    }).toThrow();
   });
 });
