@@ -81,7 +81,7 @@ export class SpectrumInputControl extends Control<
         <Flex direction='column'>
           <InnerComponent
             {...this.props}
-            id={id + '-input'}
+            id={id && `${id}-input`}
             isValid={isValid}
           />
           <View UNSAFE_style={!isValid ? UNSAFE_error : {}}>

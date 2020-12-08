@@ -71,7 +71,7 @@ export class InputText extends React.PureComponent<
         value={data ?? ''}
         label={label}
         onChange={onChange}
-        id={`${id}-input`}
+        id={id && `${id}-input`}
         isDisabled={!enabled}
         autoFocus={appliedUiSchemaOptions.focus}
         maxLength={maxLength}

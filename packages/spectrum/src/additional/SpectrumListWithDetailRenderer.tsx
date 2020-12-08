@@ -104,7 +104,7 @@ export const SpectrumListWithDetailRenderer = ({
   };
 
   return (
-    <View isHidden={!visible} id={`${label}-list-with-details`}>
+    <View isHidden={!visible}>
       <ArrayLayoutToolbar
         label={computeLabel(
           isPlainLabel(label) ? label : label.default,

@@ -95,7 +95,7 @@ export class InputControl extends Control<ControlProps, ControlState> {
               uischema={uischema}
               schema={schema}
               path={path}
-              id={id + '-input'}
+              id={id && `${id}-input`}
             />
             <div className={divClassNames}>
               <Text>

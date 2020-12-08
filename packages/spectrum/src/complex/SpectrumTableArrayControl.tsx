@@ -147,7 +147,6 @@ class SpectrumTableArrayControl extends React.Component<
 
     return (
       <View
-        id='table-view'
         UNSAFE_className='spectrum-table-array-control'
         isHidden={visible === undefined || visible === null ? false : !visible}
       >
@@ -176,7 +175,7 @@ class SpectrumTableArrayControl extends React.Component<
             </View>
             <TooltipTrigger delay={0}>
               <ActionButton
-                id='add-button'
+                UNSAFE_className='add-button'
                 onPress={addItem(path, createDefaultValue(schema))}
               >
                 <Add />
