@@ -22,21 +22,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputText';
-export * from './InputTextArea';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputNumberFormatted';
-export * from './InputEnum';
-export * from './InputSlider';
-export * from './InputDate';
-export * from './InputDateTime';
-export * from './InputTime';
+import {
+  ControlProps,
+  isDateControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import React from 'react';
+import { InputDate } from '../spectrum-control';
 
-/**
- * Additional props for Spectrum input controls
- */
-export interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-}
+import { SpectrumInputControl } from './SpectrumInputControl';
+
+export const SpectrumDateControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputDate} />
+);
+
+export const spectrumDateControlTester: RankedTester = rankWith(
+  3,
+  isDateControl
+);
+
+export default withJsonFormsControlProps(SpectrumDateControl);

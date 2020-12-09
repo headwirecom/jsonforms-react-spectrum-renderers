@@ -51,12 +51,25 @@ import SpectrumTextAreaControl, {
 import SpectrumTextControl, {
   spectrumTextControlTester,
 } from './SpectrumTextControl';
+import SpectrumDateControl, {
+  spectrumDateControlTester,
+} from './SpectrumDateControl';
+import SpectrumDateTimeControl, {
+  spectrumDateTimeControlTester,
+} from './SpectrumDateTimeControl';
+import SpectrumTimeControl, {
+  spectrumTimeControlTester,
+} from './SpectrumTimeControl';
 
 export {
   InputControl,
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumDateControl,
+  spectrumDateControlTester,
+  SpectrumDateTimeControl,
+  spectrumDateTimeControlTester,
   SpectrumEnumControl,
   spectrumEnumControlTester,
   SpectrumIntegerControl,
@@ -71,4 +84,6 @@ export {
   spectrumTextAreaControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
+  SpectrumTimeControl,
+  spectrumTimeControlTester,
 };
