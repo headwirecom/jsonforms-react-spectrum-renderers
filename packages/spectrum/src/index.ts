@@ -55,6 +55,10 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumDateControl,
+  spectrumDateControlTester,
+  SpectrumDateTimeControl,
+  spectrumDateTimeControlTester,
   SpectrumEnumControl,
   SpectrumIntegerControl,
   spectrumIntegerControlTester,
@@ -68,6 +72,8 @@ import {
   spectrumTextAreaControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
+  SpectrumTimeControl,
+  spectrumTimeControlTester,
 } from './controls';
 
 import {
@@ -120,6 +126,8 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
     renderer: SpectrumListWithDetailRenderer,
   },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
+  { tester: spectrumDateControlTester, renderer: SpectrumDateControl },
+  { tester: spectrumDateTimeControlTester, renderer: SpectrumDateTimeControl },
   { tester: spectrumEnumControlTester, renderer: SpectrumEnumControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
   { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
@@ -129,6 +137,7 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   },
   { tester: spectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: spectrumTextControlTester, renderer: SpectrumTextControl },
+  { tester: spectrumTimeControlTester, renderer: SpectrumTimeControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   { tester: spectrumLabelRendererTester, renderer: SpectrumLabelRenderer },
   {
