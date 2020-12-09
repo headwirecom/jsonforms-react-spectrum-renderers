@@ -28,13 +28,14 @@
 import { RankedTester } from '@jsonforms/core';
 
 import {
-  DateCell,
-  dateCellTester,
-  dateTimeCellTester,
   SliderCell,
   sliderCellTester,
   SpectrumBooleanCell,
   spectrumBooleanCellTester,
+  SpectrumDateCell,
+  spectrumDateCellTester,
+  SpectrumDateTimeCell,
+  spectrumDateTimeCellTester,
   SpectrumEnumCell,
   spectrumEnumCellTester,
   spectrumEnumControlTester,
@@ -46,8 +47,8 @@ import {
   spectrumTextAreaCellTester,
   SpectrumTextCell,
   spectrumTextCellTester,
-  TimeCell,
-  timeCellTester,
+  SpectrumTimeCell,
+  spectrumTimeCellTester,
 } from './cells';
 
 import {
@@ -55,6 +56,10 @@ import {
   inputControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
+  SpectrumDateControl,
+  spectrumDateControlTester,
+  SpectrumDateTimeControl,
+  spectrumDateTimeControlTester,
   SpectrumEnumControl,
   SpectrumIntegerControl,
   spectrumIntegerControlTester,
@@ -68,15 +73,17 @@ import {
   spectrumTextAreaControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
+  SpectrumTimeControl,
+  spectrumTimeControlTester
 } from './controls';
 
 import {
   ArrayControl,
   arrayControlTester,
-  SpectrumAnyOfRenderer,
-  spectrumAnyOfRendererTester,
   SpectrumAllOfRenderer,
   spectrumAllOfRendererTester,
+  SpectrumAnyOfRenderer,
+  spectrumAnyOfRendererTester,
   SpectrumCategorizationRenderer,
   spectrumCategorizationRendererTester,
   SpectrumCategorizationStepperRenderer,
@@ -99,7 +106,6 @@ import {
   SpectrumVerticalLayout,
   spectrumVerticalLayoutTester,
 } from './layouts';
-import DateTimeCell from './cells/DateTimeCell';
 
 import {
   SpectrumListWithDetailRenderer,
@@ -120,6 +126,9 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
     renderer: SpectrumListWithDetailRenderer,
   },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
+  { tester: spectrumDateControlTester, renderer: SpectrumDateControl },
+  { tester: spectrumDateTimeControlTester, renderer: SpectrumDateTimeControl },
+  { tester: spectrumTimeControlTester, renderer: SpectrumTimeControl },
   { tester: spectrumEnumControlTester, renderer: SpectrumEnumControl },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
   { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
@@ -170,13 +179,13 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
 
 export const spectrumCells: { tester: RankedTester; cell: any }[] = [
   { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
-  { tester: dateCellTester, cell: DateCell },
-  { tester: dateTimeCellTester, cell: DateTimeCell },
+  { tester: spectrumDateCellTester, cell: SpectrumDateCell },
+  { tester: spectrumDateTimeCellTester, cell: SpectrumDateTimeCell },
   { tester: spectrumEnumCellTester, cell: SpectrumEnumCell },
   { tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell },
   { tester: spectrumNumberCellTester, cell: SpectrumNumberCell },
   { tester: sliderCellTester, cell: SliderCell },
   { tester: spectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
   { tester: spectrumTextCellTester, cell: SpectrumTextCell },
-  { tester: timeCellTester, cell: TimeCell },
+  { tester: spectrumTimeCellTester, cell: SpectrumTimeCell },
 ];

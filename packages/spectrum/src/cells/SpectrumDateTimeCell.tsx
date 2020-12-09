@@ -28,31 +28,23 @@
 import React from 'react';
 import {
   CellProps,
-  isTimeControl,
+  isDateTimeControl,
   RankedTester,
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
+import { InputDateTime } from '../spectrum-control';
+export const SpectrumDateTimeCell = (props: CellProps) => (
+  <InputDateTime {...props} />
+);
 
-export const TimeCell = (props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange } = props;
-
-  return (
-    <input
-      type='time'
-      value={data ?? ''}
-      onChange={(ev) => handleChange(path, ev.target.value)}
-      className='input' // TODO: obsolete in the future, but implement trim!
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-    />
-  );
-};
 /**
- * Default tester for date controls.
+ * Default tester for datetime controls.
  * @type {RankedTester}
  */
-export const timeCellTester: RankedTester = rankWith(2, isTimeControl);
+export const spectrumDateTimeCellTester: RankedTester = rankWith(
+  2,
+  isDateTimeControl
+);
 
-export default withJsonFormsCellProps(TimeCell);
+export default withJsonFormsCellProps(SpectrumDateTimeCell);

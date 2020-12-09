@@ -1,6 +1,9 @@
 /*
   The MIT License
 
+  Copyright (c) 2017-2019 EclipseSource Munich
+  https://github.com/eclipsesource/jsonforms
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -22,21 +25,21 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputText';
-export * from './InputTextArea';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputNumberFormatted';
-export * from './InputEnum';
-export * from './InputSlider';
-export * from './InputDate';
-export * from './InputDateTime';
-export * from './InputTime';
+import React from 'react';
+import {
+  CellProps,
+  isTimeControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsCellProps } from '@jsonforms/react';
+import { InputTime } from '../spectrum-control';
 
+export const SpectrumTimeCell = (props: CellProps) => <InputTime {...props} />;
 /**
- * Additional props for Spectrum input controls
+ * Default tester for date controls.
+ * @type {RankedTester}
  */
-export interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-}
+export const spectrumTimeCellTester: RankedTester = rankWith(4, isTimeControl);
+
+export default withJsonFormsCellProps(SpectrumTimeCell);

@@ -50,7 +50,9 @@ import InputControl, {
 import SpectrumTextCell, {
   spectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
-import DateCell, { dateCellTester } from '../../src/cells/DateCell';
+import SpectrumDateCell, {
+  spectrumDateCellTester,
+} from '../../src/cells/SpectrumDateCell';
 import { initJsonFormsSpectrumStore } from '../spectrumStore';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -451,7 +453,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: dateCellTester, cell: DateCell }],
+      cells: [{ tester: spectrumDateCellTester, cell: SpectrumDateCell }],
     });
     wrapper = mount(
       <Provider store={store}>
@@ -485,7 +487,7 @@ describe('Input control', () => {
       schema,
       uischema,
       renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: dateCellTester, cell: DateCell }],
+      cells: [{ tester: spectrumDateCellTester, cell: SpectrumDateCell }],
     });
     wrapper = mount(
       <Provider store={store}>

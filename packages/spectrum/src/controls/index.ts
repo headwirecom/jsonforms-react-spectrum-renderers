@@ -51,6 +51,15 @@ import SpectrumTextAreaControl, {
 import SpectrumTextControl, {
   spectrumTextControlTester,
 } from './SpectrumTextControl';
+import SpectrumDateControl, {
+   spectrumDateControlTester 
+} from './SpectrumDateControl';
+import SpectrumDateTimeControl, {
+  spectrumDateTimeControlTester 
+} from './SpectrumDateTimeControl';
+import SpectrumTimeControl, {
+  spectrumTimeControlTester 
+} from './SpectrumTimeControl';
 
 export {
   InputControl,
@@ -71,4 +80,10 @@ export {
   spectrumTextAreaControlTester,
   SpectrumTextControl,
   spectrumTextControlTester,
+  SpectrumDateControl,
+  spectrumDateControlTester,
+  SpectrumDateTimeControl,
+  spectrumDateTimeControlTester,
+  SpectrumTimeControl,
+  spectrumTimeControlTester
 };
