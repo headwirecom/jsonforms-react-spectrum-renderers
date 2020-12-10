@@ -71,7 +71,7 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
       uischema={uischema}
       schema={schema}
     >
-      {renderChildren(horizontalLayout, schema, childrenStyles, path)}
+      {renderChildren(horizontalLayout, schema, childrenStyles, path, enabled)}
     </SpectrumLayout>
   );
 };
