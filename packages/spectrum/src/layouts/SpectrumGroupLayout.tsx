@@ -53,6 +53,7 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
   uischema,
   path,
   visible,
+  enabled,
 }: RendererProps) => {
   const group = uischema as GroupLayout;
 
@@ -76,7 +77,7 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
       ) : (
         ''
       )}
-      <Content>{renderChildren(group, schema, {}, path)}</Content>
+      <Content>{renderChildren(group, schema, {}, path, enabled)}</Content>
     </View>
   );
 };

@@ -26,14 +26,9 @@
   THE SOFTWARE.
 */
 import { GroupLayout, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { ReactWrapper } from 'enzyme';
-import GroupLayoutRenderer, {
-  spectrumGroupLayoutTester,
-} from '../../src/layouts/SpectrumGroupLayout';
-import { mountForm } from '../util';
-
-Enzyme.configure({ adapter: new Adapter() });
+import '@testing-library/jest-dom';
+import { spectrumGroupLayoutTester } from '../../src/layouts/SpectrumGroupLayout';
+import { renderForm } from '../util';
 
 test('tester', () => {
   expect(spectrumGroupLayoutTester(undefined, undefined)).toBe(-1);
@@ -43,32 +38,57 @@ test('tester', () => {
 });
 
 describe('Group layout', () => {
-  let wrapper: ReactWrapper;
+  const nameControl = {
+    type: 'Control',
+    label: 'Name',
+    scope: '#/properties/name',
+  };
 
-  afterEach(() => wrapper.unmount());
+  const colorControl = {
+    type: 'Control',
+    label: 'Color',
+    scope: '#/properties/color',
+  };
+
+  const fixture = {
+    data: {},
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+        color: {
+          type: 'string',
+        },
+      },
+    },
+    uischema: {
+      type: 'Group',
+      label: 'Foo',
+      elements: [nameControl, colorControl],
+    },
+  };
 
   test('render without label', () => {
     const uischema: GroupLayout = {
       type: 'Group',
       elements: [],
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema);
 
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
-    const heading = groupLayout.querySelector('h4');
+    const heading = container.querySelector('h4');
     expect(heading).toBeNull();
   });
 
   test('render with label', () => {
-    const uischema: GroupLayout = {
-      type: 'Group',
-      label: 'Foo',
-      elements: [],
-    };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
 
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
-    const heading = groupLayout.querySelector('h4');
+    const heading = container.querySelector('h4');
     expect(heading?.textContent).toBe('Foo');
   });
 
@@ -77,26 +97,36 @@ describe('Group layout', () => {
       type: 'Group',
       elements: null,
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema);
 
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
-    const content = groupLayout.querySelector('section');
+    const content = container.querySelector('section');
     expect(content?.children).toHaveLength(0);
   });
 
   test('render with children', () => {
-    const uischema: GroupLayout = {
-      type: 'Group',
-      elements: [{ type: 'Control' }, { type: 'Control' }],
-    };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
 
-    const groupLayout = wrapper.find(GroupLayoutRenderer).getDOMNode();
-    const content = groupLayout.querySelector('section');
+    const content = container.querySelector('section');
     expect(content?.children).toHaveLength(2);
   });
 
-  test('hide', () => {
+  test('visible by default', () => {
+    const uischema: GroupLayout = {
+      type: 'Group',
+      elements: [nameControl],
+    };
+    const { container } = renderForm(uischema);
+
+    const groupLayout = container.firstElementChild
+      .firstElementChild as HTMLElement;
+    expect(groupLayout.style.display).not.toBe('none');
+  });
+
+  test('hidden', () => {
     // Condition that evaluates to false
     const condition: SchemaBasedCondition = {
       scope: '',
@@ -104,30 +134,45 @@ describe('Group layout', () => {
     };
     const uischema: GroupLayout = {
       type: 'Group',
-      elements: [{ type: 'Control' }],
+      elements: [nameControl],
       rule: {
         effect: RuleEffect.HIDE,
         condition,
       },
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema);
 
-    const groupLayout = wrapper
-      .find(GroupLayoutRenderer)
-      .getDOMNode() as HTMLElement;
+    const groupLayout = container.firstElementChild
+      .firstElementChild as HTMLElement;
     expect(groupLayout.style.display).toBe('none');
   });
 
-  test('show by default', () => {
+  test('enabled by default', () => {
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
+
+    expect(container.querySelector('input').disabled).toBeFalsy();
+  });
+
+  test('disabled', () => {
+    // Condition that evaluates to false
+    const condition: SchemaBasedCondition = {
+      scope: '',
+      schema: {},
+    };
     const uischema: GroupLayout = {
       type: 'Group',
-      elements: [{ type: 'Control' }],
+      elements: [nameControl],
+      rule: {
+        effect: RuleEffect.DISABLE,
+        condition,
+      },
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const groupLayout = wrapper
-      .find(GroupLayoutRenderer)
-      .getDOMNode() as HTMLElement;
-    expect(groupLayout.style.display).not.toBe('none');
+    expect(container.querySelector('input').disabled).toBeTruthy();
   });
 });

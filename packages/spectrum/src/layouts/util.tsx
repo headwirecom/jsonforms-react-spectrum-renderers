@@ -43,7 +43,8 @@ export const renderChildren = (
   layout: Layout,
   schema: JsonSchema,
   styleProps: StyleProps,
-  path: string
+  path: string,
+  enabled = true
 ) => {
   if (isEmpty(layout.elements)) {
     return [];
@@ -60,6 +61,7 @@ export const renderChildren = (
           uischema={child}
           schema={schema}
           path={path}
+          enabled={enabled}
         />
       </View>
     );

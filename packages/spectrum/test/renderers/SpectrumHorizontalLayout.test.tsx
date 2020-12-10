@@ -31,21 +31,9 @@ import {
   SchemaBasedCondition,
   UISchemaElement,
 } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { ReactWrapper } from 'enzyme';
-import SpectrumHorizontalLayoutRenderer, {
-  spectrumHorizontalLayoutTester,
-} from '../../src/layouts/SpectrumHorizontalLayout';
-import { mountForm } from '../util';
-
-Enzyme.configure({ adapter: new Adapter() });
-
-const fixture = {
-  uischema: {
-    type: 'HorizontalLayout',
-    elements: [{ type: 'Control' }],
-  },
-};
+import '@testing-library/jest-dom';
+import { spectrumHorizontalLayoutTester } from '../../src/layouts/SpectrumHorizontalLayout';
+import { renderForm } from '../util';
 
 test('tester', () => {
   expect(spectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
@@ -57,20 +45,44 @@ test('tester', () => {
 });
 
 describe('Horizontal layout', () => {
-  let wrapper: ReactWrapper;
+  const nameControl = {
+    type: 'Control',
+    label: 'Name',
+    scope: '#/properties/name',
+  };
 
-  afterEach(() => wrapper.unmount());
+  const colorControl = {
+    type: 'Control',
+    label: 'Color',
+    scope: '#/properties/color',
+  };
+
+  const fixture = {
+    data: {},
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+        color: {
+          type: 'string',
+        },
+      },
+    },
+    uischema: {
+      type: 'HorizontalLayout',
+      elements: [nameControl, colorControl],
+    },
+  };
 
   test('render with undefined elements', () => {
     const uischema: UISchemaElement = {
       type: 'HorizontalLayout',
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const horizontalLayout = wrapper
-      .find(SpectrumHorizontalLayoutRenderer)
-      .getDOMNode().firstElementChild;
-    expect(horizontalLayout?.children).toHaveLength(0);
+    expect(container.querySelectorAll('input')).toHaveLength(0);
   });
 
   test('render with null elements', () => {
@@ -78,58 +90,80 @@ describe('Horizontal layout', () => {
       type: 'HorizontalLayout',
       elements: null,
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const horizontalLayout = wrapper
-      .find(SpectrumHorizontalLayoutRenderer)
-      .getDOMNode().firstElementChild;
-    expect(horizontalLayout?.children).toHaveLength(0);
+    expect(container.querySelectorAll('input')).toHaveLength(0);
   });
 
   test('render with children', () => {
-    const uischema: HorizontalLayout = {
-      type: 'HorizontalLayout',
-      elements: [{ type: 'Control' }, { type: 'Control' }],
-    };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
 
-    const horizontalLayout = wrapper
-      .find(SpectrumHorizontalLayoutRenderer)
-      .getDOMNode().firstElementChild;
-    expect(horizontalLayout?.children).toHaveLength(2);
+    expect(container.querySelectorAll('input')).toHaveLength(2);
   });
 
-  test('hide', () => {
+  test('visible by default', () => {
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
+
+    const element = container.firstElementChild
+      .firstElementChild as HTMLElement;
+    expect(element.style.display).not.toBe('none');
+  });
+
+  test('hidden', () => {
     // Condition that evaluates to false
     const condition: SchemaBasedCondition = {
       scope: '',
       schema: {},
     };
-    const uischema: UISchemaElement = {
-      ...fixture.uischema,
+    const uischema: HorizontalLayout = {
+      type: 'HorizontalLayout',
+      elements: [nameControl],
       rule: {
         effect: RuleEffect.HIDE,
         condition,
       },
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const horizontalLayout = wrapper
-      .find(SpectrumHorizontalLayoutRenderer)
-      .getDOMNode() as HTMLElement;
-    expect(horizontalLayout.style.display).toBe('none');
+    const element = container.firstElementChild
+      .firstElementChild as HTMLElement;
+    expect(element.style.display).toBe('none');
   });
 
-  test('show by default', () => {
+  test('enabled by default', () => {
+    const { container } = renderForm(
+      fixture.uischema,
+      fixture.schema,
+      fixture.data
+    );
+
+    expect(container.querySelector('input').disabled).toBeFalsy();
+  });
+
+  test('disabled', () => {
+    // Condition that evaluates to false
+    const condition: SchemaBasedCondition = {
+      scope: '',
+      schema: {},
+    };
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: [{ type: 'Control' }],
+      elements: [nameControl],
+      rule: {
+        effect: RuleEffect.DISABLE,
+        condition,
+      },
     };
-    wrapper = mountForm(uischema);
+    const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const horizontalLayout = wrapper
-      .find(SpectrumHorizontalLayoutRenderer)
-      .getDOMNode() as HTMLElement;
-    expect(horizontalLayout.style.display).not.toBe('none');
+    expect(container.querySelector('input').disabled).toBeTruthy();
   });
 });

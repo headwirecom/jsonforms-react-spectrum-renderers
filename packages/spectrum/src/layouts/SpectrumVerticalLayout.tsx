@@ -71,7 +71,7 @@ export const SpectrumVerticalLayoutRenderer: FunctionComponent<RendererProps> = 
       enabled={enabled}
       path={path}
     >
-      {renderChildren(verticalLayout, schema, childrenStyles, path)}
+      {renderChildren(verticalLayout, schema, childrenStyles, path, enabled)}
     </SpectrumLayout>
   );
 };
