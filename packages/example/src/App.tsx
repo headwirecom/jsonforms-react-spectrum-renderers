@@ -28,8 +28,14 @@
 
 import React, { Component } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
-import { Picker, Item, Section, Content, TextArea } from '@adobe/react-spectrum';
-import { Tabs } from '@react-spectrum/tabs'
+import {
+  Picker,
+  Item,
+  Section,
+  Content,
+  TextArea,
+} from '@adobe/react-spectrum';
+import { Tabs } from '@react-spectrum/tabs';
 import './App.css';
 import { AppProps, initializedConnect } from './reduxUtil';
 
@@ -55,17 +61,40 @@ class App extends Component<AppProps> {
               <Tabs defaultSelectedKey='boundData'>
                 <Item key='boundData' title='Bound data'>
                   <Content margin='size-100'>
-                    <TextArea width="100%" height="30em" aria-label='Bound data' value={this.props.dataAsString} />
+                    <TextArea
+                      width='100%'
+                      height='30em'
+                      aria-label='Bound data'
+                      value={this.props.dataAsString}
+                    />
                   </Content>
                 </Item>
                 <Item key='uiSchema' title='UI Schema'>
                   <Content margin='size-100'>
-                    <TextArea width="100%" height="30em" aria-label='UI Schema' value={JSON.stringify(this.props.selectedExample.uischema, null, 2)} />
+                    <TextArea
+                      width='100%'
+                      height='30em'
+                      aria-label='UI Schema'
+                      value={JSON.stringify(
+                        this.props.selectedExample.uischema,
+                        null,
+                        2
+                      )}
+                    />
                   </Content>
                 </Item>
                 <Item key='schema' title='Schema'>
                   <Content margin='size-100'>
-                    <TextArea width="100%" height="30em" aria-label='UI Schema' value={JSON.stringify(this.props.selectedExample.schema, null, 2)} />
+                    <TextArea
+                      width='100%'
+                      height='30em'
+                      aria-label='UI Schema'
+                      value={JSON.stringify(
+                        this.props.selectedExample.schema,
+                        null,
+                        2
+                      )}
+                    />
                   </Content>
                 </Item>
               </Tabs>
@@ -84,20 +113,22 @@ function ExamplesPicker(props: AppProps) {
     {
       name: 'React Spectrum Tests',
       children: props.examples
-        .filter(example => example.name.startsWith('spectrum-')).map(item => ({ ...item, id: item.name }))
+        .filter((example) => example.name.startsWith('spectrum-'))
+        .map((item) => ({ ...item, id: item.name })),
     },
     {
       name: 'JSONForms Tests',
       children: props.examples
-        .filter(example => !example.name.startsWith('spectrum-')).map(item => ({ ...item, id: item.name }))
-    }
+        .filter((example) => !example.name.startsWith('spectrum-'))
+        .map((item) => ({ ...item, id: item.name })),
+    },
   ];
 
   return (
     <Picker
       aria-label='JSONForms Examples'
       items={options}
-      width="100%"
+      width='100%'
       defaultSelectedKey={props.selectedExample.name}
       onSelectionChange={props.changeExample}
     >
