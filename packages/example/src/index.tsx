@@ -148,6 +148,7 @@ const setupStore = (
 export const renderExample = (
   renderers: { tester: RankedTester; renderer: any }[],
   cells: { tester: RankedTester; cell: any }[],
+  preferredColorScheme: 'light' | 'dark',
   enhancer?: (examples: ReactExampleDescription[]) => ReactExampleDescription[],
   ...additionalStoreParams: AdditionalStoreParams[]
 ) => {
@@ -159,12 +160,16 @@ export const renderExample = (
     renderers,
     additionalStoreParams
   );
-  ReactDOM.render(
-    <Provider store={store}>
-      <SpectrumThemeProvider theme={defaultTheme}>
-        <App />
-      </SpectrumThemeProvider>
-    </Provider>,
-    document.getElementById('root')
-  );
+  const rerender = (colorScheme: 'light' | 'dark') => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
+          <App />
+        </SpectrumThemeProvider>
+      </Provider>,
+      document.getElementById('root')
+    );
+  }
+  rerender(preferredColorScheme);
+  return rerender;
 };
