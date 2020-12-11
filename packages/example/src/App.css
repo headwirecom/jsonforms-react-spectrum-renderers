@@ -3,6 +3,10 @@
     display: flex; /* or inline-flex */
     flex-flow: row nowrap;
   }
+
+  .demoform {
+    width: 80%;
+  }
 }
 
 .container > * {
@@ -36,7 +40,6 @@
 }
 
 .demoform {
-  width: 80%;
   margin: auto;
 }
 
@@ -65,8 +68,9 @@
   z-index: 1;
 }
 .Shell {
-  height: 100vh;
+  min-height: 100vh;
   padding: 2em;
   padding-top: 1em;
+  padding-bottom: 3em;
   box-sizing: border-box;
 }

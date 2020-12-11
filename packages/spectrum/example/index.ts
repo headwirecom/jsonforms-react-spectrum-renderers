@@ -25,12 +25,9 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { createThemeSelection, Theme, getPreferredTheme } from './theme.switcher';
+import { createThemeSelection, getPreferredTheme } from './theme.switcher';
 import { spectrumCells, spectrumRenderers } from '../src';
 import { renderExample } from '../../example/src/index';
 
-function render(theme: Theme) {
-  renderExample(spectrumRenderers, spectrumCells, theme);
-}
-createThemeSelection(render);
-render(getPreferredTheme());
+const rerender = renderExample(spectrumRenderers, spectrumCells, getPreferredTheme())
+createThemeSelection(rerender);
