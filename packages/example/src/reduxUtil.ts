@@ -26,11 +26,7 @@
   THE SOFTWARE.
 */
 import { Actions, getData, JsonFormsCore } from '@jsonforms/core';
-import {
-  CHANGE_EXAMPLE,
-  changeExample,
-  ExampleDescription,
-} from '@jsonforms/examples';
+import { CHANGE_EXAMPLE, changeExample } from '@jsonforms/examples';
 import { ReactExampleDescription } from './util';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -59,7 +55,7 @@ export interface ExampleStateProps {
 }
 
 export interface ExampleDispatchProps {
-  changeExampleData(example: ReactExampleDescription): void;
+  changeExample(example: ReactExampleDescription): void;
   getComponent(example: ReactExampleDescription): React.Component;
   onChange?(
     example: ReactExampleDescription
@@ -67,7 +63,7 @@ export interface ExampleDispatchProps {
 }
 
 export interface AppProps extends ExampleStateProps {
-  changeExample(exampleName: string): void;
+  changeExample(example: ReactExampleDescription): void;
   getExtensionComponent(): React.Component;
   onChange?(state: Pick<JsonFormsCore, 'data' | 'errors'>): AnyAction;
 }
@@ -85,7 +81,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-  changeExampleData: (example: ReactExampleDescription) => {
+  changeExample: (example: ReactExampleDescription) => {
     dispatch(changeExample(example));
     dispatch(Actions.init(example.data, example.schema, example.uischema));
     dispatch(Actions.setConfig(example.config));
@@ -104,12 +100,7 @@ const mergeProps = (
 ): AppProps => {
   return Object.assign({}, ownProps, {
     ...stateProps,
-    changeExample: (exampleName: string) =>
-      dispatchProps.changeExampleData(
-        stateProps.examples.find(
-          (e: ExampleDescription) => e.name === exampleName
-        )
-      ),
+    changeExample: dispatchProps.changeExample,
     getExtensionComponent: () =>
       dispatchProps.getComponent(stateProps.selectedExample),
     onChange:
