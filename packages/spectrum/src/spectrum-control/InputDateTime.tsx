@@ -28,6 +28,7 @@ import { CellProps, computeLabel } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { SpectrumInputProps } from './index';
 import { Flex } from '@adobe/react-spectrum';
+import { DatePicker, DatePickerLabel } from '../additional/DatePicker';
 
 export class InputDateTime extends React.PureComponent<
   CellProps & SpectrumInputProps
@@ -57,15 +58,14 @@ export class InputDateTime extends React.PureComponent<
 
     return (
       <Flex direction='column'>
-        <label htmlFor={id + '-input'}>
+        <DatePickerLabel htmlFor={id + '-input'}>
           {computeLabel(
             label,
             required,
             appliedUiSchemaOptions.hideRequiredAsterisk
           )}
-        </label>
-        <input
-          style={{ marginTop: '3px', padding: '5px' }}
+        </DatePickerLabel>
+        <DatePicker
           type='datetime-local'
           width={width}
           value={(data ?? '').substr(0, 16)}
