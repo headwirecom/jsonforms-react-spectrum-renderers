@@ -41,8 +41,9 @@ import {
   RankedTester,
 } from '@jsonforms/core';
 import { getExamples, registerExamples } from '@jsonforms/examples';
-import { AdditionalStoreParams, exampleReducer } from './reduxUtil';
+import { exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
+import { ColorSchemeContext } from './ColorSchemeContext';
 
 declare global {
   interface Window {
@@ -77,36 +78,16 @@ const getExampleSchemas = () => {
 const setupStore = (
   exampleData: ReactExampleDescription[],
   cells: JsonFormsCellRendererRegistryEntry[],
-  renderers: JsonFormsRendererRegistryEntry[],
-  additionalStoreParams: any
+  renderers: JsonFormsRendererRegistryEntry[]
 ) => {
-  const additionalReducers = additionalStoreParams.reduce(
-    (acc: any, x: any) => {
-      if (x.reducer) {
-        acc[x.name] = x.reducer;
-      }
-
-      return acc;
-    },
-    {} as any
-  );
-  const additionalInitState = additionalStoreParams.reduce(
-    (acc: any, x: any) => {
-      acc[x.name] = x.state;
-
-      return acc;
-    },
-    {} as any
-  );
   const reducer = combineReducers({
-    jsonforms: jsonformsReducer({ ...additionalReducers }),
+    jsonforms: jsonformsReducer(),
     examples: exampleReducer,
   });
   const store = createStore(reducer, {
     jsonforms: {
       cells: cells,
       renderers: renderers,
-      ...additionalInitState,
     },
     examples: {
       data: exampleData,
@@ -148,28 +129,22 @@ const setupStore = (
 export const renderExample = (
   renderers: { tester: RankedTester; renderer: any }[],
   cells: { tester: RankedTester; cell: any }[],
-  preferredColorScheme: 'light' | 'dark',
-  enhancer?: (examples: ReactExampleDescription[]) => ReactExampleDescription[],
-  ...additionalStoreParams: AdditionalStoreParams[]
+  preferredColorScheme: 'light' | 'dark'
 ) => {
   const exampleData = enhanceExample(getExampleSchemas());
-  const enhancedExampleData = enhancer ? enhancer(exampleData) : exampleData;
-  const store = setupStore(
-    enhancedExampleData,
-    cells,
-    renderers,
-    additionalStoreParams
-  );
+  const store = setupStore(exampleData, cells, renderers);
   const rerender = (colorScheme: 'light' | 'dark') => {
     ReactDOM.render(
       <Provider store={store}>
         <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
-          <App />
+          <ColorSchemeContext.Provider value={colorScheme}>
+            <App />
+          </ColorSchemeContext.Provider>
         </SpectrumThemeProvider>
       </Provider>,
       document.getElementById('root')
     );
-  }
+  };
   rerender(preferredColorScheme);
   return rerender;
 };

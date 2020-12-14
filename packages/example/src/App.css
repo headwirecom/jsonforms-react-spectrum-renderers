@@ -1,37 +1,20 @@
+.App-Form, .App-Data {
+  width: 100%;
+}
+
 @media (min-width: 1200px) {
-  .container {
-    display: flex; /* or inline-flex */
-    flex-flow: row nowrap;
+  .App-Form, .App-Data {
+    display: inline-block;
+    vertical-align: top;
   }
 
-  .demoform {
-    width: 80%;
+  .App-Form {
+    width: 66.6%;
   }
-}
 
-.container > * {
-  flex: 1 100%;
-}
-
-.App-title {
-  font-size: 1em;
-}
-
-.App-intro {
-  font-size: medium;
-}
-
-.App-Form {
-  flex: 4 8 auto;
-  padding-top: 1em;
-}
-
-.App-selection {
-  flex: 1 auto;
-}
-
-.App-Data {
-  flex: 2 auto;
+  .App-Data {
+    width: 33.3%;
+  }
 }
 
 .data-title {
@@ -39,16 +22,6 @@
   margin-bottom: 0;
 }
 
-.demoform {
-  margin: auto;
-}
-
-.tabs {
-  position: relative;
-  min-height: 200px; /* This part sucks */
-  clear: both;
-  margin: 25px 0;
-}
 .content {
   position: absolute;
   top: 28px;
@@ -67,10 +40,8 @@
 [type='radio']:checked ~ label ~ .content {
   z-index: 1;
 }
-.Shell {
-  min-height: 100vh;
-  padding: 2em;
-  padding-top: 1em;
-  padding-bottom: 3em;
-  box-sizing: border-box;
+
+.CodeMirror {
+  font-size: 0.8em;
+  min-height: 50em;
 }

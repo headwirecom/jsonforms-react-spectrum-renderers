@@ -26,89 +26,132 @@
   THE SOFTWARE.
 */
 
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
 import {
+  Heading,
   Picker,
   Item,
   Section,
   Content,
-  TextArea,
+  View,
 } from '@adobe/react-spectrum';
 import { Tabs } from '@react-spectrum/tabs';
 import './App.css';
 import { AppProps, initializedConnect } from './reduxUtil';
+import { TextArea } from './TextArea';
 
-class App extends Component<AppProps> {
-  render() {
-    return (
-      <JsonFormsReduxContext>
-        <div className='Shell'>
-          <div className='container'>
-            <div className='App-selection'>
-              <h4 className='data-title'>JsonForms Examples</h4>
-              <ExamplesPicker {...this.props} />
-            </div>
+function App(props: AppProps) {
+  const setExampleByName = useCallback(
+    (exampleName: string) => {
+      props.changeExample(
+        props.examples.find((example) => example.name === exampleName)
+      );
+    },
+    [props.changeExample, props.examples]
+  );
 
-            <div className='App-Form'>
-              <div className='demoform'>
-                {this.props.getExtensionComponent()}
-                <JsonFormsDispatch onChange={this.props.onChange} />
-              </div>
-            </div>
+  const updateCurrentSchema = useCallback(
+    (newSchema: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        schema: JSON.parse(newSchema),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
 
-            <div className='App-Data tabs'>
-              <Tabs defaultSelectedKey='boundData'>
+  const updateCurrentUISchema = useCallback(
+    (newUISchema: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        uischema: JSON.parse(newUISchema),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
+
+  const updateCurrentData = useCallback(
+    (newData: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        data: JSON.parse(newData),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
+
+  return (
+    <JsonFormsReduxContext>
+      <View
+        padding='size-100'
+        minHeight='100vh'
+        paddingTop='0'
+        paddingBottom='size-800'
+      >
+        <div className='container'>
+          <div className='App-Form'>
+            <View padding='size-100'>
+              <Heading>{props.selectedExample.label}</Heading>
+              {props.getExtensionComponent()}
+              <JsonFormsDispatch onChange={props.onChange} />
+            </View>
+          </div>
+
+          <div className='App-Data tabs'>
+            <View padding='size-100'>
+              <Heading>JsonForms Examples</Heading>
+              <ExamplesPicker {...props} onChange={setExampleByName} />
+              <Tabs defaultSelectedKey='schema'>
                 <Item key='boundData' title='Bound data'>
                   <Content margin='size-100'>
                     <TextArea
-                      width='100%'
-                      height='30em'
-                      aria-label='Bound data'
-                      value={this.props.dataAsString}
+                      value={props.dataAsString}
+                      onChange={updateCurrentData}
                     />
                   </Content>
                 </Item>
                 <Item key='uiSchema' title='UI Schema'>
                   <Content margin='size-100'>
                     <TextArea
-                      width='100%'
-                      height='30em'
-                      aria-label='UI Schema'
-                      value={JSON.stringify(
-                        this.props.selectedExample.uischema,
-                        null,
-                        2
-                      )}
+                      value={
+                        JSON.stringify(
+                          props.selectedExample.uischema,
+                          null,
+                          2
+                        ) || ''
+                      }
+                      onChange={updateCurrentUISchema}
                     />
                   </Content>
                 </Item>
                 <Item key='schema' title='Schema'>
                   <Content margin='size-100'>
                     <TextArea
-                      width='100%'
-                      height='30em'
-                      aria-label='UI Schema'
-                      value={JSON.stringify(
-                        this.props.selectedExample.schema,
-                        null,
-                        2
-                      )}
+                      value={
+                        JSON.stringify(props.selectedExample.schema, null, 2) ||
+                        ''
+                      }
+                      onChange={updateCurrentSchema}
                     />
                   </Content>
                 </Item>
               </Tabs>
-            </div>
+            </View>
           </div>
         </div>
-      </JsonFormsReduxContext>
-    );
-  }
+      </View>
+    </JsonFormsReduxContext>
+  );
 }
 
 export default initializedConnect(App);
 
-function ExamplesPicker(props: AppProps) {
+function ExamplesPicker(
+  props: Omit<AppProps, 'onChange'> & {
+    onChange: (exampleName: string) => void;
+  }
+) {
   const options = [
     {
       name: 'React Spectrum Tests',
@@ -130,11 +173,11 @@ function ExamplesPicker(props: AppProps) {
       items={options}
       width='100%'
       defaultSelectedKey={props.selectedExample.name}
-      onSelectionChange={props.changeExample}
+      onSelectionChange={props.onChange}
     >
       {(item) => (
         <Section key={item.name} items={item.children} title={item.name}>
-          {(item) => <Item>{item.name}</Item>}
+          {(item) => <Item>{item.label}</Item>}
         </Section>
       )}
     </Picker>
