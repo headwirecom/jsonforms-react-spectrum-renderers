@@ -33,6 +33,7 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
+import { DatePicker } from '../additional/DatePicker';
 
 export const DateTimeCell = (props: CellProps) => {
   const { data, id, enabled, uischema, path, handleChange } = props;
@@ -41,7 +42,7 @@ export const DateTimeCell = (props: CellProps) => {
   };
 
   return (
-    <input
+    <DatePicker
       type='datetime-local'
       value={(data ?? '').substr(0, 16)}
       onChange={(ev) => handleChange(path, toISOString(ev.target.value))}

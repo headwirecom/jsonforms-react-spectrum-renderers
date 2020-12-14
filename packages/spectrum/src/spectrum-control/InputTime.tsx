@@ -28,6 +28,7 @@ import { merge } from 'lodash';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Flex } from '@adobe/react-spectrum';
+import { DatePicker, DatePickerLabel } from '../additional/DatePicker';
 
 export class InputTime extends React.PureComponent<
   CellProps & SpectrumInputProps
@@ -53,16 +54,15 @@ export class InputTime extends React.PureComponent<
 
     return (
       <Flex direction='column'>
-        <label htmlFor={id + '-input'}>
+        <DatePickerLabel htmlFor={id + '-input'}>
           {computeLabel(
             label,
             required,
             appliedUiSchemaOptions.hideRequiredAsterisk
           )}
-        </label>
-        <input
+        </DatePickerLabel>
+        <DatePicker
           width={width}
-          style={{ marginTop: '3px', padding: '5px' }}
           type='time'
           value={data ?? ''}
           onChange={(ev) => handleChange(path, ev.target.value)}
