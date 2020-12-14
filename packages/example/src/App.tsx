@@ -42,28 +42,56 @@ import { AppProps, initializedConnect } from './reduxUtil';
 import { TextArea } from './TextArea';
 
 function App(props: AppProps) {
-  const setExampleByName = useCallback((exampleName: string) => {
-    props.changeExample(props.examples.find((example) => example.name === exampleName));
-  }, [props.changeExample, props.examples]);
+  const setExampleByName = useCallback(
+    (exampleName: string) => {
+      props.changeExample(
+        props.examples.find((example) => example.name === exampleName)
+      );
+    },
+    [props.changeExample, props.examples]
+  );
 
-  const updateCurrentSchema = useCallback((newSchema: string) => {
-    props.changeExample({ ...props.selectedExample, schema: JSON.parse(newSchema) });
-  }, [props.changeExample, props.selectedExample]);
+  const updateCurrentSchema = useCallback(
+    (newSchema: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        schema: JSON.parse(newSchema),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
 
-  const updateCurrentUISchema = useCallback((newUISchema: string) => {
-    props.changeExample({ ...props.selectedExample, uischema: JSON.parse(newUISchema) });
-  }, [props.changeExample, props.selectedExample]);
+  const updateCurrentUISchema = useCallback(
+    (newUISchema: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        uischema: JSON.parse(newUISchema),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
 
-  const updateCurrentData = useCallback((newData: string) => {
-    props.changeExample({ ...props.selectedExample, data: JSON.parse(newData) });
-  }, [props.changeExample, props.selectedExample]);
+  const updateCurrentData = useCallback(
+    (newData: string) => {
+      props.changeExample({
+        ...props.selectedExample,
+        data: JSON.parse(newData),
+      });
+    },
+    [props.changeExample, props.selectedExample]
+  );
 
   return (
     <JsonFormsReduxContext>
-      <View padding='size-100' minHeight='100vh' paddingTop='0' paddingBottom='size-800'>
+      <View
+        padding='size-100'
+        minHeight='100vh'
+        paddingTop='0'
+        paddingBottom='size-800'
+      >
         <div className='container'>
           <div className='App-Form'>
-            <View padding="size-100">
+            <View padding='size-100'>
               <Heading>{props.selectedExample.label}</Heading>
               {props.getExtensionComponent()}
               <JsonFormsDispatch onChange={props.onChange} />
@@ -86,11 +114,13 @@ function App(props: AppProps) {
                 <Item key='uiSchema' title='UI Schema'>
                   <Content margin='size-100'>
                     <TextArea
-                      value={JSON.stringify(
-                        props.selectedExample.uischema,
-                        null,
-                        2
-                      ) || ''}
+                      value={
+                        JSON.stringify(
+                          props.selectedExample.uischema,
+                          null,
+                          2
+                        ) || ''
+                      }
                       onChange={updateCurrentUISchema}
                     />
                   </Content>
@@ -98,11 +128,10 @@ function App(props: AppProps) {
                 <Item key='schema' title='Schema'>
                   <Content margin='size-100'>
                     <TextArea
-                      value={JSON.stringify(
-                        props.selectedExample.schema,
-                        null,
-                        2
-                      ) || ''}
+                      value={
+                        JSON.stringify(props.selectedExample.schema, null, 2) ||
+                        ''
+                      }
                       onChange={updateCurrentSchema}
                     />
                   </Content>
@@ -118,7 +147,11 @@ function App(props: AppProps) {
 
 export default initializedConnect(App);
 
-function ExamplesPicker(props: Omit<AppProps, "onChange"> & { onChange: (exampleName: string) => void }) {
+function ExamplesPicker(
+  props: Omit<AppProps, 'onChange'> & {
+    onChange: (exampleName: string) => void;
+  }
+) {
   const options = [
     {
       name: 'React Spectrum Tests',
