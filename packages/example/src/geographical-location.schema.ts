@@ -44,4 +44,4 @@ export default {
       maximum: 180,
     },
   },
-} as any;
+};

@@ -80,17 +80,24 @@ export interface OwnPropsOfI18nExample {
   ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => void;
 }
 
+const supportedLocales = ['de-DE', 'en-US'] as const;
+type SupportedLocale = typeof supportedLocales[number];
+
+function isSupportedLocale(locale: string): locale is SupportedLocale {
+  return (supportedLocales as readonly string[]).includes(locale);
+}
+
 class I18nExampleRenderer extends React.Component<
   I18nExampleProps,
   {
-    localizedSchemas: Map<string, JsonSchema>;
-    localizedUISchemas: Map<string, UISchemaElement>;
+    localizedSchemas: Map<SupportedLocale, JsonSchema>;
+    localizedUISchemas: Map<SupportedLocale, UISchemaElement>;
   }
 > {
   constructor(props: I18nExampleProps) {
     super(props);
     const { schema, uischema } = props;
-    const localizedSchemas = new Map<string, JsonSchema>();
+    const localizedSchemas = new Map<SupportedLocale, JsonSchema>();
     _.set(schema, '$id', 'http://test.json');
     const deSchema = _.cloneDeep(schema);
     _.set(deSchema, 'properties.name.description', 'Name der Person');
@@ -98,7 +105,7 @@ class I18nExampleRenderer extends React.Component<
     localizedSchemas.set('de-DE', deSchema);
     localizedSchemas.set('en-US', schema);
 
-    const localizedUISchemas = new Map<string, UISchemaElement>();
+    const localizedUISchemas = new Map<SupportedLocale, UISchemaElement>();
     const deUISchema = _.cloneDeep(uischema);
     _.set(deUISchema, 'elements.0.elements.1.label', 'Geburtstag');
     _.set(deUISchema, 'elements.2.elements.0.label', 'Nationalität');
@@ -115,11 +122,14 @@ class I18nExampleRenderer extends React.Component<
   }
 
   changeLocale = (locale: string) => {
+    if (!isSupportedLocale(locale)) {
+      throw new Error(`The locale ${locale} is not supported`);
+    }
     const { dispatch, onChange, data, errors } = this.props;
     const { localizedSchemas, localizedUISchemas } = this.state;
     dispatch(setLocale(locale));
-    dispatch(setSchema(localizedSchemas.get(locale)));
-    dispatch(setUISchema(localizedUISchemas.get(locale)));
+    dispatch(setSchema(localizedSchemas.get(locale)!));
+    dispatch(setUISchema(localizedUISchemas.get(locale)!));
     dispatch(updateExampleExtensionState({ locale }));
     onChange(dispatch)({ locale })({ data, errors });
   };
@@ -139,7 +149,7 @@ const withContextToI18nProps = (
 ): React.ComponentType<OwnPropsOfI18nExample> => ({
   ctx,
   props,
-}: JsonFormsStateContext & I18nExampleProps) => {
+}: JsonFormsStateContext & Omit<I18nExampleProps, 'data' | 'errors'>) => {
   const { data, errors } = ctx.core;
   return <Component {...props} data={data} errors={errors} />;
 };

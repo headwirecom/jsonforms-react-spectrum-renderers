@@ -59,16 +59,6 @@ import {
 const getExampleSchemas = () => {
   if (window.samples) {
     registerExamples(window.samples);
-  } else {
-    registerExamples([
-      {
-        name: 'spectrum-test',
-        label: 'test',
-        data: { name: 'a sample name' },
-        schema: undefined,
-        uischema: undefined,
-      },
-    ]);
   }
 
   const examples = getExamples();
@@ -90,9 +80,10 @@ const setupStore = (
       renderers: renderers,
     },
     examples: {
+      selectedExample: exampleData[exampleData.length - 1],
       data: exampleData,
     },
-  } as any);
+  });
 
   // Resolve example configuration
   // Add schema to validation
