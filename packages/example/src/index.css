@@ -1,4 +1,4 @@
-* {
+*:not(svg) {
   box-sizing: border-box;
 }
 
