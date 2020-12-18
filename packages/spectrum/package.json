@@ -19,6 +19,7 @@
     "report": "../../node_modules/.bin/nyc report --reporter=html",
     "test": "jest --no-cache",
     "test-cov": "jest --no-cache --coverage",
+    "validate": "../../node_modules/.bin/tsc --noEmit",
     "doc": "../../node_modules/.bin/typedoc --name 'JSON Forms React Spectrum Renderers' --mode file --excludeExternals --theme ../../typedoc-jsonforms --out docs src"
   },
   "keywords": [
