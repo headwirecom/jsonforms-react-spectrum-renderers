@@ -53,7 +53,9 @@ import {
 } from '@react-spectrum/table';
 import {
   ActionButton,
+  AlertDialog,
   Button,
+  DialogTrigger,
   Flex,
   Header,
   Heading,
@@ -271,23 +273,26 @@ class SpectrumTableArrayControl extends React.Component<
                     {[
                       ...rowCells,
                       <Cell key={`delete-row-${index}`}>
-                        <TooltipTrigger delay={0}>
-                          <ActionButton
-                            aria-label={`Delete row at ${index}`}
-                            onPress={() => {
-                              if (
-                                window.confirm(
-                                  'Are you sure you wish to delete this item?'
-                                )
-                              ) {
-                                this.confirmDelete(childPath, index);
-                              }
-                            }}
+                        <DialogTrigger>
+                          <TooltipTrigger delay={0}>
+                            <ActionButton aria-label={`Delete row at ${index}`}>
+                              <Delete />
+                            </ActionButton>
+                            <Tooltip>Delete</Tooltip>
+                          </TooltipTrigger>
+                          <AlertDialog
+                            variant='confirmation'
+                            title='Delete'
+                            primaryActionLabel='Delete'
+                            cancelLabel='Cancel'
+                            autoFocusButton='primary'
+                            onPrimaryAction={() =>
+                              this.confirmDelete(childPath, index)
+                            }
                           >
-                            <Delete />
-                          </ActionButton>
-                          <Tooltip>Delete</Tooltip>
-                        </TooltipTrigger>
+                            Are you sure you wish to delete this item?
+                          </AlertDialog>
+                        </DialogTrigger>
                       </Cell>,
                     ]}
                   </Row>
