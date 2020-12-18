@@ -42,6 +42,9 @@ import SpectrumNumberControl, {
 import SpectrumNumberFormattedControl, {
   spectrumNumberFormattedControlTester,
 } from './SpectrumNumberFormattedControl';
+import SpectrumOneOfEnumControl, {
+  spectrumOneOfEnumControlTester,
+} from './SpectrumOneOfEnumControl';
 import SpectrumSliderControl, {
   spectrumSliderControlTester,
 } from './SpectrumSliderControl';
@@ -78,6 +81,8 @@ export {
   spectrumNumberControlTester,
   SpectrumNumberFormattedControl,
   spectrumNumberFormattedControlTester,
+  SpectrumOneOfEnumControl,
+  spectrumOneOfEnumControlTester,
   SpectrumSliderControl,
   spectrumSliderControlTester,
   SpectrumTextAreaControl,

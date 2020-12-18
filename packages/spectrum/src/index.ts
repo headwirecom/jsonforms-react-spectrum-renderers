@@ -66,6 +66,8 @@ import {
   spectrumNumberControlTester,
   SpectrumNumberFormattedControl,
   spectrumNumberFormattedControlTester,
+  SpectrumOneOfEnumControl,
+  spectrumOneOfEnumControlTester,
   SpectrumSliderControl,
   spectrumSliderControlTester,
   SpectrumTextAreaControl,
@@ -129,6 +131,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: spectrumDateControlTester, renderer: SpectrumDateControl },
   { tester: spectrumDateTimeControlTester, renderer: SpectrumDateTimeControl },
   { tester: spectrumEnumControlTester, renderer: SpectrumEnumControl },
+  {
+    tester: spectrumOneOfEnumControlTester,
+    renderer: SpectrumOneOfEnumControl,
+  },
   { tester: spectrumIntegerControlTester, renderer: SpectrumIntegerControl },
   { tester: spectrumNumberControlTester, renderer: SpectrumNumberControl },
   {
