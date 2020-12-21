@@ -27,6 +27,9 @@
 */
 
 import InputControl, { inputControlTester } from './InputControl';
+import SpectrumAnyOfStringOrEnumControl, {
+  spectrumAnyOfStringOrEnumControlTester,
+} from './SpectrumAnyOfStringOrEnumControl';
 import SpectrumBooleanControl, {
   spectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
@@ -67,6 +70,8 @@ import SpectrumTimeControl, {
 export {
   InputControl,
   inputControlTester,
+  SpectrumAnyOfStringOrEnumControl,
+  spectrumAnyOfStringOrEnumControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
   SpectrumDateControl,
