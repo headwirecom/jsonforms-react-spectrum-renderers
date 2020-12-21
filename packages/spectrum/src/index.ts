@@ -53,6 +53,8 @@ import {
 import {
   InputControl,
   inputControlTester,
+  SpectrumAnyOfStringOrEnumControl,
+  spectrumAnyOfStringOrEnumControlTester,
   SpectrumBooleanControl,
   spectrumBooleanControlTester,
   SpectrumDateControl,
@@ -126,6 +128,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: spectrumListWithDetailTester,
     renderer: SpectrumListWithDetailRenderer,
+  },
+  {
+    tester: spectrumAnyOfStringOrEnumControlTester,
+    renderer: SpectrumAnyOfStringOrEnumControl,
   },
   { tester: spectrumBooleanControlTester, renderer: SpectrumBooleanControl },
   { tester: spectrumDateControlTester, renderer: SpectrumDateControl },

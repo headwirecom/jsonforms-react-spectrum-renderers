@@ -23,7 +23,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { EnumCellProps } from '@jsonforms/core';
+import { EnumCellProps, JsonSchema } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
@@ -54,6 +54,20 @@ export class InputEnum extends React.PureComponent<
       ? undefined
       : '100%';
 
+    const findEnumSchema = (schemas: JsonSchema[]) =>
+      schemas.find(
+        (s) =>
+          s.enum !== undefined && (s.type === 'string' || s.type === undefined)
+      );
+
+    const tryEnumSchema = (anyOf: JsonSchema[]) => {
+      const enumSchema = findEnumSchema(anyOf);
+      return enumSchema.enum.map((v) => {
+        return { value: v, label: v };
+      });
+    };
+    const items = options ?? tryEnumSchema(this.props.schema.anyOf);
+
     return (
       <Picker
         key={id}
@@ -62,7 +76,7 @@ export class InputEnum extends React.PureComponent<
         isRequired={isRequired}
         isDisabled={!enabled}
         width={width}
-        items={options}
+        items={items}
         selectedKey={data}
         onSelectionChange={(ev) => handleChange(path, ev)}
       >
