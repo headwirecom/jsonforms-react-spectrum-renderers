@@ -56,10 +56,10 @@ export interface ExampleStateProps {
 
 export interface ExampleDispatchProps {
   changeExample(example: ReactExampleDescription): void;
-  getComponent(example: ReactExampleDescription): React.Component;
+  getComponent(example: ReactExampleDescription): React.Component | null;
   onChange?(
     example: ReactExampleDescription
-  ): (state: Pick<JsonFormsCore, 'data' | 'errors'>) => void;
+  ): ((state: Pick<JsonFormsCore, 'data' | 'errors'>) => void) | null;
 }
 
 export interface AppProps extends ExampleStateProps {
@@ -70,17 +70,17 @@ export interface AppProps extends ExampleStateProps {
 
 const mapStateToProps = (state: any) => {
   const examples = state.examples.data;
-  const selectedExample =
-    state.examples.selectedExample || examples[examples.length - 1];
   const extensionState = state.examples.extensionState;
   return {
     dataAsString: JSON.stringify(getData(state), null, 2),
     examples,
-    selectedExample,
+    selectedExample: state.examples.selectedExample,
     extensionState,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<AnyAction>
+): ExampleDispatchProps => ({
   changeExample: (example: ReactExampleDescription) => {
     dispatch(changeExample(example));
     dispatch(Actions.init(example.data, example.schema, example.uischema));
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
       ? example.customReactExtension(dispatch)
       : null,
   onChange: (example: ReactExampleDescription) =>
-    example.onChange ? example.onChange(dispatch) : undefined,
+    example.onChange ? example.onChange(dispatch) : null,
 });
 const mergeProps = (
   stateProps: ExampleStateProps,
@@ -105,8 +105,7 @@ const mergeProps = (
       dispatchProps.getComponent(stateProps.selectedExample),
     onChange:
       dispatchProps.onChange &&
-      dispatchProps.onChange(stateProps.selectedExample) &&
-      dispatchProps.onChange(stateProps.selectedExample)(
+      dispatchProps.onChange(stateProps.selectedExample)?.(
         stateProps.extensionState
       ),
   });
@@ -119,7 +118,13 @@ interface ExamplesState {
 
 const initState: ExamplesState = {
   data: [],
-  selectedExample: undefined,
+  selectedExample: {
+    name: 'init',
+    label: 'Init',
+    data: undefined,
+    schema: {},
+    uischema: { type: 'HorizontalLayout' },
+  },
 };
 
 export const exampleReducer = (

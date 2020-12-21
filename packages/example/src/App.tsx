@@ -43,10 +43,13 @@ import { TextArea } from './TextArea';
 
 function App(props: AppProps) {
   const setExampleByName = useCallback(
-    (exampleName: string) => {
-      props.changeExample(
-        props.examples.find((example) => example.name === exampleName)
+    (exampleName: string | number) => {
+      const example = props.examples.find(
+        (example) => example.name === exampleName
       );
+      if (example) {
+        props.changeExample(example);
+      }
     },
     [props.changeExample, props.examples]
   );
@@ -149,7 +152,7 @@ export default initializedConnect(App);
 
 function ExamplesPicker(
   props: Omit<AppProps, 'onChange'> & {
-    onChange: (exampleName: string) => void;
+    onChange: (exampleName: string | number) => void;
   }
 ) {
   const options = [

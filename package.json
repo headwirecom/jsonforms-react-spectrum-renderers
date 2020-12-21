@@ -11,6 +11,7 @@
     "clean": "lerna run clean",
     "test": "lerna run test",
     "test-cov": "lerna run test-cov",
+    "validate": "lerna run validate",
     "lint": "tslint 'packages/**/*.{ts,tsx}' -c ./tslint.json"
   },
   "devDependencies": {
