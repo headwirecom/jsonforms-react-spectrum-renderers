@@ -26,9 +26,15 @@
   THE SOFTWARE.
 */
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route,
+} from 'react-router-dom';
 import React from 'react';
 import './index.css';
-import App from './App';
+import { ConnectedApp } from './App';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import geoschema from './geographical-location.schema';
@@ -80,7 +86,6 @@ const setupStore = (
       renderers: renderers,
     },
     examples: {
-      selectedExample: exampleData[exampleData.length - 1],
       data: exampleData,
     },
   });
@@ -129,7 +134,14 @@ export const renderExample = (
       <Provider store={store}>
         <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
           <ColorSchemeContext.Provider value={colorScheme}>
-            <App />
+            <Router>
+              <Switch>
+                <Route exact path='/:name?'>
+                  <ConnectedApp />
+                </Route>
+                <Redirect to='/' />
+              </Switch>
+            </Router>
           </ColorSchemeContext.Provider>
         </SpectrumThemeProvider>
       </Provider>,

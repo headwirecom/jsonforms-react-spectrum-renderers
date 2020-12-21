@@ -26,22 +26,30 @@
   THE SOFTWARE.
 */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
-import {
-  Heading,
-  Picker,
-  Item,
-  Section,
-  Content,
-  View,
-} from '@adobe/react-spectrum';
+import { useParams, useHistory } from 'react-router-dom';
+import { Heading, Item, Content, View } from '@adobe/react-spectrum';
 import { Tabs } from '@react-spectrum/tabs';
 import './App.css';
-import { AppProps, initializedConnect } from './reduxUtil';
+import {
+  initializedConnect,
+  ExampleStateProps,
+  ExampleDispatchProps,
+} from './reduxUtil';
 import { TextArea } from './TextArea';
+import { ReactExampleDescription } from './util';
+import {
+  getExamplesFromLocalStorage,
+  setExampleInLocalStorage,
+  localPrefix,
+  localLabelSuffix,
+} from './persistedExamples';
+import { ExamplesPicker } from './ExamplesPicker';
 
-function App(props: AppProps) {
+interface AppProps extends ExampleStateProps, ExampleDispatchProps {}
+
+function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
   const setExampleByName = useCallback(
     (exampleName: string | number) => {
       const example = props.examples.find(
@@ -56,30 +64,33 @@ function App(props: AppProps) {
 
   const updateCurrentSchema = useCallback(
     (newSchema: string) => {
-      props.changeExample({
-        ...props.selectedExample,
-        schema: JSON.parse(newSchema),
-      });
+      props.changeExample(
+        createExample(props.selectedExample, {
+          schema: JSON.parse(newSchema),
+        })
+      );
     },
     [props.changeExample, props.selectedExample]
   );
 
   const updateCurrentUISchema = useCallback(
     (newUISchema: string) => {
-      props.changeExample({
-        ...props.selectedExample,
-        uischema: JSON.parse(newUISchema),
-      });
+      props.changeExample(
+        createExample(props.selectedExample, {
+          uischema: JSON.parse(newUISchema),
+        })
+      );
     },
     [props.changeExample, props.selectedExample]
   );
 
   const updateCurrentData = useCallback(
     (newData: string) => {
-      props.changeExample({
-        ...props.selectedExample,
-        data: JSON.parse(newData),
-      });
+      props.changeExample(
+        createExample(props.selectedExample, {
+          data: JSON.parse(newData),
+        })
+      );
     },
     [props.changeExample, props.selectedExample]
   );
@@ -96,7 +107,7 @@ function App(props: AppProps) {
           <div className='App-Form'>
             <View padding='size-100'>
               <Heading>{props.selectedExample.label}</Heading>
-              {props.getExtensionComponent()}
+              {props.getComponent(props.selectedExample)}
               <JsonFormsDispatch onChange={props.onChange} />
             </View>
           </div>
@@ -105,7 +116,7 @@ function App(props: AppProps) {
             <View padding='size-100'>
               <Heading>JsonForms Examples</Heading>
               <ExamplesPicker {...props} onChange={setExampleByName} />
-              <Tabs defaultSelectedKey='schema'>
+              <Tabs defaultSelectedKey='boundData'>
                 <Item key='boundData' title='Bound data'>
                   <Content margin='size-100'>
                     <TextArea
@@ -148,41 +159,74 @@ function App(props: AppProps) {
   );
 }
 
-export default initializedConnect(App);
+function AppWithExampleInURL(props: AppProps) {
+  const urlParams = useParams<{ name: string | undefined }>();
+  const history = useHistory();
+  const examplesRef = useRef([
+    ...props.examples,
+    ...getExamplesFromLocalStorage(),
+  ]);
+  const examples = examplesRef.current;
 
-function ExamplesPicker(
-  props: Omit<AppProps, 'onChange'> & {
-    onChange: (exampleName: string | number) => void;
+  const selectedExample = urlParams.name
+    ? examples.find(({ name }) => urlParams.name === name)
+    : examples[examples.length - 1];
+
+  const changeExample = useCallback(
+    (example: ReactExampleDescription) => {
+      // If we're trying to modify an item, save it to local storage and update the list of examples
+      if (example.name.startsWith(localPrefix)) {
+        setExampleInLocalStorage(example);
+        examplesRef.current = [
+          ...props.examples,
+          ...getExamplesFromLocalStorage(),
+        ];
+      }
+      history.push(`/${example.name}`);
+    },
+    [props.changeExample, history]
+  );
+
+  // When URL changes, we have to call changeExample to dispatch some jsonforms redux actions
+  useEffect(() => {
+    if (selectedExample) {
+      props.changeExample(selectedExample);
+    }
+  }, [selectedExample]);
+
+  // If name is invalid, redirect to home
+  if (!selectedExample) {
+    console.error(
+      `Could not find an example with name "${urlParams.name}", redirecting to /`
+    );
+    history.push('/');
+    return null;
   }
-) {
-  const options = [
-    {
-      name: 'React Spectrum Tests',
-      children: props.examples
-        .filter((example) => example.name.startsWith('spectrum-'))
-        .map((item) => ({ ...item, id: item.name })),
-    },
-    {
-      name: 'JSONForms Tests',
-      children: props.examples
-        .filter((example) => !example.name.startsWith('spectrum-'))
-        .map((item) => ({ ...item, id: item.name })),
-    },
-  ];
 
   return (
-    <Picker
-      aria-label='JSONForms Examples'
-      items={options}
-      width='100%'
-      defaultSelectedKey={props.selectedExample.name}
-      onSelectionChange={props.onChange}
-    >
-      {(item) => (
-        <Section key={item.name} items={item.children} title={item.name}>
-          {(item) => <Item>{item.label}</Item>}
-        </Section>
-      )}
-    </Picker>
+    <App
+      {...props}
+      examples={examples}
+      selectedExample={selectedExample}
+      changeExample={changeExample}
+    />
   );
+}
+
+export const ConnectedApp = initializedConnect(AppWithExampleInURL);
+
+function createExample(
+  example: ReactExampleDescription,
+  part: Partial<ReactExampleDescription>
+): ReactExampleDescription {
+  return {
+    ...example,
+    name: example.name.startsWith(localPrefix)
+      ? example.name
+      : `${localPrefix}${example.name}`,
+    label: example.label.endsWith(localLabelSuffix)
+      ? example.label
+      : `${example.label}${localLabelSuffix}`,
+    ...part,
+  };
 }
