@@ -170,7 +170,7 @@ function AppWithExampleInURL(props: AppProps) {
 
   const selectedExample = urlParams.name
     ? examples.find(({ name }) => urlParams.name === name)
-    : examples[examples.length - 1];
+    : props.examples[props.examples.length - 1];
 
   const changeExample = useCallback(
     (example: ReactExampleDescription) => {
@@ -191,15 +191,16 @@ function AppWithExampleInURL(props: AppProps) {
   useEffect(() => {
     if (selectedExample) {
       props.changeExample(selectedExample);
+    } else {
+      history.push('/');
     }
-  }, [selectedExample]);
+  }, [selectedExample, history]);
 
   // If name is invalid, redirect to home
   if (!selectedExample) {
     console.error(
       `Could not find an example with name "${urlParams.name}", redirecting to /`
     );
-    history.push('/');
     return null;
   }
 
