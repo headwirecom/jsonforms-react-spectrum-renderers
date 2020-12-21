@@ -26,7 +26,6 @@
   THE SOFTWARE.
 */
 import { Actions, getData, JsonFormsCore } from '@jsonforms/core';
-import { CHANGE_EXAMPLE, changeExample } from '@jsonforms/examples';
 import { ReactExampleDescription } from './util';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -50,7 +49,6 @@ export const updateExampleExtensionState = (
 export interface ExampleStateProps {
   examples: ReactExampleDescription[];
   dataAsString: string;
-  selectedExample: ReactExampleDescription;
   extensionState: any;
 }
 
@@ -62,19 +60,12 @@ export interface ExampleDispatchProps {
   ): ((state: Pick<JsonFormsCore, 'data' | 'errors'>) => void) | null;
 }
 
-export interface AppProps extends ExampleStateProps {
-  changeExample(example: ReactExampleDescription): void;
-  getExtensionComponent(): React.Component;
-  onChange?(state: Pick<JsonFormsCore, 'data' | 'errors'>): AnyAction;
-}
-
 const mapStateToProps = (state: any) => {
   const examples = state.examples.data;
   const extensionState = state.examples.extensionState;
   return {
     dataAsString: JSON.stringify(getData(state), null, 2),
     examples,
-    selectedExample: state.examples.selectedExample,
     extensionState,
   };
 };
@@ -82,7 +73,6 @@ const mapDispatchToProps = (
   dispatch: Dispatch<AnyAction>
 ): ExampleDispatchProps => ({
   changeExample: (example: ReactExampleDescription) => {
-    dispatch(changeExample(example));
     dispatch(Actions.init(example.data, example.schema, example.uischema));
     dispatch(Actions.setConfig(example.config));
   },
@@ -93,38 +83,13 @@ const mapDispatchToProps = (
   onChange: (example: ReactExampleDescription) =>
     example.onChange ? example.onChange(dispatch) : null,
 });
-const mergeProps = (
-  stateProps: ExampleStateProps,
-  dispatchProps: ExampleDispatchProps,
-  ownProps: any
-): AppProps => {
-  return Object.assign({}, ownProps, {
-    ...stateProps,
-    changeExample: dispatchProps.changeExample,
-    getExtensionComponent: () =>
-      dispatchProps.getComponent(stateProps.selectedExample),
-    onChange:
-      dispatchProps.onChange &&
-      dispatchProps.onChange(stateProps.selectedExample)?.(
-        stateProps.extensionState
-      ),
-  });
-};
 
 interface ExamplesState {
   data: ReactExampleDescription[];
-  selectedExample: ReactExampleDescription;
 }
 
 const initState: ExamplesState = {
   data: [],
-  selectedExample: {
-    name: 'init',
-    label: 'Init',
-    data: undefined,
-    schema: {},
-    uischema: { type: 'HorizontalLayout' },
-  },
 };
 
 export const exampleReducer = (
@@ -132,10 +97,6 @@ export const exampleReducer = (
   action: any
 ) => {
   switch (action.type) {
-    case CHANGE_EXAMPLE:
-      return Object.assign({}, state, {
-        selectedExample: action.example,
-      });
     case UPDATE_EXAMPLE_EXTENSION_STATE:
       return Object.assign({}, state, {
         extensionState: action.extensionState,
@@ -144,11 +105,7 @@ export const exampleReducer = (
       return state;
   }
 };
-export const initializedConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps
-);
+export const initializedConnect = connect(mapStateToProps, mapDispatchToProps);
 export interface AdditionalStoreParams {
   name: string;
   reducer?: Reducer<any>;
