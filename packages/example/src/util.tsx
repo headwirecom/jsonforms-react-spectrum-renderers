@@ -305,3 +305,29 @@ export const enhanceExample: (
         return e;
     }
   });
+
+/**
+ * Replacer to allow circular references in JSON.stringify
+ */
+export function circularReferenceReplacer() {
+  let m = new Map(),
+    v = new Map(),
+    init: any = null;
+
+  return function (this: Object, field: string, value: any) {
+    let p = m.get(this) + '/' + field;
+    let isComplex = value === Object(value);
+
+    if (isComplex) m.set(value, p);
+
+    let pp = v.get(value) || '';
+    let path = p.replace(/undefined\/\/?/, '');
+    let val = pp ? { $ref: `#/${pp}` } : value;
+
+    !init ? (init = value) : val === init ? (val = '#/') : 0;
+
+    if (!pp && isComplex) v.set(value, path);
+
+    return val;
+  };
+}
