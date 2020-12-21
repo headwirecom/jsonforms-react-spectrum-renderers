@@ -41,6 +41,7 @@ module.exports = merge(baseConfig, {
 
   devServer: {
     contentBase: './example',
+    historyApiFallback: true,
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   module: {
