@@ -36,7 +36,7 @@ import { SpectrumArrayControl } from './SpectrumArrayControl';
 export { SpectrumArrayControl, ArrayControlRenderer };
 
 export const arrayControlTester: RankedTester = rankWith(
-  2,
+  4,
   isObjectArrayWithNesting
 );
 

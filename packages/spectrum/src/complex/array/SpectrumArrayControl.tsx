@@ -26,7 +26,7 @@
   THE SOFTWARE.
 */
 import range from 'lodash/range';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ArrayControlProps,
   composePaths,
@@ -35,6 +35,7 @@ import {
 } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import ListWithDetailMasterItem from '../../additional/ListWithDetailMasterItem';
 
 export const SpectrumArrayControl = ({
   data,
@@ -42,10 +43,25 @@ export const SpectrumArrayControl = ({
   path,
   schema,
   addItem,
+  removeItems,
   uischema,
   uischemas,
   renderers,
 }: ArrayControlProps) => {
+  const handleRemoveItem = useCallback(
+    (p: string, value: any) => () => {
+      removeItems(p, [value])();
+    },
+    [removeItems]
+  );
+
+  const [expaned, setExpaned] = useState<number>();
+
+  const isExpaned = (index: number) => expaned === index;
+
+  const onExpand = (index: number) => () =>
+    setExpaned((current) => (current === index ? null : index));
+
   return (
     <View>
       <Flex direction='row' justifyContent='space-between'>
@@ -58,8 +74,8 @@ export const SpectrumArrayControl = ({
           +
         </Button>
       </Flex>
-      <View>
-        {data ? (
+      <Flex direction='column' gap='size-100'>
+        {data && data.length ? (
           range(0, data.length).map((index) => {
             const foundUISchema = findUISchema(
               uischemas,
@@ -68,21 +84,38 @@ export const SpectrumArrayControl = ({
               path
             );
             const childPath = composePaths(path, `${index}`);
-
             return (
-              <ResolvedJsonFormsDispatch
-                schema={schema}
-                uischema={foundUISchema || uischema}
-                path={childPath}
-                key={childPath}
-                renderers={renderers}
-              />
+              <View
+                borderWidth='thin'
+                borderColor='dark'
+                borderRadius='medium'
+                padding='size-250'
+                key={index}
+              >
+                <ListWithDetailMasterItem
+                  index={index}
+                  path={path}
+                  schema={schema}
+                  selected={false}
+                  handleSelect={onExpand}
+                  removeItem={handleRemoveItem}
+                ></ListWithDetailMasterItem>
+                <View isHidden={!isExpaned(index)}>
+                  <ResolvedJsonFormsDispatch
+                    schema={schema}
+                    uischema={foundUISchema || uischema}
+                    path={childPath}
+                    key={childPath}
+                    renderers={renderers}
+                  />
+                </View>
+              </View>
             );
           })
         ) : (
           <Text>No data</Text>
         )}
-      </View>
+      </Flex>
     </View>
   );
 };
