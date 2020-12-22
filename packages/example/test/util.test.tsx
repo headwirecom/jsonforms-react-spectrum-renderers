@@ -1,7 +1,7 @@
 import { circularReferenceReplacer } from '../src/util';
 
-const stringify = (obj: any) =>
-  JSON.stringify(obj, circularReferenceReplacer());
+const stringify = (obj: Object): any =>
+  JSON.parse(JSON.stringify(obj, circularReferenceReplacer()));
 
 describe('circularReferenceReplacer', () => {
   test('with emtpy values', () => {
@@ -14,7 +14,7 @@ describe('circularReferenceReplacer', () => {
     const undefResult = stringify(undefObj);
 
     // expect
-    expect(undefResult).toEqual(`{}`);
+    expect(undefResult).toEqual({});
 
     // given
     const nullObj: any = {
@@ -25,7 +25,7 @@ describe('circularReferenceReplacer', () => {
     const nullResult = stringify(nullObj);
 
     // expect
-    expect(nullResult).toEqual(`{"val":null}`);
+    expect(nullResult).toEqual(nullObj);
 
     // given
     const emptyStringObj: any = {
@@ -36,7 +36,16 @@ describe('circularReferenceReplacer', () => {
     const emptyStringRes = stringify(emptyStringObj);
 
     // expect
-    expect(emptyStringRes).toEqual(`{"val":""}`);
+    expect(emptyStringRes).toEqual(emptyStringObj);
+
+    // given
+    const emptyObj: any = {};
+
+    // when
+    const emptyObjRes = stringify(emptyObj);
+
+    // then
+    expect(emptyObjRes).toEqual(emptyObj);
   });
 
   test('with non-circular objects', () => {
@@ -53,7 +62,7 @@ describe('circularReferenceReplacer', () => {
     const result = stringify(obj);
 
     // then
-    expect(result).toEqual(`{"a":"foo","b":"bar","nested":{"c":"baz"}}`);
+    expect(result).toEqual(obj);
   });
 
   test('with circular object', () => {
@@ -67,9 +76,9 @@ describe('circularReferenceReplacer', () => {
       },
     };
 
-    obj.a['prop2'] = obj.a;
+    obj.a.prop2 = obj.a;
 
-    obj['b'] = {
+    obj.b = {
       foo: obj.a,
       bar: obj.a.nested,
     };
@@ -78,9 +87,23 @@ describe('circularReferenceReplacer', () => {
     const result = stringify(obj);
 
     // then
-    expect(result).toEqual(
-      `{"a":{"prop":"foo","nested":{"prop":"bar"},"prop2":{"$ref":"#/a"}},"b":{"foo":{"$ref":"#/a"},"bar":{"$ref":"#/a/nested"}}}`
-    );
+    expect(result.a).toEqual({
+      prop: 'foo',
+      prop2: {
+        $ref: '#/a',
+      },
+      nested: {
+        prop: 'bar',
+      },
+    });
+    expect(result.b).toEqual({
+      foo: {
+        $ref: '#/a',
+      },
+      bar: {
+        $ref: '#/a/nested',
+      },
+    });
   });
 
   test('with root reference', () => {
@@ -90,13 +113,33 @@ describe('circularReferenceReplacer', () => {
         prop: 'foo',
       },
     };
-
-    obj['b'] = obj;
+    obj.b = obj;
 
     // when
     const result = stringify(obj);
 
     // then
-    expect(result).toEqual(`{"a":{"prop":"foo"},"b":"#/"}`);
+    expect(result.a).toEqual({
+      prop: 'foo',
+    });
+    expect(result.b).toEqual({
+      $ref: '#/',
+    });
+  });
+
+  test('with equal object', () => {
+    // given
+    const obj: any = {
+      a: {
+        prop: 'foo',
+      },
+    };
+    obj.b = { ...obj.a };
+
+    // when
+    const result = stringify(obj);
+
+    // then
+    expect(result).toEqual(obj);
   });
 });

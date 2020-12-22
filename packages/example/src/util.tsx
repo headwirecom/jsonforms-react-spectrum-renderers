@@ -310,23 +310,27 @@ export const enhanceExample: (
  * Replacer to allow circular references in JSON.stringify
  */
 export function circularReferenceReplacer() {
-  let m = new Map(),
-    v = new Map(),
-    init: any = null;
+  const paths = new Map();
+  const finalPaths = new Map();
+  let root: any = null;
 
   return function (this: Object, field: string, value: any) {
-    let p = m.get(this) + '/' + field;
-    let isComplex = value === Object(value);
+    const p = paths.get(this) + '/' + field;
+    const isComplex = value === Object(value);
 
-    if (isComplex) m.set(value, p);
+    if (isComplex) paths.set(value, p);
 
-    let pp = v.get(value) || '';
-    let path = p.replace(/undefined\/\/?/, '');
-    let val = pp ? { $ref: `#/${pp}` } : value;
+    const existingPath = finalPaths.get(value) || '';
+    const path = p.replace(/undefined\/\/?/, '');
+    let val = existingPath ? { $ref: `#/${existingPath}` } : value;
 
-    !init ? (init = value) : val === init ? (val = '#/') : 0;
+    if (!root) {
+      root = value;
+    } else if (val === root) {
+      val = { $ref: '#/' };
+    }
 
-    if (!pp && isComplex) v.set(value, path);
+    if (!existingPath && isComplex) finalPaths.set(value, path);
 
     return val;
   };
