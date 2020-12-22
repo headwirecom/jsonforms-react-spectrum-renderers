@@ -38,7 +38,7 @@ import {
   ExampleDispatchProps,
 } from './reduxUtil';
 import { TextArea } from './TextArea';
-import { ReactExampleDescription } from './util';
+import { circularReferenceReplacer, ReactExampleDescription } from './util';
 import {
   getExamplesFromLocalStorage,
   setExampleInLocalStorage,
@@ -131,7 +131,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                       value={
                         JSON.stringify(
                           props.selectedExample.uischema,
-                          null,
+                          circularReferenceReplacer(),
                           2
                         ) || ''
                       }
@@ -143,8 +143,11 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                   <Content margin='size-100'>
                     <TextArea
                       value={
-                        JSON.stringify(props.selectedExample.schema, null, 2) ||
-                        ''
+                        JSON.stringify(
+                          props.selectedExample.schema,
+                          circularReferenceReplacer(),
+                          2
+                        ) || ''
                       }
                       onChange={updateCurrentSchema}
                     />
