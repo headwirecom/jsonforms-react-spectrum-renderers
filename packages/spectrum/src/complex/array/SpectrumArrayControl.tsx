@@ -27,15 +27,9 @@
 */
 import range from 'lodash/range';
 import React, { useCallback, useState } from 'react';
-import {
-  ArrayControlProps,
-  composePaths,
-  createDefaultValue,
-  findUISchema,
-} from '@jsonforms/core';
-import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
+import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import ListWithDetailMasterItem from '../../additional/ListWithDetailMasterItem';
+import SpectrumArrayItem from './SpectrumArrayItem';
 
 export const SpectrumArrayControl = ({
   data,
@@ -77,39 +71,19 @@ export const SpectrumArrayControl = ({
       <Flex direction='column' gap='size-100'>
         {data && data.length ? (
           range(0, data.length).map((index) => {
-            const foundUISchema = findUISchema(
-              uischemas,
-              schema,
-              uischema.scope,
-              path
-            );
-            const childPath = composePaths(path, `${index}`);
             return (
-              <View
-                borderWidth='thin'
-                borderColor='dark'
-                borderRadius='medium'
-                padding='size-250'
+              <SpectrumArrayItem
+                index={index}
+                path={path}
+                schema={schema}
+                handleExpand={onExpand}
+                removeItem={handleRemoveItem}
+                expanded={isExpaned(index)}
+                uischema={uischema}
+                uischemas={uischemas}
+                renderers={renderers}
                 key={index}
-              >
-                <ListWithDetailMasterItem
-                  index={index}
-                  path={path}
-                  schema={schema}
-                  selected={false}
-                  handleSelect={onExpand}
-                  removeItem={handleRemoveItem}
-                ></ListWithDetailMasterItem>
-                <View isHidden={!isExpaned(index)}>
-                  <ResolvedJsonFormsDispatch
-                    schema={schema}
-                    uischema={foundUISchema || uischema}
-                    path={childPath}
-                    key={childPath}
-                    renderers={renderers}
-                  />
-                </View>
-              </View>
+              ></SpectrumArrayItem>
             );
           })
         ) : (
