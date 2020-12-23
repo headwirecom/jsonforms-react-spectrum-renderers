@@ -73,7 +73,7 @@ const ListWithDetailMasterItem = ({
         <View>
           <DialogTrigger>
             <TooltipTrigger delay={0}>
-              <ActionButton aria-label={`Delete item at ${index}`}>
+              <ActionButton aria-label={`delete-item-${childLabel}`}>
                 <Delete />
               </ActionButton>
               <Tooltip>Delete</Tooltip>

@@ -202,6 +202,11 @@ describe('Spectrum List With Detail Renderer', () => {
 
     const deleteYoloButton = getByRole('button', { name: /delete-item-Yolo/ });
     userEvent.click(deleteYoloButton);
+
+    const confirmButton = getByRole('button', { name: 'Delete' });
+
+    userEvent.click(confirmButton);
+
     expect(getAllByRole('button', { name: /select-item/ })).toHaveLength(1);
   });
 });
