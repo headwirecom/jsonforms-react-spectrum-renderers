@@ -104,9 +104,30 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
         paddingBottom='size-800'
       >
         <div className='container'>
+          <View padding='size-100'>
+            <Heading>react, json-schema, jsonforms.io, react-spectrum</Heading>
+            Generate{' '}
+            <a href='https://react-spectrum.adobe.com/' target='_blank'>
+              react-spectrum
+            </a>{' '}
+            based forms quickly by leveraging{' '}
+            <a href='https://json-schema.org/' target='_blank'>
+              json-schemas
+            </a>{' '}
+            for your object structure definition/validation, and{' '}
+            <a href='https://www.jsonforms.io' target='_blank'>
+              jsonforms.io
+            </a>{' '}
+            - choose a same in the 'Examples' section to preview predefined
+            forms (try for example one of the 'Categorization' examples). You
+            can also modify the examples in the editors and save them to local
+            storage to play with them later.
+          </View>
+        </div>
+        <div className='container'>
           <div className='App-Form'>
             <View padding='size-100'>
-              <Heading>{props.selectedExample.label}</Heading>
+              <Heading>Form: {props.selectedExample.label}</Heading>
               {props.getComponent(props.selectedExample)}
               <JsonFormsDispatch onChange={props.onChange} />
             </View>
@@ -114,7 +135,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
 
           <div className='App-Data tabs'>
             <View padding='size-100'>
-              <Heading>JsonForms Examples</Heading>
+              <Heading>Example Forms</Heading>
               <ExamplesPicker {...props} onChange={setExampleByName} />
               <Tabs defaultSelectedKey='boundData'>
                 <Item key='boundData' title='Bound data'>
@@ -122,6 +143,20 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                     <TextArea
                       value={props.dataAsString}
                       onChange={updateCurrentData}
+                    />
+                  </Content>
+                </Item>
+                <Item key='schema' title='Json-Schema'>
+                  <Content margin='size-100'>
+                    <TextArea
+                      value={
+                        JSON.stringify(
+                          props.selectedExample.schema,
+                          circularReferenceReplacer(),
+                          2
+                        ) || ''
+                      }
+                      onChange={updateCurrentSchema}
                     />
                   </Content>
                 </Item>
@@ -136,20 +171,6 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                         ) || ''
                       }
                       onChange={updateCurrentUISchema}
-                    />
-                  </Content>
-                </Item>
-                <Item key='schema' title='Schema'>
-                  <Content margin='size-100'>
-                    <TextArea
-                      value={
-                        JSON.stringify(
-                          props.selectedExample.schema,
-                          circularReferenceReplacer(),
-                          2
-                        ) || ''
-                      }
-                      onChange={updateCurrentSchema}
                     />
                   </Content>
                 </Item>
