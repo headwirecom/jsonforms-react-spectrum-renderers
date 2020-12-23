@@ -27,7 +27,7 @@ import { CellProps } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
-import { Slider } from '@react-spectrum/slider';
+import { Slider } from '@adobe/react-spectrum';
 
 export class InputSlider extends React.PureComponent<
   CellProps & SpectrumInputProps
