@@ -193,7 +193,7 @@ export const mapStateToSpectrumArrayItemProps = (
     : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
-  const childLabel = uischema.options.elementLabelProp
+  const childLabel = uischema.options?.elementLabelProp
     ? childData[uischema.options.elementLabelProp]
     : firstPrimitiveProp
     ? childData[firstPrimitiveProp]
