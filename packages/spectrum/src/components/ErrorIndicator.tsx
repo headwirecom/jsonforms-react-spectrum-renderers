@@ -7,6 +7,7 @@
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
@@ -25,51 +26,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import React from 'react';
+import { Button, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+import AlertCircle from '@spectrum-icons/workflow/AlertCircle';
 
-import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
-import { SpectrumArrayControl } from './SpectrumArrayControl';
-
-const SpectrumArrayControlRenderer = ({
-  schema,
-  uischema,
-  data,
-  path,
-  rootSchema,
-  uischemas,
-  addItem,
-  removeItems,
-  id,
-  visible,
-  enabled,
-  errors,
-}: ArrayControlProps) => {
-  const controlElement = uischema as ControlElement;
-  const labelDescription = Helpers.createLabelDescriptionFrom(
-    controlElement,
-    schema
-  );
-  const label = labelDescription.show ? labelDescription.text : '';
-
+export function ErrorIndicator({ errors }: { errors: string }) {
   return (
-    <SpectrumArrayControl
-      errors={errors}
-      removeItems={removeItems}
-      // classNames={classNames}
-      data={data}
-      label={label}
-      path={path}
-      addItem={addItem}
-      uischemas={uischemas}
-      uischema={uischema}
-      schema={schema}
-      rootSchema={rootSchema}
-      id={id}
-      visible={visible}
-      enabled={enabled}
-    />
+    <TooltipTrigger delay={0}>
+      <Button
+        aria-label='error-indicator'
+        isQuiet
+        variant='negative'
+        margin='size-50'
+        minWidth='size-0'
+        width='size-10'
+      >
+        <AlertCircle color='negative' />
+      </Button>
+      <Tooltip>{errors}</Tooltip>
+    </TooltipTrigger>
   );
-};
-
-export default withJsonFormsArrayControlProps(SpectrumArrayControlRenderer);
+}
