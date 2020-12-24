@@ -29,7 +29,6 @@
 
 import {
   ActionButton,
-  Button,
   Flex,
   Heading,
   Tooltip,
@@ -37,8 +36,8 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import Add from '@spectrum-icons/workflow/Add';
-import AlertCircle from '@spectrum-icons/workflow/AlertCircle';
 import React from 'react';
+import { ErrorIndicator } from '../components/ErrorIndicator';
 
 export interface ArrayLayoutToolbarProps {
   label: string;
@@ -60,18 +59,7 @@ export const ArrayLayoutToolbar = React.memo(
         <Heading level={4}>{label}</Heading>
         <View isHidden={errors.length !== 0} marginEnd='auto' />
         <View isHidden={errors.length === 0} marginEnd='auto'>
-          <TooltipTrigger delay={0}>
-            <Button
-              isQuiet
-              variant='negative'
-              margin='size-50'
-              minWidth='size-0'
-              width='size-10'
-            >
-              <AlertCircle color='negative' />
-            </Button>
-            <Tooltip>{errors}</Tooltip>
-          </TooltipTrigger>
+          <ErrorIndicator errors={errors} />
         </View>
         <View>
           <TooltipTrigger delay={0}>

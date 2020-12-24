@@ -54,7 +54,6 @@ import {
 import {
   ActionButton,
   AlertDialog,
-  Button,
   DialogTrigger,
   Flex,
   Header,
@@ -70,7 +69,7 @@ import './table-cell.css';
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { ErrorObject } from 'ajv';
-import AlertCircle from '@spectrum-icons/workflow/AlertCircle';
+import { ErrorIndicator } from '../components/ErrorIndicator';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -104,13 +103,11 @@ class SpectrumTableArrayControl extends React.Component<
       path,
       data,
       visible,
-      errors,
       label,
       childErrors,
     } = this.props;
 
     const controlElement = uischema as ControlElement;
-
     const createControlElement = (key?: string): ControlElement => ({
       type: 'Control',
       label: false,
@@ -132,8 +129,8 @@ class SpectrumTableArrayControl extends React.Component<
 
     const getChildErrorMessage = getError(childErrors);
     const labelObject = createLabelDescriptionFrom(controlElement, schema);
-    const isValid = errors.length === 0;
     const labelText = isPlainLabel(label) ? label : label.default;
+    const allErrorsMessages = childErrors.map((e) => e.message).join(' ');
 
     const UNSAFE_error = {
       color: 'rgb(215, 55, 63)',
@@ -159,21 +156,9 @@ class SpectrumTableArrayControl extends React.Component<
             justifyContent='space-between'
           >
             <Heading level={4}>{labelText}</Heading>
-            <View isHidden={!isValid} marginEnd='auto' />
-            <View isHidden={isValid} marginEnd='auto'>
-              <TooltipTrigger delay={0}>
-                <Button
-                  isQuiet
-                  aria-label='validation'
-                  variant='negative'
-                  margin='size-50'
-                  minWidth='size-0'
-                  width='size-10'
-                >
-                  <AlertCircle color='negative' />
-                </Button>
-                <Tooltip>{errors}</Tooltip>
-              </TooltipTrigger>
+            <View isHidden={allErrorsMessages.length > 0} marginEnd='auto' />
+            <View isHidden={allErrorsMessages.length === 0} marginEnd='auto'>
+              <ErrorIndicator errors={allErrorsMessages} />
             </View>
             <TooltipTrigger delay={0}>
               <ActionButton

@@ -391,7 +391,9 @@ describe('validations messages', () => {
     const data = { test: 2 };
     const { getByRole } = renderForm(fixture.uischema, fixture.schema, data);
 
-    expect(getByRole('button', { name: /validation/ })).toBeInTheDocument();
+    expect(
+      getByRole('button', { name: /error-indicator/ })
+    ).toBeInTheDocument();
   });
 
   test('empty errors by default', () => {
@@ -402,7 +404,7 @@ describe('validations messages', () => {
     );
 
     expect(() => {
-      getByRole('button', { name: /validation/ });
+      getByRole('button', { name: /error-indicator/ });
     }).toThrow();
   });
 });
