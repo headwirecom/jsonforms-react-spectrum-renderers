@@ -27,7 +27,16 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { Text, Flex, ActionButton, View } from '@adobe/react-spectrum';
+import {
+  Text,
+  Flex,
+  ActionButton,
+  View,
+  DialogTrigger,
+  TooltipTrigger,
+  Tooltip,
+  AlertDialog,
+} from '@adobe/react-spectrum';
 import { StatePropsOfMasterItem } from '@jsonforms/core';
 import { withJsonFormsMasterListItemProps } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
@@ -62,12 +71,24 @@ const ListWithDetailMasterItem = ({
           <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
         </ActionButton>
         <View>
-          <ActionButton
-            aria-label={`delete-item-${childLabel}`}
-            onPress={removeItem(path, index)}
-          >
-            <Delete />
-          </ActionButton>
+          <DialogTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton aria-label={`delete-item-${childLabel}`}>
+                <Delete />
+              </ActionButton>
+              <Tooltip>Delete</Tooltip>
+            </TooltipTrigger>
+            <AlertDialog
+              variant='confirmation'
+              title='Delete'
+              primaryActionLabel='Delete'
+              cancelLabel='Cancel'
+              autoFocusButton='primary'
+              onPrimaryAction={removeItem(path, index)}
+            >
+              Are you sure you wish to delete this item?
+            </AlertDialog>
+          </DialogTrigger>
         </View>
       </Flex>
     </div>

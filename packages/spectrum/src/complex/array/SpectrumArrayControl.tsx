@@ -26,15 +26,10 @@
   THE SOFTWARE.
 */
 import range from 'lodash/range';
-import React from 'react';
-import {
-  ArrayControlProps,
-  composePaths,
-  createDefaultValue,
-  findUISchema,
-} from '@jsonforms/core';
-import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
+import React, { useCallback, useState } from 'react';
+import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import SpectrumArrayItem from './SpectrumArrayItem';
 
 export const SpectrumArrayControl = ({
   data,
@@ -42,10 +37,25 @@ export const SpectrumArrayControl = ({
   path,
   schema,
   addItem,
+  removeItems,
   uischema,
   uischemas,
   renderers,
 }: ArrayControlProps) => {
+  const handleRemoveItem = useCallback(
+    (p: string, value: any) => () => {
+      removeItems(p, [value])();
+    },
+    [removeItems]
+  );
+
+  const [expaned, setExpaned] = useState<number>();
+
+  const isExpaned = (index: number) => expaned === index;
+
+  const onExpand = (index: number) => () =>
+    setExpaned((current) => (current === index ? null : index));
+
   return (
     <View>
       <Flex direction='row' justifyContent='space-between'>
@@ -58,31 +68,28 @@ export const SpectrumArrayControl = ({
           +
         </Button>
       </Flex>
-      <View>
-        {data ? (
+      <Flex direction='column' gap='size-100'>
+        {data && data.length ? (
           range(0, data.length).map((index) => {
-            const foundUISchema = findUISchema(
-              uischemas,
-              schema,
-              uischema.scope,
-              path
-            );
-            const childPath = composePaths(path, `${index}`);
-
             return (
-              <ResolvedJsonFormsDispatch
+              <SpectrumArrayItem
+                index={index}
+                path={path}
                 schema={schema}
-                uischema={foundUISchema || uischema}
-                path={childPath}
-                key={childPath}
+                handleExpand={onExpand}
+                removeItem={handleRemoveItem}
+                expanded={isExpaned(index)}
+                uischema={uischema}
+                uischemas={uischemas}
                 renderers={renderers}
-              />
+                key={index}
+              ></SpectrumArrayItem>
             );
           })
         ) : (
           <Text>No data</Text>
         )}
-      </View>
+      </Flex>
     </View>
   );
 };
