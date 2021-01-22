@@ -144,6 +144,17 @@ class SpectrumTableArrayControl extends React.Component<
         )(schema.properties)
       : [<Column key='items'>Items</Column>];
 
+    const uioptions: UIOptions = {
+      addButtonPosition:
+        uischema.options?.addButtonPosition === 'bottom' ? 'bottom' : 'top',
+      addButtonLabel:
+        uischema.options?.addButtonLabel || `Add to ${labelObject.text}`,
+      addButtonLabelType:
+        uischema.options?.addButtonLabelType === 'inline'
+          ? 'inline'
+          : 'tooltip',
+    };
+
     return (
       <View
         UNSAFE_className='spectrum-table-array-control'
@@ -160,15 +171,12 @@ class SpectrumTableArrayControl extends React.Component<
             <View isHidden={allErrorsMessages.length === 0} marginEnd='auto'>
               <ErrorIndicator errors={allErrorsMessages} />
             </View>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                UNSAFE_className='add-button'
+            {uioptions.addButtonPosition === 'top' && (
+              <AddButton
+                {...uioptions}
                 onPress={addItem(path, createDefaultValue(schema))}
-              >
-                <Add />
-              </ActionButton>
-              <Tooltip>Add to {labelObject.text}</Tooltip>
-            </TooltipTrigger>
+              />
+            )}
           </Flex>
         </Header>
 
@@ -286,9 +294,47 @@ class SpectrumTableArrayControl extends React.Component<
             )}
           </TableBody>
         </Table>
+
+        {uioptions.addButtonPosition === 'bottom' && (
+          <View paddingTop='size-125'>
+            <AddButton
+              {...uioptions}
+              onPress={addItem(path, createDefaultValue(schema))}
+            />
+          </View>
+        )}
       </View>
     );
   }
 }
 
 export default withJsonFormsArrayControlProps(SpectrumTableArrayControl);
+
+function AddButton(
+  props: Pick<UIOptions, 'addButtonLabel' | 'addButtonLabelType'> & {
+    onPress: () => void;
+  }
+) {
+  const { addButtonLabel, addButtonLabelType, onPress } = props;
+  const button = (
+    <ActionButton UNSAFE_className='add-button' onPress={onPress}>
+      <Add />
+      {addButtonLabelType === 'inline' && <Text>{addButtonLabel}</Text>}
+    </ActionButton>
+  );
+
+  return addButtonLabelType === 'tooltip' ? (
+    <TooltipTrigger delay={0}>
+      {button}
+      <Tooltip>{addButtonLabel}</Tooltip>
+    </TooltipTrigger>
+  ) : (
+    button
+  );
+}
+
+interface UIOptions {
+  addButtonPosition: 'top' | 'bottom';
+  addButtonLabel?: string;
+  addButtonLabelType: 'tooltip' | 'inline';
+}

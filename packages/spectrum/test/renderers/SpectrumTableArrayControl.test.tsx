@@ -384,6 +384,63 @@ describe('Table array control', () => {
     ) as HTMLElement;
     expect(tableView.hidden).toBeFalsy();
   });
+
+  describe('uischema.options.addButtonPosition', () => {
+    test.each([
+      [undefined, 'top'],
+      ['top', 'top'],
+      ['bottom', 'bottom'],
+      ['foobar', 'top'],
+    ])(
+      'when option is %s, render Add button on %s',
+      (value: string | undefined, expectedPosition: 'top' | 'bottom') => {
+        const { container } = renderForm(
+          {
+            ...fixture.uischema,
+            options: { addButtonPosition: value },
+          },
+          fixture.schema,
+          fixture.data
+        );
+        const tablePosition = container.innerHTML.indexOf('spectrum-Table');
+        const addButtonPosition = container.innerHTML.indexOf('add-button');
+        if (expectedPosition === 'bottom') {
+          expect(addButtonPosition).toBeGreaterThan(tablePosition);
+        } else {
+          expect(addButtonPosition).toBeLessThan(tablePosition);
+        }
+      }
+    );
+  });
+
+  describe('uischema.options.addButtonLabel', () => {
+    const uischema = {
+      ...fixture.uischema,
+      options: {
+        addButtonLabelType: 'inline',
+      },
+    };
+    test('when option is not set, should render the default label', () => {
+      const { container } = renderForm(uischema, fixture.schema, fixture.data);
+      expect(container.querySelector('.add-button').textContent).toBe(
+        'Add to Test'
+      );
+    });
+
+    test('when option is set, should render it', () => {
+      const label = 'increase the count of items';
+      const uischemaWithLabel = {
+        ...uischema,
+        options: { ...uischema.options, addButtonLabel: label },
+      };
+      const { container } = renderForm(
+        uischemaWithLabel,
+        fixture.schema,
+        fixture.data
+      );
+      expect(container.querySelector('.add-button').textContent).toBe(label);
+    });
+  });
 });
 
 describe('validations messages', () => {
