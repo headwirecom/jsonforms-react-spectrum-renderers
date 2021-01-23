@@ -26,11 +26,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import fpfilter from 'lodash/fp/filter';
-import fpmap from 'lodash/fp/map';
-import fpflow from 'lodash/fp/flow';
-import fpkeys from 'lodash/fp/keys';
-import fpstartCase from 'lodash/fp/startCase';
+import startCase from 'lodash/startCase';
 import {
   ArrayControlProps,
   ControlElement,
@@ -137,11 +133,9 @@ class SpectrumTableArrayControl extends React.Component<
     };
 
     const headerColumns: JSX.Element[] = schema.properties
-      ? fpflow(
-          fpkeys,
-          fpfilter((prop) => schema.properties[prop].type !== 'array'),
-          fpmap((prop) => <Column key={prop}>{fpstartCase(prop)}</Column>)
-        )(schema.properties)
+      ? Object.keys(schema.properties)
+        .filter((prop) => schema.properties[prop].type !== 'array')
+        .map((prop) => <Column key={prop}>{startCase(prop)}</Column>)
       : [<Column key='items'>Items</Column>];
 
     const uioptions: UIOptions = {
@@ -205,44 +199,40 @@ class SpectrumTableArrayControl extends React.Component<
                 const childPath = Paths.compose(path, `${index}`);
 
                 const rowCells: JSX.Element[] = schema.properties
-                  ? fpflow(
-                      fpkeys,
-                      fpfilter(
-                        (prop) => schema.properties[prop].type !== 'array'
-                      ),
-                      fpmap((prop) => {
-                        const childPropPath = Paths.compose(
-                          childPath,
-                          prop.toString()
-                        );
+                  ? Object.keys(schema.properties)
+                    .filter(prop => schema.properties[prop].type !== 'array')
+                    .map(prop => {
+                      const childPropPath = Paths.compose(
+                        childPath,
+                        prop.toString()
+                      );
 
-                        return (
-                          <Cell key={childPropPath}>
-                            <Flex direction='column' width='100%'>
-                              <DispatchCell
-                                schema={Resolve.schema(
-                                  schema,
-                                  `#/properties/${prop}`,
-                                  rootSchema
-                                )}
-                                uischema={createControlElement(prop)}
-                                path={childPath + '.' + prop}
-                              />
-                              <View
-                                UNSAFE_style={UNSAFE_error}
-                                isHidden={
-                                  getChildErrorMessage(childPropPath) === ''
-                                }
-                              >
-                                <Text>
-                                  {getChildErrorMessage(childPropPath)}
-                                </Text>
-                              </View>
-                            </Flex>
-                          </Cell>
-                        );
-                      })
-                    )(schema.properties)
+                      return (
+                        <Cell key={childPropPath}>
+                          <Flex direction='column' width='100%'>
+                            <DispatchCell
+                              schema={Resolve.schema(
+                                schema,
+                                `#/properties/${prop}`,
+                                rootSchema
+                              )}
+                              uischema={createControlElement(prop)}
+                              path={childPath + '.' + prop}
+                            />
+                            <View
+                              UNSAFE_style={UNSAFE_error}
+                              isHidden={
+                                getChildErrorMessage(childPropPath) === ''
+                              }
+                            >
+                              <Text>
+                                {getChildErrorMessage(childPropPath)}
+                              </Text>
+                            </View>
+                          </Flex>
+                        </Cell>
+                      );
+                    })
                   : [
                       <Cell key={Paths.compose(childPath, index.toString())}>
                         <Flex direction='column' width='100%'>

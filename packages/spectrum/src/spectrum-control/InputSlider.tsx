@@ -24,7 +24,7 @@
 */
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import { Slider } from '@adobe/react-spectrum';

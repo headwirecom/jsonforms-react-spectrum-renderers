@@ -43,8 +43,6 @@ import {
   ResolvedJsonFormsDispatch,
   withJsonFormsArrayLayoutProps,
 } from '@jsonforms/react';
-import map from 'lodash/map';
-import range from 'lodash/range';
 import React, { useCallback, useState } from 'react';
 import ListWithDetailMasterItem from './ListWithDetailMasterItem';
 import merge from 'lodash/merge';
@@ -119,7 +117,7 @@ export const SpectrumListWithDetailRenderer = ({
       <Flex direction='row'>
         <Flex direction='column' marginY='size-200' marginEnd='size-200'>
           {data > 0 ? (
-            map(range(data), (index) => (
+            Array.from(Array(data)).map((_, index) => (
               <ListWithDetailMasterItem
                 index={index}
                 path={path}

@@ -24,7 +24,7 @@
 */
 import React from 'react';
 import { CellProps, computeLabel } from '@jsonforms/core';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Flex } from '@adobe/react-spectrum';

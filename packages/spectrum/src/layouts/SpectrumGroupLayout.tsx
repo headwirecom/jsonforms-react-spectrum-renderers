@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from '../util/isEmpty';
 import React, { FunctionComponent } from 'react';
 import {
   GroupLayout,

@@ -35,7 +35,7 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { FunctionComponent } from 'react';
 import { Checkbox } from '@adobe/react-spectrum';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 
 export const SpectrumBooleanCell: FunctionComponent<CellProps> = (

@@ -58,7 +58,6 @@ import {
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
-import { find, omit } from 'lodash';
 
 import './SpectrumArrayItem.css';
 
@@ -182,7 +181,7 @@ export const mapStateToSpectrumArrayItemProps = (
 ): StatePropsOfSpectrumArrayItem => {
   const { schema, path, index, uischema } = ownProps;
   const firstPrimitiveProp = schema.properties
-    ? find(Object.keys(schema.properties), (propName: any) => {
+    ? Object.keys(schema.properties).find((propName) => {
         const prop = schema.properties[propName];
         return (
           prop.type === 'string' ||
@@ -230,11 +229,11 @@ export const withJsonFormsSpectrumArrayItemProps = (
         (
           prevProps: StatePropsOfSpectrumArrayItem,
           nextProps: StatePropsOfSpectrumArrayItem
-        ) =>
-          areEqual(
-            omit(prevProps, ['handleExpand', 'removeItem']),
-            omit(nextProps, ['handleExpand', 'removeItem'])
-          )
+        ) => {
+          const { handleExpand: prevHandleExpand, removeItem: prevRemoveItem, ...restPrevProps } = prevProps
+          const { handleExpand: nextHandleExpand, removeItem: nextRemoveItem, ...restNextProps } = nextProps
+          return areEqual(restPrevProps, restNextProps)
+        }
       )
     )
   );

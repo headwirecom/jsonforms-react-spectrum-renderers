@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from '../util/isEmpty';
 import React from 'react';
 import { JsonSchema, Layout } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch, useJsonForms } from '@jsonforms/react';
