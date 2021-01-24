@@ -1,0 +1,11 @@
+.nycrc
+.vscode
+Styles.md
+dist
+docs
+example
+test
+webpack
+lib/*
+!lib/src/*
+stats.json
