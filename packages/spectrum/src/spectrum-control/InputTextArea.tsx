@@ -24,7 +24,7 @@
 */
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { TextArea } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';

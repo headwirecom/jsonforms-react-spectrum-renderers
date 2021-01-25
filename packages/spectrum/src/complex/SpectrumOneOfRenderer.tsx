@@ -26,7 +26,7 @@
   THE SOFTWARE.
 */
 import React, { Key, useCallback, useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from '../util/isEmpty';
 
 import {
   CombinatorProps,

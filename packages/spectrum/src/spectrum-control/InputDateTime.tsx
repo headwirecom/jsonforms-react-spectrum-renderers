@@ -25,7 +25,7 @@
 import React from 'react';
 import { DimensionValue } from '@react-types/shared';
 import { CellProps, computeLabel } from '@jsonforms/core';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { Flex } from '@adobe/react-spectrum';
 import { DatePicker, DatePickerLabel } from '../additional/DatePicker';

@@ -25,7 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import range from 'lodash/range';
 import React, { useCallback, useState } from 'react';
 import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
@@ -70,7 +69,7 @@ export const SpectrumArrayControl = ({
       </Flex>
       <Flex direction='column' gap='size-100'>
         {data && data.length ? (
-          range(0, data.length).map((index) => {
+          Array.from(Array(data.length)).map((_, index) => {
             return (
               <SpectrumArrayItem
                 index={index}

@@ -24,7 +24,7 @@
 */
 import React from 'react';
 import { EnumCellProps, JsonSchema } from '@jsonforms/core';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Item, Picker } from '@adobe/react-spectrum';

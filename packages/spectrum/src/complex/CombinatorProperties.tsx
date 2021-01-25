@@ -26,7 +26,6 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { omit } from 'lodash';
 import { Generate, JsonSchema, Layout, UISchemaElement } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
 
@@ -46,10 +45,7 @@ export class CombinatorProperties extends React.Component<
   render() {
     const { schema, combinatorKeyword, path } = this.props;
 
-    const otherProps: JsonSchema = omit(
-      schema,
-      combinatorKeyword
-    ) as JsonSchema;
+    const { [combinatorKeyword]: _, ...otherProps } = schema
     const foundUISchema: UISchemaElement = Generate.uiSchema(
       otherProps,
       'VerticalLayout'
