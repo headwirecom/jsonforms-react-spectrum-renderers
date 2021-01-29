@@ -45,8 +45,8 @@ import { fireEvent } from '@testing-library/react';
 
 type OnChangeType<T> = (change: { errors: any; data: T }) => void;
 
-export function renderForm<T extends object>(
-  uischema: UISchemaElement,
+export function renderForm<T extends object, U extends UISchemaElement>(
+  uischema: U,
   schema: JsonSchema = {},
   data?: T,
   cells: JsonFormsCellRendererRegistryEntry[] = [],

@@ -166,4 +166,28 @@ describe('Horizontal layout', () => {
 
     expect(container.querySelector('input').disabled).toBeTruthy();
   });
+
+  test('options.spacing should set flex-grow to the number specified, or default to 1', () => {
+    const { container } = renderForm(
+      {
+        ...fixture.uischema,
+        options: { spacing: [2, 3] },
+        elements: [
+          ...fixture.uischema.elements,
+          { ...nameControl, scope: '#/properties/shape' },
+        ],
+      },
+      {
+        ...fixture.schema,
+        properties: { ...fixture.schema.properties, shape: { type: 'string' } },
+      },
+      fixture.data
+    );
+
+    const flexGrowValues = Array.from(
+      container.querySelectorAll(`[style*=flex-grow]`)
+    ).map((el) => el.getAttribute('style').match(/flex-grow:\s*(\d+)/)?.[1]);
+
+    expect(flexGrowValues).toEqual(['2', '3', '1']);
+  });
 });

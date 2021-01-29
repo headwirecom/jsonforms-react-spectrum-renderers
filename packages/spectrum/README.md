@@ -10,7 +10,7 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 
 # Custom options
 
-### Custom options for Table Array Control
+#### Custom options for Table Array Control
 ```js
 {
   "type": "Control",
@@ -19,6 +19,17 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
     "addButtonPosition": "top", // "top" or "bottom"
     "addButtonLabel": "Add item", // optional custom label for Add button
     "addButtonLabelType": "tooltip" // "tooltip" or "inline"
+  }
+}
+```
+
+#### Custom options for Horizontal Layout
+```js
+{
+  "type": "HorizontalLayout",
+  "elements": [ ... ],
+  "options": {
+    "spacing": [3, 1], // numbers correspond to proportions of column widths (defaults to 1)
   }
 }
 ```

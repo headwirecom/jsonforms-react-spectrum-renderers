@@ -42,7 +42,7 @@ export interface RenderChildrenProps {
 export const renderChildren = (
   layout: Layout,
   schema: JsonSchema,
-  styleProps: StyleProps,
+  styleProps: StyleProps | ((childIndex: number) => StyleProps),
   path: string,
   enabled = true
 ) => {
@@ -53,8 +53,10 @@ export const renderChildren = (
   const { renderers, cells } = useJsonForms();
 
   return layout.elements.map((child, index) => {
+    const style =
+      typeof styleProps === 'function' ? styleProps(index) : styleProps;
     return (
-      <View key={`${path}-${index}`} {...styleProps}>
+      <View key={`${path}-${index}`} {...style}>
         <ResolvedJsonFormsDispatch
           renderers={renderers}
           cells={cells}
