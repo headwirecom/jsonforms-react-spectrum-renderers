@@ -55,12 +55,13 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
   path,
 }: RendererProps) => {
   const horizontalLayout = uischema as HorizontalLayout;
+  const spacing: number[] = horizontalLayout.options?.spacing ?? [];
   const direction = 'row';
-  const childrenStyles: StyleProps = {
-    flexGrow: 1,
+  const childrenStyles: (childIndex: number) => StyleProps = (i) => ({
+    flexGrow: spacing[i] || 1,
     maxWidth: '100%',
     flexBasis: 0,
-  };
+  });
 
   return (
     <SpectrumLayout
