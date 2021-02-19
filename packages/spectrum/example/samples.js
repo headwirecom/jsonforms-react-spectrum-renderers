@@ -52,6 +52,60 @@ samples.push({
 });
 
 samples.push({
+  name: 'spectrum-array-table',
+  label: 'Array (using @react-spectrum/table)',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/comments',
+        "options": {
+          "table": true
+        }
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      comments: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            date: {
+              type: 'string',
+              format: 'date',
+            },
+            message: {
+              type: 'string',
+              maxLength: 5,
+            },
+            enum: {
+              type: 'string',
+              const: 'foo',
+            },
+          },
+        },
+      },
+    },
+  },
+  data: {
+    comments: [
+      {
+        date: '2001-09-11',
+        message: 'This is an example message',
+      },
+      {
+        date: '2020-12-02',
+        message: 'Get ready for booohay',
+      },
+    ],
+  },
+});
+
+samples.push({
   name: 'spectrum-categorization-1',
   label: 'Categorization',
   uischema: {
