@@ -52,8 +52,6 @@ import {
   AlertDialog,
   DialogTrigger,
   Flex,
-  Header,
-  Heading,
   Text,
   Tooltip,
   TooltipTrigger,
@@ -62,14 +60,25 @@ import {
 
 import './table-cell.css';
 
-import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
-import { ErrorObject } from 'ajv';
-import { ErrorIndicator } from '../components/ErrorIndicator';
+import {
+  getUIOptions,
+  getChildError,
+  ArrayFooter,
+  ArrayHeader,
+} from './array/utils';
 
 const { createLabelDescriptionFrom } = Helpers;
 
-const { or, isObjectArrayControl, isPrimitiveArrayControl, rankWith } = Test;
+const {
+  or,
+  isObjectArrayControl,
+  isPrimitiveArrayControl,
+  rankWith,
+  and,
+} = Test;
+
+const isTableOptionSet: Test.Tester = (uischema) => !!uischema.options?.table;
 
 /**
  * Alternative tester for an array that also checks whether the 'table'
@@ -78,7 +87,10 @@ const { or, isObjectArrayControl, isPrimitiveArrayControl, rankWith } = Test;
  */
 export const spectrumTableArrayControlTester: RankedTester = rankWith(
   3,
-  or(isObjectArrayControl, isPrimitiveArrayControl)
+  or(
+    and(isObjectArrayControl, isTableOptionSet),
+    and(isPrimitiveArrayControl, isTableOptionSet)
+  )
 );
 
 class SpectrumTableArrayControl extends React.Component<
@@ -110,23 +122,7 @@ class SpectrumTableArrayControl extends React.Component<
       scope: schema.type === 'object' ? `#/properties/${key}` : '#',
     });
 
-    const getError = (e: ErrorObject[]) => (p: string) => {
-      const childPropErrors = e.filter(
-        (localError) => localError.dataPath === p
-      );
-
-      if (childPropErrors.length > 0) {
-        // TODO: is it possible to have multiple errors on a property?
-        return childPropErrors[0].message;
-      } else {
-        return '';
-      }
-    };
-
-    const getChildErrorMessage = getError(childErrors);
     const labelObject = createLabelDescriptionFrom(controlElement, schema);
-    const labelText = isPlainLabel(label) ? label : label.default;
-    const allErrorsMessages = childErrors.map((e) => e.message).join(' ');
 
     const UNSAFE_error = {
       color: 'rgb(215, 55, 63)',
@@ -134,46 +130,24 @@ class SpectrumTableArrayControl extends React.Component<
 
     const headerColumns: JSX.Element[] = schema.properties
       ? Object.keys(schema.properties)
-        .filter((prop) => schema.properties[prop].type !== 'array')
-        .map((prop) => <Column key={prop}>{startCase(prop)}</Column>)
+          .filter((prop) => schema.properties[prop].type !== 'array')
+          .map((prop) => <Column key={prop}>{startCase(prop)}</Column>)
       : [<Column key='items'>Items</Column>];
 
-    const uioptions: UIOptions = {
-      addButtonPosition:
-        uischema.options?.addButtonPosition === 'bottom' ? 'bottom' : 'top',
-      addButtonLabel:
-        uischema.options?.addButtonLabel || `Add to ${labelObject.text}`,
-      addButtonLabelType:
-        uischema.options?.addButtonLabelType === 'inline'
-          ? 'inline'
-          : 'tooltip',
-    };
+    const uioptions = getUIOptions(uischema, labelObject.text);
+    const add = addItem(path, createDefaultValue(schema));
 
     return (
       <View
         UNSAFE_className='spectrum-table-array-control'
         isHidden={visible === undefined || visible === null ? false : !visible}
       >
-        <Header>
-          <Flex
-            direction='row'
-            alignItems='center'
-            justifyContent='space-between'
-          >
-            <Heading level={4}>{labelText}</Heading>
-            <View isHidden={allErrorsMessages.length > 0} marginEnd='auto' />
-            <View isHidden={allErrorsMessages.length === 0} marginEnd='auto'>
-              <ErrorIndicator errors={allErrorsMessages} />
-            </View>
-            {uioptions.addButtonPosition === 'top' && (
-              <AddButton
-                {...uioptions}
-                onPress={addItem(path, createDefaultValue(schema))}
-              />
-            )}
-          </Flex>
-        </Header>
-
+        <ArrayHeader
+          {...uioptions}
+          add={add}
+          allErrorsMessages={childErrors.map((e) => e.message)}
+          labelText={isPlainLabel(label) ? label : label.default}
+        />
         <Table overflowMode='wrap' density='compact'>
           <TableHeader>
             {[
@@ -200,39 +174,42 @@ class SpectrumTableArrayControl extends React.Component<
 
                 const rowCells: JSX.Element[] = schema.properties
                   ? Object.keys(schema.properties)
-                    .filter(prop => schema.properties[prop].type !== 'array')
-                    .map(prop => {
-                      const childPropPath = Paths.compose(
-                        childPath,
-                        prop.toString()
-                      );
+                      .filter(
+                        (prop) => schema.properties[prop].type !== 'array'
+                      )
+                      .map((prop) => {
+                        const childPropPath = Paths.compose(
+                          childPath,
+                          prop.toString()
+                        );
 
-                      return (
-                        <Cell key={childPropPath}>
-                          <Flex direction='column' width='100%'>
-                            <DispatchCell
-                              schema={Resolve.schema(
-                                schema,
-                                `#/properties/${prop}`,
-                                rootSchema
-                              )}
-                              uischema={createControlElement(prop)}
-                              path={childPath + '.' + prop}
-                            />
-                            <View
-                              UNSAFE_style={UNSAFE_error}
-                              isHidden={
-                                getChildErrorMessage(childPropPath) === ''
-                              }
-                            >
-                              <Text>
-                                {getChildErrorMessage(childPropPath)}
-                              </Text>
-                            </View>
-                          </Flex>
-                        </Cell>
-                      );
-                    })
+                        return (
+                          <Cell key={childPropPath}>
+                            <Flex direction='column' width='100%'>
+                              <DispatchCell
+                                schema={Resolve.schema(
+                                  schema,
+                                  `#/properties/${prop}`,
+                                  rootSchema
+                                )}
+                                uischema={createControlElement(prop)}
+                                path={childPath + '.' + prop}
+                              />
+                              <View
+                                UNSAFE_style={UNSAFE_error}
+                                isHidden={
+                                  getChildError(childErrors, childPropPath) ===
+                                  ''
+                                }
+                              >
+                                <Text>
+                                  {getChildError(childErrors, childPropPath)}
+                                </Text>
+                              </View>
+                            </Flex>
+                          </Cell>
+                        );
+                      })
                   : [
                       <Cell key={Paths.compose(childPath, index.toString())}>
                         <Flex direction='column' width='100%'>
@@ -243,9 +220,11 @@ class SpectrumTableArrayControl extends React.Component<
                           />
                           <View
                             UNSAFE_style={UNSAFE_error}
-                            isHidden={getChildErrorMessage(childPath) === ''}
+                            isHidden={
+                              getChildError(childErrors, childPath) === ''
+                            }
                           >
-                            <Text>{getChildErrorMessage(childPath)}</Text>
+                            <Text>{getChildError(childErrors, childPath)}</Text>
                           </View>
                         </Flex>
                       </Cell>,
@@ -284,47 +263,10 @@ class SpectrumTableArrayControl extends React.Component<
             )}
           </TableBody>
         </Table>
-
-        {uioptions.addButtonPosition === 'bottom' && (
-          <View paddingTop='size-125'>
-            <AddButton
-              {...uioptions}
-              onPress={addItem(path, createDefaultValue(schema))}
-            />
-          </View>
-        )}
+        <ArrayFooter {...uioptions} add={add} />
       </View>
     );
   }
 }
 
 export default withJsonFormsArrayControlProps(SpectrumTableArrayControl);
-
-function AddButton(
-  props: Pick<UIOptions, 'addButtonLabel' | 'addButtonLabelType'> & {
-    onPress: () => void;
-  }
-) {
-  const { addButtonLabel, addButtonLabelType, onPress } = props;
-  const button = (
-    <ActionButton UNSAFE_className='add-button' onPress={onPress}>
-      <Add />
-      {addButtonLabelType === 'inline' && <Text>{addButtonLabel}</Text>}
-    </ActionButton>
-  );
-
-  return addButtonLabelType === 'tooltip' ? (
-    <TooltipTrigger delay={0}>
-      {button}
-      <Tooltip>{addButtonLabel}</Tooltip>
-    </TooltipTrigger>
-  ) : (
-    button
-  );
-}
-
-interface UIOptions {
-  addButtonPosition: 'top' | 'bottom';
-  addButtonLabel?: string;
-  addButtonLabelType: 'tooltip' | 'inline';
-}

@@ -35,18 +35,21 @@ import {
 } from '@jsonforms/core';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
+import { spectrumArrayControlGridTester } from '../../src/complex/SpectrumArrayControlGrid';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
+import SpectrumTextCell, {
+  spectrumTextCellTester,
+} from '../../src/cells/SpectrumTextCell';
 import { renderForm } from '../util';
 
-jest.mock('../../src/complex/SpectrumArrayControlGrid', () => ({
-  ...jest.requireActual('../../src/complex/SpectrumArrayControlGrid'),
+jest.mock('../../src/complex/SpectrumTableArrayControl', () => ({
+  ...jest.requireActual('../../src/complex/SpectrumTableArrayControl'),
   __esModule: true,
   default: () => {
     throw new Error(
-      'Not allowed to use SpectrumArrayControlGrid from SpectrumTableArrayControl test! Make sure options.table is true in your test.'
+      'Not allowed to use SpectrumTableArrayControl from SpectrumArrayControlGrid test! Make sure options.table is false in your test.'
     );
   },
 }));
@@ -70,7 +73,6 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   uischema: {
     type: 'Control',
     scope: '#/properties/test',
-    options: { table: true },
   },
   data: {
     test: [{ x: 1, y: 3 }],
@@ -82,19 +84,17 @@ describe('Table array tester', () => {
     const control: ControlElement = {
       type: 'Control',
       scope: '#',
-      options: { table: true },
     };
-    expect(spectrumTableArrayControlTester(control, undefined)).toBe(-1);
+    expect(spectrumArrayControlGridTester(control, undefined)).toBe(-1);
   });
 
   test('tester with prop of wrong type', () => {
     const control: ControlElement = {
       type: 'Control',
       scope: '#/properties/x',
-      options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      spectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           x: { type: 'integer' },
@@ -107,10 +107,9 @@ describe('Table array tester', () => {
     const control: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
-      options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      spectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'array' },
@@ -123,10 +122,9 @@ describe('Table array tester', () => {
     const control: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
-      options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      spectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -139,10 +137,10 @@ describe('Table array tester', () => {
   });
 
   test.each([
-    [undefined, -1],
-    [{}, -1],
-    [{ table: false }, -1],
-    [{ table: true }, 3],
+    [undefined, 3],
+    [{}, 3],
+    [{ table: false }, 3],
+    [{ table: true }, -1],
   ])('tester with primitive item type and options: %s', (options, expected) => {
     const control: ControlElement = {
       type: 'Control',
@@ -150,7 +148,7 @@ describe('Table array tester', () => {
       options,
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      spectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -163,10 +161,10 @@ describe('Table array tester', () => {
   });
 
   test.each([
-    [undefined, -1],
-    [{}, -1],
-    [{ table: false }, -1],
-    [{ table: true }, 3],
+    [undefined, 3],
+    [{}, 3],
+    [{ table: false }, 3],
+    [{ table: true }, -1],
   ])('tester with options: %s', (options, expected) => {
     const uischema: ControlElement = {
       type: 'Control',
@@ -174,14 +172,14 @@ describe('Table array tester', () => {
       options,
     };
 
-    expect(spectrumTableArrayControlTester(uischema, fixture.schema)).toBe(
+    expect(spectrumArrayControlGridTester(uischema, fixture.schema)).toBe(
       expected
     );
   });
 
   test('tester - wrong type', () =>
     expect(
-      spectrumTableArrayControlTester(
+      spectrumArrayControlGridTester(
         { type: 'Foo', options: { table: true } },
         null
       )
@@ -192,10 +190,6 @@ describe('Table array control', () => {
   let offsetWidth: any;
   let offsetHeight: any;
 
-  beforeEach(() => {
-    // by firing an event at the beginning of each test, we can put ourselves into
-    // keyboard modality for the test
-  });
   beforeAll(() => {
     offsetWidth = jest
       .spyOn(window.HTMLElement.prototype, 'clientWidth', 'get')
@@ -215,7 +209,7 @@ describe('Table array control', () => {
     jest.useRealTimers();
   });
 
-  test('render two children', () => {
+  test('render headers and 2 rows', () => {
     const cells: JsonFormsCellRendererRegistryEntry[] = [
       {
         tester: spectrumIntegerCellTester,
@@ -223,26 +217,20 @@ describe('Table array control', () => {
       },
     ];
 
-    const { container, getAllByRole } = renderForm(
+    const { container } = renderForm(
       fixture.uischema,
       fixture.schema,
-      fixture.data,
+      {
+        test: [
+          { x: 9, y: 8 },
+          { x: 7, y: 6 },
+        ],
+      },
       cells
     );
 
     expect(container.querySelector('header h4').textContent).toBe('Test');
-
-    // TODO: test that tooltip on the button reads "add to test"
-
-    // two data columns + delete column
-    const columnHeaders = getAllByRole('columnheader');
-    expect(columnHeaders).toHaveLength(3);
-    expect(columnHeaders[0].textContent).toBe('X');
-    expect(columnHeaders[1].textContent).toBe('Y');
-    expect(columnHeaders[2].textContent.trim()).toBe('');
-
-    const rows = getAllByRole('row');
-    expect(rows).toHaveLength(2);
+    expect(getContent(container)).toContain('TestXY9876');
   });
 
   test('render empty data', () => {
@@ -250,90 +238,35 @@ describe('Table array control', () => {
       label: false,
       type: 'Control',
       scope: '#/properties/test',
-      options: { table: true },
     };
-    const { container, getAllByRole } = renderForm(control, fixture.schema);
-    expect(container.querySelector('header h4').textContent).toBe('');
-
-    // TODO: test that tooltip on the button reads "add to test"
-
-    const columnHeaders = getAllByRole('columnheader');
-    expect(columnHeaders).toHaveLength(3);
-    expect(columnHeaders[0].textContent).toBe('X');
-    expect(columnHeaders[1].textContent).toBe('Y');
-    expect(columnHeaders[2].textContent.trim()).toBe('');
-
-    const rows = getAllByRole('row');
-    expect(rows).toHaveLength(2);
-
-    expect(rows.map((r) => r.textContent.trim())).toContain('No data');
+    const { container } = renderForm(control, fixture.schema);
+    expect(getContent(container)).toBe('');
   });
 
-  test('render new child (empty init data)', () => {
-    const initialData: { test: object[] } = { test: [] };
-    let state: object[] = [];
+  test.each([{ test: [] }, { test: undefined }, null])(
+    'render new child when initial data is %s',
+    (initialData) => {
+      const { container } = renderForm(
+        fixture.uischema,
+        fixture.schema,
+        initialData,
+        [
+          {
+            tester: spectrumIntegerCellTester,
+            cell: SpectrumIntegerCell,
+          },
+        ]
+      );
 
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      initialData,
-      [],
-      ({ data }) => {
-        state = data.test;
-      }
-    );
+      expect(getContent(container)).not.toContain('XY'); // Headers not visible
+      expect(container.querySelectorAll('input').length).toBe(0); // No inputs visible
 
-    const control = container.querySelector('.root_properties_test');
-    expect(control).toBeDefined();
+      userEvent.click(container.querySelector('.add-button'));
 
-    const button = container.querySelector('.add-button');
-    userEvent.click(button);
-    expect(state).toHaveLength(1);
-  });
-
-  test('render new child (undefined data)', () => {
-    const initialData: { test: object[] } = { test: undefined };
-    let state: object[] = [];
-
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      initialData,
-      [],
-      ({ data }) => {
-        state = data.test;
-      }
-    );
-
-    const control = container.querySelector('.root_properties_test');
-    expect(control).toBeDefined();
-
-    const button = container.querySelector('.add-button');
-    userEvent.click(button);
-    expect(state).toHaveLength(1);
-  });
-
-  test('render new child (null data)', () => {
-    const initialData: { test: object[] } = null;
-    let state: object[] = [];
-
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      initialData,
-      [],
-      ({ data }) => {
-        state = data.test;
-      }
-    );
-
-    const control = container.querySelector('.root_properties_test');
-    expect(control).toBeDefined();
-
-    const button = container.querySelector('.add-button');
-    userEvent.click(button);
-    expect(state).toHaveLength(1);
-  });
+      expect(getContent(container)).toContain('XY'); // Headers appeared
+      expect(container.querySelectorAll('input').length).toBe(2); // Inputs appeared
+    }
+  );
 
   test('render new child', () => {
     const initialData: { test: object[] } = fixture.data;
@@ -354,7 +287,7 @@ describe('Table array control', () => {
     expect(state).toHaveLength(2);
   });
 
-  test('render primitives ', () => {
+  test('render primitives', () => {
     const schema = {
       type: 'object',
       properties: {
@@ -370,21 +303,24 @@ describe('Table array control', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/test',
-      options: { table: true },
     };
 
-    const data: { test: string[] } = { test: ['foo', 'bars'] };
-
-    const { container, getAllByRole } = renderForm(uischema, schema, data);
-
-    const cells = container.querySelectorAll('[aria-colindex="1"]');
-    const cell = cells[cells.length - 1];
-    expect(cell.textContent).toContain(
-      'should NOT be longer than 3 characters'
+    const { container } = renderForm(
+      uischema,
+      schema,
+      { test: ['foo', 'bars'] },
+      [
+        {
+          tester: spectrumTextCellTester,
+          cell: SpectrumTextCell,
+        },
+      ]
     );
-
-    const rows = getAllByRole('row');
-    expect(rows).toHaveLength(3);
+    const content = getContent(container);
+    expect(content).toContain('foobars');
+    expect(
+      content.match(/should NOT be longer than 3 characters/gi)
+    ).toHaveLength(1);
   });
 
   test('hide', () => {
@@ -399,14 +335,10 @@ describe('Table array control', () => {
         effect: RuleEffect.HIDE,
         condition,
       },
-      options: { table: true },
     };
     const { container } = renderForm(uischema, fixture.schema, fixture.data);
-
-    const tableView = container.querySelector(
-      '.spectrum-table-array-control'
-    ) as HTMLElement;
-    expect(tableView.hidden).toBeTruthy();
+    const view: HTMLElement = container.firstChild.firstChild as HTMLElement;
+    expect(view.hidden).toBe(true);
   });
 
   test('show by default', () => {
@@ -416,10 +348,8 @@ describe('Table array control', () => {
       fixture.data
     );
 
-    const tableView = container.querySelector(
-      '.spectrum-table-array-control'
-    ) as HTMLElement;
-    expect(tableView.hidden).toBeFalsy();
+    const view: HTMLElement = container.firstChild.firstChild as HTMLElement;
+    expect(view.hidden).toBe(false);
   });
 
   describe('uischema.options.addButtonPosition', () => {
@@ -434,17 +364,17 @@ describe('Table array control', () => {
         const { container } = renderForm(
           {
             ...fixture.uischema,
-            options: { table: true, addButtonPosition: value },
+            options: { addButtonPosition: value },
           },
           fixture.schema,
           fixture.data
         );
-        const tablePosition = container.innerHTML.indexOf('spectrum-Table');
+        const gridPosition = container.innerHTML.indexOf('display: grid');
         const addButtonPosition = container.innerHTML.indexOf('add-button');
         if (expectedPosition === 'bottom') {
-          expect(addButtonPosition).toBeGreaterThan(tablePosition);
+          expect(addButtonPosition).toBeGreaterThan(gridPosition);
         } else {
-          expect(addButtonPosition).toBeLessThan(tablePosition);
+          expect(addButtonPosition).toBeLessThan(gridPosition);
         }
       }
     );
@@ -455,7 +385,6 @@ describe('Table array control', () => {
       ...fixture.uischema,
       options: {
         addButtonLabelType: 'inline',
-        table: true,
       },
     };
     test('when option is not set, should render the default label', () => {
@@ -503,3 +432,15 @@ describe('validations messages', () => {
     }).toThrow();
   });
 });
+
+function getContent(container: Element) {
+  return (
+    container.textContent +
+    Array.from(container.querySelectorAll<HTMLInputElement>('input[value]'))
+      .map((el) => el.value)
+      .join('') +
+    Array.from(container.querySelectorAll('[aria-label]'))
+      .map((el) => el.getAttribute('aria-label'))
+      .join('')
+  );
+}

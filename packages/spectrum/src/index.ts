@@ -99,6 +99,8 @@ import {
   spectrumOneOfRendererTester,
   SpectrumTableArrayControl,
   spectrumTableArrayControlTester,
+  SpectrumArrayControlGrid,
+  spectrumArrayControlGridTester,
 } from './complex';
 
 import {
@@ -180,6 +182,10 @@ export const spectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: spectrumTableArrayControlTester,
     renderer: SpectrumTableArrayControl,
+  },
+  {
+    tester: spectrumArrayControlGridTester,
+    renderer: SpectrumArrayControlGrid,
   },
   { tester: spectrumGroupLayoutTester, renderer: SpectrumGroupLayout },
   { tester: spectrumVerticalLayoutTester, renderer: SpectrumVerticalLayout },

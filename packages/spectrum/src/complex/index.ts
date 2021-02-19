@@ -50,6 +50,9 @@ import SpectrumOneOfRenderer, {
 import SpectrumTableArrayControl, {
   spectrumTableArrayControlTester,
 } from './SpectrumTableArrayControl';
+import SpectrumArrayControlGrid, {
+  spectrumArrayControlGridTester,
+} from './SpectrumArrayControlGrid';
 
 export {
   ArrayControl,
@@ -70,4 +73,6 @@ export {
   spectrumOneOfRendererTester,
   SpectrumTableArrayControl,
   spectrumTableArrayControlTester,
+  SpectrumArrayControlGrid,
+  spectrumArrayControlGridTester,
 };
