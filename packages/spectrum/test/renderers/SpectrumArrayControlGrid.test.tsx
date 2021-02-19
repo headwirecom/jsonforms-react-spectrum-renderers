@@ -26,6 +26,7 @@
   THE SOFTWARE.
 */
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import {
   ControlElement,
   JsonFormsCellRendererRegistryEntry,
@@ -33,8 +34,6 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import { spectrumArrayControlGridTester } from '../../src/complex/SpectrumArrayControlGrid';
 import SpectrumIntegerCell, {
   spectrumIntegerCellTester,
