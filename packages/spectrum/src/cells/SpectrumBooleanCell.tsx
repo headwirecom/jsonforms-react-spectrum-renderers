@@ -69,6 +69,7 @@ export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
       autoFocus={autoFocus}
       validationState={validationState}
       width={width}
+      aria-label={props.children ? undefined : path}
     >
       {props.children}
     </Checkbox>
