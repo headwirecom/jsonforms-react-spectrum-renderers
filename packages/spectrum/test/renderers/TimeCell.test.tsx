@@ -28,18 +28,16 @@
 import * as React from 'react';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
-  update,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
 import TimeCell, { timeCellTester } from '../../src/cells/TimeCell';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { spectrumRenderers } from '../../src';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -56,6 +54,8 @@ const fixture = {
   },
   uischema: controlElement,
 };
+
+const cells = [{ tester: timeCellTester, cell: TimeCell }];
 
 describe('Time cell tester', () => {
   test('tester', () => {
@@ -141,15 +141,14 @@ describe('Time cell', () => {
       firstDate: '1980-04-04',
       secondDate: '1980-04-04',
     };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const inputs = wrapper.find('input');
     expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
@@ -164,15 +163,14 @@ describe('Time cell', () => {
         focus: true,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <TimeCell schema={fixture.schema} uischema={uischema} path='foo' />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode();
     expect(document.activeElement).toBe(input);
@@ -186,15 +184,14 @@ describe('Time cell', () => {
         focus: false,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <TimeCell schema={fixture.schema} uischema={uischema} path='foo' />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
@@ -205,36 +202,28 @@ describe('Time cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <TimeCell schema={fixture.schema} uischema={uischema} path='foo' />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
   });
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
 
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
@@ -244,21 +233,14 @@ describe('Time cell', () => {
 
   // TODO: update test after implementing with Spectrum
   test.skip('has classes set', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
 
     const input = wrapper.find('input');
@@ -268,196 +250,115 @@ describe('Time cell', () => {
   });
 
   test('update via event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const onChange = jest.fn();
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { value: '20:15' } });
     wrapper.update();
-    expect(getData(store.getState()).foo).toBe('20:15');
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { foo: '20:15' } })
+    );
   });
 
   test('update via action', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('foo', () => '20:15'));
+    wrapper.setProps({ data: { ...fixture.data, foo: '20:15' } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('20:15');
   });
 
   test('update with null value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <TimeCell
-          schema={fixture.schema}
-          uischema={fixture.uischema}
-          path='foo'
-        />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('foo', () => null));
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('');
   });
 
   test('update with undefined value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('foo', () => undefined));
+    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('');
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('bar', () => 'Bar'));
+    wrapper.setProps({ data: { ...fixture.data, bar: 'Bar' } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('13:37');
-  });
-
-  test('update with null ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(update(null, () => '20:15'));
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('13:37');
-  });
-
-  test('update with undefined ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update(undefined, () => '20:15'));
     expect(input.value).toBe('13:37');
   });
 
   test('disable', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const condition: SchemaBasedCondition = {
+      scope: '#/properties/foo',
+      schema: { type: 'string' },
+    };
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-            enabled={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={{
+          ...fixture.uischema,
+          rule: { effect: RuleEffect.DISABLE, condition },
+        }}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <TimeCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='foo'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(false);

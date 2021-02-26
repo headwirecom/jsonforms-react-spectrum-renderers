@@ -30,17 +30,14 @@ import {
   isEnumControl,
   JsonSchema,
   rankWith,
-  update,
 } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import RadioGroupControl from '../../src/controls/RadioGroupControl';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -61,29 +58,23 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   },
 };
 
+const renderers = [
+  { tester: rankWith(10, isEnumControl), renderer: RadioGroupControl },
+];
+
 describe('Radio group control', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [
-        { tester: rankWith(10, isEnumControl), renderer: RadioGroupControl },
-      ],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <RadioGroupControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={renderers}
+      />
     );
 
     const radioButtons = wrapper.find('input[type="radio"]');
@@ -95,28 +86,19 @@ describe('Radio group control', () => {
   });
 
   test('Radio group should have only one selected option', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [
-        { tester: rankWith(10, isEnumControl), renderer: RadioGroupControl },
-      ],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <RadioGroupControl
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={renderers}
+      />
     );
 
     // change and verify selection
-    store.dispatch(update('foo', () => 'A'));
-    store.dispatch(update('foo', () => 'B'));
+    wrapper.setProps({ data: { ...fixture.data, foo: 'A' } });
+    wrapper.update();
+    wrapper.setProps({ data: { ...fixture.data, foo: 'B' } });
     wrapper.update();
     const currentlyChecked = wrapper.find('input[checked=true]');
     expect(currentlyChecked).toHaveLength(1);

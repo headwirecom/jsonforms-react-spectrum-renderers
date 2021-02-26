@@ -28,20 +28,18 @@
 import * as React from 'react';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
-  update,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumTextCell, {
   spectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
-import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { spectrumRenderers } from '../../src';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -66,6 +64,8 @@ const fixture = {
   schema: { type: 'string' },
   uischema: controlElement,
 };
+
+const cells = [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }];
 
 test('Text cell tester', () => {
   expect(spectrumTextCellTester(undefined, undefined)).toBe(-1);
@@ -101,15 +101,14 @@ describe('Text cell', () => {
       type: 'HorizontalLayout',
       elements: [firstControlElement, secondControlElement],
     };
-    const store = initJsonFormsSpectrumStore({
-      data: { firstName: 'Foo', lastName: 'Boo' },
-      schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={{ firstName: 'Foo', lastName: 'Boo' }}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const inputs = wrapper.find('input');
     expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
@@ -122,21 +121,14 @@ describe('Text cell', () => {
       scope: '#/properties/name',
       options: { focus: true },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode();
     expect(document.activeElement).toBe(input);
@@ -148,42 +140,28 @@ describe('Text cell', () => {
       scope: '#/properties/name',
       options: { focus: false },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode();
     expect(document.activeElement).not.toBe(input);
   });
 
   test('autofocus inactive by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode();
     expect(document.activeElement).not.toBe(input);
@@ -196,218 +174,132 @@ describe('Text cell', () => {
         name: { type: 'string' },
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: { name: 'Foo' },
-      schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={fixture.uischema}
+        data={{ name: 'Foo' }}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('Foo');
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
+    const onChange = jest.fn();
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { value: 'Bar' } });
-    expect(getData(store.getState()).name).toBe('Bar');
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { name: 'Bar' } })
+    );
   });
 
   test('update via action', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update('name', () => 'Bar'));
+    wrapper.setProps({ data: { ...fixture.data, name: 'Bar' } });
+    wrapper.update();
     expect(input.value).toBe('Bar');
   });
 
   test('update with undefined value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('name', () => undefined));
+    wrapper.setProps({ data: { ...fixture.data, name: undefined } });
+    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('');
   });
 
   test('update with null value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('name', () => null));
+    wrapper.setProps({ data: { ...fixture.data, name: null } });
+    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('');
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('firstname', () => 'Bar'));
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('Foo');
-  });
-
-  test('update with null ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(update(null, () => 'Bar'));
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('Foo');
-  });
-
-  test('update with undefined ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(update(undefined, () => 'Bar'));
+    wrapper.setProps({ data: { ...fixture.data, firstname: 'Bar' } });
+    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.value).toBe('Foo');
   });
 
   test('disable', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
+    const condition: SchemaBasedCondition = {
+      scope: '#/properties/name',
+      schema: { type: 'string' },
+    };
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-            enabled={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={{
+          ...fixture.uischema,
+          rule: { effect: RuleEffect.DISABLE, condition },
+        }}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.minLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.minLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.minLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(false);
@@ -422,22 +314,15 @@ describe('Text cell', () => {
       restrict: true,
       trim: true,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.maxLengthSchema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.maxLengthSchema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.maxLengthSchema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(5);
@@ -453,22 +338,15 @@ describe('Text cell', () => {
       restrict: false,
       trim: true,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.maxLengthSchema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.maxLengthSchema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.maxLengthSchema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);
@@ -484,22 +362,15 @@ describe('Text cell', () => {
       restrict: true,
       trim: false,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.maxLengthSchema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.maxLengthSchema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.maxLengthSchema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(5);
@@ -507,21 +378,14 @@ describe('Text cell', () => {
   });
 
   test.skip('do not use maxLength by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.maxLengthSchema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.maxLengthSchema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.maxLengthSchema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);
@@ -537,22 +401,15 @@ describe('Text cell', () => {
       restrict: true,
       trim: true,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.schema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);
@@ -568,22 +425,15 @@ describe('Text cell', () => {
       restrict: false,
       trim: true,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.schema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);
@@ -599,22 +449,15 @@ describe('Text cell', () => {
       restrict: true,
       trim: false,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-      config,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.schema}
-            uischema={uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        config={config}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);
@@ -622,21 +465,14 @@ describe('Text cell', () => {
   });
 
   test('maxLength not specified, attributes should have default values', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.maxLength).toBe(defaultMaxLength);

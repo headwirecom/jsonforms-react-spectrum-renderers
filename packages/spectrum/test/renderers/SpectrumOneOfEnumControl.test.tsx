@@ -28,10 +28,7 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import { ControlElement, JsonFormsState, update } from '@jsonforms/core';
-import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
-import { Store, AnyAction } from 'redux';
+import { ControlElement } from '@jsonforms/core';
 import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
@@ -41,7 +38,7 @@ import SpectrumOneOfEnumControl, {
   spectrumOneOfEnumControlTester,
 } from '../../src/controls/SpectrumOneOfEnumControl';
 import { mountForm } from '../util';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -70,6 +67,13 @@ const fixture = {
   },
   uischema: control,
 };
+
+const renderers = [
+  {
+    tester: spectrumOneOfEnumControlTester,
+    renderer: SpectrumOneOfEnumControl,
+  },
+];
 
 test('tester', () => {
   expect(spectrumOneOfEnumControlTester(undefined, undefined)).toBe(-1);
@@ -129,32 +133,18 @@ test('tester with matching numeric type', () => {
 });
 
 describe('OneOfEnumControl', () => {
-  let wrapper: ReactWrapper, store: Store<JsonFormsState, AnyAction>;
+  let wrapper: ReactWrapper;
 
   beforeEach(() => {
-    store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <JsonFormsDispatch
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-              renderers={[
-                {
-                  tester: spectrumOneOfEnumControlTester,
-                  renderer: SpectrumOneOfEnumControl,
-                },
-              ]}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={fixture.data}
+          renderers={renderers}
+        />
+      </SpectrumThemeProvider>
     );
   });
 
@@ -190,7 +180,8 @@ describe('OneOfEnumControl', () => {
   test('update via action', () => {
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
     expect(select.value).toBe('a');
-    store.dispatch(update('foo', () => 'b'));
+    wrapper.setProps({ data: { ...fixture.data, foo: 'b' } });
+    wrapper.update();
     setTimeout(() => {
       expect(select.value).toBe('b');
       expect(select.selectedIndex).toBe(1);
@@ -199,7 +190,8 @@ describe('OneOfEnumControl', () => {
 
   test('update with undefined value', () => {
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    store.dispatch(update('foo', () => undefined));
+    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
+    wrapper.update();
     setTimeout(() => {
       expect(select.selectedIndex).toBe(0);
       expect(select.value).toBe('a');
@@ -208,7 +200,8 @@ describe('OneOfEnumControl', () => {
 
   test('update with null value', () => {
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    store.dispatch(update('foo', () => null));
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
+    wrapper.update();
     setTimeout(() => {
       expect(select.selectedIndex).toBe(0);
       expect(select.value).toBe('a');
@@ -216,14 +209,9 @@ describe('OneOfEnumControl', () => {
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-
     const select = wrapper.find('select').getDOMNode() as HTMLSelectElement;
-    store.dispatch(update('bar', () => 'ABC'));
+    wrapper.setProps({ data: { ...fixture.data, bar: 'ABC' } });
+    wrapper.update();
     setTimeout(() => {
       expect(select.selectedIndex).toBe(0);
       expect(select.value).toBe('a');

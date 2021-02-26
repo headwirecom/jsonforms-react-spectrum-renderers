@@ -28,26 +28,25 @@
 import * as React from 'react';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
-  update,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumTextAreaCell, {
   spectrumTextAreaCellTester,
 } from '../../src/cells/SpectrumTextAreaCell';
-import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { spectrumRenderers } from '../../src';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 const controlElement: ControlElement = {
   type: 'Control',
   scope: '#/properties/name',
+  options: { multi: true },
 };
 
 const fixture = {
@@ -58,6 +57,10 @@ const fixture = {
   },
   uischema: controlElement,
 };
+
+const cells = [
+  { tester: spectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
+];
 
 describe('Text area cell', () => {
   let wrapper: ReactWrapper;
@@ -77,6 +80,7 @@ describe('Text area cell', () => {
       scope: '#/properties/firstName',
       options: {
         focus: true,
+        multi: true,
       },
     };
     const secondControlElement: ControlElement = {
@@ -84,6 +88,7 @@ describe('Text area cell', () => {
       scope: '#/properties/lastName',
       options: {
         focus: true,
+        multi: true,
       },
     };
     const uischema: HorizontalLayout = {
@@ -94,15 +99,14 @@ describe('Text area cell', () => {
       firstName: 'Foo',
       lastName: 'Boo',
     };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumHorizontalLayoutRenderer schema={schema} uischema={uischema} />
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const inputs = wrapper.find('input');
     expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
@@ -115,21 +119,17 @@ describe('Text area cell', () => {
       scope: '#/properties/name',
       options: {
         focus: true,
+        multi: true,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumTextAreaCell
-          schema={fixture.schema}
-          uischema={uischema}
-          path='name'
-        />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('textarea').getDOMNode();
     expect(document.activeElement).toBe(input);
@@ -141,21 +141,17 @@ describe('Text area cell', () => {
       scope: '#/properties/name',
       options: {
         focus: false,
+        multi: true,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumTextAreaCell
-          schema={fixture.schema}
-          uischema={uischema}
-          path='name'
-        />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('textarea').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
@@ -165,42 +161,32 @@ describe('Text area cell', () => {
     const uischema: ControlElement = {
       type: 'Control',
       scope: '#/properties/name',
+      options: { multi: true },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumTextAreaCell
-          schema={fixture.schema}
-          uischema={uischema}
-          path='name'
-        />
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('textarea').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
   });
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
+    console.log(wrapper.html());
     const textarea = wrapper
       .find('textarea')
       .getDOMNode() as HTMLTextAreaElement;
@@ -208,46 +194,37 @@ describe('Text area cell', () => {
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const onChange = jest.fn();
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
     );
 
     const textarea = wrapper.find('textarea');
     textarea.simulate('change', { target: { value: 'Bar' } });
-    expect(getData(store.getState()).name).toBe('Bar');
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { name: 'Bar' } })
+    );
   });
 
   test('update via action', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('name', () => 'Bar'));
+    wrapper.setProps({ data: { ...fixture.data, name: 'Bar' } });
+    wrapper.update();
     const textarea = wrapper
       .find('textarea')
       .getDOMNode() as HTMLTextAreaElement;
@@ -255,47 +232,35 @@ describe('Text area cell', () => {
   });
 
   test('update with undefined value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const textArea = wrapper
       .find('textarea')
       .getDOMNode() as HTMLTextAreaElement;
-    store.dispatch(update('name', () => undefined));
+    wrapper.setProps({ data: { ...fixture.data, name: undefined } });
+    wrapper.update();
     expect(textArea.value).toBe('');
   });
 
   test('update with null value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('name', () => null));
+    wrapper.setProps({ data: { ...fixture.data, name: null } });
+    wrapper.update();
     const textArea = wrapper
       .find('textarea')
       .getDOMNode() as HTMLTextAreaElement;
@@ -303,93 +268,39 @@ describe('Text area cell', () => {
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
-    store.dispatch(update('firstname', () => 'Bar'));
+    wrapper.setProps({ data: { ...fixture.data, firstname: 'Bar' } });
+    wrapper.update();
     const textArea = wrapper
       .find('textarea')
       .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.value).toBe('Foo');
-  });
-
-  test('update with null ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    store.dispatch(update(null, () => 'Bar'));
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.value).toBe('Foo');
-  });
-
-  test('update with undefined ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
-    );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    store.dispatch(update(undefined, () => 'Bar'));
     expect(textArea.value).toBe('Foo');
   });
 
   test('disable', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const condition: SchemaBasedCondition = {
+      scope: '#/properties/name',
+      schema: { type: 'string' },
+    };
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            enabled={false}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={{
+          ...fixture.uischema,
+          rule: { effect: RuleEffect.DISABLE, condition },
+        }}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const textArea = wrapper
       .find('textarea')
@@ -398,21 +309,14 @@ describe('Text area cell', () => {
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumTextAreaCell
-            schema={fixture.schema}
-            uischema={fixture.uischema}
-            path='name'
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const textArea = wrapper
       .find('textarea')

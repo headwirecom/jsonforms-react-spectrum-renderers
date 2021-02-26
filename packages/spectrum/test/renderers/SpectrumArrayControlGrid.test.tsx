@@ -78,7 +78,7 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   },
 };
 
-describe('Table array tester', () => {
+describe('Array tester', () => {
   test('tester with recursive document ref only', () => {
     const control: ControlElement = {
       type: 'Control',
@@ -185,7 +185,7 @@ describe('Table array tester', () => {
     ).toBe(-1));
 });
 
-describe('Table array control', () => {
+describe('Array control', () => {
   let offsetWidth: any;
   let offsetHeight: any;
 

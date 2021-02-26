@@ -29,26 +29,19 @@
 import * as React from 'react';
 import {
   ControlElement,
-  getData,
   HorizontalLayout,
   JsonSchema,
-  update,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import { JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumBooleanCell, {
   spectrumBooleanCellTester,
 } from '../../src/cells/SpectrumBooleanCell';
-import SpectrumHorizontalLayoutRenderer from '../../src/layouts/SpectrumHorizontalLayout';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
 import { spectrumRenderers } from '../../src';
 import { InputControl } from '../../src/controls/InputControl';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -62,6 +55,10 @@ const fixture = {
   schema: { type: 'boolean' },
   uischema: control,
 };
+
+const cells = [
+  { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
+];
 
 describe('Boolean cell tester', () => {
   test('tester', () => {
@@ -157,23 +154,14 @@ describe('Boolean cell', () => {
       firstBooleanCell: true,
       secondBooleanCell: false,
     };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: spectrumRenderers,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumHorizontalLayoutRenderer
-              schema={schema}
-              uischema={uischema}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const inputs = wrapper.find(InputControl);
     expect(inputs.at(0).is(':focus')).toBe(false);
@@ -188,23 +176,14 @@ describe('Boolean cell', () => {
         focus: true,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input');
     expect(input.is(':focus')).toBe(true);
@@ -218,23 +197,14 @@ describe('Boolean cell', () => {
         focus: false,
       },
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
@@ -245,46 +215,28 @@ describe('Boolean cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode();
     expect(document.activeElement).not.toBe(input);
   });
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
 
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
@@ -293,240 +245,133 @@ describe('Boolean cell', () => {
   });
 
   test.skip('has classes set', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input');
     expect(input.hasClass('validationState')).toBe(true);
   });
 
   test('update via input event', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const onChange = jest.fn();
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+        onChange={onChange}
+      />
     );
-
     const input = wrapper.find('input');
     input.simulate('change', { target: { checked: false } });
-    expect(getData(store.getState()).foo).toBe(false);
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { foo: false } })
+    );
   });
 
   test('update via action', () => {
     const data = { foo: false };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update('foo', () => false));
+    wrapper.setProps({ data: { ...data, foo: false } });
+    wrapper.update();
     expect(input.checked).toBe(false);
-    expect(getData(store.getState()).foo).toBe(false);
   });
 
   test.skip('update with undefined value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update('foo', () => undefined));
+    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
+    wrapper.update();
     expect(input.value).toEqual('');
   });
 
   test.skip('update with null value', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update('foo', () => null));
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
+    wrapper.update();
     expect(input.value).toEqual('');
   });
 
   test('update with wrong ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input');
-    store.dispatch(update('bar', () => 11));
+    wrapper.setProps({ data: { ...fixture.data, bar: 11 } });
+    wrapper.update();
     expect(input.props().checked).toBe(true);
   });
 
-  test('update with null ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
-    );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    store.dispatch(update(null, () => false));
-    expect(input.checked).toBe(true);
-  });
-
-  test('update with undefined ref', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
-    wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
-    );
-    store.dispatch(update(undefined, () => false));
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.checked).toBe(true);
-  });
-
   test('disable', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
+    const condition: SchemaBasedCondition = {
+      scope: '#/properties/foo',
+      schema: { type: 'boolean' },
+    };
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              enabled={false}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={{
+          ...fixture.uischema,
+          rule: { effect: RuleEffect.DISABLE, condition: condition },
+        }}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
   test('enabled by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <SpectrumBooleanCell
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path='foo'
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={spectrumRenderers}
+        cells={cells}
+      />
     );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.disabled).toBe(false);
