@@ -1,6 +1,6 @@
 {
   "name": "@headwire/jsonforms-react-spectrum-renderers",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.4",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
@@ -48,8 +48,8 @@
   },
   "peerDependencies": {
     "@adobe/react-spectrum": "^3.7.0",
-    "@jsonforms/core": "2.4.1",
-    "@jsonforms/react": "2.4.1",
+    "@jsonforms/core": "^2.5.0",
+    "@jsonforms/react": "^2.5.0",
     "@react-spectrum/table": "^3.0.0-alpha.9",
     "@react-spectrum/tabs": "^3.0.0-alpha.3",
     "@spectrum-icons/workflow": "^3.2.0",
@@ -65,7 +65,6 @@
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/react-dom": "^16.8.0",
-    "@types/react-redux": "^7.1.9",
     "copy-webpack-plugin": "^5.0.5",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",

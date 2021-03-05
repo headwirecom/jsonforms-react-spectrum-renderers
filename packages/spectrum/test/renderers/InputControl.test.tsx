@@ -27,13 +27,12 @@
 */
 import * as React from 'react';
 import {
-  Actions,
   ControlElement,
   HorizontalLayout,
   JsonSchema,
+  RuleEffect,
+  SchemaBasedCondition,
 } from '@jsonforms/core';
-import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
-import { Provider } from 'react-redux';
 import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
@@ -51,7 +50,7 @@ import SpectrumTextCell, {
   spectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
 import DateCell, { dateCellTester } from '../../src/cells/DateCell';
-import { initJsonFormsSpectrumStore } from '../spectrumStore';
+import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -70,6 +69,9 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
     scope: '#/properties/foo',
   },
 };
+
+const cells = [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }];
+const renderers = [{ tester: inputControlTester, renderer: InputControl }];
 
 test('tester', () => {
   expect(inputControlTester(undefined, undefined)).toBe(-1);
@@ -118,27 +120,22 @@ describe('Input control', () => {
       firstTextCell: 'first',
       secondTextCell: 'second',
     };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [
-        { tester: inputControlTester, renderer: InputControl },
-        {
-          tester: spectrumHorizontalLayoutTester,
-          renderer: SpectrumHorizontalLayoutRenderer,
-        },
-      ],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <JsonFormsDispatch />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={schema}
+          uischema={uischema}
+          data={data}
+          renderers={[
+            { tester: inputControlTester, renderer: InputControl },
+            {
+              tester: spectrumHorizontalLayoutTester,
+              renderer: SpectrumHorizontalLayoutRenderer,
+            },
+          ]}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const inputs = wrapper.find('input');
     expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
@@ -146,21 +143,16 @@ describe('Input control', () => {
   });
 
   test('render', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <InputControl uischema={fixture.uischema} schema={fixture.schema} />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
 
     const control = wrapper.find('.control').getDOMNode();
@@ -189,21 +181,16 @@ describe('Input control', () => {
       scope: '#/properties/foo',
       label: false,
     };
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <JsonFormsDispatch />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={uischema}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
 
     const control = wrapper.find('.control');
@@ -226,138 +213,109 @@ describe('Input control', () => {
   });
 
   test('hide', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
+    const condition: SchemaBasedCondition = {
+      scope: '#/properties/foo',
+      schema: { type: 'string' },
+    };
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <InputControl
-              schema={fixture.schema}
-              uischema={fixture.uischema}
-              path={''}
-              visible={false}
-            />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={{
+            ...fixture.uischema,
+            rule: { effect: RuleEffect.HIDE, condition },
+          }}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const control = wrapper.find('.control').getDOMNode() as HTMLElement;
     expect(control.hidden).toBe(true);
   });
 
   test('show by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <InputControl schema={fixture.schema} uischema={fixture.uischema} />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const control = wrapper.find('.control').getDOMNode() as HTMLElement;
     expect(control.hidden);
   });
 
   test('single error', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <InputControl schema={fixture.schema} uischema={fixture.uischema} />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={{ foo: 2 }}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const validation = wrapper.find('.validation');
-    store.dispatch(Actions.update('foo', () => 2));
     expect(validation.text()).toBe('should be string');
   });
 
   test('multiple errors', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <InputControl schema={fixture.schema} uischema={fixture.uischema} />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={{ foo: 3 }}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
-    store.dispatch(Actions.update('foo', () => 3));
-    wrapper.update();
     const validation = wrapper.find('.validation');
     expect(validation.text()).toBe('should be string');
   });
 
   test('empty errors by default', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <JsonFormsDispatch />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const validation = wrapper.find('.validation');
     expect(validation.text()).toBe('');
   });
 
   test('reset validation message', () => {
-    const store = initJsonFormsSpectrumStore({
-      data: fixture.data,
-      schema: fixture.schema,
-      uischema: fixture.uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <SpectrumThemeProvider theme={defaultTheme}>
-          <JsonFormsReduxContext>
-            <JsonFormsDispatch />
-          </JsonFormsReduxContext>
-        </SpectrumThemeProvider>
-      </Provider>
+      <SpectrumThemeProvider theme={defaultTheme}>
+        <JsonForms
+          schema={fixture.schema}
+          uischema={fixture.uischema}
+          data={fixture.data}
+          renderers={renderers}
+          cells={cells}
+        />
+      </SpectrumThemeProvider>
     );
     const validation = wrapper.find('.validation');
-    store.dispatch(Actions.update('foo', () => 3));
-    store.dispatch(Actions.update('foo', () => 'foo'));
+    wrapper.setProps({ data: { ...fixture.data, foo: 3 } });
+    wrapper.update();
+    wrapper.setProps({ data: { ...fixture.data, foo: 'foo' } });
+    wrapper.update();
     expect(validation.text()).toBe('');
   });
 
@@ -407,22 +365,20 @@ describe('Input control', () => {
       name: 'John Doe',
       personalData: {},
     };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <SpectrumHorizontalLayoutRenderer
-            schema={schema}
-            uischema={uischema}
-          />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={[
+          { tester: inputControlTester, renderer: InputControl },
+          {
+            tester: spectrumHorizontalLayoutTester,
+            renderer: SpectrumHorizontalLayoutRenderer,
+          },
+        ]}
+        cells={cells}
+      />
     );
     const validation = wrapper.find('.validation');
     expect(validation.at(0).text()).toBe('');
@@ -446,19 +402,14 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/dateCell',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: {},
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: dateCellTester, cell: DateCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <InputControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={fixture.data}
+        renderers={renderers}
+        cells={[{ tester: dateCellTester, cell: DateCell }]}
+      />
     );
     const label = wrapper.find('label');
     expect(label.text()).toBe('Date Cell*');
@@ -480,19 +431,14 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/dateCell',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: {},
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: dateCellTester, cell: DateCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <InputControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={{}}
+        renderers={renderers}
+        cells={[{ tester: dateCellTester, cell: DateCell }]}
+      />
     );
     const label = wrapper.find('label');
     expect(label.text()).toBe('Date Cell');
@@ -513,19 +459,14 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <InputControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={renderers}
+        cells={cells}
+      />
     );
     const control = wrapper.find('.control');
     control.simulate('focus');
@@ -548,19 +489,14 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <InputControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={renderers}
+        cells={cells}
+      />
     );
     const description = wrapper.find('.input-description');
     expect(description.text()).toBe('');
@@ -581,19 +517,14 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <JsonFormsDispatch />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={renderers}
+        cells={cells}
+      />
     );
     const control = wrapper.find('.control');
     control.simulate('focus');
@@ -618,19 +549,14 @@ describe('Input control', () => {
       scope: '#/properties/name',
     };
     const data = { isFocused: false };
-    const store = initJsonFormsSpectrumStore({
-      data,
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <JsonFormsDispatch />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={data}
+        renderers={renderers}
+        cells={cells}
+      />
     );
     const description = wrapper.find('.input-description').getDOMNode();
     expect(description.textContent).toBe('');
@@ -649,19 +575,14 @@ describe('Input control', () => {
       type: 'Control',
       scope: '#/properties/expectedValue',
     };
-    const store = initJsonFormsSpectrumStore({
-      data: {},
-      schema,
-      uischema,
-      renderers: [{ tester: inputControlTester, renderer: InputControl }],
-      cells: [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }],
-    });
     wrapper = mount(
-      <Provider store={store}>
-        <JsonFormsReduxContext>
-          <InputControl schema={schema} uischema={uischema} />
-        </JsonFormsReduxContext>
-      </Provider>
+      <JsonForms
+        schema={schema}
+        uischema={uischema}
+        data={{}}
+        renderers={renderers}
+        cells={cells}
+      />
     );
     const control = wrapper.find('.control');
     expect(control).toHaveLength(1);

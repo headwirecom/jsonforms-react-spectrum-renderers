@@ -27,7 +27,8 @@
 */
 
 import React, { useCallback, useEffect, useRef } from 'react';
-import { JsonFormsDispatch, JsonFormsReduxContext } from '@jsonforms/react';
+import { JsonFormsDispatch } from '@jsonforms/react';
+import { JsonFormsReduxContext } from '@jsonforms/react/lib/redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Heading, Item, Content, View } from '@adobe/react-spectrum';
 import { Tabs } from '@react-spectrum/tabs';
