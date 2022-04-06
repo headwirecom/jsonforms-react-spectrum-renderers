@@ -32,15 +32,15 @@ import {
   VerticalLayout,
 } from '@jsonforms/core';
 import '@testing-library/jest-dom';
-import { spectrumVerticalLayoutTester } from '../../src/layouts/SpectrumVerticalLayout';
+import { SpectrumVerticalLayoutTester } from '../../src/layouts/SpectrumVerticalLayout';
 import { renderForm } from '../util';
 
 test('tester', () => {
-  expect(spectrumVerticalLayoutTester(undefined, undefined)).toBe(-1);
-  expect(spectrumVerticalLayoutTester(null, undefined)).toBe(-1);
-  expect(spectrumVerticalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumVerticalLayoutTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumVerticalLayoutTester(null, undefined)).toBe(-1);
+  expect(SpectrumVerticalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
   expect(
-    spectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)
+    SpectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)
   ).toBe(1);
 });
 

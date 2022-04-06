@@ -25,6 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import * as React from 'react';
 import {
   ControlElement,
@@ -35,70 +36,86 @@ import {
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import TimeCell, { timeCellTester } from '../../src/cells/TimeCell';
-import { spectrumRenderers } from '../../src';
+import SpectrumBooleanCell, {
+  SpectrumBooleanButtonCellTester,
+} from '../../src/cells/SpectrumBooleanButtonCell';
+import { SpectrumRenderers } from '../../src';
+import { InputControl } from '../../src/controls/InputControl';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const controlElement: ControlElement = {
+const control: ControlElement = {
   type: 'Control',
   scope: '#/properties/foo',
 };
 
 const fixture = {
-  data: { foo: '13:37' },
-  schema: {
-    type: 'string',
-    format: 'time',
-  },
-  uischema: controlElement,
+  data: { foo: true },
+  schema: { type: 'boolean' },
+  uischema: control,
 };
 
-const cells = [{ tester: timeCellTester, cell: TimeCell }];
+const cells = [
+  { tester: SpectrumBooleanButtonCellTester, cell: SpectrumBooleanCell },
+];
 
-describe('Time cell tester', () => {
+describe('Boolean cell tester', () => {
   test('tester', () => {
-    expect(timeCellTester(undefined, undefined)).toBe(-1);
-    expect(timeCellTester(null, undefined)).toBe(-1);
-    expect(timeCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(timeCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumBooleanButtonCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumBooleanButtonCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumBooleanButtonCellTester({ type: 'Foo' }, undefined)).toBe(
+      -1
+    );
+    expect(
+      SpectrumBooleanButtonCellTester({ type: 'Control' }, undefined)
+    ).toBe(-1);
   });
 
   test('tester with wrong prop type', () => {
+    const controlElement: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
-      timeCellTester(fixture.uischema, {
+      SpectrumBooleanButtonCellTester(controlElement, {
         type: 'object',
-        properties: {
-          foo: { type: 'string' },
-        },
+        properties: { foo: { type: 'string' } },
       })
     ).toBe(-1);
   });
 
   test('tester with wrong prop type, but sibling has correct one', () => {
+    const controlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
-      timeCellTester(fixture.uischema, {
+      SpectrumBooleanButtonCellTester(controlElement, {
         type: 'object',
         properties: {
-          foo: { type: 'string' },
-          bar: {
+          foo: {
             type: 'string',
-            format: 'time',
+          },
+          bar: {
+            type: 'boolean',
           },
         },
       })
     ).toBe(-1);
   });
 
-  test('tester with correct prop type', () => {
+  test('tester with matching prop type', () => {
+    const controlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
-      timeCellTester(fixture.uischema, {
+      SpectrumBooleanButtonCellTester(controlElement, {
         type: 'object',
         properties: {
           foo: {
-            type: 'string',
-            format: 'time',
+            type: 'boolean',
           },
         },
       })
@@ -106,7 +123,7 @@ describe('Time cell tester', () => {
   });
 });
 
-describe('Time cell', () => {
+describe('Boolean cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -115,20 +132,20 @@ describe('Time cell', () => {
     const schema: JsonSchema = {
       type: 'object',
       properties: {
-        firstDate: { type: 'string', format: 'date' },
-        secondDate: { type: 'string', format: 'date' },
+        firstBooleanCell: { type: 'boolean' },
+        secondBooleanCell: { type: 'boolean' },
       },
     };
     const firstControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/firstDate',
+      scope: '#/properties/firstBooleanCell',
       options: {
         focus: true,
       },
     };
     const secondControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/secondDate',
+      scope: '#/properties/secondBooleanCell',
       options: {
         focus: true,
       },
@@ -138,21 +155,21 @@ describe('Time cell', () => {
       elements: [firstControlElement, secondControlElement],
     };
     const data = {
-      firstDate: '1980-04-04',
-      secondDate: '1980-04-04',
+      firstBooleanCell: true,
+      secondBooleanCell: false,
     };
     wrapper = mount(
       <JsonForms
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    const inputs = wrapper.find('input');
-    expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
-    expect(document.activeElement).toBe(inputs.at(1));
+    const inputs = wrapper.find(InputControl);
+    expect(inputs.at(0).is(':focus')).toBe(false);
+    expect(inputs.at(1).is(':focus')).toBe(true);
   });
 
   test('autofocus active', () => {
@@ -168,12 +185,12 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    const input = wrapper.find('input').getDOMNode();
-    expect(document.activeElement).toBe(input);
+    const input = wrapper.find('input');
+    expect(input.is(':focus')).toBe(true);
   });
 
   test('autofocus inactive', () => {
@@ -189,7 +206,7 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -207,12 +224,12 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.autofocus).toBe(false);
+    const input = wrapper.find('input').getDOMNode();
+    expect(document.activeElement).not.toBe(input);
   });
 
   test('render', () => {
@@ -221,97 +238,96 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
 
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.type).toBe('time');
-    expect(input.value).toBe('13:37');
+    expect(input.type).toBe('checkbox');
+    expect(input.checked).toBe(true);
   });
 
-  // TODO: update test after implementing with Spectrum
   test.skip('has classes set', () => {
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-
     const input = wrapper.find('input');
-    expect(input.hasClass('input')).toBe(true);
-    expect(input.hasClass('validate')).toBe(true);
-    expect(input.hasClass('valid')).toBe(true);
+    expect(input.hasClass('validationState')).toBe(true);
   });
 
-  test('update via event', () => {
+  test('update via input event', () => {
     const onChange = jest.fn();
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
     );
     const input = wrapper.find('input');
-    input.simulate('change', { target: { value: '20:15' } });
-    wrapper.update();
+    input.simulate('change', { target: { checked: false } });
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: '20:15' } })
+      expect.objectContaining({ data: { foo: false } })
     );
   });
 
   test('update via action', () => {
+    const data = { foo: false };
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
-        data={fixture.data}
-        renderers={spectrumRenderers}
+        data={data}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, foo: '20:15' } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('20:15');
+    wrapper.setProps({ data: { ...data, foo: false } });
+    wrapper.update();
+    expect(input.checked).toBe(false);
   });
 
-  test('update with null value', () => {
+  test.skip('update with undefined value', () => {
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, foo: null } });
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('');
-  });
-
-  test('update with undefined value', () => {
-    wrapper = mount(
-      <JsonForms
-        schema={fixture.schema}
-        uischema={fixture.uischema}
-        data={fixture.data}
-        renderers={spectrumRenderers}
-        cells={cells}
-      />
-    );
     wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
+    wrapper.update();
+    expect(input.value).toEqual('');
+  });
+
+  test.skip('update with null value', () => {
+    wrapper = mount(
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={SpectrumRenderers}
+        cells={cells}
+      />
+    );
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('');
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
+    wrapper.update();
+    expect(input.value).toEqual('');
   });
 
   test('update with wrong ref', () => {
@@ -320,29 +336,30 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, bar: 'Bar' } });
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('13:37');
+    const input = wrapper.find('input');
+    wrapper.setProps({ data: { ...fixture.data, bar: 11 } });
+    wrapper.update();
+    expect(input.props().checked).toBe(true);
   });
 
   test('disable', () => {
     const condition: SchemaBasedCondition = {
       scope: '#/properties/foo',
-      schema: { type: 'string' },
+      schema: { type: 'boolean' },
     };
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={{
           ...fixture.uischema,
-          rule: { effect: RuleEffect.DISABLE, condition },
+          rule: { effect: RuleEffect.DISABLE, condition: condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -356,7 +373,7 @@ describe('Time cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

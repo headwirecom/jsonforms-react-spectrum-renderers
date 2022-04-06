@@ -23,6 +23,7 @@
   THE SOFTWARE.
 */
 
+import React from 'react';
 import {
   ControlProps,
   isOneOfEnumControl,
@@ -30,15 +31,28 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsOneOfEnumProps } from '@jsonforms/react';
-import React from 'react';
+import merge from 'lodash/merge';
 import { SpectrumInputControl } from './SpectrumInputControl';
 import { InputEnum } from '../spectrum-control/InputEnum';
+import { InputEnumAutocomplete } from '../spectrum-control/InputEnumAutocomplete';
 
-export const SpectrumOneOfEnumControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputEnum} />
-);
+export const SpectrumOneOfEnumControl = (props: ControlProps) => {
+  const { config, uischema } = props;
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-export const spectrumOneOfEnumControlTester: RankedTester = rankWith(
+  return (
+    <SpectrumInputControl
+      {...props}
+      input={
+        appliedUiSchemaOptions.autocomplete === false
+          ? InputEnum
+          : InputEnumAutocomplete
+      }
+    />
+  );
+};
+
+export const SpectrumOneOfEnumControlTester: RankedTester = rankWith(
   5,
   isOneOfEnumControl
 );

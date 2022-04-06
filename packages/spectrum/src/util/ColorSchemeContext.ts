@@ -1,9 +1,6 @@
 /*
   The MIT License
 
-  Copyright (c) 2017-2019 EclipseSource Munich
-  https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -25,34 +22,5 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import {
-  CellProps,
-  isTimeControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
-
-export const TimeCell = (props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange } = props;
-
-  return (
-    <input
-      type='time'
-      value={data ?? ''}
-      onChange={(ev) => handleChange(path, ev.target.value)}
-      className='input' // TODO: obsolete in the future, but implement trim!
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-    />
-  );
-};
-/**
- * Default tester for date controls.
- * @type {RankedTester}
- */
-export const timeCellTester: RankedTester = rankWith(2, isTimeControl);
-
-export default withJsonFormsCellProps(TimeCell);
+import { createContext } from 'react';
+export const ColorSchemeContext = createContext<'light' | 'dark'>('light');

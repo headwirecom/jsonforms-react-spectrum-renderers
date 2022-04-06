@@ -38,35 +38,32 @@ interface CombinatorPropertiesProps {
 export const isLayout = (uischema: UISchemaElement): uischema is Layout =>
   uischema.hasOwnProperty('elements');
 
-export class CombinatorProperties extends React.Component<
-  CombinatorPropertiesProps,
-  {}
-> {
-  render() {
-    const { schema, combinatorKeyword, path } = this.props;
-
-    const { [combinatorKeyword]: _, ...otherProps } = schema
-    const foundUISchema: UISchemaElement = Generate.uiSchema(
-      otherProps,
-      'VerticalLayout'
-    );
-    let isLayoutWithElements = false;
-    if (foundUISchema !== null && isLayout(foundUISchema)) {
-      isLayoutWithElements = foundUISchema.elements.length > 0;
-    }
-
-    if (isLayoutWithElements) {
-      return (
-        <ResolvedJsonFormsDispatch
-          schema={otherProps}
-          path={path}
-          uischema={foundUISchema}
-        />
-      );
-    }
-
-    return null;
+export const CombinatorProperties = ({
+  combinatorKeyword,
+  path,
+  schema,
+}: CombinatorPropertiesProps) => {
+  const { [combinatorKeyword]: _, ...otherProps } = schema;
+  const foundUISchema: UISchemaElement = Generate.uiSchema(
+    otherProps,
+    'VerticalLayout'
+  );
+  let isLayoutWithElements = false;
+  if (foundUISchema !== null && isLayout(foundUISchema)) {
+    isLayoutWithElements = foundUISchema.elements.length > 0;
   }
-}
+
+  if (isLayoutWithElements) {
+    return (
+      <ResolvedJsonFormsDispatch
+        schema={otherProps}
+        path={path}
+        uischema={foundUISchema}
+      />
+    );
+  }
+
+  return null;
+};
 
 export default CombinatorProperties;

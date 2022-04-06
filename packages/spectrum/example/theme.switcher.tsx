@@ -34,7 +34,7 @@ import {
 
 export type Theme = 'light' | 'dark';
 
-export function createThemeSelection(onChange: (newThemne: Theme) => void) {
+export function createThemeSelection(onChange: (newTheme: Theme) => void) {
   ReactDOM.render(
     <ThemeSelection onChange={onChange} />,
     document.getElementById('theme')

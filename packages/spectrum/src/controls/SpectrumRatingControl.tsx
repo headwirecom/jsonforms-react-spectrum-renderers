@@ -22,24 +22,27 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
+import React from 'react';
 import {
   ControlProps,
-  isNumberFormatControl,
+  isIntegerControl,
   RankedTester,
   rankWith,
+  optionIs,
+  and,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import React from 'react';
-import { InputNumberFormatted } from '../spectrum-control';
+import { InputRating } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumNumberFormattedControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputNumberFormatted} />
+export const SpectrumRatingControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputRating} />
 );
 
-export const spectrumNumberFormattedControlTester: RankedTester = rankWith(
-  3,
-  isNumberFormatControl
+export const SpectrumRatingControlTester: RankedTester = rankWith(
+  4,
+  and(isIntegerControl, optionIs('rating', true))
 );
 
-export default withJsonFormsControlProps(SpectrumNumberFormattedControl);
+export default withJsonFormsControlProps(SpectrumRatingControl);

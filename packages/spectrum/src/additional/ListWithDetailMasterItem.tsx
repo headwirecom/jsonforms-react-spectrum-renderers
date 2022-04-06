@@ -28,70 +28,76 @@
 */
 import React from 'react';
 import {
-  Text,
-  Flex,
   ActionButton,
-  View,
-  DialogTrigger,
-  TooltipTrigger,
-  Tooltip,
   AlertDialog,
+  DialogTrigger,
+  Flex,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View,
 } from '@adobe/react-spectrum';
 import { StatePropsOfMasterItem } from '@jsonforms/core';
 import { withJsonFormsMasterListItemProps } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
+import SpectrumProvider from './SpectrumProvider';
 
 import './ListDetailMasterItem.css';
 
 const ListWithDetailMasterItem = ({
-  index,
   childLabel,
-  selected,
-  removeItem,
-  path,
   handleSelect,
+  index,
+  path,
+  removeItem,
+  selected,
 }: StatePropsOfMasterItem) => {
   return (
-    <div className='list-with-detail-master-item-row' aria-selected={selected}>
-      <Flex
-        direction='row'
-        margin='size-50'
-        justifyContent='space-between'
-        alignItems='center'
+    <SpectrumProvider>
+      <div
+        className='list-with-detail-master-item-row'
+        aria-selected={selected}
       >
-        <View UNSAFE_className='list-with-detail-master-item-number'>
-          <Text>{index + 1}</Text>
-        </View>
-        <ActionButton
-          flex='auto'
-          isQuiet
-          onPress={handleSelect(index)}
-          aria-label={`select-item-${childLabel}`}
+        <Flex
+          direction='row'
+          margin='size-50'
+          justifyContent='space-between'
+          alignItems='center'
         >
-          <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
-        </ActionButton>
-        <View>
-          <DialogTrigger>
+          <View UNSAFE_className='list-with-detail-master-item-number'>
+            <Text>{index + 1}</Text>
+          </View>
+          <ActionButton
+            flex='auto'
+            isQuiet
+            onPress={handleSelect(index)}
+            aria-label={`select-item-${childLabel}`}
+          >
+            <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
+          </ActionButton>
+          <View>
             <TooltipTrigger delay={0}>
-              <ActionButton aria-label={`delete-item-${childLabel}`}>
-                <Delete />
-              </ActionButton>
+              <DialogTrigger>
+                <ActionButton aria-label={`delete-item-${childLabel}`}>
+                  <Delete />
+                </ActionButton>
+                <AlertDialog
+                  variant='confirmation'
+                  title='Delete'
+                  primaryActionLabel='Delete'
+                  cancelLabel='Cancel'
+                  autoFocusButton='primary'
+                  onPrimaryAction={removeItem(path, index)}
+                >
+                  Are you sure you wish to delete this item?
+                </AlertDialog>
+              </DialogTrigger>
               <Tooltip>Delete</Tooltip>
             </TooltipTrigger>
-            <AlertDialog
-              variant='confirmation'
-              title='Delete'
-              primaryActionLabel='Delete'
-              cancelLabel='Cancel'
-              autoFocusButton='primary'
-              onPrimaryAction={removeItem(path, index)}
-            >
-              Are you sure you wish to delete this item?
-            </AlertDialog>
-          </DialogTrigger>
-        </View>
-      </Flex>
-    </div>
+          </View>
+        </Flex>
+      </div>
+    </SpectrumProvider>
   );
 };
 

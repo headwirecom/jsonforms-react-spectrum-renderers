@@ -43,6 +43,6 @@ export const SpectrumEnumCell = (props: EnumCellProps & SpectrumInputProps) => (
  * Default tester for enum controls.
  * @type {RankedTester}
  */
-export const spectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
+export const SpectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
 
 export default withJsonFormsEnumCellProps(SpectrumEnumCell);

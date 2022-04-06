@@ -36,9 +36,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumIntegerCell, {
-  spectrumIntegerCellTester,
+  SpectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -58,34 +58,34 @@ const fixture = {
 };
 
 const cells = [
-  { tester: spectrumIntegerCellTester, cell: SpectrumIntegerCell },
+  { tester: SpectrumIntegerCellTester, cell: SpectrumIntegerCell },
 ];
 
 describe('Integer cell tester', () => {
   test('tester', () => {
-    expect(spectrumIntegerCellTester(undefined, undefined)).toBe(-1);
-    expect(spectrumIntegerCellTester(null, undefined)).toBe(-1);
-    expect(spectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(spectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumIntegerCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumIntegerCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(-1);
 
     const controlElement: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
     };
     expect(
-      spectrumIntegerCellTester(controlElement, {
+      SpectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'string' } },
       })
     ).toBe(-1);
     expect(
-      spectrumIntegerCellTester(controlElement, {
+      SpectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'string' }, bar: { type: 'integer' } },
       })
     ).toBe(-1);
     expect(
-      spectrumIntegerCellTester(controlElement, {
+      SpectrumIntegerCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'integer' } },
       })
@@ -133,7 +133,7 @@ describe('Integer cell', () => {
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -155,7 +155,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -177,7 +177,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -196,7 +196,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -210,7 +210,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -228,7 +228,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -246,7 +246,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -266,7 +266,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -282,7 +282,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -298,7 +298,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -314,7 +314,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -337,7 +337,7 @@ describe('Integer cell', () => {
           rule: { effect: RuleEffect.DISABLE, condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -351,7 +351,7 @@ describe('Integer cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

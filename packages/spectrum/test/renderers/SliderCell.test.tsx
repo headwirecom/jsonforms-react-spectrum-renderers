@@ -37,10 +37,12 @@ import {
 } from '@jsonforms/core';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SliderCell, { sliderCellTester } from '../../src/cells/SliderCell';
+import SpectrumSliderCell, {
+  SpectrumSliderCellTester,
+} from '../../src/cells/SpectrumSliderCell';
 import { renderForm } from '../util';
 import { fireEvent } from '@testing-library/dom';
-import { spectrumRenderers } from '../../src/index';
+import { SpectrumRenderers } from '../../src/index';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -61,20 +63,20 @@ const fixture = {
   uischema: controlElement,
 };
 
-const cells = [{ tester: sliderCellTester, cell: SliderCell }];
+const cells = [{ tester: SpectrumSliderCellTester, cell: SpectrumSliderCell }];
 
 describe('Slider cell tester', () => {
   test('tester', () => {
-    expect(sliderCellTester(undefined, undefined)).toBe(-1);
-    expect(sliderCellTester(null, undefined)).toBe(-1);
-    expect(sliderCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(sliderCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumSliderCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumSliderCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumSliderCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumSliderCellTester({ type: 'Control' }, undefined)).toBe(-1);
   });
 
   test('tester with wrong schema type', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(control, {
+      SpectrumSliderCellTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -86,7 +88,7 @@ describe('Slider cell tester', () => {
   test('tester with wrong schema type, but sibling has correct one', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(control, {
+      SpectrumSliderCellTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -99,7 +101,7 @@ describe('Slider cell tester', () => {
   test('tester with correct schema type, but missing maximum and minimum cells', () => {
     const control: ControlElement = fixture.uischema;
     expect(
-      sliderCellTester(control, {
+      SpectrumSliderCellTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'number' },
@@ -110,7 +112,7 @@ describe('Slider cell tester', () => {
 
   test('tester with correct schema type, but missing maximum', () => {
     expect(
-      sliderCellTester(fixture.uischema, {
+      SpectrumSliderCellTester(fixture.uischema, {
         type: 'object',
         properties: {
           foo: {
@@ -124,7 +126,7 @@ describe('Slider cell tester', () => {
 
   test('tester with correct schema type, but missing minimum', () => {
     expect(
-      sliderCellTester(fixture.uischema, {
+      SpectrumSliderCellTester(fixture.uischema, {
         type: 'object',
         properties: {
           foo: {
@@ -138,7 +140,7 @@ describe('Slider cell tester', () => {
 
   test('tester with matching schema type (number) without default', () => {
     expect(
-      sliderCellTester(fixture.uischema, {
+      SpectrumSliderCellTester(fixture.uischema, {
         type: 'object',
         properties: {
           foo: {
@@ -153,7 +155,7 @@ describe('Slider cell tester', () => {
 
   test('tester with matching schema type (integer) without default', () => {
     expect(
-      sliderCellTester(fixture.uischema, {
+      SpectrumSliderCellTester(fixture.uischema, {
         type: 'object',
         properties: {
           foo: {
@@ -172,7 +174,7 @@ describe('Slider cell tester', () => {
       options: { slider: true },
     };
     expect(
-      sliderCellTester(control, {
+      SpectrumSliderCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -190,7 +192,7 @@ describe('Slider cell tester', () => {
     const control: ControlElement = fixture.uischema;
     control.options = { slider: true };
     expect(
-      sliderCellTester(control, {
+      SpectrumSliderCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -244,7 +246,7 @@ describe('Slider cell', () => {
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -267,7 +269,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -288,7 +290,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -304,7 +306,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -358,7 +360,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -374,7 +376,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -389,7 +391,7 @@ describe('Slider cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

@@ -41,15 +41,14 @@ import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import SpectrumHorizontalLayoutRenderer, {
-  spectrumHorizontalLayoutTester,
+  SpectrumHorizontalLayoutTester,
 } from '../../src/layouts/SpectrumHorizontalLayout';
 import InputControl, {
   inputControlTester,
 } from '../../src/controls/InputControl';
 import SpectrumTextCell, {
-  spectrumTextCellTester,
+  SpectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
-import DateCell, { dateCellTester } from '../../src/cells/DateCell';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -70,7 +69,7 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   },
 };
 
-const cells = [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }];
+const cells = [{ tester: SpectrumTextCellTester, cell: SpectrumTextCell }];
 const renderers = [{ tester: inputControlTester, renderer: InputControl }];
 
 test('tester', () => {
@@ -129,7 +128,7 @@ describe('Input control', () => {
           renderers={[
             { tester: inputControlTester, renderer: InputControl },
             {
-              tester: spectrumHorizontalLayoutTester,
+              tester: SpectrumHorizontalLayoutTester,
               renderer: SpectrumHorizontalLayoutRenderer,
             },
           ]}
@@ -373,7 +372,7 @@ describe('Input control', () => {
         renderers={[
           { tester: inputControlTester, renderer: InputControl },
           {
-            tester: spectrumHorizontalLayoutTester,
+            tester: SpectrumHorizontalLayoutTester,
             renderer: SpectrumHorizontalLayoutRenderer,
           },
         ]}
@@ -384,64 +383,6 @@ describe('Input control', () => {
     expect(validation.at(0).text()).toBe('');
     expect(validation.at(1).text()).toBe('is a required property');
     expect(validation.at(2).text()).toBe('is a required property');
-  });
-  // TODO: required markers work different in react-spectrum
-  // and the dateCell is not migrated yet
-  test.skip('required cell is marked', () => {
-    const schema: JsonSchema = {
-      type: 'object',
-      properties: {
-        dateCell: {
-          type: 'string',
-          format: 'date',
-        },
-      },
-      required: ['dateCell'],
-    };
-    const uischema: ControlElement = {
-      type: 'Control',
-      scope: '#/properties/dateCell',
-    };
-    wrapper = mount(
-      <JsonForms
-        schema={schema}
-        uischema={uischema}
-        data={fixture.data}
-        renderers={renderers}
-        cells={[{ tester: dateCellTester, cell: DateCell }]}
-      />
-    );
-    const label = wrapper.find('label');
-    expect(label.text()).toBe('Date Cell*');
-  });
-
-  // TODO: required markers work different in react-spectrum
-  // and the dateCell is not migrated yet
-  test.skip('not required', () => {
-    const schema: JsonSchema = {
-      type: 'object',
-      properties: {
-        dateCell: {
-          type: 'string',
-          format: 'date',
-        },
-      },
-    };
-    const uischema: ControlElement = {
-      type: 'Control',
-      scope: '#/properties/dateCell',
-    };
-    wrapper = mount(
-      <JsonForms
-        schema={schema}
-        uischema={uischema}
-        data={{}}
-        renderers={renderers}
-        cells={[{ tester: dateCellTester, cell: DateCell }]}
-      />
-    );
-    const label = wrapper.find('label');
-    expect(label.text()).toBe('Date Cell');
   });
 
   test('show description on focus', () => {
@@ -567,7 +508,7 @@ describe('Input control', () => {
       type: 'object',
       properties: {
         expectedValue: {
-          type: ['string', 'integer', 'number', 'boolean'],
+          type: ['string', 'integer', 'rating', 'number', 'boolean'],
         },
       },
     };

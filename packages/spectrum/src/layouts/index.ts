@@ -26,20 +26,20 @@
   THE SOFTWARE.
 */
 import SpectrumGroupLayout, {
-  spectrumGroupLayoutTester,
+  SpectrumGroupLayoutTester,
 } from './SpectrumGroupLayout';
 import SpectrumHorizontalLayout, {
-  spectrumHorizontalLayoutTester,
+  SpectrumHorizontalLayoutTester,
 } from './SpectrumHorizontalLayout';
 import SpectrumVerticalLayout, {
-  spectrumVerticalLayoutTester,
+  SpectrumVerticalLayoutTester,
 } from './SpectrumVerticalLayout';
 
 export {
   SpectrumGroupLayout,
-  spectrumGroupLayoutTester,
+  SpectrumGroupLayoutTester,
   SpectrumHorizontalLayout,
-  spectrumHorizontalLayoutTester,
+  SpectrumHorizontalLayoutTester,
   SpectrumVerticalLayout,
-  spectrumVerticalLayoutTester,
+  SpectrumVerticalLayoutTester,
 };

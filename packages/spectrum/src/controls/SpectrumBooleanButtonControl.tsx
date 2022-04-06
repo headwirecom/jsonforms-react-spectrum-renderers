@@ -27,18 +27,53 @@
 */
 import React from 'react';
 import {
-  CellProps,
-  isRangeControl,
+  ControlProps,
+  isBooleanControl,
   RankedTester,
   rankWith,
+  and,
+  optionIs,
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
-import { InputSlider, SpectrumInputProps } from '../spectrum-control';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { isEmpty } from '../util/isEmpty';
+import { SpectrumBooleanButtonCell } from '../cells/CustomizableCells';
 
-export const SliderCell = (props: CellProps & SpectrumInputProps) => (
-  <InputSlider {...props} />
+export const SpectrumBooleanButtonControl = ({
+  config,
+  data,
+  enabled,
+  errors,
+  handleChange,
+  id,
+  label,
+  path,
+  rootSchema,
+  schema,
+  uischema,
+  visible,
+}: ControlProps) => {
+  return (
+    <SpectrumBooleanButtonCell
+      id={id && `${id}-input`}
+      isValid={isEmpty(errors)}
+      data={data}
+      enabled={enabled}
+      visible={visible}
+      path={path}
+      uischema={uischema}
+      schema={schema}
+      rootSchema={rootSchema}
+      handleChange={handleChange}
+      errors={errors}
+      config={config}
+    >
+      {label}
+    </SpectrumBooleanButtonCell>
+  );
+};
+
+export const SpectrumBooleanButtonControlTester: RankedTester = rankWith(
+  2,
+  and(isBooleanControl, optionIs('button', true))
 );
-
-export const sliderCellTester: RankedTester = rankWith(4, isRangeControl);
-
-export default withJsonFormsCellProps(SliderCell);
+export default withJsonFormsControlProps(SpectrumBooleanButtonControl);

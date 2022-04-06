@@ -35,7 +35,7 @@ import {
 } from '@adobe/react-spectrum';
 
 import SpectrumOneOfEnumControl, {
-  spectrumOneOfEnumControlTester,
+  SpectrumOneOfEnumControlTester,
 } from '../../src/controls/SpectrumOneOfEnumControl';
 import { mountForm } from '../util';
 import { JsonForms } from '@jsonforms/react';
@@ -70,23 +70,23 @@ const fixture = {
 
 const renderers = [
   {
-    tester: spectrumOneOfEnumControlTester,
+    tester: SpectrumOneOfEnumControlTester,
     renderer: SpectrumOneOfEnumControl,
   },
 ];
 
 test('tester', () => {
-  expect(spectrumOneOfEnumControlTester(undefined, undefined)).toBe(-1);
-  expect(spectrumOneOfEnumControlTester(null, undefined)).toBe(-1);
-  expect(spectrumOneOfEnumControlTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumOneOfEnumControlTester({ type: 'Control' }, undefined)).toBe(
+  expect(SpectrumOneOfEnumControlTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumOneOfEnumControlTester(null, undefined)).toBe(-1);
+  expect(SpectrumOneOfEnumControlTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumOneOfEnumControlTester({ type: 'Control' }, undefined)).toBe(
     -1
   );
 });
 
 test('tester with wrong prop type', () => {
   expect(
-    spectrumOneOfEnumControlTester(fixture.uischema, {
+    SpectrumOneOfEnumControlTester(fixture.uischema, {
       type: 'object',
       properties: { foo: { type: 'string' } },
     })
@@ -95,7 +95,7 @@ test('tester with wrong prop type', () => {
 
 test('tester with wrong prop type, but sibling has correct one', () => {
   expect(
-    spectrumOneOfEnumControlTester(fixture.uischema, {
+    SpectrumOneOfEnumControlTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -108,14 +108,14 @@ test('tester with wrong prop type, but sibling has correct one', () => {
 });
 
 test('tester with matching string type', () => {
-  expect(spectrumOneOfEnumControlTester(fixture.uischema, fixture.schema)).toBe(
+  expect(SpectrumOneOfEnumControlTester(fixture.uischema, fixture.schema)).toBe(
     5
   );
 });
 
 test('tester with matching numeric type', () => {
   expect(
-    spectrumOneOfEnumControlTester(fixture.uischema, {
+    SpectrumOneOfEnumControlTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {

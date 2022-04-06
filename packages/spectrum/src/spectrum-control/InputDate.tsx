@@ -27,50 +27,44 @@ import { CellProps, computeLabel } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Flex } from '@adobe/react-spectrum';
-import { DatePicker, DatePickerLabel } from '../additional/DatePicker';
+import { DatePicker } from '@react-spectrum/datepicker';
+import { parseDate } from '@internationalized/date';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputDate extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      config,
-      uischema,
-      data,
-      id,
-      enabled,
-      required,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+export const InputDate = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  label,
+  path,
+  required,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
-      <Flex direction='column'>
-        <DatePickerLabel htmlFor={id + '-input'}>
-          {computeLabel(
-            label,
-            required,
-            appliedUiSchemaOptions.hideRequiredAsterisk
-          )}
-        </DatePickerLabel>
-        <DatePicker
-          width={width}
-          type='date'
-          value={data ?? ''}
-          onChange={(ev) => handleChange(path, ev.target.value)}
-          id={id}
-          disabled={!enabled}
-          autoFocus={uischema.options && uischema.options.focus}
-        />
-      </Flex>
-    );
-  }
-}
+  return (
+    <SpectrumProvider width={width}>
+      <DatePicker
+        label={computeLabel(
+          label,
+          required,
+          appliedUiSchemaOptions.hideRequiredAsterisk
+        )}
+        width={width}
+        id={id}
+        isDisabled={enabled === undefined ? false : !enabled}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        value={data ? parseDate(data) : null}
+        onChange={(datetime: any) =>
+          handleChange(path, datetime ? datetime?.toString() : '')
+        }
+      />
+    </SpectrumProvider>
+  );
+};

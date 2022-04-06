@@ -27,7 +27,7 @@ import 'codemirror/theme/mbo.css';
 import 'codemirror/theme/base16-light.css';
 import React, { useCallback, useContext, useState } from 'react';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
-import { ColorSchemeContext } from './ColorSchemeContext';
+import { ColorSchemeContext } from '../../spectrum/src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
 import 'codemirror/mode/javascript/javascript';

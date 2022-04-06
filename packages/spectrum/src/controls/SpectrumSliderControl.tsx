@@ -37,7 +37,7 @@ export const SpectrumSliderControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputSlider} />
 );
 
-export const spectrumSliderControlTester: RankedTester = rankWith(
+export const SpectrumSliderControlTester: RankedTester = rankWith(
   4,
   isRangeControl
 );

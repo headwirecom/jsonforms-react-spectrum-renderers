@@ -36,9 +36,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumNumberCell, {
-  spectrumNumberCellTester,
+  SpectrumNumberCellTester,
 } from '../../src/cells/SpectrumNumberCell';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -57,14 +57,14 @@ const fixture = {
   uischema: controlElement,
 };
 
-const cells = [{ tester: spectrumNumberCellTester, cell: SpectrumNumberCell }];
+const cells = [{ tester: SpectrumNumberCellTester, cell: SpectrumNumberCell }];
 
 describe('Number cell tester', () => {
   test('tester', () => {
-    expect(spectrumNumberCellTester(undefined, undefined)).toBe(-1);
-    expect(spectrumNumberCellTester(null, undefined)).toBe(-1);
-    expect(spectrumNumberCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(spectrumNumberCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester({ type: 'Control' }, undefined)).toBe(-1);
   });
 
   test('tester with wrong schema type', () => {
@@ -73,7 +73,7 @@ describe('Number cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumNumberCellTester(control, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -90,7 +90,7 @@ describe('Number cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumNumberCellTester(control, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -110,7 +110,7 @@ describe('Number cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumNumberCellTester(control, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -162,7 +162,7 @@ describe('Number cell', () => {
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -185,7 +185,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -207,7 +207,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -225,7 +225,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -240,7 +240,7 @@ describe('Number cell', () => {
         schema={schema}
         uischema={fixture.uischema}
         data={{ foo: 3.14 }}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -258,7 +258,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -276,7 +276,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -295,7 +295,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={{ foo: 2.72 }}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -312,7 +312,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -327,7 +327,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -342,7 +342,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -364,7 +364,7 @@ describe('Number cell', () => {
           rule: { effect: RuleEffect.DISABLE, condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -378,7 +378,7 @@ describe('Number cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

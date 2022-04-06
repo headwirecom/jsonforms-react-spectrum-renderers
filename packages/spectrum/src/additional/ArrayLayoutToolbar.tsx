@@ -27,6 +27,7 @@
   THE SOFTWARE.
 */
 
+import React from 'react';
 import {
   ActionButton,
   Flex,
@@ -36,9 +37,8 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import Add from '@spectrum-icons/workflow/Add';
-import React from 'react';
+import SpectrumProvider from './SpectrumProvider';
 import { ErrorIndicator } from '../components/ErrorIndicator';
-
 export interface ArrayLayoutToolbarProps {
   label: string;
   errors: string;
@@ -55,24 +55,26 @@ export const ArrayLayoutToolbar = React.memo(
     createDefault,
   }: ArrayLayoutToolbarProps) => {
     return (
-      <Flex direction='row' alignItems='center'>
-        <Heading level={4}>{label}</Heading>
-        <View isHidden={errors.length !== 0} marginEnd='auto' />
-        <View isHidden={errors.length === 0} marginEnd='auto'>
-          <ErrorIndicator errors={errors} />
-        </View>
-        <View>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              aria-label='add'
-              onPress={addItem(path, createDefault())}
-            >
-              <Add />
-            </ActionButton>
-            <Tooltip>{`Add to ${label}`}</Tooltip>
-          </TooltipTrigger>
-        </View>
-      </Flex>
+      <SpectrumProvider>
+        <Flex direction='row' alignItems='center'>
+          <Heading level={4}>{label}</Heading>
+          <View isHidden={errors.length !== 0} marginEnd='auto' />
+          <View isHidden={errors.length === 0} marginEnd='auto'>
+            <ErrorIndicator errors={errors} />
+          </View>
+          <View>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                aria-label='add'
+                onPress={addItem(path, createDefault())}
+              >
+                <Add />
+              </ActionButton>
+              <Tooltip>{`Add to ${label}`}</Tooltip>
+            </TooltipTrigger>
+          </View>
+        </Flex>
+      </SpectrumProvider>
     );
   }
 );

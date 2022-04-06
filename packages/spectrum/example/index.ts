@@ -26,12 +26,12 @@
   THE SOFTWARE.
 */
 import { createThemeSelection, getPreferredTheme } from './theme.switcher';
-import { spectrumCells, spectrumRenderers } from '../src';
+import { SpectrumCells, SpectrumRenderers } from '../src';
 import { renderExample } from '../../example/src/index';
 
 const rerender = renderExample(
-  spectrumRenderers,
-  spectrumCells,
+  SpectrumRenderers,
+  SpectrumCells,
   getPreferredTheme()
 );
 createThemeSelection(rerender);

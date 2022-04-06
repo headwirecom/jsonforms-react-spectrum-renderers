@@ -36,9 +36,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumTextAreaCell, {
-  spectrumTextAreaCellTester,
+  SpectrumTextAreaCellTester,
 } from '../../src/cells/SpectrumTextAreaCell';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -59,7 +59,7 @@ const fixture = {
 };
 
 const cells = [
-  { tester: spectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
+  { tester: SpectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
 ];
 
 describe('Text area cell', () => {
@@ -104,7 +104,7 @@ describe('Text area cell', () => {
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -127,7 +127,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -149,7 +149,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -168,7 +168,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -182,7 +182,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -200,7 +200,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -219,7 +219,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -237,7 +237,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -255,7 +255,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -273,7 +273,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -298,7 +298,7 @@ describe('Text area cell', () => {
           rule: { effect: RuleEffect.DISABLE, condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -314,7 +314,7 @@ describe('Text area cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -327,12 +327,12 @@ describe('Text area cell', () => {
 
 describe('Text area cell tester', () => {
   test('tester', () => {
-    expect(spectrumTextAreaCellTester(undefined, undefined)).toBe(-1);
-    expect(spectrumTextAreaCellTester(null, undefined)).toBe(-1);
-    expect(spectrumTextAreaCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(spectrumTextAreaCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumTextAreaCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumTextAreaCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumTextAreaCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumTextAreaCellTester({ type: 'Control' }, undefined)).toBe(-1);
     expect(
-      spectrumTextAreaCellTester(
+      SpectrumTextAreaCellTester(
         { type: 'Control', options: { multi: true } },
         undefined
       )

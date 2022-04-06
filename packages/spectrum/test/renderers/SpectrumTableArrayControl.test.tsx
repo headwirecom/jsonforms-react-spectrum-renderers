@@ -35,9 +35,9 @@ import {
 } from '@jsonforms/core';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { spectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
+import { SpectrumTableArrayControlTester } from '../../src/complex/SpectrumTableArrayControl';
 import SpectrumIntegerCell, {
-  spectrumIntegerCellTester,
+  SpectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
 import { renderForm } from '../util';
 
@@ -84,7 +84,7 @@ describe('Table array tester', () => {
       scope: '#',
       options: { table: true },
     };
-    expect(spectrumTableArrayControlTester(control, undefined)).toBe(-1);
+    expect(SpectrumTableArrayControlTester(control, undefined)).toBe(-1);
   });
 
   test('tester with prop of wrong type', () => {
@@ -94,7 +94,7 @@ describe('Table array tester', () => {
       options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      SpectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           x: { type: 'integer' },
@@ -110,7 +110,7 @@ describe('Table array tester', () => {
       options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      SpectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'array' },
@@ -126,7 +126,7 @@ describe('Table array tester', () => {
       options: { table: true },
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      SpectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -150,7 +150,7 @@ describe('Table array tester', () => {
       options,
     };
     expect(
-      spectrumTableArrayControlTester(control, {
+      SpectrumTableArrayControlTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -174,14 +174,14 @@ describe('Table array tester', () => {
       options,
     };
 
-    expect(spectrumTableArrayControlTester(uischema, fixture.schema)).toBe(
+    expect(SpectrumTableArrayControlTester(uischema, fixture.schema)).toBe(
       expected
     );
   });
 
   test('tester - wrong type', () =>
     expect(
-      spectrumTableArrayControlTester(
+      SpectrumTableArrayControlTester(
         { type: 'Foo', options: { table: true } },
         null
       )
@@ -218,7 +218,7 @@ describe('Table array control', () => {
   test('render two children', () => {
     const cells: JsonFormsCellRendererRegistryEntry[] = [
       {
-        tester: spectrumIntegerCellTester,
+        tester: SpectrumIntegerCellTester,
         cell: SpectrumIntegerCell,
       },
     ];

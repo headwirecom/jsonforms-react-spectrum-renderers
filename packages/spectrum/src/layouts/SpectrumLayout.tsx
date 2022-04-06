@@ -26,9 +26,10 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { RendererProps } from '@jsonforms/core';
 import { Flex } from '@adobe/react-spectrum';
+import { RendererProps } from '@jsonforms/core';
 import { FlexProps } from '@react-types/layout';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const SpectrumLayout = ({
   children,
@@ -36,12 +37,14 @@ export const SpectrumLayout = ({
   ...flexProps
 }: RendererProps & FlexProps) => {
   return (
-    <Flex
-      isHidden={visible === undefined || visible === null ? false : !visible}
-      gap='size-100'
-      {...flexProps}
-    >
-      {children}
-    </Flex>
+    <SpectrumProvider>
+      <Flex
+        isHidden={visible === undefined || visible === null ? false : !visible}
+        gap='size-100'
+        {...flexProps}
+      >
+        {children}
+      </Flex>
+    </SpectrumProvider>
   );
 };

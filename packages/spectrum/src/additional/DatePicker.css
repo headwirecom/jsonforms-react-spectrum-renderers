@@ -1,9 +1,0 @@
-/**
- * Makes the little calendar icon grey on Chrome
- * Otherwise it's not visible with dark mode styles
- */
-::-webkit-calendar-picker-indicator {
-  filter: invert(0.5);
-  position: relative;
-  top: 2px;
-}

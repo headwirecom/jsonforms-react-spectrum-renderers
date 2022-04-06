@@ -49,7 +49,7 @@ import {
 import { getExamples, registerExamples } from '@jsonforms/examples';
 import { exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
-import { ColorSchemeContext } from './ColorSchemeContext';
+import { ColorSchemeContext } from '../../spectrum/src/util/ColorSchemeContext';
 
 declare global {
   interface Window {

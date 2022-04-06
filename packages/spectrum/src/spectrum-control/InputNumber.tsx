@@ -25,51 +25,46 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { TextField } from '@adobe/react-spectrum';
+import { NumberField } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputNumber extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      data,
-      isValid,
-      config,
-      id,
-      required,
-      enabled,
-      uischema,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+export const InputNumber = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  isValid,
+  label,
+  path,
+  required,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const toNumber = (value: string) =>
-      value === '' ? undefined : parseFloat(value);
-
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
-      <TextField
+  return (
+    <SpectrumProvider width={width}>
+      <NumberField
         label={label}
-        type='number'
-        inputMode='numeric'
+        aria-label={label ? label : 'numberfield'}
         value={data ?? ''}
-        onChange={(value) => handleChange(path, toNumber(value))}
+        onChange={(value: number) => handleChange(path, value)}
         id={id}
-        isDisabled={!enabled}
-        autoFocus={uischema.options && uischema.options.focus}
-        isRequired={isRequired}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        isDisabled={enabled === undefined ? false : !enabled}
+        autoFocus={appliedUiSchemaOptions.focus}
+        isRequired={required}
         validationState={isValid ? 'valid' : 'invalid'}
         width={width}
+        step={appliedUiSchemaOptions.step ?? 0.1}
+        hideStepper={appliedUiSchemaOptions.hideStepper ?? false}
       />
-    );
-  }
-}
+    </SpectrumProvider>
+  );
+};

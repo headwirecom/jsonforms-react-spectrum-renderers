@@ -37,9 +37,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumBooleanCell, {
-  spectrumBooleanCellTester,
+  SpectrumBooleanCellTester,
 } from '../../src/cells/SpectrumBooleanCell';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { InputControl } from '../../src/controls/InputControl';
 import { JsonForms } from '@jsonforms/react';
 
@@ -57,15 +57,15 @@ const fixture = {
 };
 
 const cells = [
-  { tester: spectrumBooleanCellTester, cell: SpectrumBooleanCell },
+  { tester: SpectrumBooleanCellTester, cell: SpectrumBooleanCell },
 ];
 
 describe('Boolean cell tester', () => {
   test('tester', () => {
-    expect(spectrumBooleanCellTester(undefined, undefined)).toBe(-1);
-    expect(spectrumBooleanCellTester(null, undefined)).toBe(-1);
-    expect(spectrumBooleanCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(spectrumBooleanCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester({ type: 'Control' }, undefined)).toBe(-1);
   });
 
   test('tester with wrong prop type', () => {
@@ -74,7 +74,7 @@ describe('Boolean cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumBooleanCellTester(controlElement, {
+      SpectrumBooleanCellTester(controlElement, {
         type: 'object',
         properties: { foo: { type: 'string' } },
       })
@@ -87,7 +87,7 @@ describe('Boolean cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumBooleanCellTester(controlElement, {
+      SpectrumBooleanCellTester(controlElement, {
         type: 'object',
         properties: {
           foo: {
@@ -107,7 +107,7 @@ describe('Boolean cell tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumBooleanCellTester(controlElement, {
+      SpectrumBooleanCellTester(controlElement, {
         type: 'object',
         properties: {
           foo: {
@@ -159,7 +159,7 @@ describe('Boolean cell', () => {
         schema={schema}
         uischema={uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -181,7 +181,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -202,7 +202,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -220,7 +220,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -234,7 +234,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -250,7 +250,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -265,7 +265,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -284,7 +284,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -300,7 +300,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -316,7 +316,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -332,7 +332,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -355,7 +355,7 @@ describe('Boolean cell', () => {
           rule: { effect: RuleEffect.DISABLE, condition: condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -369,7 +369,7 @@ describe('Boolean cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

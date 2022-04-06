@@ -43,7 +43,7 @@ export const SpectrumNumberCell = (props: CellProps) => (
  * Default tester for number controls.
  * @type {RankedTester}
  */
-export const spectrumNumberCellTester: RankedTester = rankWith(
+export const SpectrumNumberCellTester: RankedTester = rankWith(
   2,
   isNumberControl
 );

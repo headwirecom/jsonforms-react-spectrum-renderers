@@ -42,7 +42,7 @@ export const SpectrumIntegerCell = (props: CellProps & SpectrumInputProps) => (
  * Default tester for integer controls.
  * @type {RankedTester}
  */
-export const spectrumIntegerCellTester: RankedTester = rankWith(
+export const SpectrumIntegerCellTester: RankedTester = rankWith(
   2,
   isIntegerControl
 );

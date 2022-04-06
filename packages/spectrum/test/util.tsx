@@ -34,7 +34,7 @@ import {
   UISchemaElement,
 } from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
-import { spectrumRenderers } from '../src/index';
+import { SpectrumRenderers } from '../src/index';
 import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
@@ -58,7 +58,7 @@ export function renderForm<T extends object, U extends UISchemaElement>(
         schema={schema}
         uischema={uischema}
         data={data ?? {}}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -88,7 +88,7 @@ export function mountForm<T extends object>(
         schema={schema}
         uischema={uischema}
         data={data ?? {}}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />

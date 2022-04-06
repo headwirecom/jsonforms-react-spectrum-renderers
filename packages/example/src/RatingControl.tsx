@@ -45,7 +45,7 @@ import { connect } from 'react-redux';
  */
 export const ratingControlTester: RankedTester = rankWith(
   Number.MAX_VALUE,
-  scopeEndsWith('rating')
+  scopeEndsWith('ratingsssss')
 );
 
 export class RatingControl extends Control<ControlProps, ControlState> {

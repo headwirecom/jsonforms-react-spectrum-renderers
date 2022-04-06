@@ -10,11 +10,12 @@ Notice: This renderer set is work in progress and integrates yet unreleased Reac
 
 ## First time setup
 
-- Install [node.js](https://nodejs.org/) (version >= 6.x.x)
-- Update npm (version >= 5.8.0)
+- Install [node.js](https://nodejs.org/) (version = 14.x.x)
+- Update npm (version = 6.x.x)
 - Clone this repository
-- Install dependencies: `npm ci`
-- Hook up dependencies between packages: `npm run init`
+- Change into the Directory: `cd jsonforms-react-spectrum-renderers`
+- Install dependencies and Hook up dependencies between packages: `npm ci && npm run init`
+- Build and Run React Spectrum examples: `cd packages/spectrum && npm i && npm run build && npm run dev`
 
 ## Start the example application locally
 
@@ -36,6 +37,42 @@ Notice: This renderer set is work in progress and integrates yet unreleased Reac
 ## Continuous Integration
 
 The React Spectrum JSONForms project is build and tested via [Travis](https://travis-ci.org/). Coverage is documented by [Coveralls](https://coveralls.io).
+
+## JSON Schema Features
+
+- [x] boolean - Checkbox
+- [x] boolean - Toggle
+- [x] boolean - Button
+- [x] integer - Number
+- [ ] integer - Text (only used in Angular Material and Ionic, toFormatted doesn't work)
+- [x] integer - Starrating
+- [x] number - Number
+- [ ] number - Text (only used in Angular Material and Ionic, toFormatted doesn't work)
+- [x] number range - Slider
+- [x] string - Text
+- [x] string - TextArea
+- [x] enum - Combo
+- [x] enum - Autocomplete
+- [x] Date format - Date field
+- [x] Time format - Time field
+- [x] Datetime format - Datetime field
+- [x] Object - Vertical grid
+- [x] Array of primitives - List
+- [x] Array of objects - Table
+- [x] Array of objects - List
+- [x] Array of objects - List with Detail
+- [x] Array of enums - Multiple Choice
+- [x] oneOf - Tabs
+- [x] allOf - Vertical Grid
+- [x] anyOf - Tabs
+
+## UI Schema Features
+
+- [x] Vertical Layout - Vertical Grid
+- [x] Horizontal Layout - Horizontal Grid
+- [x] Categorization - Tabs
+- [x] Group - Group
+- [x] Label - Text
 
 # License
 

@@ -1,6 +1,9 @@
 /*
   The MIT License
 
+  Copyright (c) 2017-2019 EclipseSource Munich
+  https://github.com/eclipsesource/jsonforms
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -22,5 +25,23 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { createContext } from 'react';
-export const ColorSchemeContext = createContext<'light' | 'dark'>('dark');
+import React from 'react';
+import {
+  CellProps,
+  isRangeControl,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsCellProps } from '@jsonforms/react';
+import { InputSlider, SpectrumInputProps } from '../spectrum-control';
+
+export const SpectrumSliderCell = (props: CellProps & SpectrumInputProps) => (
+  <InputSlider {...props} />
+);
+
+export const SpectrumSliderCellTester: RankedTester = rankWith(
+  4,
+  isRangeControl
+);
+
+export default withJsonFormsCellProps(SpectrumSliderCell);

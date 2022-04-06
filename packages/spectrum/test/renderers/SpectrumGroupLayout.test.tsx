@@ -27,14 +27,14 @@
 */
 import { GroupLayout, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import '@testing-library/jest-dom';
-import { spectrumGroupLayoutTester } from '../../src/layouts/SpectrumGroupLayout';
+import { SpectrumGroupLayoutTester } from '../../src/layouts/SpectrumGroupLayout';
 import { renderForm } from '../util';
 
 test('tester', () => {
-  expect(spectrumGroupLayoutTester(undefined, undefined)).toBe(-1);
-  expect(spectrumGroupLayoutTester(null, undefined)).toBe(-1);
-  expect(spectrumGroupLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumGroupLayoutTester({ type: 'Group' }, undefined)).toBe(1);
+  expect(SpectrumGroupLayoutTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumGroupLayoutTester(null, undefined)).toBe(-1);
+  expect(SpectrumGroupLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumGroupLayoutTester({ type: 'Group' }, undefined)).toBe(1);
 });
 
 describe('Group layout', () => {

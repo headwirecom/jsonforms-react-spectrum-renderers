@@ -38,7 +38,7 @@ export const SpectrumDateControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputDate} />
 );
 
-export const spectrumDateControlTester: RankedTester = rankWith(
+export const SpectrumDateControlTester: RankedTester = rankWith(
   3,
   isDateControl
 );

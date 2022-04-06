@@ -37,7 +37,7 @@ export const SpectrumTextAreaControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputTextArea} />
 );
 
-export const spectrumTextAreaControlTester: RankedTester = rankWith(
+export const SpectrumTextAreaControlTester: RankedTester = rankWith(
   3,
   isMultiLineControl
 );

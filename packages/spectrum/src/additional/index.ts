@@ -27,6 +27,6 @@
   THE SOFTWARE.
 */
 import SpectrumListWithDetailRenderer, {
-  spectrumListWithDetailTester,
+  SpectrumListWithDetailTester,
 } from './SpectrumListWithDetailRenderer';
-export { SpectrumListWithDetailRenderer, spectrumListWithDetailTester };
+export { SpectrumListWithDetailRenderer, SpectrumListWithDetailTester };

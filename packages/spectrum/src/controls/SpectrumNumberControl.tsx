@@ -37,7 +37,7 @@ export const SpectrumNumberControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputNumber} />
 );
 
-export const spectrumNumberControlTester: RankedTester = rankWith(
+export const SpectrumNumberControlTester: RankedTester = rankWith(
   3,
   isNumberControl
 );

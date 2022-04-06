@@ -1,19 +1,15 @@
 /*
   The MIT License
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,50 +21,48 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { TextField } from '@adobe/react-spectrum';
+import { NumberField } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputInteger extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      config,
-      uischema,
-      data,
-      isValid,
-      id,
-      enabled,
-      required,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+export const InputInteger = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  isValid,
+  label,
+  path,
+  required,
+  schema,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
-      <div>
-        <TextField
-          label={label}
-          type='number'
-          inputMode='numeric'
-          value={data ?? ''}
-          isRequired={isRequired}
-          onChange={(value) => handleChange(path, parseInt(value, 10))}
-          id={id}
-          isDisabled={enabled === undefined ? false : !enabled}
-          autoFocus={uischema.options && uischema.options.focus}
-          validationState={isValid ? 'valid' : 'invalid'}
-          width={width}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <SpectrumProvider width={width}>
+      <NumberField
+        label={label}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        value={data}
+        isRequired={required}
+        onChange={(value: number) => handleChange(path, value)}
+        id={id}
+        isDisabled={enabled === undefined ? false : !enabled}
+        autoFocus={appliedUiSchemaOptions.focus}
+        validationState={isValid ? 'valid' : 'invalid'}
+        width={width}
+        minValue={schema.minimum}
+        maxValue={schema.maximum}
+        step={appliedUiSchemaOptions.step ?? 1}
+        hideStepper={appliedUiSchemaOptions.hideStepper ?? false}
+      />
+    </SpectrumProvider>
+  );
+};

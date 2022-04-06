@@ -32,15 +32,15 @@ import {
   UISchemaElement,
 } from '@jsonforms/core';
 import '@testing-library/jest-dom';
-import { spectrumHorizontalLayoutTester } from '../../src/layouts/SpectrumHorizontalLayout';
+import { SpectrumHorizontalLayoutTester } from '../../src/layouts/SpectrumHorizontalLayout';
 import { renderForm } from '../util';
 
 test('tester', () => {
-  expect(spectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
-  expect(spectrumHorizontalLayoutTester(null, undefined)).toBe(-1);
-  expect(spectrumHorizontalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumHorizontalLayoutTester(null, undefined)).toBe(-1);
+  expect(SpectrumHorizontalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
   expect(
-    spectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)
+    SpectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)
   ).toBe(1);
 });
 

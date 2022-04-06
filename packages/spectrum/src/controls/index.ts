@@ -28,72 +28,97 @@
 
 import InputControl, { inputControlTester } from './InputControl';
 import SpectrumAnyOfStringOrEnumControl, {
-  spectrumAnyOfStringOrEnumControlTester,
+  SpectrumAnyOfStringOrEnumControlTester,
 } from './SpectrumAnyOfStringOrEnumControl';
 import SpectrumBooleanControl, {
-  spectrumBooleanControlTester,
+  SpectrumBooleanControlTester,
 } from './SpectrumBooleanControl';
+import SpectrumBooleanButtonControl, {
+  SpectrumBooleanButtonControlTester,
+} from './SpectrumBooleanButtonControl';
+import SpectrumCheckboxControl, {
+  SpectrumCheckboxControlTester,
+} from './SpectrumCheckboxControl';
+import SpectrumSwitchControl, {
+  SpectrumSwitchControlTester,
+} from './SpectrumSwitchControl';
 import SpectrumEnumControl, {
-  spectrumEnumControlTester,
+  SpectrumEnumControlTester,
 } from './SpectrumEnumControl';
 import SpectrumIntegerControl, {
-  spectrumIntegerControlTester,
+  SpectrumIntegerControlTester,
 } from './SpectrumIntegerControl';
+import SpectrumRadioGroupControl, {
+  SpectrumRadioGroupControlTester,
+} from './SpectrumRadioGroupControl';
+import SpectrumRatingControl, {
+  SpectrumRatingControlTester,
+} from './SpectrumRatingControl';
 import SpectrumNumberControl, {
-  spectrumNumberControlTester,
+  SpectrumNumberControlTester,
 } from './SpectrumNumberControl';
-import SpectrumNumberFormattedControl, {
-  spectrumNumberFormattedControlTester,
-} from './SpectrumNumberFormattedControl';
 import SpectrumOneOfEnumControl, {
-  spectrumOneOfEnumControlTester,
+  SpectrumOneOfEnumControlTester,
 } from './SpectrumOneOfEnumControl';
+import SpectrumOneOfRadioGroupControl, {
+  SpectrumOneOfRadioGroupControlTester,
+} from './SpectrumOneOfRadioGroupControl';
 import SpectrumSliderControl, {
-  spectrumSliderControlTester,
+  SpectrumSliderControlTester,
 } from './SpectrumSliderControl';
 import SpectrumTextAreaControl, {
-  spectrumTextAreaControlTester,
+  SpectrumTextAreaControlTester,
 } from './SpectrumTextAreaControl';
 import SpectrumTextControl, {
-  spectrumTextControlTester,
+  SpectrumTextControlTester,
 } from './SpectrumTextControl';
 import SpectrumDateControl, {
-  spectrumDateControlTester,
+  SpectrumDateControlTester,
 } from './SpectrumDateControl';
 import SpectrumDateTimeControl, {
-  spectrumDateTimeControlTester,
+  SpectrumDateTimeControlTester,
 } from './SpectrumDateTimeControl';
 import SpectrumTimeControl, {
-  spectrumTimeControlTester,
+  SpectrumTimeControlTester,
 } from './SpectrumTimeControl';
 
 export {
   InputControl,
   inputControlTester,
   SpectrumAnyOfStringOrEnumControl,
-  spectrumAnyOfStringOrEnumControlTester,
+  SpectrumAnyOfStringOrEnumControlTester,
   SpectrumBooleanControl,
-  spectrumBooleanControlTester,
+  SpectrumBooleanControlTester,
+  SpectrumBooleanButtonControl,
+  SpectrumBooleanButtonControlTester,
   SpectrumDateControl,
-  spectrumDateControlTester,
+  SpectrumDateControlTester,
   SpectrumDateTimeControl,
-  spectrumDateTimeControlTester,
+  SpectrumDateTimeControlTester,
   SpectrumEnumControl,
-  spectrumEnumControlTester,
+  SpectrumEnumControlTester,
   SpectrumIntegerControl,
-  spectrumIntegerControlTester,
+  SpectrumIntegerControlTester,
+  SpectrumRadioGroupControl,
+  SpectrumRadioGroupControlTester,
+  SpectrumRatingControl,
+  SpectrumRatingControlTester,
+  SpectrumCheckboxControl,
+  SpectrumCheckboxControlTester,
+  SpectrumSwitchControl,
+  SpectrumSwitchControlTester,
   SpectrumNumberControl,
-  spectrumNumberControlTester,
-  SpectrumNumberFormattedControl,
-  spectrumNumberFormattedControlTester,
+  SpectrumNumberControlTester,
   SpectrumOneOfEnumControl,
-  spectrumOneOfEnumControlTester,
+  SpectrumOneOfEnumControlTester,
+  SpectrumOneOfRadioGroupControl,
+  SpectrumOneOfRadioGroupControlTester,
   SpectrumSliderControl,
-  spectrumSliderControlTester,
+  SpectrumSliderControlTester,
   SpectrumTextAreaControl,
-  spectrumTextAreaControlTester,
+  SpectrumTextAreaControlTester,
   SpectrumTextControl,
-  spectrumTextControlTester,
+  SpectrumTextControlTester,
   SpectrumTimeControl,
-  spectrumTimeControlTester,
+  SpectrumTimeControlTester,
 };

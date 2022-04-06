@@ -58,6 +58,7 @@ import {
   ArrayHeader,
   ArrayFooter,
 } from './array/utils';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -72,7 +73,7 @@ const {
 const isTableOptionNotTrue: Test.Tester = (uischema) =>
   !uischema.options?.table;
 
-export const spectrumArrayControlGridTester: RankedTester = rankWith(
+export const SpectrumArrayControlGridTester: RankedTester = rankWith(
   3,
   or(
     and(isObjectArrayControl, isTableOptionNotTrue),
@@ -90,19 +91,22 @@ const errorStyle = {
 // Calculate minimum row height so that it does not change no matter if a call has an error message or not
 const rowMinHeight = `calc(var(--spectrum-alias-font-size-default) * ${errorFontSize} * ${errorStyle.lineHeight} + var(--spectrum-alias-single-line-height))`;
 
-function SpectrumArrayControlGrid(props: ArrayControlProps) {
-  const {
-    addItem,
-    uischema,
-    schema,
-    rootSchema,
-    path,
-    data,
-    visible,
-    label,
-    childErrors,
-    removeItems,
-  } = props;
+const SpectrumArrayControlGrid = ({
+  addItem,
+  uischema,
+  schema,
+  rootSchema,
+  path,
+  data,
+  visible,
+  label,
+  childErrors,
+  removeItems,
+}: ArrayControlProps) => {
+  const confirmDelete = (path: string, index: number) => {
+    const p = path.substring(0, path.lastIndexOf('.'));
+    removeItems(p, [index])();
+  };
 
   const controlElement = uischema as ControlElement;
   const createControlElement = (key?: string): ControlElement => ({
@@ -224,13 +228,28 @@ function SpectrumArrayControlGrid(props: ArrayControlProps) {
                   </View>,
                 ];
             return (
-              <React.Fragment key={index}>
+              <React.Fragment key={childPath}>
                 {rowCells}
-                <DeleteButton
-                  index={index}
-                  path={childPath}
-                  removeItems={removeItems}
-                />
+                <SpectrumProvider>
+                  <TooltipTrigger delay={0}>
+                    <DialogTrigger>
+                      <ActionButton aria-label={`Delete row at ${index}`}>
+                        <Delete />
+                      </ActionButton>
+                      <AlertDialog
+                        variant='confirmation'
+                        title='Delete'
+                        primaryActionLabel='Delete'
+                        cancelLabel='Cancel'
+                        autoFocusButton='primary'
+                        onPrimaryAction={() => confirmDelete(childPath, index)}
+                      >
+                        Are you sure you wish to delete this item?
+                      </AlertDialog>
+                    </DialogTrigger>
+                    <Tooltip>Delete</Tooltip>
+                  </TooltipTrigger>
+                </SpectrumProvider>
               </React.Fragment>
             );
           })}
@@ -239,41 +258,6 @@ function SpectrumArrayControlGrid(props: ArrayControlProps) {
       <ArrayFooter {...uioptions} add={add} />
     </View>
   );
-}
-
-function DeleteButton(props: {
-  removeItems: ArrayControlProps['removeItems'];
-  index: number;
-  path: string;
-}) {
-  const { removeItems, path, index } = props;
-  const remove = React.useCallback(() => {
-    const p = path.substring(0, path.lastIndexOf('.'));
-    removeItems(p, [index])();
-  }, [removeItems, path, index]);
-
-  return (
-    <View key={`delete-row-${index}`}>
-      <DialogTrigger>
-        <TooltipTrigger delay={0}>
-          <ActionButton aria-label={`Delete row at ${index}`}>
-            <Delete />
-          </ActionButton>
-          <Tooltip>Delete</Tooltip>
-        </TooltipTrigger>
-        <AlertDialog
-          variant='confirmation'
-          title='Delete'
-          primaryActionLabel='Delete'
-          cancelLabel='Cancel'
-          autoFocusButton='primary'
-          onPrimaryAction={remove}
-        >
-          Are you sure you wish to delete this item?
-        </AlertDialog>
-      </DialogTrigger>
-    </View>
-  );
-}
+};
 
 export default withJsonFormsArrayControlProps(SpectrumArrayControlGrid);

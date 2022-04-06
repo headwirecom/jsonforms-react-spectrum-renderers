@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { Key } from 'react';
+import React, { useState } from 'react';
 import {
   and,
   Categorization,
@@ -39,22 +39,25 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-import { RendererComponent, withJsonFormsLayoutProps } from '@jsonforms/react';
-import { Tabs } from '@react-spectrum/tabs';
+import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Button,
   ButtonGroup,
   Content,
   Flex,
   Item,
+  TabList,
+  TabPanels,
+  Tabs,
 } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 import './SpectrumCategorizationStepper.css';
 
-export const spectrumCategorizationStepperRendererTester: RankedTester = rankWith(
+export const SpectrumCategorizationStepperRendererTester: RankedTester = rankWith(
   2,
   and(
     uiTypeIs('Categorization'),
@@ -67,56 +70,56 @@ export interface SpectrumCategorizationRendererProps
   extends StatePropsOfLayout,
     AjvProps {}
 
-class SpectrumCategorizationStepperRenderer extends RendererComponent<
-  SpectrumCategorizationRendererProps
-> {
-  state: { selectedStep: number } = {
-    selectedStep: 0,
+export const SpectrumCategorizationStepperRenderer = (
+  props: SpectrumCategorizationRendererProps
+) => {
+  const { data, ajv, path, schema, visible, enabled, uischema, config } = props;
+  const [step, setStep] = useState(0);
+
+  const selectStep = (selectedItem: any): void => {
+    setStep(Number(selectedItem));
   };
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const categorization = uischema as Categorization;
+  const categories = categorization.elements.filter((category: Category) =>
+    isVisible(category, data, undefined, ajv)
+  );
 
-  selectStep = (selectedItem: Key): void => {
-    const selectedStep = Number(selectedItem);
-    if (this.state.selectedStep !== selectedStep) {
-      this.setState({ selectedStep });
-    }
-  };
-
-  /**
-   * @inheritDoc
-   */
-  render() {
-    const { path, schema, visible, enabled, uischema, config } = this.props;
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const categories = this.getCategories();
-    const { selectedStep } = this.state;
-
-    return (
+  return (
+    <SpectrumProvider>
       <Flex
         direction='column'
         isHidden={!visible}
         UNSAFE_className='categorization-stepper'
       >
         <Tabs
-          isDisabled={!enabled}
-          selectedKey={String(selectedStep)}
-          onSelectionChange={this.selectStep}
+          isDisabled={enabled === undefined ? false : !enabled}
+          selectedKey={String(step)}
+          onSelectionChange={selectStep}
         >
-          {categories.map((category, index) => (
-            <Item key={index} title={category.label}>
-              <Content margin='size-160'>
-                <SpectrumVerticalLayout
-                  uischema={
-                    {
-                      type: 'VerticalLayout',
-                      elements: category.elements ?? [],
-                    } as UISchemaElement
-                  }
-                  schema={schema}
-                  path={path}
-                ></SpectrumVerticalLayout>
-              </Content>
-            </Item>
-          ))}
+          <TabList>
+            {categories.map((category, index) => (
+              <Item key={index}>{category.label}</Item>
+            ))}
+          </TabList>
+          <TabPanels>
+            {categories.map((category, index) => (
+              <Item key={index} title={category.label}>
+                <Content margin='size-160'>
+                  <SpectrumVerticalLayout
+                    uischema={
+                      {
+                        type: 'VerticalLayout',
+                        elements: category.elements ?? [],
+                      } as UISchemaElement
+                    }
+                    schema={schema}
+                    path={path}
+                  ></SpectrumVerticalLayout>
+                </Content>
+              </Item>
+            ))}
+          </TabPanels>
         </Tabs>
         {Boolean(appliedUiSchemaOptions.showNavButtons) ? (
           <ButtonGroup
@@ -127,15 +130,15 @@ class SpectrumCategorizationStepperRenderer extends RendererComponent<
           >
             <Button
               variant='secondary'
-              isDisabled={selectedStep <= 0}
-              onPress={() => this.selectStep(selectedStep - 1)}
+              isDisabled={step <= 0}
+              onPress={() => selectStep(step - 1)}
             >
               Previous
             </Button>
             <Button
               variant='primary'
-              isDisabled={selectedStep >= categories.length - 1}
-              onPress={() => this.selectStep(selectedStep + 1)}
+              isDisabled={step >= categories.length - 1}
+              onPress={() => selectStep(step + 1)}
             >
               Next
             </Button>
@@ -144,18 +147,9 @@ class SpectrumCategorizationStepperRenderer extends RendererComponent<
           <></>
         )}
       </Flex>
-    );
-  }
-
-  private getCategories(): ReadonlyArray<Categorization | Category> {
-    const { data, uischema, ajv } = this.props;
-    const categorization = uischema as Categorization;
-
-    return categorization.elements.filter((category) =>
-      isVisible(category, data, undefined, ajv)
-    );
-  }
-}
+    </SpectrumProvider>
+  );
+};
 
 export default withJsonFormsLayoutProps(
   withAjvProps(SpectrumCategorizationStepperRenderer)

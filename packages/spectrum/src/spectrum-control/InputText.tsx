@@ -28,57 +28,45 @@ import merge from 'lodash/merge';
 import { TextField } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputText extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      data,
-      config,
-      id,
-      enabled,
-      uischema,
-      required,
-      isValid,
-      path,
-      handleChange,
-      schema,
-      label,
-    } = this.props;
+export const InputText = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  isValid,
+  label,
+  path,
+  required,
+  schema,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const maxLength = schema.maxLength;
-    const minLength = schema.minLength;
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
-    const onChange = (value: string) => handleChange(path, value);
-
-    // TODO: react-spectrum has no concept of "hide the asterisk" - the value is either required or not
-    // check if setting required to false has some unwanted consequences
-    const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
-
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
+  return (
+    <SpectrumProvider width={width}>
       <TextField
-        type={
-          appliedUiSchemaOptions.format === 'password' ? 'password' : 'text'
-        }
-        isRequired={isRequired}
+        aria-label={label ? label : 'textfield'}
+        type={appliedUiSchemaOptions.format ?? 'text'}
+        isRequired={required}
         value={data ?? ''}
         label={label}
-        onChange={onChange}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        onChange={(value: any) => handleChange(path, value)}
         id={id && `${id}-input`}
-        isDisabled={!enabled}
+        isDisabled={enabled === undefined ? false : !enabled}
         autoFocus={appliedUiSchemaOptions.focus}
-        maxLength={maxLength}
-        minLength={minLength}
+        maxLength={schema.maxLength}
+        minLength={schema.minLength}
         validationState={isValid ? 'valid' : 'invalid'}
         width={width}
       />
-    );
-  }
-}
+    </SpectrumProvider>
+  );
+};

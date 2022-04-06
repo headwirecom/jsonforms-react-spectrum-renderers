@@ -30,8 +30,17 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { JsonFormsDispatch } from '@jsonforms/react';
 import { JsonFormsReduxContext } from '@jsonforms/react/lib/redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { Heading, Item, Content, View } from '@adobe/react-spectrum';
-import { Tabs } from '@react-spectrum/tabs';
+import {
+  Heading,
+  Item,
+  Content,
+  View,
+  Tabs,
+  TabList,
+  TabPanels,
+  Provider,
+  defaultTheme,
+} from '@adobe/react-spectrum';
 import './App.css';
 import {
   initializedConnect,
@@ -53,9 +62,7 @@ interface AppProps extends ExampleStateProps, ExampleDispatchProps {}
 function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
   const setExampleByName = useCallback(
     (exampleName: string | number) => {
-      const example = props.examples.find(
-        (example) => example.name === exampleName
-      );
+      const example = props.examples.find((find) => find.name === exampleName);
       if (example) {
         props.changeExample(example);
       }
@@ -97,90 +104,105 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
   );
 
   return (
-    <JsonFormsReduxContext>
-      <View
-        padding='size-100'
-        minHeight='100vh'
-        paddingTop='0'
-        paddingBottom='size-800'
-      >
-        <div className='container'>
-          <View padding='size-100'>
-            <Heading>react, json-schema, jsonforms.io, react-spectrum</Heading>
-            Generate{' '}
-            <a href='https://react-spectrum.adobe.com/' target='_blank'>
-              react-spectrum
-            </a>{' '}
-            based forms quickly by leveraging{' '}
-            <a href='https://json-schema.org/' target='_blank'>
-              json-schemas
-            </a>{' '}
-            for your object structure definition/validation, and{' '}
-            <a href='https://www.jsonforms.io' target='_blank'>
-              jsonforms.io
-            </a>{' '}
-            - choose a same in the 'Examples' section to preview predefined
-            forms (try for example one of the 'Categorization' examples). You
-            can also modify the examples in the editors and save them to local
-            storage to play with them later.
-          </View>
-        </div>
-        <div className='container'>
-          <div className='App-Form'>
+    <Provider theme={defaultTheme} id='SpectrumInputControlProvider'>
+      <JsonFormsReduxContext>
+        <View
+          padding='size-100'
+          minHeight='100vh'
+          paddingTop='0'
+          paddingBottom='size-800'
+        >
+          <div className='container'>
             <View padding='size-100'>
-              <Heading>Form: {props.selectedExample.label}</Heading>
-              {props.getComponent(props.selectedExample)}
-              <JsonFormsDispatch onChange={props.onChange} />
+              <Heading>
+                react, json-schema, jsonforms.io, react-spectrum
+              </Heading>
+              Generate{' '}
+              <a href='https://react-spectrum.adobe.com/' target='_blank'>
+                react-spectrum
+              </a>{' '}
+              based forms quickly by leveraging{' '}
+              <a href='https://json-schema.org/' target='_blank'>
+                json-schemas
+              </a>{' '}
+              for your object structure definition/validation, and{' '}
+              <a href='https://www.jsonforms.io' target='_blank'>
+                jsonforms.io
+              </a>{' '}
+              - choose a sample in the 'Examples' section to preview predefined
+              forms (try for example one of the 'Categorization' examples). You
+              can also modify the examples in the editors and save them to local
+              storage to play with them later.
             </View>
           </div>
+          <div className='container'>
+            <div className='App-Form'>
+              <View padding='size-100'>
+                <Heading>Form: {props.selectedExample.label}</Heading>
+                {props.getComponent(props.selectedExample)}
+                <JsonFormsDispatch onChange={props.onChange} />
+              </View>
+            </div>
 
-          <div className='App-Data tabs'>
-            <View padding='size-100'>
-              <Heading>Example Forms</Heading>
-              <ExamplesPicker {...props} onChange={setExampleByName} />
-              <Tabs defaultSelectedKey='boundData'>
-                <Item key='boundData' title='Bound data'>
-                  <Content margin='size-100'>
-                    <TextArea
-                      value={props.dataAsString}
-                      onChange={updateCurrentData}
-                    />
-                  </Content>
-                </Item>
-                <Item key='schema' title='Json-Schema'>
-                  <Content margin='size-100'>
-                    <TextArea
-                      value={
-                        JSON.stringify(
-                          props.selectedExample.schema,
-                          circularReferenceReplacer(),
-                          2
-                        ) || ''
-                      }
-                      onChange={updateCurrentSchema}
-                    />
-                  </Content>
-                </Item>
-                <Item key='uiSchema' title='UI Schema'>
-                  <Content margin='size-100'>
-                    <TextArea
-                      value={
-                        JSON.stringify(
-                          props.selectedExample.uischema,
-                          circularReferenceReplacer(),
-                          2
-                        ) || ''
-                      }
-                      onChange={updateCurrentUISchema}
-                    />
-                  </Content>
-                </Item>
-              </Tabs>
-            </View>
+            <div className='App-Data tabs'>
+              <View padding='size-100'>
+                <Heading>Example Forms</Heading>
+                <ExamplesPicker {...props} onChange={setExampleByName} />
+
+                <Tabs defaultSelectedKey='boundData'>
+                  <TabList>
+                    <Item key='boundData'>Bound data</Item>
+                    <Item key='schema'>Schema</Item>
+                    <Item key='uiSchema'>UI Schema</Item>
+                  </TabList>
+
+                  <TabPanels>
+                    <Item key='boundData'>
+                      <Content margin='size-100'>
+                        <TextArea
+                          value={props.dataAsString}
+                          onChange={updateCurrentData}
+                        />
+                      </Content>
+                    </Item>
+
+                    <Item key='schema'>
+                      <Content margin='size-100'>
+                        <TextArea
+                          value={
+                            JSON.stringify(
+                              props.selectedExample.schema,
+                              circularReferenceReplacer(),
+                              2
+                            ) || ''
+                          }
+                          onChange={updateCurrentSchema}
+                        />
+                      </Content>
+                    </Item>
+
+                    <Item key='uiSchema' title='UI Schema'>
+                      <Content margin='size-100'>
+                        <TextArea
+                          value={
+                            JSON.stringify(
+                              props.selectedExample.uischema,
+                              circularReferenceReplacer(),
+                              2
+                            ) || ''
+                          }
+                          onChange={updateCurrentUISchema}
+                        />
+                      </Content>
+                    </Item>
+                  </TabPanels>
+                </Tabs>
+              </View>
+            </div>
           </div>
-        </div>
-      </View>
-    </JsonFormsReduxContext>
+        </View>
+      </JsonFormsReduxContext>
+    </Provider>
   );
 }
 

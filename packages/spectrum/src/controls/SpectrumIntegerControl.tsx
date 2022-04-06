@@ -23,6 +23,7 @@
   THE SOFTWARE.
 */
 
+import React from 'react';
 import {
   ControlProps,
   isIntegerControl,
@@ -30,7 +31,6 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import React from 'react';
 import { InputInteger } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
@@ -38,7 +38,7 @@ export const SpectrumIntegerControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputInteger} />
 );
 
-export const spectrumIntegerControlTester: RankedTester = rankWith(
+export const SpectrumIntegerControlTester: RankedTester = rankWith(
   3,
   isIntegerControl
 );

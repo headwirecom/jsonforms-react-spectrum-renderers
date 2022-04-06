@@ -25,56 +25,59 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import DateCell, { dateCellTester } from './DateCell';
-import DateTimeCell, { dateTimeCellTester } from './DateTimeCell';
-import SpectrumEnumCell, { spectrumEnumCellTester } from './SpectrumEnumCell';
+import SpectrumEnumCell, { SpectrumEnumCellTester } from './SpectrumEnumCell';
 import SpectrumBooleanCell, {
-  spectrumBooleanCellTester,
+  SpectrumBooleanCellTester,
 } from './SpectrumBooleanCell';
+import SpectrumBooleanButtonCell, {
+  SpectrumBooleanButtonCellTester,
+} from './SpectrumBooleanButtonCell';
+import SpectrumCheckboxCell, {
+  SpectrumCheckboxCellTester,
+} from './SpectrumCheckboxCell';
+import SpectrumSwitchCell, {
+  SpectrumSwitchCellTester,
+} from './SpectrumSwitchCell';
 import SpectrumEnumControl, {
-  spectrumEnumControlTester,
+  SpectrumEnumControlTester,
 } from '../controls/SpectrumEnumControl';
 import SpectrumIntegerCell, {
-  spectrumIntegerCellTester,
+  SpectrumIntegerCellTester,
 } from './SpectrumIntegerCell';
 import SpectrumNumberCell, {
-  spectrumNumberCellTester,
+  SpectrumNumberCellTester,
 } from './SpectrumNumberCell';
-import SpectrumNumberFormatCell, {
-  spectrumNumberFormatCellTester,
-} from './SpectrumNumberFormatCell';
-import SliderCell, { sliderCellTester } from './SliderCell';
-import SpectrumTextCell, { spectrumTextCellTester } from './SpectrumTextCell';
+import SpectrumSliderCell, {
+  SpectrumSliderCellTester,
+} from './SpectrumSliderCell';
+import SpectrumTextCell, { SpectrumTextCellTester } from './SpectrumTextCell';
 import SpectrumTextAreaCell, {
-  spectrumTextAreaCellTester,
+  SpectrumTextAreaCellTester,
 } from './SpectrumTextAreaCell';
-import TimeCell, { timeCellTester } from './TimeCell';
 import * as Customizable from './CustomizableCells';
 
 export {
-  DateCell,
-  dateCellTester,
-  DateTimeCell,
-  dateTimeCellTester,
   SpectrumEnumCell,
-  spectrumEnumCellTester,
+  SpectrumEnumCellTester,
   SpectrumBooleanCell,
-  spectrumBooleanCellTester,
+  SpectrumBooleanCellTester,
+  SpectrumBooleanButtonCell,
+  SpectrumBooleanButtonCellTester,
+  SpectrumCheckboxCell,
+  SpectrumCheckboxCellTester,
+  SpectrumSwitchCell,
+  SpectrumSwitchCellTester,
   SpectrumEnumControl,
-  spectrumEnumControlTester,
+  SpectrumEnumControlTester,
   SpectrumIntegerCell,
-  spectrumIntegerCellTester,
+  SpectrumIntegerCellTester,
   SpectrumNumberCell,
-  spectrumNumberCellTester,
-  SpectrumNumberFormatCell,
-  spectrumNumberFormatCellTester,
-  SliderCell,
-  sliderCellTester,
+  SpectrumNumberCellTester,
+  SpectrumSliderCell,
+  SpectrumSliderCellTester,
   SpectrumTextCell,
-  spectrumTextCellTester,
+  SpectrumTextCellTester,
   SpectrumTextAreaCell,
-  spectrumTextAreaCellTester,
-  TimeCell,
-  timeCellTester,
+  SpectrumTextAreaCellTester,
 };
 export { Customizable };

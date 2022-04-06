@@ -37,6 +37,7 @@ import {
   Heading,
 } from '@adobe/react-spectrum';
 import { ErrorIndicator } from '../../components/ErrorIndicator';
+import SpectrumProvider from '../../additional/SpectrumProvider';
 
 export function getUIOptions(
   uischema: UISchemaElement,
@@ -59,17 +60,21 @@ export function AddButton(
 ) {
   const { addButtonLabel, addButtonLabelType, onPress } = props;
   const button = (
-    <ActionButton UNSAFE_className='add-button' onPress={onPress}>
-      <Add />
-      {addButtonLabelType === 'inline' && <Text>{addButtonLabel}</Text>}
-    </ActionButton>
+    <SpectrumProvider>
+      <ActionButton UNSAFE_className='add-button' onPress={onPress}>
+        <Add />
+        {addButtonLabelType === 'inline' && <Text>{addButtonLabel}</Text>}
+      </ActionButton>
+    </SpectrumProvider>
   );
 
   return addButtonLabelType === 'tooltip' ? (
-    <TooltipTrigger delay={0}>
-      {button}
-      <Tooltip>{addButtonLabel}</Tooltip>
-    </TooltipTrigger>
+    <SpectrumProvider>
+      <TooltipTrigger delay={0}>
+        {button}
+        <Tooltip>{addButtonLabel}</Tooltip>
+      </TooltipTrigger>
+    </SpectrumProvider>
   ) : (
     button
   );

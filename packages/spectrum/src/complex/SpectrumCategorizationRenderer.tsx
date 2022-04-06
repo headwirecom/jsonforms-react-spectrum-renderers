@@ -16,7 +16,7 @@
 
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
+  
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+  */
 import React from 'react';
 import {
   and,
@@ -38,11 +38,18 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-import { RendererComponent, withJsonFormsLayoutProps } from '@jsonforms/react';
-import { Tabs } from '@react-spectrum/tabs';
-import { Content, Item, View } from '@adobe/react-spectrum';
+import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import {
+  Content,
+  Item,
+  TabList,
+  TabPanels,
+  Tabs,
+  View,
+} from '@adobe/react-spectrum';
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const isSingleLevelCategorization: Tester = and(
   uiTypeIs('Categorization'),
@@ -60,7 +67,7 @@ export const isSingleLevelCategorization: Tester = and(
   }
 );
 
-export const spectrumCategorizationRendererTester: RankedTester = rankWith(
+export const SpectrumCategorizationRendererTester: RankedTester = rankWith(
   1,
   isSingleLevelCategorization
 );
@@ -69,43 +76,48 @@ export interface SpectrumCategorizationRendererProps
   extends StatePropsOfLayout,
     AjvProps {}
 
-class SpectrumCategorizationRenderer extends RendererComponent<
-  SpectrumCategorizationRendererProps
-> {
-  /**
-   * @inheritDoc
-   */
-  render() {
-    const { data, path, schema, uischema, visible, enabled, ajv } = this.props;
-    const categorization = uischema as Categorization;
-    const categories = categorization.elements.filter((category: Category) =>
-      isVisible(category, data, undefined, ajv)
-    );
+export const SpectrumCategorizationRenderer = (
+  props: SpectrumCategorizationRendererProps
+) => {
+  const { data, path, schema, uischema, visible, enabled, ajv } = props;
 
-    return (
-      <View isHidden={!visible}>
-        <Tabs isDisabled={!enabled}>
-          {categories.map((category, index) => (
-            <Item key={index} title={category.label}>
-              <Content margin='size-160'>
-                <SpectrumVerticalLayout
-                  uischema={
-                    {
-                      type: 'VerticalLayout',
-                      elements: category.elements ?? [],
-                    } as UISchemaElement
-                  }
-                  schema={schema}
-                  path={path}
-                ></SpectrumVerticalLayout>
-              </Content>
-            </Item>
-          ))}
+  const categorization = uischema as Categorization;
+  const categories = categorization.elements.filter((category: Category) =>
+    isVisible(category, data, undefined, ajv)
+  );
+
+  return (
+    <View isHidden={!visible}>
+      <SpectrumProvider>
+        <Tabs isDisabled={enabled === undefined ? false : !enabled}>
+          <TabList>
+            {categories.map((category, index) => (
+              <Item key={index}>{category.label}</Item>
+            ))}
+          </TabList>
+          <TabPanels>
+            {categories.map((category, index) => (
+              <Item key={index} title={category.label}>
+                <Content margin='size-160'>
+                  <SpectrumVerticalLayout
+                    uischema={
+                      {
+                        type: 'VerticalLayout',
+                        elements: category.elements ?? [],
+                      } as UISchemaElement
+                    }
+                    schema={schema}
+                    path={path}
+                  ></SpectrumVerticalLayout>
+                </Content>
+              </Item>
+            ))}
+          </TabPanels>
         </Tabs>
-      </View>
-    );
-  }
-}
+      </SpectrumProvider>
+    </View>
+  );
+};
 
 export default withJsonFormsLayoutProps(
   withAjvProps(SpectrumCategorizationRenderer)

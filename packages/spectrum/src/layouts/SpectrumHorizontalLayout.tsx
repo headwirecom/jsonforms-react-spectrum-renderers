@@ -37,12 +37,13 @@ import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
 import { SpectrumLayout } from './SpectrumLayout';
 import { renderChildren } from './util';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 /**
  * Default tester for a horizontal layout.
  * @type {RankedTester}
  */
-export const spectrumHorizontalLayoutTester: RankedTester = rankWith(
+export const SpectrumHorizontalLayoutTester: RankedTester = rankWith(
   1,
   uiTypeIs('HorizontalLayout')
 );
@@ -64,16 +65,24 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
   });
 
   return (
-    <SpectrumLayout
-      direction={direction}
-      visible={visible}
-      enabled={enabled}
-      path={path}
-      uischema={uischema}
-      schema={schema}
-    >
-      {renderChildren(horizontalLayout, schema, childrenStyles, path, enabled)}
-    </SpectrumLayout>
+    <SpectrumProvider>
+      <SpectrumLayout
+        direction={direction}
+        visible={visible}
+        enabled={enabled}
+        path={path}
+        uischema={uischema}
+        schema={schema}
+      >
+        {renderChildren(
+          horizontalLayout,
+          schema,
+          childrenStyles,
+          path,
+          enabled
+        )}
+      </SpectrumLayout>
+    </SpectrumProvider>
   );
 };
 

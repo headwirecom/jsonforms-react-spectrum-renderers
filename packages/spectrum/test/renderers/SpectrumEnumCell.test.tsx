@@ -34,10 +34,10 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import EnumCell, {
-  spectrumEnumCellTester,
+  SpectrumEnumCellTester,
 } from '../../src/cells/SpectrumEnumCell';
 import { mountForm } from '../util';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 import {
   defaultTheme,
@@ -60,18 +60,18 @@ const fixture = {
   uischema: control,
 };
 
-const cells = [{ tester: spectrumEnumCellTester, cell: EnumCell }];
+const cells = [{ tester: SpectrumEnumCellTester, cell: EnumCell }];
 
 test('tester', () => {
-  expect(spectrumEnumCellTester(undefined, undefined)).toBe(-1);
-  expect(spectrumEnumCellTester(null, undefined)).toBe(-1);
-  expect(spectrumEnumCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumEnumCellTester({ type: 'Control' }, undefined)).toBe(-1);
+  expect(SpectrumEnumCellTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumEnumCellTester(null, undefined)).toBe(-1);
+  expect(SpectrumEnumCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumEnumCellTester({ type: 'Control' }, undefined)).toBe(-1);
 });
 
 test('tester with wrong prop type', () => {
   expect(
-    spectrumEnumCellTester(fixture.uischema, {
+    SpectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: { foo: { type: 'string' } },
     })
@@ -80,7 +80,7 @@ test('tester with wrong prop type', () => {
 
 test('tester with wrong prop type, but sibling has correct one', () => {
   expect(
-    spectrumEnumCellTester(fixture.uischema, {
+    SpectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -97,7 +97,7 @@ test('tester with wrong prop type, but sibling has correct one', () => {
 
 test('tester with matching string type', () => {
   expect(
-    spectrumEnumCellTester(fixture.uischema, {
+    SpectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -112,7 +112,7 @@ test('tester with matching string type', () => {
 test('tester with matching numeric type', () => {
   // TODO should expect be true?
   expect(
-    spectrumEnumCellTester(fixture.uischema, {
+    SpectrumEnumCellTester(fixture.uischema, {
       type: 'object',
       properties: {
         foo: {
@@ -162,7 +162,7 @@ describe('Enum cell', () => {
           schema={fixture.schema}
           uischema={fixture.uischema}
           data={data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>
@@ -181,7 +181,7 @@ describe('Enum cell', () => {
           schema={fixture.schema}
           uischema={fixture.uischema}
           data={fixture.data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>
@@ -200,7 +200,7 @@ describe('Enum cell', () => {
           schema={fixture.schema}
           uischema={fixture.uischema}
           data={fixture.data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>
@@ -219,7 +219,7 @@ describe('Enum cell', () => {
           schema={fixture.schema}
           uischema={fixture.uischema}
           data={fixture.data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>
@@ -245,7 +245,7 @@ describe('Enum cell', () => {
             rule: { effect: RuleEffect.DISABLE, condition },
           }}
           data={fixture.data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>
@@ -261,7 +261,7 @@ describe('Enum cell', () => {
           schema={fixture.schema}
           uischema={fixture.uischema}
           data={fixture.data}
-          renderers={spectrumRenderers}
+          renderers={SpectrumRenderers}
           cells={cells}
         />
       </SpectrumThemeProvider>

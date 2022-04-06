@@ -26,71 +26,52 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  ControlProps,
-  ControlState,
-  isDescriptionHidden,
-} from '@jsonforms/core';
-import { Control } from '@jsonforms/react';
+import { ControlProps, isDescriptionHidden } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { Flex, Text, View } from '@adobe/react-spectrum';
-
+import { useFocus } from '../util/focus';
+import SpectrumProvider from '../additional/SpectrumProvider';
 interface WithInput {
   input: any;
 }
 
-export class SpectrumInputControl extends Control<
-  ControlProps & WithInput,
-  ControlState
-> {
-  render() {
-    const {
-      description,
-      id,
-      errors,
-      uischema,
-      visible,
-      config,
-      input,
-    } = this.props;
+export const SpectrumInputControl = (props: ControlProps & WithInput) => {
+  const [focused, onFocus, onBlur] = useFocus();
+  const { description, id, errors, uischema, visible, config, input } = props;
 
-    const InnerComponent = input;
+  const InnerComponent = input;
 
-    const isValid = errors ? errors.length === 0 : true;
+  const isValid = errors.length === 0;
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const showDescription = !isDescriptionHidden(
-      visible,
-      description,
-      this.state.isFocused,
-      appliedUiSchemaOptions.showUnfocusedDescription
-    );
+  const showDescription = !isDescriptionHidden(
+    visible,
+    description,
+    focused,
+    appliedUiSchemaOptions.showUnfocusedDescription
+  );
 
-    // use UNSAFE style property for now, since text colors are not supported yet, see https://github.com/adobe/react-spectrum/issues/864
-    const UNSAFE_error = {
-      color: 'rgb(215, 55, 63)',
-    };
-
-    return (
-      <div
-        hidden={visible === undefined || visible === null ? false : !visible}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        id={id}
-      >
+  return (
+    <div
+      onFocus={onFocus}
+      onBlur={onBlur}
+      hidden={visible === undefined || visible === null ? false : !visible}
+      id={id}
+    >
+      <SpectrumProvider>
         <Flex direction='column'>
           <InnerComponent
-            {...this.props}
+            {...props}
             id={id && `${id}-input`}
             isValid={isValid}
           />
-          <View UNSAFE_style={!isValid ? UNSAFE_error : {}}>
+          <View>
             <Text>
               {!isValid ? errors : showDescription ? description : null}
             </Text>
           </View>
         </Flex>
-      </div>
-    );
-  }
-}
+      </SpectrumProvider>
+    </div>
+  );
+};

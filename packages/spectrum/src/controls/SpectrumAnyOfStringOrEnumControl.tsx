@@ -45,7 +45,6 @@ const findTextSchema = (schemas: JsonSchema[]) =>
   schemas.find((s) => s.type === 'string' && s.enum === undefined);
 
 export const SpectrumAnyOfStringOrEnumControl = (props: ControlProps) => {
-  debugger;
   return <SpectrumInputControl {...props} input={InputEnum} />;
 };
 
@@ -66,7 +65,7 @@ const simpleAnyOf = and(
   )
 );
 
-export const spectrumAnyOfStringOrEnumControlTester: RankedTester = rankWith(
+export const SpectrumAnyOfStringOrEnumControlTester: RankedTester = rankWith(
   5,
   simpleAnyOf
 );

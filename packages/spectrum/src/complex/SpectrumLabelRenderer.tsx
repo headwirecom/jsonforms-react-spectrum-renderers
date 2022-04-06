@@ -40,7 +40,7 @@ import { Text } from '@adobe/react-spectrum';
  * Default tester for a label.
  * @type {RankedTester}
  */
-export const spectrumLabelRendererTester: RankedTester = rankWith(
+export const SpectrumLabelRendererTester: RankedTester = rankWith(
   1,
   uiTypeIs('Label')
 );

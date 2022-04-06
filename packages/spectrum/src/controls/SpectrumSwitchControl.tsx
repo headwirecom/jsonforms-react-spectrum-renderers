@@ -27,33 +27,23 @@
 */
 import React from 'react';
 import {
-  CellProps,
-  isDateControl,
+  ControlProps,
+  isBooleanControl,
   RankedTester,
   rankWith,
+  and,
+  optionIs,
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
-import { DatePicker } from '../additional/DatePicker';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { InputSwitch } from '../spectrum-control';
+import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const DateCell = (props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange } = props;
+export const SpectrumSwitchControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputSwitch} />
+);
 
-  return (
-    <DatePicker
-      type='date'
-      value={data ?? ''}
-      onChange={(ev) => handleChange(path, ev.target.value)}
-      className='input' // TODO: obsolete in the future, but implement trim!
-      id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-    />
-  );
-};
-/**
- * Default tester for date controls.
- * @type {RankedTester}
- */
-export const dateCellTester: RankedTester = rankWith(2, isDateControl);
-
-export default withJsonFormsCellProps(DateCell);
+export const SpectrumSwitchControlTester: RankedTester = rankWith(
+  3,
+  and(isBooleanControl, optionIs('toggle', true))
+);
+export default withJsonFormsControlProps(SpectrumSwitchControl);

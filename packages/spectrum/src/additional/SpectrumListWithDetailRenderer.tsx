@@ -153,7 +153,7 @@ export const SpectrumListWithDetailRenderer = ({
   );
 };
 
-export const spectrumListWithDetailTester: RankedTester = rankWith(
+export const SpectrumListWithDetailTester: RankedTester = rankWith(
   4,
   and(uiTypeIs('ListWithDetail'), isObjectArray)
 );

@@ -43,7 +43,7 @@ export const SpectrumTextAreaCell = (props: CellProps & SpectrumInputProps) => (
  * Tester for a multi-line string control.
  * @type {RankedTester}
  */
-export const spectrumTextAreaCellTester: RankedTester = rankWith(
+export const SpectrumTextAreaCellTester: RankedTester = rankWith(
   2,
   isMultiLineControl
 );

@@ -36,9 +36,9 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import SpectrumTextCell, {
-  spectrumTextCellTester,
+  SpectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
-import { spectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -65,13 +65,13 @@ const fixture = {
   uischema: controlElement,
 };
 
-const cells = [{ tester: spectrumTextCellTester, cell: SpectrumTextCell }];
+const cells = [{ tester: SpectrumTextCellTester, cell: SpectrumTextCell }];
 
 test('Text cell tester', () => {
-  expect(spectrumTextCellTester(undefined, undefined)).toBe(-1);
-  expect(spectrumTextCellTester(null, undefined)).toBe(-1);
-  expect(spectrumTextCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(spectrumTextCellTester({ type: 'Control' }, undefined)).toBe(-1);
+  expect(SpectrumTextCellTester(undefined, undefined)).toBe(-1);
+  expect(SpectrumTextCellTester(null, undefined)).toBe(-1);
+  expect(SpectrumTextCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+  expect(SpectrumTextCellTester({ type: 'Control' }, undefined)).toBe(-1);
 });
 
 describe('Text cell', () => {
@@ -106,7 +106,7 @@ describe('Text cell', () => {
         schema={schema}
         uischema={uischema}
         data={{ firstName: 'Foo', lastName: 'Boo' }}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -126,7 +126,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -145,7 +145,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -159,7 +159,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -179,7 +179,7 @@ describe('Text cell', () => {
         schema={schema}
         uischema={fixture.uischema}
         data={{ name: 'Foo' }}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -194,7 +194,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
         onChange={onChange}
       />
@@ -212,7 +212,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -228,7 +228,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -244,7 +244,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -260,7 +260,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -283,7 +283,7 @@ describe('Text cell', () => {
           rule: { effect: RuleEffect.DISABLE, condition },
         }}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -297,7 +297,7 @@ describe('Text cell', () => {
         schema={fixture.minLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -319,7 +319,7 @@ describe('Text cell', () => {
         schema={fixture.maxLengthSchema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -343,7 +343,7 @@ describe('Text cell', () => {
         schema={fixture.maxLengthSchema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -367,7 +367,7 @@ describe('Text cell', () => {
         schema={fixture.maxLengthSchema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -383,7 +383,7 @@ describe('Text cell', () => {
         schema={fixture.maxLengthSchema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );
@@ -406,7 +406,7 @@ describe('Text cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -430,7 +430,7 @@ describe('Text cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -454,7 +454,7 @@ describe('Text cell', () => {
         schema={fixture.schema}
         uischema={uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         config={config}
         cells={cells}
       />
@@ -470,7 +470,7 @@ describe('Text cell', () => {
         schema={fixture.schema}
         uischema={fixture.uischema}
         data={fixture.data}
-        renderers={spectrumRenderers}
+        renderers={SpectrumRenderers}
         cells={cells}
       />
     );

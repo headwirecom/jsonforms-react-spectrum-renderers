@@ -36,7 +36,7 @@ import {
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { renderForm } from '../util';
-import { spectrumCategorizationStepperRendererTester } from '../../src/complex/SpectrumCategorizationStepperRenderer';
+import { SpectrumCategorizationStepperRendererTester } from '../../src/complex/SpectrumCategorizationStepperRenderer';
 
 const category: Category = {
   type: 'Category',
@@ -64,16 +64,16 @@ const fixture = {
 describe('Spectrum Categorization Stepper tester', () => {
   test('tester', () => {
     expect(
-      spectrumCategorizationStepperRendererTester(undefined, undefined)
+      SpectrumCategorizationStepperRendererTester(undefined, undefined)
     ).toBe(-1);
-    expect(spectrumCategorizationStepperRendererTester(null, undefined)).toBe(
+    expect(SpectrumCategorizationStepperRendererTester(null, undefined)).toBe(
       -1
     );
     expect(
-      spectrumCategorizationStepperRendererTester({ type: 'Foo' }, undefined)
+      SpectrumCategorizationStepperRendererTester({ type: 'Foo' }, undefined)
     ).toBe(-1);
     expect(
-      spectrumCategorizationStepperRendererTester(
+      SpectrumCategorizationStepperRendererTester(
         { type: 'Categorization' },
         undefined
       )
@@ -86,7 +86,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       elements: null,
     };
     expect(
-      spectrumCategorizationStepperRendererTester(uischema, undefined)
+      SpectrumCategorizationStepperRendererTester(uischema, undefined)
     ).toBe(-1);
   });
 
@@ -96,7 +96,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       elements: [],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(uischema, undefined)
+      SpectrumCategorizationStepperRendererTester(uischema, undefined)
     ).toBe(-1);
   });
 
@@ -110,7 +110,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(uischema, undefined)
+      SpectrumCategorizationStepperRendererTester(uischema, undefined)
     ).toBe(-1);
   });
 
@@ -124,7 +124,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -141,7 +141,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       },
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(2);
   });
 
@@ -159,7 +159,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       },
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(2);
   });
 
@@ -177,7 +177,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       elements: [nestedCategorization],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -191,7 +191,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -207,7 +207,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -222,7 +222,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationStepperRendererTester(categorization, undefined)
+      SpectrumCategorizationStepperRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 });

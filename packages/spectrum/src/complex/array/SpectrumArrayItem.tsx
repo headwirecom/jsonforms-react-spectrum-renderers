@@ -61,6 +61,8 @@ import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 
 import './SpectrumArrayItem.css';
 
+import SpectrumProvider from '../../additional/SpectrumProvider';
+
 export interface OwnPropsOfSpectrumArrayItem {
   index: number;
   expanded: boolean;
@@ -96,76 +98,82 @@ const SpectrumArrayItem = ({
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
   return (
-    <View
-      borderWidth='thin'
-      borderColor='dark'
-      borderRadius='medium'
-      padding='size-250'
-    >
-      <View aria-selected={expanded}>
-        <Flex
-          direction='row'
-          margin='size-50'
-          justifyContent='space-between'
-          alignItems='center'
-        >
-          <View UNSAFE_className='spectrum-array-item-number'>
-            <Text>{index + 1}</Text>
-          </View>
-          <ActionButton
-            flex='auto'
-            isQuiet
-            onPress={handleExpand(index)}
-            aria-label={`expand-item-${childLabel}`}
+    <SpectrumProvider>
+      <View
+        borderWidth='thin'
+        borderColor='dark'
+        borderRadius='medium'
+        padding='size-250'
+      >
+        <View aria-selected={expanded}>
+          <Flex
+            direction='row'
+            margin='size-50'
+            justifyContent='space-between'
+            alignItems='center'
           >
-            <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
-          </ActionButton>
-          <View>
+            <View UNSAFE_className='spectrum-array-item-number'>
+              <Text>{index + 1}</Text>
+            </View>
             <ActionButton
+              flex='auto'
+              isQuiet
               onPress={handleExpand(index)}
-              isQuiet={true}
               aria-label={`expand-item-${childLabel}`}
             >
-              {expanded ? <ChevronUp /> : <ChevronDown />}
+              <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
             </ActionButton>
-            <DialogTrigger>
+            <View>
               <TooltipTrigger delay={0}>
                 <ActionButton
+                  onPress={handleExpand(index)}
                   isQuiet={true}
-                  aria-label={`delete-item-${childLabel}`}
+                  aria-label={`expand-item-${childLabel}`}
                 >
-                  <Delete />
+                  {expanded ? (
+                    <ChevronUp aria-label='Collapse' />
+                  ) : (
+                    <ChevronDown aria-label='Expand' />
+                  )}
                 </ActionButton>
+                <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger>
+                <DialogTrigger>
+                  <ActionButton aria-label={`delete-item-${childLabel}`}>
+                    <Delete aria-label='Delete' />
+                  </ActionButton>
+                  <AlertDialog
+                    variant='confirmation'
+                    title='Delete'
+                    primaryActionLabel='Delete'
+                    cancelLabel='Cancel'
+                    autoFocusButton='primary'
+                    onPrimaryAction={removeItem(path, index)}
+                  >
+                    Are you sure you wish to delete this item?
+                  </AlertDialog>
+                </DialogTrigger>
                 <Tooltip>Delete</Tooltip>
               </TooltipTrigger>
-              <AlertDialog
-                variant='confirmation'
-                title='Delete'
-                primaryActionLabel='Delete'
-                cancelLabel='Cancel'
-                autoFocusButton='primary'
-                onPrimaryAction={removeItem(path, index)}
-              >
-                Are you sure you wish to delete this item?
-              </AlertDialog>
-            </DialogTrigger>
-          </View>
-        </Flex>
-      </View>
-      {expanded ? (
-        <View>
-          <ResolvedJsonFormsDispatch
-            schema={schema}
-            uischema={foundUISchema || uischema}
-            path={childPath}
-            key={childPath}
-            renderers={renderers}
-          />
+            </View>
+          </Flex>
         </View>
-      ) : (
-        ''
-      )}
-    </View>
+        {expanded ? (
+          <View>
+            <ResolvedJsonFormsDispatch
+              schema={schema}
+              uischema={foundUISchema || uischema}
+              path={childPath}
+              key={childPath}
+              renderers={renderers}
+            />
+          </View>
+        ) : (
+          ''
+        )}
+      </View>
+    </SpectrumProvider>
   );
 };
 
@@ -230,9 +238,17 @@ export const withJsonFormsSpectrumArrayItemProps = (
           prevProps: StatePropsOfSpectrumArrayItem,
           nextProps: StatePropsOfSpectrumArrayItem
         ) => {
-          const { handleExpand: prevHandleExpand, removeItem: prevRemoveItem, ...restPrevProps } = prevProps
-          const { handleExpand: nextHandleExpand, removeItem: nextRemoveItem, ...restNextProps } = nextProps
-          return areEqual(restPrevProps, restNextProps)
+          const {
+            handleExpand: prevHandleExpand,
+            removeItem: prevRemoveItem,
+            ...restPrevProps
+          } = prevProps;
+          const {
+            handleExpand: nextHandleExpand,
+            removeItem: nextRemoveItem,
+            ...restNextProps
+          } = nextProps;
+          return areEqual(restPrevProps, restNextProps);
         }
       )
     )

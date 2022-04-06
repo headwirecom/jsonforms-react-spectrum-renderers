@@ -26,53 +26,53 @@
   THE SOFTWARE.
 */
 import SpectrumObjectRenderer, {
-  spectrumObjectControlTester,
+  SpectrumObjectControlTester,
 } from './SpectrumObjectRenderer';
 import ArrayControl, { arrayControlTester } from './array';
 import SpectrumAnyOfRenderer, {
-  spectrumAnyOfRendererTester,
+  SpectrumAnyOfRendererTester,
 } from './SpectrumAnyOfRenderer';
 import SpectrumAllOfRenderer, {
-  spectrumAllOfRendererTester,
+  SpectrumAllOfRendererTester,
 } from './SpectrumAllOfRenderer';
 import SpectrumCategorizationRenderer, {
-  spectrumCategorizationRendererTester,
+  SpectrumCategorizationRendererTester,
 } from './SpectrumCategorizationRenderer';
 import SpectrumCategorizationStepperRenderer, {
-  spectrumCategorizationStepperRendererTester,
+  SpectrumCategorizationStepperRendererTester,
 } from './SpectrumCategorizationStepperRenderer';
 import SpectrumLabelRenderer, {
-  spectrumLabelRendererTester,
+  SpectrumLabelRendererTester,
 } from './SpectrumLabelRenderer';
 import SpectrumOneOfRenderer, {
-  spectrumOneOfRendererTester,
+  SpectrumOneOfRendererTester,
 } from './SpectrumOneOfRenderer';
 import SpectrumTableArrayControl, {
-  spectrumTableArrayControlTester,
+  SpectrumTableArrayControlTester,
 } from './SpectrumTableArrayControl';
 import SpectrumArrayControlGrid, {
-  spectrumArrayControlGridTester,
+  SpectrumArrayControlGridTester,
 } from './SpectrumArrayControlGrid';
 
 export {
   ArrayControl,
   arrayControlTester,
   SpectrumAnyOfRenderer,
-  spectrumAnyOfRendererTester,
+  SpectrumAnyOfRendererTester,
   SpectrumAllOfRenderer,
-  spectrumAllOfRendererTester,
+  SpectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
-  spectrumCategorizationRendererTester,
+  SpectrumCategorizationRendererTester,
   SpectrumCategorizationStepperRenderer,
-  spectrumCategorizationStepperRendererTester,
+  SpectrumCategorizationStepperRendererTester,
   SpectrumLabelRenderer,
-  spectrumLabelRendererTester,
+  SpectrumLabelRendererTester,
   SpectrumObjectRenderer,
-  spectrumObjectControlTester,
+  SpectrumObjectControlTester,
   SpectrumOneOfRenderer,
-  spectrumOneOfRendererTester,
+  SpectrumOneOfRendererTester,
   SpectrumTableArrayControl,
-  spectrumTableArrayControlTester,
+  SpectrumTableArrayControlTester,
   SpectrumArrayControlGrid,
-  spectrumArrayControlGridTester,
+  SpectrumArrayControlGridTester,
 };

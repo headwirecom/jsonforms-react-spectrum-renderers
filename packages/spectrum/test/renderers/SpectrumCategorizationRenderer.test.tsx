@@ -36,7 +36,7 @@ import {
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { renderForm } from '../util';
-import { spectrumCategorizationRendererTester } from '../../src/complex/SpectrumCategorizationRenderer';
+import { SpectrumCategorizationRendererTester } from '../../src/complex/SpectrumCategorizationRenderer';
 
 const category: Category = {
   type: 'Category',
@@ -63,13 +63,13 @@ const fixture = {
 
 describe('Spectrum Categorization tester', () => {
   test('tester', () => {
-    expect(spectrumCategorizationRendererTester(undefined, undefined)).toBe(-1);
-    expect(spectrumCategorizationRendererTester(null, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(null, undefined)).toBe(-1);
     expect(
-      spectrumCategorizationRendererTester({ type: 'Foo' }, undefined)
+      SpectrumCategorizationRendererTester({ type: 'Foo' }, undefined)
     ).toBe(-1);
     expect(
-      spectrumCategorizationRendererTester(
+      SpectrumCategorizationRendererTester(
         { type: 'Categorization' },
         undefined
       )
@@ -81,7 +81,7 @@ describe('Spectrum Categorization tester', () => {
       type: 'Categorization',
       elements: null,
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('tester with empty elements and no schema', () => {
@@ -89,7 +89,7 @@ describe('Spectrum Categorization tester', () => {
       type: 'Categorization',
       elements: [],
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('apply tester with single unknown element and no schema', () => {
@@ -101,7 +101,7 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(spectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('tester with single category and no schema', () => {
@@ -114,7 +114,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      SpectrumCategorizationRendererTester(categorization, undefined)
     ).toBe(1);
   });
 
@@ -132,7 +132,7 @@ describe('Spectrum Categorization tester', () => {
       elements: [nestedCategorization],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      SpectrumCategorizationRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -146,7 +146,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      SpectrumCategorizationRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -162,7 +162,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      SpectrumCategorizationRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 
@@ -177,7 +177,7 @@ describe('Spectrum Categorization tester', () => {
       ],
     };
     expect(
-      spectrumCategorizationRendererTester(categorization, undefined)
+      SpectrumCategorizationRendererTester(categorization, undefined)
     ).toBe(-1);
   });
 });

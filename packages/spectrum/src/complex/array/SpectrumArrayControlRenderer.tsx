@@ -56,7 +56,6 @@ const SpectrumArrayControlRenderer = ({
     <SpectrumArrayControl
       errors={errors}
       removeItems={removeItems}
-      // classNames={classNames}
       data={data}
       label={label}
       path={path}

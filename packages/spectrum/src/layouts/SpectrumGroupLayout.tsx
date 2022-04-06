@@ -37,13 +37,14 @@ import {
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { Content, Divider, Heading, View } from '@adobe/react-spectrum';
 import { renderChildren } from './util';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 /**
  * Default tester for a group layout.
  *
  * @type {RankedTester}
  */
-export const spectrumGroupLayoutTester: RankedTester = rankWith(
+export const SpectrumGroupLayoutTester: RankedTester = rankWith(
   1,
   uiTypeIs('Group')
 );
@@ -58,27 +59,29 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
   const group = uischema as GroupLayout;
 
   return (
-    <View
-      isHidden={visible === undefined || visible === null ? false : !visible}
-      borderWidth='thin'
-      borderColor='dark'
-      borderRadius='medium'
-      padding='size-250'
-    >
-      {!isEmpty(group.label) ? (
-        <Heading level={4} margin={0}>
-          {group.label}
-        </Heading>
-      ) : (
-        ''
-      )}
-      {!isEmpty(group.label) ? (
-        <Divider size='M' marginTop='size-150' marginBottom='size-200' />
-      ) : (
-        ''
-      )}
-      <Content>{renderChildren(group, schema, {}, path, enabled)}</Content>
-    </View>
+    <SpectrumProvider>
+      <View
+        isHidden={visible === undefined || visible === null ? false : !visible}
+        borderWidth='thin'
+        borderColor='dark'
+        borderRadius='medium'
+        padding='size-250'
+      >
+        {!isEmpty(group.label) ? (
+          <Heading level={4} margin={0}>
+            {group.label}
+          </Heading>
+        ) : (
+          ''
+        )}
+        {!isEmpty(group.label) ? (
+          <Divider size='M' marginTop='size-150' marginBottom='size-200' />
+        ) : (
+          ''
+        )}
+        <Content>{renderChildren(group, schema, {}, path, enabled)}</Content>
+      </View>
+    </SpectrumProvider>
   );
 };
 

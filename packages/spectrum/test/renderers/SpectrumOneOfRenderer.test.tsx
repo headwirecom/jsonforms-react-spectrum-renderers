@@ -34,8 +34,7 @@ import {
   SchemaBasedCondition,
 } from '@jsonforms/core';
 import { mountForm } from '../util';
-import { Tab } from '@react-spectrum/tabs';
-import { Dialog } from '@adobe/react-spectrum';
+import { Tabs, Dialog } from '@adobe/react-spectrum';
 import { SpectrumOneOfRenderer } from '../../src';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -58,7 +57,7 @@ const selectOneOfTab = (
   expectConfim: boolean
 ) => {
   // select oneOf
-  const tabs = wrapper.find(Tab);
+  const tabs = wrapper.find(Tabs);
   tabs.at(at).simulate('click'); // TODO: how to select Spectrum tab?
   wrapper.update();
 
@@ -104,7 +103,7 @@ describe('Spectrum oneOf renderer', () => {
 
     wrapper = mountForm(uischema, schema);
 
-    const firstTab = wrapper.find(Tab).first();
+    const firstTab = wrapper.find(Tabs).first();
     expect(firstTab.getDOMNode().className).toContain('is-selected');
   });
 
@@ -134,7 +133,7 @@ describe('Spectrum oneOf renderer', () => {
 
     wrapper = mountForm(uischema, schema, { value: 5 });
 
-    const secondTab = wrapper.find(Tab).at(1);
+    const secondTab = wrapper.find(Tabs).at(1);
     expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
 
@@ -172,7 +171,7 @@ describe('Spectrum oneOf renderer', () => {
 
     wrapper = mountForm(uischema, schema, { value: { bar: 'bar' } });
 
-    const secondTab = wrapper.find(Tab).at(1);
+    const secondTab = wrapper.find(Tabs).at(1);
     expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
 
@@ -210,7 +209,7 @@ describe('Spectrum oneOf renderer', () => {
 
     wrapper = mountForm(uischema, schema, { value: { bar: 'bar' } });
 
-    const secondTab = wrapper.find(Tab).at(1);
+    const secondTab = wrapper.find(Tabs).at(1);
     expect(secondTab.getDOMNode().className).toContain('is-selected');
   });
 

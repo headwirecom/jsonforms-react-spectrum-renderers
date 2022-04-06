@@ -43,7 +43,7 @@ export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => (
  * Default tester for text-based/string controls.
  * @type {RankedTester}
  */
-export const spectrumTextCellTester: RankedTester = rankWith(
+export const SpectrumTextCellTester: RankedTester = rankWith(
   1,
   isStringControl
 );

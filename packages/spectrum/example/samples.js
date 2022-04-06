@@ -60,9 +60,9 @@ samples.push({
       {
         type: 'Control',
         scope: '#/properties/comments',
-        "options": {
-          "table": true
-        }
+        options: {
+          table: true,
+        },
       },
     ],
   },
@@ -1382,5 +1382,106 @@ samples.push({
     name: 'John Doe',
     dead: false,
     vegetables: false,
+  },
+});
+
+samples.push({
+  name: 'spectrum-big-test',
+  label: 'Big Test',
+  uischema: {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        label: 'NumberField 1',
+        type: 'Control',
+        scope: '#/properties/integeroptional',
+        options: {
+          necessityIndicator: 'label',
+          focus: true,
+        },
+      },
+      {
+        label: 'NumberField 2',
+        type: 'Control',
+        scope: '#/properties/integerrequired',
+        options: {
+          necessityIndicator: 'label',
+        },
+      },
+      {
+        label: 'Rating',
+        type: 'Control',
+        scope: '#/properties/rating',
+        options: {
+          rating: true,
+          necessityIndicator: 'label',
+        },
+      },
+      {
+        label: 'Range',
+        type: 'Control',
+        scope: '#/properties/range',
+        options: {
+          slider: true,
+          necessityIndicator: 'icon',
+        },
+      },
+      {
+        label: 'Textarea',
+        type: 'Control',
+        scope: '#/properties/textarea',
+        options: {
+          necessityIndicator: 'label',
+          multi: true,
+        },
+      },
+      {
+        label: 'Boolean Button',
+        type: 'Control',
+        scope: '#/properties/booleanbutton',
+        options: {
+          necessityIndicator: 'label',
+          button: true,
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      integeroptional: {
+        type: 'integer',
+        minimum: 1,
+        maximum: 5,
+      },
+      integerrequired: {
+        type: 'integer',
+        minimum: 1,
+        maximum: 5,
+      },
+      rating: {
+        type: 'integer',
+        minimum: 1,
+      },
+      range: {
+        type: 'number',
+        default: 1,
+        minimum: 1,
+        maximum: 5,
+      },
+      textarea: {
+        type: 'string',
+        default: 1,
+        minimum: 1,
+        maximum: 5,
+      },
+      booleanbutton: {
+        type: 'boolean',
+      },
+    },
+    required: ['integerrequired', 'rating', 'range', 'time'],
+  },
+  data: {
+    rating: 0,
   },
 });

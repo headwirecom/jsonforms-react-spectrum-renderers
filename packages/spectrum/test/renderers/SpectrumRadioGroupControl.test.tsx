@@ -36,7 +36,7 @@ import * as _ from 'lodash';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
-import RadioGroupControl from '../../src/controls/RadioGroupControl';
+import SpectrumRadioGroupControl from '../../src/controls/SpectrumRadioGroupControl';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -59,7 +59,7 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
 };
 
 const renderers = [
-  { tester: rankWith(10, isEnumControl), renderer: RadioGroupControl },
+  { tester: rankWith(10, isEnumControl), renderer: SpectrumRadioGroupControl },
 ];
 
 describe('Radio group control', () => {

@@ -28,60 +28,57 @@ import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Item, Picker } from '@adobe/react-spectrum';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputEnum extends React.PureComponent<
-  EnumCellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      config,
-      uischema,
-      options,
-      data,
-      // isValid,
-      id,
-      enabled,
-      required,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+export const InputEnum = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  label,
+  options,
+  path,
+  required,
+  schema,
+  uischema,
+}: EnumCellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const isRequired = required && !appliedUiSchemaOptions.hideRequiredAsterisk;
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+  const findEnumSchema = (schemas: JsonSchema[]) =>
+    schemas.find(
+      (s) =>
+        s.enum !== undefined && (s.type === 'string' || s.type === undefined)
+    );
 
-    const findEnumSchema = (schemas: JsonSchema[]) =>
-      schemas.find(
-        (s) =>
-          s.enum !== undefined && (s.type === 'string' || s.type === undefined)
-      );
+  const tryEnumSchema = (anyOf: JsonSchema[]) => {
+    const enumSchema = findEnumSchema(anyOf);
+    return enumSchema.enum.map((v) => {
+      return { value: v, label: v };
+    });
+  };
 
-    const tryEnumSchema = (anyOf: JsonSchema[]) => {
-      const enumSchema = findEnumSchema(anyOf);
-      return enumSchema.enum.map((v) => {
-        return { value: v, label: v };
-      });
-    };
-    const items = options ?? tryEnumSchema(this.props.schema.anyOf);
-
-    return (
+  return (
+    <SpectrumProvider width='100%'>
       <Picker
+        aria-label={label ? label : 'picker'}
         key={id}
         id={id}
         label={label}
-        isRequired={isRequired}
-        isDisabled={!enabled}
+        isRequired={required}
+        isDisabled={enabled === undefined ? false : !enabled}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         width={width}
-        items={items}
+        items={options ?? tryEnumSchema(schema.anyOf)}
         selectedKey={data}
-        onSelectionChange={(ev) => handleChange(path, ev)}
+        onSelectionChange={(value) => handleChange(path, value)}
       >
         {(item) => <Item key={item.value}>{item.label}</Item>}
       </Picker>
-    );
-  }
-}
+    </SpectrumProvider>
+  );
+};

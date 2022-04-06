@@ -28,43 +28,38 @@ import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import { Slider } from '@adobe/react-spectrum';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputSlider extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      data,
-      config,
-      enabled,
-      uischema,
-      path,
-      handleChange,
-      label,
-      visible,
-      schema,
-    } = this.props;
+export const InputSlider = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  label,
+  path,
+  schema,
+  uischema,
+  visible,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const onChange = (value: any) => handleChange(path, value);
-
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
+  return (
+    <SpectrumProvider width={width}>
       <Slider
-        value={data ?? ''}
+        value={data ?? schema.default}
         label={label}
         minValue={schema.minimum}
         maxValue={schema.maximum}
         isHidden={!visible}
-        onChange={onChange}
-        isDisabled={!enabled}
+        onChange={(value: any) => handleChange(path, value)}
+        isDisabled={enabled === undefined ? false : !enabled}
         width={width}
         step={schema.multipleOf || 1}
       />
-    );
-  }
-}
+    </SpectrumProvider>
+  );
+};

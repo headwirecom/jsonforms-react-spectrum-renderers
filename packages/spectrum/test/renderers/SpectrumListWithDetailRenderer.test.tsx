@@ -25,7 +25,7 @@
 import { RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { spectrumListWithDetailTester } from '../../src';
+import { SpectrumListWithDetailTester } from '../../src';
 import { renderForm } from '../util';
 
 const data = [
@@ -98,11 +98,11 @@ describe('Spectrum list with detail tester', () => {
         type: 'string',
       },
     };
-    expect(spectrumListWithDetailTester(wrongUISchema, schema)).toBe(-1);
-    expect(spectrumListWithDetailTester(uischema, wrongSchema)).toBe(-1);
-    expect(spectrumListWithDetailTester(uischema, schema)).toBe(4);
-    expect(spectrumListWithDetailTester(uischema, nestedSchema)).toBe(-1);
-    expect(spectrumListWithDetailTester(uischema, nestedSchema2)).toBe(4);
+    expect(SpectrumListWithDetailTester(wrongUISchema, schema)).toBe(-1);
+    expect(SpectrumListWithDetailTester(uischema, wrongSchema)).toBe(-1);
+    expect(SpectrumListWithDetailTester(uischema, schema)).toBe(4);
+    expect(SpectrumListWithDetailTester(uischema, nestedSchema)).toBe(-1);
+    expect(SpectrumListWithDetailTester(uischema, nestedSchema2)).toBe(4);
   });
 });
 

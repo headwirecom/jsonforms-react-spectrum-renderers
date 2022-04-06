@@ -34,12 +34,12 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import { spectrumArrayControlGridTester } from '../../src/complex/SpectrumArrayControlGrid';
+import { SpectrumArrayControlGridTester } from '../../src/complex/SpectrumArrayControlGrid';
 import SpectrumIntegerCell, {
-  spectrumIntegerCellTester,
+  SpectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
 import SpectrumTextCell, {
-  spectrumTextCellTester,
+  SpectrumTextCellTester,
 } from '../../src/cells/SpectrumTextCell';
 import { renderForm } from '../util';
 
@@ -84,7 +84,7 @@ describe('Array tester', () => {
       type: 'Control',
       scope: '#',
     };
-    expect(spectrumArrayControlGridTester(control, undefined)).toBe(-1);
+    expect(SpectrumArrayControlGridTester(control, undefined)).toBe(-1);
   });
 
   test('tester with prop of wrong type', () => {
@@ -93,7 +93,7 @@ describe('Array tester', () => {
       scope: '#/properties/x',
     };
     expect(
-      spectrumArrayControlGridTester(control, {
+      SpectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           x: { type: 'integer' },
@@ -108,7 +108,7 @@ describe('Array tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumArrayControlGridTester(control, {
+      SpectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: { type: 'array' },
@@ -123,7 +123,7 @@ describe('Array tester', () => {
       scope: '#/properties/foo',
     };
     expect(
-      spectrumArrayControlGridTester(control, {
+      SpectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -147,7 +147,7 @@ describe('Array tester', () => {
       options,
     };
     expect(
-      spectrumArrayControlGridTester(control, {
+      SpectrumArrayControlGridTester(control, {
         type: 'object',
         properties: {
           foo: {
@@ -171,14 +171,14 @@ describe('Array tester', () => {
       options,
     };
 
-    expect(spectrumArrayControlGridTester(uischema, fixture.schema)).toBe(
+    expect(SpectrumArrayControlGridTester(uischema, fixture.schema)).toBe(
       expected
     );
   });
 
   test('tester - wrong type', () =>
     expect(
-      spectrumArrayControlGridTester(
+      SpectrumArrayControlGridTester(
         { type: 'Foo', options: { table: true } },
         null
       )
@@ -211,7 +211,7 @@ describe('Array control', () => {
   test('render headers and 2 rows', () => {
     const cells: JsonFormsCellRendererRegistryEntry[] = [
       {
-        tester: spectrumIntegerCellTester,
+        tester: SpectrumIntegerCellTester,
         cell: SpectrumIntegerCell,
       },
     ];
@@ -251,7 +251,7 @@ describe('Array control', () => {
         initialData,
         [
           {
-            tester: spectrumIntegerCellTester,
+            tester: SpectrumIntegerCellTester,
             cell: SpectrumIntegerCell,
           },
         ]
@@ -310,7 +310,7 @@ describe('Array control', () => {
       { test: ['foo', 'bars'] },
       [
         {
-          tester: spectrumTextCellTester,
+          tester: SpectrumTextCellTester,
           cell: SpectrumTextCell,
         },
       ]

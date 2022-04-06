@@ -23,54 +23,103 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { CellProps, computeLabel } from '@jsonforms/core';
+import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Flex } from '@adobe/react-spectrum';
-import { DatePicker, DatePickerLabel } from '../additional/DatePicker';
+import { Provider } from '@adobe/react-spectrum';
+import { TimeField } from '@react-spectrum/datepicker';
+import { parseAbsoluteToLocal } from '@internationalized/date';
+import SpectrumProvider from '../additional/SpectrumProvider';
+import moment from 'moment';
 
-export class InputTime extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      config,
-      uischema,
-      data,
-      id,
-      enabled,
-      required,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+export const InputTime = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  label,
+  path,
+  required,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+  const toISOString = (inputDateTime: string) => {
+    if (!inputDateTime) {
+      return null;
+    } else if (inputDateTime.length >= 25) {
+      return inputDateTime.substring(0, 16) + 'Z';
+    } else if (inputDateTime.length <= 8) {
+      return '2022-06-06T' + inputDateTime + 'Z';
+    } else {
+      return inputDateTime.substring(0, 19) + 'Z';
+    }
+  };
 
-    return (
-      <Flex direction='column'>
-        <DatePickerLabel htmlFor={id + '-input'}>
-          {computeLabel(
-            label,
-            required,
-            appliedUiSchemaOptions.hideRequiredAsterisk
-          )}
-        </DatePickerLabel>
-        <DatePicker
-          width={width}
-          type='time'
-          value={data ?? ''}
-          onChange={(ev) => handleChange(path, ev.target.value)}
+  return (
+    <SpectrumProvider width={width}>
+      <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
+        <TimeField
+          label={label}
+          granularity={appliedUiSchemaOptions.granularity ?? 'minute'}
+          hourCycle={appliedUiSchemaOptions.hourCycle}
+          isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
           id={id}
-          disabled={!enabled}
-          autoFocus={uischema.options && uischema.options.focus}
+          isRequired={required}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+          width={width}
+          autoFocus={appliedUiSchemaOptions.focus}
+          isDisabled={enabled === undefined ? false : !enabled}
+          hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
+          minValue={
+            appliedUiSchemaOptions.minValue
+              ? parseAbsoluteToLocal(
+                  moment().format(
+                    toISOString(appliedUiSchemaOptions.minValue.toString())
+                  )
+                )
+              : null
+          }
+          maxValue={
+            appliedUiSchemaOptions.maxValue
+              ? parseAbsoluteToLocal(
+                  moment().format(
+                    toISOString(appliedUiSchemaOptions.maxValue.toString())
+                  )
+                )
+              : null
+          }
+          value={
+            data
+              ? parseAbsoluteToLocal(moment().format(toISOString(data)))
+              : null
+          }
+          onChange={(datetime: any) =>
+            handleChange(
+              path,
+              datetime
+                ? datetime
+                    ?.toString()
+                    .split('T')
+                    .pop()
+                    .split('+')[0]
+                    .substring(
+                      0,
+                      5
+                    ) /* substring is needed, because ajv throws an error when we use the format HH:mm:ss */
+                : ''
+            )
+          }
         />
-      </Flex>
-    );
-  }
-}
+      </Provider>
+    </SpectrumProvider>
+  );
+};

@@ -22,15 +22,17 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputText';
-export * from './InputTextArea';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputNumberFormatted';
-export * from './InputEnum';
-export * from './InputSlider';
+export * from './InputCheckbox';
 export * from './InputDate';
 export * from './InputDateTime';
+export * from './InputEnum';
+export * from './InputInteger';
+export * from './InputNumber';
+export * from './InputRating';
+export * from './InputSlider';
+export * from './InputSwitch';
+export * from './InputText';
+export * from './InputTextArea';
 export * from './InputTime';
 
 /**

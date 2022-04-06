@@ -25,30 +25,32 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import React from 'react';
 import {
   ControlProps,
   isBooleanControl,
   RankedTester,
   rankWith,
+  and,
+  optionIs,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { isEmpty } from '../util/isEmpty';
-import React from 'react';
 import { SpectrumBooleanCell } from '../cells/CustomizableCells';
 
 export const SpectrumBooleanControl = ({
-  data,
-  visible,
-  label,
-  id,
-  enabled,
-  uischema,
-  schema,
-  rootSchema,
-  handleChange,
-  errors,
-  path,
   config,
+  data,
+  enabled,
+  errors,
+  handleChange,
+  id,
+  label,
+  path,
+  rootSchema,
+  schema,
+  uischema,
+  visible,
 }: ControlProps) => {
   return (
     <SpectrumBooleanCell
@@ -70,8 +72,8 @@ export const SpectrumBooleanControl = ({
   );
 };
 
-export const spectrumBooleanControlTester: RankedTester = rankWith(
+export const SpectrumBooleanControlTester: RankedTester = rankWith(
   2,
-  isBooleanControl
+  and(isBooleanControl, optionIs('switch', true))
 );
 export default withJsonFormsControlProps(SpectrumBooleanControl);

@@ -4,7 +4,7 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
-  Copyright (c) 2020 headwire.com, Inc
+  Copyright (c) 2022 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,38 +25,54 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import {
   CellProps,
-  isDateTimeControl,
+  isBooleanControl,
   RankedTester,
   rankWith,
+  and,
+  optionIs,
 } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
-import { DatePicker } from '../additional/DatePicker';
+import { ToggleButton } from '@adobe/react-spectrum';
+import merge from 'lodash/merge';
+import { DimensionValue } from '@react-types/shared';
 
-export const DateTimeCell = (props: CellProps) => {
-  const { data, id, enabled, uischema, path, handleChange } = props;
-  const toISOString = (inputDateTime: string) => {
-    return inputDateTime === '' ? '' : inputDateTime + ':00.000Z';
-  };
+export const SpectrumBooleanButtonCell: FunctionComponent<CellProps> = (
+  props: React.PropsWithChildren<CellProps>
+) => {
+  const { data, id, enabled, uischema, path, handleChange, config } = props;
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const autoFocus = !!appliedUiSchemaOptions.focus;
+  // !! causes undefined value to be converted to false, otherwise has no effect
+  const isSelected = !!data;
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
   return (
-    <DatePicker
-      type='datetime-local'
-      value={(data ?? '').substr(0, 16)}
-      onChange={(ev) => handleChange(path, toISOString(ev.target.value))}
-      className='input' // TODO: obsolete in the future, but implement trim!
+    <ToggleButton
+      isSelected={isSelected}
+      onChange={(selected) => handleChange(path, selected)}
       id={id}
-      disabled={!enabled}
-      autoFocus={uischema.options && uischema.options.focus}
-    />
+      isDisabled={enabled === undefined ? false : !enabled}
+      autoFocus={autoFocus}
+      width={width}
+      aria-label={props.children ? undefined : path}
+    >
+      {props.children}
+    </ToggleButton>
   );
 };
+
 /**
- * Default tester for datetime controls.
+ * Default tester for boolean controls.
  * @type {RankedTester}
  */
-export const dateTimeCellTester: RankedTester = rankWith(2, isDateTimeControl);
+export const SpectrumBooleanButtonCellTester: RankedTester = rankWith(
+  2,
+  and(isBooleanControl, optionIs('button', true))
+);
 
-export default withJsonFormsCellProps(DateTimeCell);
+export default withJsonFormsCellProps(SpectrumBooleanButtonCell);

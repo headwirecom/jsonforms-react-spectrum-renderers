@@ -24,7 +24,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+  */
 import React, { Key, useCallback, useState } from 'react';
 import { isEmpty } from '../util/isEmpty';
 
@@ -54,8 +54,11 @@ import {
   Heading,
   Item,
   View,
+  TabList,
+  TabPanels,
+  Tabs,
 } from '@adobe/react-spectrum';
-import { Tabs } from '@react-spectrum/tabs';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
@@ -66,15 +69,16 @@ const SpectrumOneOfRenderer = ({
   handleChange,
   schema,
   path,
+  enabled,
   renderers,
   cells,
   rootSchema,
   id,
   visible,
-  indexOfFittingSchema,
   uischema,
   uischemas,
   data,
+  indexOfFittingSchema,
 }: CombinatorProps) => {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(indexOfFittingSchema || 0);
@@ -117,61 +121,71 @@ const SpectrumOneOfRenderer = ({
   );
 
   return (
-    <View isHidden={!visible}>
-      <CombinatorProperties
-        schema={_schema}
-        combinatorKeyword={'oneOf'}
-        path={path}
-      />
-      <Tabs
-        selectedKey={String(selectedIndex)}
-        onSelectionChange={handleTabChange}
-      >
-        {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-          <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
-            <Content margin='size-160'>
-              <ResolvedJsonFormsDispatch
-                key={oneOfIndex}
-                schema={oneOfRenderInfo.schema}
-                uischema={oneOfRenderInfo.uischema}
-                path={path}
-                renderers={renderers}
-                cells={cells}
-              />
-            </Content>
-          </Item>
-        ))}
-      </Tabs>
-      <DialogContainer onDismiss={handleClose}>
-        {open && (
-          <Dialog>
-            <Heading>Clear form?</Heading>
-            <Divider />
-            <Content>
-              Your data will be cleared if you navigate away from this tab. Do
-              you want to proceed?
-            </Content>
-            <ButtonGroup>
-              <Button variant='secondary' onPress={cancel}>
-                Cancel
-              </Button>
-              <Button
-                variant='cta'
-                onPress={confirm}
-                autoFocus
-                id={id && `oneOf-${id}-confirm-yes`}
-              >
-                Confirm
-              </Button>
-            </ButtonGroup>
-          </Dialog>
-        )}
-      </DialogContainer>
-    </View>
+    <SpectrumProvider>
+      <View isHidden={!visible}>
+        <CombinatorProperties
+          schema={_schema}
+          combinatorKeyword={'oneOf'}
+          path={path}
+        />
+        <Tabs
+          isDisabled={enabled === undefined ? false : !enabled}
+          selectedKey={String(selectedIndex)}
+          onSelectionChange={handleTabChange}
+        >
+          <TabList>
+            {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+              <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+            ))}
+          </TabList>
+          <TabPanels>
+            {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+              <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
+                <Content margin='size-160'>
+                  <ResolvedJsonFormsDispatch
+                    key={oneOfIndex}
+                    schema={oneOfRenderInfo.schema}
+                    uischema={oneOfRenderInfo.uischema}
+                    path={path}
+                    renderers={renderers}
+                    cells={cells}
+                  />
+                </Content>
+              </Item>
+            ))}
+          </TabPanels>
+        </Tabs>
+        <DialogContainer onDismiss={handleClose}>
+          {open && (
+            <Dialog>
+              <Heading>Clear Form?</Heading>
+              <Divider />
+              <Content>
+                Your Data will be cleared if you navigate away from this Tab. Do
+                you want to Clear your Form?
+              </Content>
+              <ButtonGroup>
+                <Button variant='secondary' onPress={cancel}>
+                  Cancel
+                </Button>
+                <Button
+                  variant='cta'
+                  onPress={confirm}
+                  autoFocus
+                  id={id && `oneOf-${id}-confirm-yes`}
+                >
+                  Clear Form
+                </Button>
+              </ButtonGroup>
+            </Dialog>
+          )}
+        </DialogContainer>
+      </View>
+    </SpectrumProvider>
   );
 };
 
-export const spectrumOneOfRendererTester: RankedTester = rankWith(
+export const SpectrumOneOfRendererTester: RankedTester = rankWith(
   3,
   isOneOfControl
 );

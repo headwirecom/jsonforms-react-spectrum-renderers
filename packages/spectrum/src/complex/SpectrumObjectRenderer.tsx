@@ -24,7 +24,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+  */
+import React from 'react';
 import { isEmpty } from '../util/isEmpty';
 import startCase from 'lodash/startCase';
 import {
@@ -40,7 +41,6 @@ import {
   ResolvedJsonFormsDispatch,
   withJsonFormsDetailProps,
 } from '@jsonforms/react';
-import React from 'react';
 
 const SpectrumObjectRenderer = ({
   renderers,
@@ -83,7 +83,7 @@ const SpectrumObjectRenderer = ({
   );
 };
 
-export const spectrumObjectControlTester: RankedTester = rankWith(
+export const SpectrumObjectControlTester: RankedTester = rankWith(
   2,
   isObjectControl
 );

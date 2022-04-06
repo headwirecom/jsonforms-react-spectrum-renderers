@@ -27,7 +27,7 @@
 */
 import '@testing-library/jest-dom';
 import { LabelElement, RuleEffect, UISchemaElement } from '@jsonforms/core';
-import { spectrumLabelRendererTester } from '../../src/complex/SpectrumLabelRenderer';
+import { SpectrumLabelRendererTester } from '../../src/complex/SpectrumLabelRenderer';
 import { falseCondition, renderForm } from '../util';
 
 const fixture = {
@@ -41,10 +41,10 @@ const fixture = {
 
 describe('Label tester', () => {
   test('tester', () => {
-    expect(spectrumLabelRendererTester(undefined, undefined)).toBe(-1);
-    expect(spectrumLabelRendererTester(null, undefined)).toBe(-1);
-    expect(spectrumLabelRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(spectrumLabelRendererTester({ type: 'Label' }, undefined)).toBe(1);
+    expect(SpectrumLabelRendererTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumLabelRendererTester(null, undefined)).toBe(-1);
+    expect(SpectrumLabelRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumLabelRendererTester({ type: 'Label' }, undefined)).toBe(1);
   });
 });
 

@@ -25,56 +25,66 @@
 import React from 'react';
 import { DimensionValue } from '@react-types/shared';
 import { CellProps, computeLabel } from '@jsonforms/core';
-import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
-import { Flex } from '@adobe/react-spectrum';
-import { DatePicker, DatePickerLabel } from '../additional/DatePicker';
+import { Provider } from '@adobe/react-spectrum';
+import { DatePicker } from '@react-spectrum/datepicker';
+import merge from 'lodash/merge';
+import { parseAbsoluteToLocal } from '@internationalized/date';
+import SpectrumProvider from '../additional/SpectrumProvider';
 
-export class InputDateTime extends React.PureComponent<
-  CellProps & SpectrumInputProps
-> {
-  render() {
-    const {
-      config,
-      uischema,
-      data,
-      id,
-      enabled,
-      required,
-      path,
-      handleChange,
-      label,
-    } = this.props;
+import moment from 'moment';
 
-    const toISOString = (inputDateTime: string) => {
-      return inputDateTime === '' ? '' : inputDateTime + ':00.000Z';
-    };
+export const InputDateTime = ({
+  config,
+  data,
+  enabled,
+  handleChange,
+  id,
+  label,
+  path,
+  required,
+  uischema,
+}: CellProps & SpectrumInputProps) => {
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const width: DimensionValue = appliedUiSchemaOptions.trim
+    ? undefined
+    : '100%';
 
-    const width: DimensionValue = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
-
-    return (
-      <Flex direction='column'>
-        <DatePickerLabel htmlFor={id + '-input'}>
-          {computeLabel(
+  const toISOString = (inputDateTime: string) => {
+    if (!inputDateTime) {
+      return null;
+    } else if (inputDateTime.length >= 25) {
+      return inputDateTime.substring(0, 25);
+    } else {
+      return inputDateTime.substring(0, 19) + 'Z';
+    }
+  };
+  return (
+    <SpectrumProvider width={width}>
+      <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
+        <DatePicker
+          label={computeLabel(
             label,
             required,
             appliedUiSchemaOptions.hideRequiredAsterisk
           )}
-        </DatePickerLabel>
-        <DatePicker
-          type='datetime-local'
           width={width}
-          value={(data ?? '').substr(0, 16)}
-          onChange={(ev) => handleChange(path, toISOString(ev.target.value))}
+          value={parseAbsoluteToLocal(moment().format(data))}
+          onChange={(datetime: any) =>
+            handleChange(
+              path,
+              datetime ? toISOString(datetime?.toString()) : ''
+            )
+          }
+          granularity={appliedUiSchemaOptions.granularity ?? null}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           id={id}
-          disabled={!enabled}
+          isDisabled={enabled === undefined ? false : !enabled}
           autoFocus={uischema.options && uischema.options.focus}
+          hideTimeZone
         />
-      </Flex>
-    );
-  }
-}
+      </Provider>
+    </SpectrumProvider>
+  );
+};

@@ -41,8 +41,14 @@ import {
   withJsonFormsAnyOfProps,
 } from '@jsonforms/react';
 import CombinatorProperties from './CombinatorProperties';
-import { Content, Item, View } from '@adobe/react-spectrum';
-import { Tabs } from '@react-spectrum/tabs';
+import {
+  Content,
+  Item,
+  View,
+  TabList,
+  TabPanels,
+  Tabs,
+} from '@adobe/react-spectrum';
 
 const SpectrumAnyOfRenderer = ({
   schema,
@@ -82,26 +88,33 @@ const SpectrumAnyOfRenderer = ({
         selectedKey={String(selectedAnyOf)}
         onSelectionChange={handleChange}
       >
-        {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-          <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
-            <Content margin='size-160'>
-              <ResolvedJsonFormsDispatch
-                key={anyOfIndex}
-                schema={anyOfRenderInfo.schema}
-                uischema={anyOfRenderInfo.uischema}
-                path={path}
-                renderers={renderers}
-                cells={cells}
-              />
-            </Content>
-          </Item>
-        ))}
+        <TabList>
+          {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
+            <Item key={anyOfIndex}>{anyOfRenderInfo.label}</Item>
+          ))}
+        </TabList>
+        <TabPanels>
+          {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
+            <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
+              <Content margin='size-160'>
+                <ResolvedJsonFormsDispatch
+                  key={anyOfIndex}
+                  schema={anyOfRenderInfo.schema}
+                  uischema={anyOfRenderInfo.uischema}
+                  path={path}
+                  renderers={renderers}
+                  cells={cells}
+                />
+              </Content>
+            </Item>
+          ))}
+        </TabPanels>
       </Tabs>
     </View>
   );
 };
 
-export const spectrumAnyOfRendererTester: RankedTester = rankWith(
+export const SpectrumAnyOfRendererTester: RankedTester = rankWith(
   3,
   isAnyOfControl
 );
