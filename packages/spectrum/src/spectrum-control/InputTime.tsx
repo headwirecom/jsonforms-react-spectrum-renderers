@@ -69,15 +69,15 @@ export const InputTime = ({
           label={label}
           granularity={appliedUiSchemaOptions.granularity ?? 'minute'}
           hourCycle={appliedUiSchemaOptions.hourCycle}
+          id={id}
+          isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isRequired={required}
           labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-          id={id}
-          isRequired={required}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           width={width}
           autoFocus={appliedUiSchemaOptions.focus}
-          isDisabled={enabled === undefined ? false : !enabled}
           hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
           minValue={
             appliedUiSchemaOptions.minValue
