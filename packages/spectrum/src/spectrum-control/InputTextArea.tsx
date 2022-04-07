@@ -36,6 +36,7 @@ export const InputTextArea = ({
   enabled,
   handleChange,
   id,
+  isValid,
   label,
   path,
   required,
@@ -47,14 +48,18 @@ export const InputTextArea = ({
     ? undefined
     : '100%';
 
-  const isValid = () => {
-    let minLength = appliedUiSchemaOptions.minLength ?? 0;
+  const isValidCheck = () => {
+    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : 0);
     let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
-    if (!data && minLength === 0) {
+    if (isValid && !data && minLength === 0) {
       return 'valid';
     } else if (!data) {
       return 'invalid';
-    } else if (data.length >= minLength && data.length <= maxLength) {
+    } else if (
+      isValid &&
+      data.length >= minLength &&
+      data.length <= maxLength
+    ) {
       return 'valid';
     } else {
       return 'invalid';
@@ -62,7 +67,7 @@ export const InputTextArea = ({
   };
 
   const errorMessage = () => {
-    let minLength = appliedUiSchemaOptions.minLength;
+    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
     let maxLength = appliedUiSchemaOptions.maxLength;
     if (minLength && maxLength) {
       return `Must be between ${minLength} and ${maxLength} characters`;
@@ -76,6 +81,7 @@ export const InputTextArea = ({
   return (
     <SpectrumProvider width={width}>
       <TextArea
+        aria-label={label ? label : 'textarea'}
         autoFocus={appliedUiSchemaOptions.focus}
         description={appliedUiSchemaOptions.description ?? null}
         errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
@@ -93,7 +99,7 @@ export const InputTextArea = ({
         onChange={(value: string) => handleChange(path, value)}
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
-        validationState={isValid()}
+        validationState={isValidCheck()}
         value={data ?? ''}
         width={width}
       />

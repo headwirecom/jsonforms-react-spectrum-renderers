@@ -40,7 +40,6 @@ export const InputText = ({
   label,
   path,
   required,
-  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -49,22 +48,59 @@ export const InputText = ({
     ? undefined
     : '100%';
 
+  const isValidCheck = () => {
+    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : 0);
+    let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
+    if (isValid && !data && minLength === 0) {
+      return 'valid';
+    } else if (!data) {
+      return 'invalid';
+    } else if (
+      isValid &&
+      data.length >= minLength &&
+      data.length <= maxLength
+    ) {
+      return 'valid';
+    } else {
+      return 'invalid';
+    }
+  };
+
+  const errorMessage = () => {
+    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
+    let maxLength = appliedUiSchemaOptions.maxLength;
+    if (minLength && maxLength) {
+      return `Must be between ${minLength} and ${maxLength} characters`;
+    } else if (minLength) {
+      return `Must be at least ${minLength} characters`;
+    } else if (maxLength) {
+      return `Must be at most ${maxLength} characters`;
+    }
+  };
+
   return (
     <SpectrumProvider width={width}>
       <TextField
         aria-label={label ? label : 'textfield'}
-        type={appliedUiSchemaOptions.format ?? 'text'}
+        autoFocus={appliedUiSchemaOptions.focus}
+        description={appliedUiSchemaOptions.description ?? null}
+        errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+        id={id && `${id}-input`}
+        inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
+        isDisabled={enabled === undefined ? false : !enabled}
+        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
         isRequired={required}
-        value={data ?? ''}
         label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        maxLength={appliedUiSchemaOptions.maxLength ?? null}
+        minLength={appliedUiSchemaOptions.minLength ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(value: any) => handleChange(path, value)}
-        id={id && `${id}-input`}
-        isDisabled={enabled === undefined ? false : !enabled}
-        autoFocus={appliedUiSchemaOptions.focus}
-        maxLength={schema.maxLength}
-        minLength={schema.minLength}
-        validationState={isValid ? 'valid' : 'invalid'}
+        placeholder={appliedUiSchemaOptions.placeholder ?? null}
+        type={appliedUiSchemaOptions.format ?? 'text'}
+        validationState={isValidCheck()}
+        value={data ?? ''}
         width={width}
       />
     </SpectrumProvider>

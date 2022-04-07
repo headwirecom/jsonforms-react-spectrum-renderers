@@ -39,9 +39,80 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 }
 ``` -->
 
+# Text Field Component
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "textfield": {
+      "type": "string"
+    }
+  },
+  "required": ["textfield"] //If it should be required
+}
+```
+
+### UI Schema and Custom options
+
+```json
+UI Schema
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/textfield",
+      "label": "TextField Component", //Optional Label, default label is the property name, in this example it would be Textfield
+      "options": {
+        "description": "Text Field Description",
+        "errorMessage": "Custom Error Message!",
+        "focus": true,
+        "inputMode": "text",
+        "isQuiet": false,
+        "labelAlign": "end",
+        "labelPosition": "top",
+        "maxLength": 5,
+        "minLength": 1,
+        "necessityIndicator": "label",
+        "placeholder": "Enter text",
+        "trim": true,
+        "type": "text"
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used)                         | Values                                                                  | Description                                                                                                                              |
+| -------------------- | -------- | ------------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| "description"        | no       | null                                              | Any Description you want                                                | A Description for your Text Field. Will be displayed if no error is displayed.                                                           |
+| "errorMessage"       | no       | Error Message based on minLength and/or maxLength | Any Error Message you want or false                                     | Create a Custom Error Message.                                                                                                           |
+| "focus"              | no       | false                                             | true or false                                                           | If true it will be focused after it rendered.                                                                                            |
+| "inputMode"          | no       | "none"                                            | "decimal", "email", "none", "numeric", "search", "tel", "text" or "url" | Helper for the User Agent. [See MDN](https://html.spec.whatwg.org/multipage/interaction.html#input-modalities:-the-inputmode-attribute). |
+| "isQuiet"            | no       | false                                             | true or false                                                           | Changes the appearance.                                                                                                                  |
+| "labelAlign"         | no       | "start"                                           | "start" or "end"                                                        | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                                            |
+| "labelPosition"      | no       | "top"                                             | "top" or "side"                                                         | Position of the Label.                                                                                                                   |
+| "maxLength"          | no       | Infinity                                          | Any positive Number you want                                            | When the Length is above maxLength, a warning icon will be displayed inside the Component + Error Message.                               |
+| "minLength"          | no       | 0                                                 | Any positive Number you want                                            | When the Length is below minLength, a warning icon will be displayed inside the Component + Error Message.                               |
+| "necessityIndicator" | no       | false                                             | "label", "icon" or false                                                | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.              |
+| "placeholder"        | no       | null                                              | Any Placeholdertext you want                                            | Text which is displayed inside the Component if it's empty.                                                                              |
+| "trim"               | no       | false                                             | true or false                                                           | If false the Component uses 100% width, else the Component will be trimmed.                                                              |
+| "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
+
+</details>
+
 # Text Area Component
 
-## How to use it
+<details>
+  <summary>Show me how to use it</summary>
 
 ### Schema
 
@@ -108,7 +179,12 @@ UI Schema
 | "trim"               | no       | false                                             | true or false                                                           | If false the Component uses 100% width, else the Component will be trimmed.                                                              |
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
 
+</details>
+
 # Time Component (React Spectrum Alpha)
+
+<details>
+  <summary>Show me how to use it</summary>
 
 ## How to use it
 
@@ -171,3 +247,5 @@ UI Schema
 | "minValue"           | no       | null                        | Any Time you want in the Format "HH:mm" | When the Value is below minValue, a warning icon will be displayed inside the Component.                                    |
 | "necessityIndicator" | no       | false                       | "label", "icon" or false                | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
 | "trim"               | no       | false                       | true or false                           | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
+
+</details>
