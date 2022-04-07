@@ -39,6 +39,131 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 }
 ``` -->
 
+# Slider Component
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "range": {
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 100,
+      "multipleOf": 2
+    }
+  },
+  "required": ["range"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option       | Required | Default (Option not used) | Values                                    | Description                    |
+| ------------ | -------- | ------------------------- | ----------------------------------------- | ------------------------------ |
+| "default"    | yes      | null                      | Any number between min and max you want   | Default Value.                 |
+| "maximum"    | yes      | null                      | Any number you want (bigger than minimum) | Highest Number to accept.      |
+| "minimum"    | yes      | null                      | Any number you want                       | Lowest Number to accept.       |
+| "multipleOf" | no       | 1                         | Any number you want                       | How big a Step should be.      |
+| "type"       | yes      | null                      | "integer" or "number"                     | Depends on the Value you want. |
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/range",
+      "label": "Range Component", //Optional Label, default label is the property name, in this example it would be Range
+      "options": {
+        "formatOptions": {
+          "style": "currency",
+          "currency": "EUR"
+        },
+        "getValueLabel": "of 1",
+        "trackGradient": ["#000000", "blue"],
+        "fillOffset": 2,
+        "isFilled": true,
+        "slider": true,
+        "trim": false
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option          | Required | Default (Option not used)                    | Values                                                                                                                                                            | Description                                                                               |
+| --------------- | -------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| "fillOffset"    | no       | false                                        | Any Number between min and max                                                                                                                                    | The offset from which to start the fill.                                                  |
+| "formatOptions" | no       | false                                        | E.g.{ style: 'percent' } [See MDN for Full List](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat) | The Display Format of the Value Label.                                                    |
+| "getValueLabel" | no       | null                                         | Any Word you want                                                                                                                                                 | Custom Value Label, like "Bananas".                                                       |
+| "isFilled"      | no       | false                                        | true or false                                                                                                                                                     | Whether a fill color is shown between the start of the slider and the current value.      |
+| "slider"        | yes      | Without "slider" it's a Number/Integer Field | true or false                                                                                                                                                     | If true the Component will be a toggle instead of a Number Field.                         |
+| "trackGradient" | no       | null                                         | Array of Color Values, HEX, RGB, RGBA, Color Name, HSL                                                                                                            | The background of the track, specified as the stops for a CSS background: linear-gradient |
+| "trim"          | no       | false                                        | true or false                                                                                                                                                     | If false the Component uses 100% width, else the Component will be trimmed.               |
+
+</details>
+
+# Boolean Switch (Toggle) Component
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "switch": {
+      "type": "boolean"
+    }
+  },
+  "required": ["switch"] //If it should be required
+}
+```
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/switch",
+      "label": "Switch Component", //Optional Label, default label is the property name, in this example it would be Switch
+      "options": {
+        "focus": true,
+        "isEmphasized": false,
+        "toggle": true,
+        "trim": true
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option         | Required | Default (Option not used)          | Values        | Description                                                                 |
+| -------------- | -------- | ---------------------------------- | ------------- | --------------------------------------------------------------------------- |
+| "focus"        | no       | false                              | true or false | If true it will be focused after it rendered.                               |
+| "isEmphasized" | no       | false                              | true or false | Changes the appearance.                                                     |
+| "toggle"       | yes      | Without "toggle" it's a Text Field | true or false | If true the Component will be a toggle.                                     |
+| "trim"         | no       | false                              | true or false | If false the Component uses 100% width, else the Component will be trimmed. |
+
+</details>
+
 # Text Field Component
 
 <details>
@@ -61,7 +186,6 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 ### UI Schema and Custom options
 
 ```json
-UI Schema
 {
   "type": "HorizontalLayout", //or any other layout
   "elements": [
@@ -131,7 +255,6 @@ UI Schema
 ### UI Schema and Custom options
 
 ```json
-UI Schema
 {
   "type": "HorizontalLayout", //or any other layout
   "elements": [

@@ -45,11 +45,12 @@ export const InputSwitch = ({
   return (
     <SpectrumProvider width={width}>
       <Switch
-        value={data}
-        onChange={(value: boolean) => handleChange(path, value)}
+        autoFocus={appliedUiSchemaOptions.focus}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
-        autoFocus={appliedUiSchemaOptions.focus}
+        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        onChange={(value: boolean) => handleChange(path, value)}
+        value={data}
         width={width}
       >
         {label}

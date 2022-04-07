@@ -50,15 +50,27 @@ export const InputSlider = ({
   return (
     <SpectrumProvider width={width}>
       <Slider
-        value={data ?? schema.default}
-        label={label}
-        minValue={schema.minimum}
-        maxValue={schema.maximum}
-        isHidden={!visible}
-        onChange={(value: any) => handleChange(path, value)}
+        fillOffset={appliedUiSchemaOptions.fillOffset ?? null}
+        formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
+        getValueLabel={
+          appliedUiSchemaOptions.getValueLabel
+            ? (value) => `${value} ${appliedUiSchemaOptions.getValueLabel}`
+            : null
+        }
         isDisabled={enabled === undefined ? false : !enabled}
-        width={width}
+        isFilled={appliedUiSchemaOptions.isFilled ?? false}
+        isHidden={!visible}
+        label={label}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
+        maxValue={schema.maximum}
+        minValue={schema.minimum}
+        onChange={(value: any) => handleChange(path, value)}
+        orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
+        showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
         step={schema.multipleOf || 1}
+        trackGradient={appliedUiSchemaOptions.trackGradient ?? null}
+        value={data ?? schema.default}
+        width={width}
       />
     </SpectrumProvider>
   );
