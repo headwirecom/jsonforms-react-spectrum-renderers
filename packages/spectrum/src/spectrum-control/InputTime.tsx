@@ -66,19 +66,19 @@ export const InputTime = ({
     <SpectrumProvider width={width}>
       <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
         <TimeField
-          label={label}
+          autoFocus={appliedUiSchemaOptions.focus}
           granularity={appliedUiSchemaOptions.granularity ?? 'minute'}
+          hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
           hourCycle={appliedUiSchemaOptions.hourCycle}
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
           isRequired={required}
-          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           width={width}
-          autoFocus={appliedUiSchemaOptions.focus}
-          hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
           minValue={
             appliedUiSchemaOptions.minValue
               ? parseAbsoluteToLocal(

@@ -47,18 +47,54 @@ export const InputTextArea = ({
     ? undefined
     : '100%';
 
+  const isValid = () => {
+    let minLength = appliedUiSchemaOptions.minLength ?? 0;
+    let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
+    if (!data && minLength === 0) {
+      return 'valid';
+    } else if (!data) {
+      return 'invalid';
+    } else if (data.length >= minLength && data.length <= maxLength) {
+      return 'valid';
+    } else {
+      return 'invalid';
+    }
+  };
+
+  const errorMessage = () => {
+    let minLength = appliedUiSchemaOptions.minLength;
+    let maxLength = appliedUiSchemaOptions.maxLength;
+    if (minLength && maxLength) {
+      return `Must be between ${minLength} and ${maxLength} characters`;
+    } else if (minLength) {
+      return `Must be at least ${minLength} characters`;
+    } else if (maxLength) {
+      return `Must be at most ${maxLength} characters`;
+    }
+  };
+
   return (
     <SpectrumProvider width={width}>
       <TextArea
-        type={appliedUiSchemaOptions.format ?? 'text'}
-        value={data ?? ''}
-        label={label}
+        autoFocus={appliedUiSchemaOptions.focus}
+        description={appliedUiSchemaOptions.description ?? null}
+        errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+        id={id && `${id}-input`}
+        inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
+        isDisabled={enabled === undefined ? false : !enabled}
+        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
         isRequired={required}
+        label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        maxLength={appliedUiSchemaOptions.maxLength ?? null}
+        minLength={appliedUiSchemaOptions.minLength ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(value: string) => handleChange(path, value)}
-        id={id && `${id}-input`}
-        isDisabled={enabled === undefined ? false : !enabled}
-        autoFocus={appliedUiSchemaOptions.focus}
+        placeholder={appliedUiSchemaOptions.placeholder ?? null}
+        type={appliedUiSchemaOptions.format ?? 'text'}
+        validationState={isValid()}
+        value={data ?? ''}
         width={width}
       />
     </SpectrumProvider>
