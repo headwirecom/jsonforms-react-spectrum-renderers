@@ -52,16 +52,16 @@ export const InputRating = ({
   return (
     <SpectrumProvider width={width}>
       <RadioGroup
-        label={label}
-        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        value={data}
-        isRequired={required}
-        onChange={(value: any) => handleChange(path, parseInt(value))}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
+        isRequired={required}
+        label={label}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        onChange={(value: any) => handleChange(path, parseInt(value))}
+        orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
         validationState={isValid ? 'valid' : 'invalid'}
+        value={data}
         width={width}
-        orientation={'horizontal'}
       >
         {[...Array(schema.maximum ?? 5)].map((Stars, i) => {
           const ratingValue = i + 1;

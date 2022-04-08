@@ -40,6 +40,7 @@ export const InputNumber = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -48,22 +49,49 @@ export const InputNumber = ({
     ? undefined
     : '100%';
 
+  const errorMessage = () => {
+    let maxValue = schema.maximum;
+    let minValue = schema.minimum;
+    if (minValue && maxValue) {
+      return `Must be between ${minValue} and ${maxValue} characters`;
+    } else if (minValue) {
+      return `Must be at least ${minValue} characters`;
+    } else if (maxValue) {
+      return `Must be at most ${maxValue} characters`;
+    }
+  };
+
+  const stepValue = appliedUiSchemaOptions.step ?? 0.1;
+
   return (
     <SpectrumProvider width={width}>
       <NumberField
-        label={label}
-        aria-label={label ? label : 'numberfield'}
-        value={data ?? ''}
-        onChange={(value: number) => handleChange(path, value)}
-        id={id}
-        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        isDisabled={enabled === undefined ? false : !enabled}
+        aria-label={label ?? 'numberfield'}
         autoFocus={appliedUiSchemaOptions.focus}
-        isRequired={required}
-        validationState={isValid ? 'valid' : 'invalid'}
-        width={width}
-        step={appliedUiSchemaOptions.step ?? 0.1}
+        decrementAriaLabel={
+          appliedUiSchemaOptions.incrementAriaLabel ?? `Decrement -${stepValue}`
+        }
+        description={appliedUiSchemaOptions.description ?? null}
+        errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+        formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
         hideStepper={appliedUiSchemaOptions.hideStepper ?? false}
+        id={id}
+        incrementAriaLabel={
+          appliedUiSchemaOptions.incrementAriaLabel ?? `Increment +${stepValue}`
+        }
+        isDisabled={enabled === undefined ? false : !enabled}
+        isRequired={required}
+        label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        maxValue={schema.maximum}
+        minValue={schema.minimum}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+        onChange={(value: number) => handleChange(path, value)}
+        step={stepValue}
+        validationState={isValid ? 'valid' : 'invalid'}
+        value={data ?? ''}
+        width={width}
       />
     </SpectrumProvider>
   );

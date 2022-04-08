@@ -51,15 +51,28 @@ export const InputEnumAutocomplete = ({
   return (
     <SpectrumProvider width={width}>
       <ComboBox
-        key={id}
+        allowsCustomValue={appliedUiSchemaOptions.allowsCustomValue ?? false}
+        aria-label={label ?? 'combobox'}
+        autoFocus={appliedUiSchemaOptions.focus}
+        description={appliedUiSchemaOptions.description ?? null}
+        direction={appliedUiSchemaOptions.direction ?? 'bottom'}
+        errorMessage={appliedUiSchemaOptions.errorMessage ?? null}
         id={id}
-        label={label}
-        isRequired={required}
         isDisabled={enabled === undefined ? false : !enabled}
+        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        isRequired={required}
+        key={id}
+        label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        menuTrigger={appliedUiSchemaOptions.menuTrigger ?? 'input'}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        width={width}
-        selectedKey={data}
         onSelectionChange={(value) => handleChange(path, value)}
+        placeholder={appliedUiSchemaOptions.placeholder ?? null}
+        selectedKey={data}
+        shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
+        shouldFocusWrap={appliedUiSchemaOptions.shouldFocusWrap ?? null}
+        width={width}
       >
         {options.map((item) => (
           <Item key={item.value}>{item.label}</Item>

@@ -63,19 +63,30 @@ export const InputEnum = ({
   };
 
   return (
-    <SpectrumProvider width='100%'>
+    <SpectrumProvider width={width}>
       <Picker
-        aria-label={label ? label : 'picker'}
-        key={id}
+        align={appliedUiSchemaOptions.align ?? 'start'}
+        aria-label={label ?? 'picker'}
+        autoFocus={appliedUiSchemaOptions.focus}
+        description={appliedUiSchemaOptions.description ?? null}
+        direction={appliedUiSchemaOptions.direction ?? 'bottom'}
+        errorMessage={appliedUiSchemaOptions.errorMessage ?? null}
         id={id}
-        label={label}
-        isRequired={required}
         isDisabled={enabled === undefined ? false : !enabled}
-        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        width={width}
+        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        isRequired={required}
         items={options ?? tryEnumSchema(schema.anyOf)}
-        selectedKey={data}
+        key={id}
+        label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        menuWidth={appliedUiSchemaOptions.menuWidth ?? null}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onSelectionChange={(value) => handleChange(path, value)}
+        placeholder={appliedUiSchemaOptions.placeholder ?? null}
+        selectedKey={data}
+        shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
+        width={width}
       >
         {(item) => <Item key={item.value}>{item.label}</Item>}
       </Picker>
