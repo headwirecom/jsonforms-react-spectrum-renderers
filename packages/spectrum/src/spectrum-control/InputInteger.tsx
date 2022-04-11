@@ -49,11 +49,11 @@ export const InputInteger = ({
     let maxValue = schema.maximum;
     let minValue = schema.minimum;
     if (minValue && maxValue) {
-      return `Must be between ${minValue} and ${maxValue} characters`;
+      return `Must be between ${minValue} and ${maxValue} characters!`;
     } else if (minValue) {
-      return `Must be at least ${minValue} characters`;
+      return `Must be at least ${minValue} characters!`;
     } else if (maxValue) {
-      return `Must be at most ${maxValue} characters`;
+      return `Must be at most ${maxValue} characters!`;
     }
   };
 

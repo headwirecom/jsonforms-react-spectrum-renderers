@@ -47,13 +47,14 @@ export const InputCheckbox = ({
   return (
     <SpectrumProvider width={width}>
       <Checkbox
-        value={data}
-        isRequired={required}
-        onChange={(value: boolean) => handleChange(path, value)}
+        autoFocus={appliedUiSchemaOptions.focus}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
-        autoFocus={appliedUiSchemaOptions.focus}
+        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isRequired={required}
+        onChange={(value: boolean) => handleChange(path, value)}
         validationState={isValid ? 'valid' : 'invalid'}
+        value={data}
         width={width}
       >
         {label}

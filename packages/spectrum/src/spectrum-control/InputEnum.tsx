@@ -68,6 +68,7 @@ export const InputEnum = ({
         align={appliedUiSchemaOptions.align ?? 'start'}
         aria-label={label ?? 'picker'}
         autoFocus={appliedUiSchemaOptions.focus}
+        defaultOpen={appliedUiSchemaOptions.defaultOpen ?? false}
         description={appliedUiSchemaOptions.description ?? null}
         direction={appliedUiSchemaOptions.direction ?? 'bottom'}
         errorMessage={appliedUiSchemaOptions.errorMessage ?? null}

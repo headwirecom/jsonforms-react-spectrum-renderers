@@ -39,9 +39,226 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 }
 ``` -->
 
-# Enum Autocomplete Component
+# Boolean Checkbox (Toggle) Component
 
-WORK IN PROGRESS
+[React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/Checkbox.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "checkbox": {
+      "type": "boolean"
+    }
+  },
+  "required": ["checkbox"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option | Required | Default (Option not used) | Values    | Description      |
+| ------ | -------- | ------------------------- | --------- | ---------------- |
+| "type" | yes      | null                      | "boolean" | Must be Boolean. |
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/checkbox",
+      "label": "Checkbox Component", //Optional Label, default label is the property name, in this example it would be Checkbox
+      "options": {
+        "focus": true,
+        "isEmphasized": false
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option         | Required | Default (Option not used) | Values        | Description                                   |
+| -------------- | -------- | ------------------------- | ------------- | --------------------------------------------- |
+| "focus"        | no       | false                     | true or false | If true it will be focused after it rendered. |
+| "isEmphasized" | no       | false                     | true or false | Changes the appearance.                       |
+
+</details>
+
+# Date Component (React Spectrum Alpha)
+
+[React Spectrum DatePicker (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+## How to use it
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["date"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option   | Required | Default (Option not used) | Values      | Description                       |
+| -------- | -------- | ------------------------- | ----------- | --------------------------------- |
+| "format" | yes      | null                      | "date-time" | Must be Date, else it's a string. |
+| "type"   | yes      | null                      | "string"    | Must be String.                   |
+
+### UI Schema and Custom options
+
+```json
+UI Schema
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/date",
+      "label": "Date Component", //Optional Label, default label is the property name, in this example it would be Date
+      "options": {
+            "description": "Custom description",
+            "erroMessage": "Custom error message",
+            "focus": true,
+            "hideTimeZone": true,
+            "isQuiet": true,
+            "labelAlign": "end",
+            "labelPosition": "top",
+            "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
+            "maxValue": "2022-12-31",
+            "minValue": "today",
+            "necessityIndicator": "label",
+            "trim": false
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used) | Values                                                                                                                               | Description                                                                                                                       |
+| -------------------- | -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| "description"        | no       | null                      | String                                                                                                                               | A Description for your Date Time Component. Will be displayed if no error is displayed.                                           |
+| "errorMessage"       | no       | null                      | String or false (no ErrorMessage)                                                                                                    | Create a Custom Error Message.                                                                                                    |
+| "focus"              | no       | false                     | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                                     |
+| "hideTimeZone"       | no       | true                      | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                           |
+| "isQuiet"            | no       | false                     | true or false                                                                                                                        | Changes the appearance.                                                                                                           |
+| "labelAlign"         | no       | "start"                   | "start" or "end"                                                                                                                     | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                                     |
+| "labelPosition"      | no       | "top"                     | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                            |
+| "locale"             | no       | "gregory"                 | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                                    |
+| "maxValue"           | no       | null                      | Date E.g. "2022-12-31" or "today"                                                                                                    | When the Value is above maxValue, a warning icon will be displayed inside the Component and you can't pick a Date after maxValue. |
+| "minValue"           | no       | null                      | Date E.g. "2022-12-31" or "today"                                                                                                    | When the Value is below minValue, a warning icon will be displayed inside the Component and you can't pick a Date befor minValue. |
+| "necessityIndicator" | no       | false                     | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.       |
+| "trim"               | no       | false                     | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
+
+</details>
+
+# Date Time Component (React Spectrum Alpha)
+
+[React Spectrum DatePicker (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+## How to use it
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "dateTime": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["dateTime"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option   | Required | Default (Option not used) | Values      | Description                            |
+| -------- | -------- | ------------------------- | ----------- | -------------------------------------- |
+| "format" | yes      | null                      | "date-time" | Must be Date-Time, else it's a string. |
+| "type"   | yes      | null                      | "string"    | Must be String.                        |
+
+### UI Schema and Custom options
+
+```json
+UI Schema
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/dateTime",
+      "label": "Date Time Component", //Optional Label, default label is the property name, in this example it would be Date Time
+      "options": {
+            "description": "Custom description",
+            "erroMessage": "Custom error message",
+            "focus": true,
+            "granularity": "hour",
+            "hideTimeZone": true,
+            "hourCycle": "24",
+            "isQuiet": true,
+            "labelAlign": "end",
+            "labelPosition": "top",
+            "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
+            "maxValue": "2022-12-31",
+            "minValue": "today",
+            "necessityIndicator": "label",
+            "trim": false
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used)   | Values                                                                                                                               | Description                                                                                                                       |
+| -------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| "description"        | no       | null                        | String                                                                                                                               | A Description for your Date Time Component. Will be displayed if no error is displayed.                                           |
+| "errorMessage"       | no       | null                        | String or false (no ErrorMessage)                                                                                                    | Create a Custom Error Message.                                                                                                    |
+| "focus"              | no       | false                       | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                                     |
+| "granularity"        | no       | "minute"                    | "minute" or "hour"                                                                                                                   | Decide if you want only hours or hours and minutes.                                                                               |
+| "hideTimeZone"       | no       | true                        | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                           |
+| "hourCycle"          | no       | Uses the Browser hour cycle | "12" or "24"                                                                                                                         | Decide if the User should use 12 or 24 hour format.                                                                               |
+| "isQuiet"            | no       | false                       | true or false                                                                                                                        | Changes the appearance.                                                                                                           |
+| "labelAlign"         | no       | "start"                     | "start" or "end"                                                                                                                     | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                                     |
+| "labelPosition"      | no       | "top"                       | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                            |
+| "locale"             | no       | "gregory"                   | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                                    |
+| "maxValue"           | no       | null                        | Date(Time), E.g. ("2022-12-31T23:59:59" or "2022-12-31") or "today"                                                                  | When the Value is above maxValue, a warning icon will be displayed inside the Component and you can't pick a Date after maxValue. |
+| "minValue"           | no       | null                        | Date(Time), E.g. ("2022-12-31T00:00:00" or "2022-12-31") or "today"                                                                  | When the Value is below minValue, a warning icon will be displayed inside the Component and you can't pick a Date befor minValue. |
+| "necessityIndicator" | no       | false                       | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.       |
+| "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
+
+</details>
+
+# Enum Autocomplete Component
 
 [React Spectrum Picker](https://react-spectrum.adobe.com/react-spectrum/Picker.html)
 
@@ -82,6 +299,8 @@ WORK IN PROGRESS
       "label": "Enum Component", //Optional Label, default label is the property name, in this example it would be Enum
       "options": {
         "align": "start",
+        "autocomplete": false,
+        "defaultOpen": true,
         "description": "ComboBox description",
         "direction": "top",
         "errorMessage": "Custom error message",
@@ -89,6 +308,7 @@ WORK IN PROGRESS
         "isQuiet": true,
         "labelAlign": "end",
         "labelPosition": "side",
+        "menuWidth": "size-100",
         "necessityIndicator": "label",
         "placeholder": "Select an option",
         "shouldFlip": true,
@@ -105,18 +325,19 @@ WORK IN PROGRESS
 | -------------------- | -------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | "align"              | no       | "start"                   | "start" or "end"                                                                                                 | Alignment of the menu relative to the input target.                                                                         |
 | "autocomplete"       | yes      | true                      | true or false                                                                                                    | Must be false for a Picker, else it's a ComboBox.                                                                           |
+| "defaultOpen"        | no       | false                     | true or false                                                                                                    | Whether the Picker is open after it rendered or not.                                                                        |
 | "description"        | no       | null                      | String                                                                                                           | A Description for your ComboBox. Will be displayed if no error is displayed.                                                |
 | "direction"          | no       | "bottom"                  | "bottom" or "top"                                                                                                | Direction the menu will render relative to the ComboBox.                                                                    |
 | "errorMessage"       | no       | null                      | String or false (no ErrorMessage)                                                                                | Create a Custom Error Message.                                                                                              |
 | "focus"              | no       | false                     | true or false                                                                                                    | If true it will be focused after it rendered.                                                                               |
 | "isQuiet"            | no       | false                     | true or false                                                                                                    | Changes the appearance.                                                                                                     |
-| "necessityIndicator" | no       | false                     | "label", "icon" or false                                                                                         | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
-| "trim"               | no       | false                     | true or false                                                                                                    | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 | "labelAlign"         | no       | "start"                   | "start" or "end"                                                                                                 | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
 | "labelPosition"      | no       | "top"                     | "top" or "side"                                                                                                  | Position of the Label.                                                                                                      |
+| "menuWidth"          | no       | null                      | E.g. "size-100" [See all Options](https://react-spectrum.adobe.com/react-spectrum/styling.html#dimension-values) | Width of the menu.                                                                                                          |
+| "necessityIndicator" | no       | false                     | "label", "icon" or false                                                                                         | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
 | "placeholder"        | no       | null                      | String                                                                                                           | Text which is displayed inside the Component if it's empty (Placeholdertext).                                               |
 | "shouldFlip"         | no       | true                      | true or false                                                                                                    | Whether the menu should automatically flip direction when space is limited.                                                 |
-| "menuWidth"          | no       | null                      | E.g. "size-100" [See all Options](https://react-spectrum.adobe.com/react-spectrum/styling.html#dimension-values) | Width of the menu.                                                                                                          |
+| "trim"               | no       | false                     | true or false                                                                                                    | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
 
@@ -192,14 +413,14 @@ WORK IN PROGRESS
 | "errorMessage"       | no       | null                      | String or false (no ErrorMessage) | Create a Custom Error Message.                                                                                              |
 | "focus"              | no       | false                     | true or false                     | If true it will be focused after it rendered.                                                                               |
 | "isQuiet"            | no       | false                     | true or false                     | Changes the appearance.                                                                                                     |
-| "necessityIndicator" | no       | false                     | "label", "icon" or false          | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
-| "trim"               | no       | false                     | true or false                     | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 | "labelAlign"         | no       | "start"                   | "start" or "end"                  | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
 | "labelPosition"      | no       | "top"                     | "top" or "side"                   | Position of the Label.                                                                                                      |
 | "menuTrigger"        | no       | "input"                   | "input", "focus" or "manual"      | The interaction required to display the ComboBox menu. It has no effect on the mobile ComboBox.                             |
+| "necessityIndicator" | no       | false                     | "label", "icon" or false          | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
 | "placeholder"        | no       | null                      | String                            | Text which is displayed inside the Component if it's empty (Placeholdertext).                                               |
 | "shouldFlip"         | no       | true                      | true or false                     | Whether the menu should automatically flip direction when space is limited.                                                 |
 | "shouldFocusWrap"    | no       | false                     | true or false                     | Whether keyboard navigation is circular.                                                                                    |
+| "trim"               | no       | false                     | true or false                     | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
 
@@ -545,8 +766,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
       "options": {
         "focus": true,
         "isEmphasized": false,
-        "toggle": true,
-        "trim": true
+        "toggle": true
       }
     }
   ]
@@ -555,12 +775,11 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option         | Required | Default (Option not used)          | Values        | Description                                                                 |
-| -------------- | -------- | ---------------------------------- | ------------- | --------------------------------------------------------------------------- |
-| "focus"        | no       | false                              | true or false | If true it will be focused after it rendered.                               |
-| "isEmphasized" | no       | false                              | true or false | Changes the appearance.                                                     |
-| "toggle"       | yes      | Without "toggle" it's a Text Field | true or false | If true the Component will be a toggle.                                     |
-| "trim"         | no       | false                              | true or false | If false the Component uses 100% width, else the Component will be trimmed. |
+| Option         | Required | Default (Option not used)        | Values        | Description                                   |
+| -------------- | -------- | -------------------------------- | ------------- | --------------------------------------------- |
+| "focus"        | no       | false                            | true or false | If true it will be focused after it rendered. |
+| "isEmphasized" | no       | false                            | true or false | Changes the appearance.                       |
+| "toggle"       | yes      | Without "toggle" it's a Checkbox | true or false | If true the Component will be a toggle.       |
 
 </details>
 
@@ -768,10 +987,11 @@ UI Schema
         "hideTimeZone": true,
         "hourCycle": "24",
         "isQuiet": false,
-        "labelPosition": "top",
         "labelAlign": "end",
-        "minValue": "12:58",
+        "labelPosition": "top",
+        "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
         "maxValue": "13:38",
+        "minValue": "12:58",
         "necessityIndicator": "label",
         "trim": true
       }
@@ -782,18 +1002,19 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option               | Required | Default (Option not used)   | Values                     | Description                                                                                                                 |
-| -------------------- | -------- | --------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| "focus"              | no       | false                       | true or false              | If true it will be focused after it rendered.                                                                               |
-| "granularity"        | no       | "minute"                    | "minute" or "hour"         | Decide if you want only hours or hours and minutes.                                                                         |
-| "hideTimeZone"       | no       | true                        | true or false              | Hides Time Zone or not.                                                                                                     |
-| "hourCycle"          | no       | Uses the Browser hour cycle | "12" or "24"               | Decide if the User should use 12 or 24 hour format.                                                                         |
-| "isQuiet"            | no       | false                       | true or false              | Changes the appearance.                                                                                                     |
-| "labelAlign"         | no       | "start"                     | "start" or "end"           | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
-| "labelPosition"      | no       | "top"                       | "top" or "side"            | Position of the Label.                                                                                                      |
-| "maxValue"           | no       | null                        | Time in the Format "HH:mm" | When the Value is above maxValue, a warning icon will be displayed inside the Component.                                    |
-| "minValue"           | no       | null                        | Time in the Format "HH:mm" | When the Value is below minValue, a warning icon will be displayed inside the Component.                                    |
-| "necessityIndicator" | no       | false                       | "label", "icon" or false   | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
-| "trim"               | no       | false                       | true or false              | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
+| Option               | Required | Default (Option not used)   | Values                                                                                                                               | Description                                                                                                                 |
+| -------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| "focus"              | no       | false                       | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                               |
+| "granularity"        | no       | "minute"                    | "minute" or "hour"                                                                                                                   | Decide if you want only hours or hours and minutes.                                                                         |
+| "hideTimeZone"       | no       | true                        | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                     |
+| "hourCycle"          | no       | Uses the Browser hour cycle | "12" or "24"                                                                                                                         | Decide if the User should use 12 or 24 hour format.                                                                         |
+| "isQuiet"            | no       | false                       | true or false                                                                                                                        | Changes the appearance.                                                                                                     |
+| "labelAlign"         | no       | "start"                     | "start" or "end"                                                                                                                     | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
+| "labelPosition"      | no       | "top"                       | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                      |
+| "locale"             | no       | "gregory"                   | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                              |
+| "maxValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is above maxValue, a warning icon will be displayed inside the Component.                                    |
+| "minValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is below minValue, a warning icon will be displayed inside the Component.                                    |
+| "necessityIndicator" | no       | false                       | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
+| "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>

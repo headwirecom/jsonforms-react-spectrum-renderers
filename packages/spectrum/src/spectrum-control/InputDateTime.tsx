@@ -24,12 +24,17 @@
 */
 import React from 'react';
 import { DimensionValue } from '@react-types/shared';
-import { CellProps, computeLabel } from '@jsonforms/core';
+import { CellProps } from '@jsonforms/core';
 import { SpectrumInputProps } from './index';
 import { Provider } from '@adobe/react-spectrum';
 import { DatePicker } from '@react-spectrum/datepicker';
 import merge from 'lodash/merge';
-import { parseAbsoluteToLocal } from '@internationalized/date';
+import {
+  getLocalTimeZone,
+  parseAbsoluteToLocal,
+  parseDateTime,
+  today,
+} from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
 import moment from 'moment';
@@ -60,29 +65,68 @@ export const InputDateTime = ({
       return inputDateTime.substring(0, 19) + 'Z';
     }
   };
+
+  let maxValue = appliedUiSchemaOptions.maxValue;
+  let minValue = appliedUiSchemaOptions.minValue;
+
+  const getMinMaxValue = (minMaxValue: string) => {
+    if (minMaxValue === 'today') {
+      return today(getLocalTimeZone());
+    } else if (minMaxValue && minMaxValue.length === 19) {
+      return parseDateTime(minMaxValue);
+    } else if (minMaxValue && minMaxValue.length === 10) {
+      if (minMaxValue === maxValue) {
+        return parseDateTime(minMaxValue + 'T23:59:59');
+      } else {
+        return parseDateTime(minMaxValue + 'T00:00:00');
+      }
+    } else {
+      return null;
+    }
+  };
+
+  const errorMessage = () => {
+    if (minValue && maxValue) {
+      return `Must be between ${minValue} and ${maxValue}!`;
+    } else if (minValue) {
+      return `Must be at least ${minValue}!`;
+    } else if (maxValue) {
+      return `Must be at most ${maxValue}!`;
+    }
+  };
+
   return (
     <SpectrumProvider width={width}>
       <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
         <DatePicker
-          label={computeLabel(
-            label,
-            required,
-            appliedUiSchemaOptions.hideRequiredAsterisk
-          )}
-          width={width}
-          value={parseAbsoluteToLocal(moment().format(data))}
+          autoFocus={uischema.options && uischema.options.focus}
+          description={appliedUiSchemaOptions.description ?? null}
+          errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+          granularity={appliedUiSchemaOptions.granularity ?? 'minute'}
+          hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
+          hourCycle={appliedUiSchemaOptions.hourCycle}
+          id={id}
+          isDisabled={enabled === undefined ? false : !enabled}
+          isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isRequired={required}
+          label={label}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          maxValue={getMinMaxValue(maxValue)}
+          maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 3}
+          minValue={getMinMaxValue(minValue)}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           onChange={(datetime: any) =>
             handleChange(
               path,
               datetime ? toISOString(datetime?.toString()) : ''
             )
           }
-          granularity={appliedUiSchemaOptions.granularity ?? null}
-          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-          id={id}
-          isDisabled={enabled === undefined ? false : !enabled}
-          autoFocus={uischema.options && uischema.options.focus}
-          hideTimeZone
+          showFormatHelpText={
+            appliedUiSchemaOptions.showFormatHelpText ?? false
+          }
+          value={parseAbsoluteToLocal(moment().format(data))}
+          width={width}
         />
       </Provider>
     </SpectrumProvider>
