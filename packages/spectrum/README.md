@@ -6,38 +6,159 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 
 # Spectrum Renderers Package
 
-!!!! Work in Progress !!!
+See how you can use the Spectrum renderers to render your forms.
 
-# Custom options
+# Grid Array Control
 
-<!--
-### Custom options for Grid Array Control and Table Array Control
+<details>
+  <summary>Show me how to use it</summary>
 
- ```json
+### UI Schema and Custom options
+
+```json
 {
   "type": "Control",
   "scope": "#/properties/myArray",
   "options": {
-    "addButtonPosition": "top", // "top" or "bottom"
-    "addButtonLabel": "Add item", // optional custom label for Add button
-    "addButtonLabelType": "tooltip", // "tooltip" or "inline"
-    "table": true, // When true, uses @react-spectrum/table. When false, uses Grid component from React Spectrum (default: false)
-    "spacing": [3, 1], // Numbers correspond to proportions of column widths (defaults to 1). Has effect only when table=false
+    "addButtonLabel": "Add item",
+    "addButtonLabelType": "tooltip",
+    "addButtonPosition": "top"
   }
 }
 ```
 
-#### Custom options for Horizontal Layout
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used) | Values                | Description                                       |
+| -------------------- | -------- | ------------------------- | --------------------- | ------------------------------------------------- |
+| "addButtonLabel"     | no       | "Add to \${label}"        | String                | Custom add Button Label.                          |
+| "addButtonLabelType" | no       | "tooltip"                 | "tooltip" or "inline" | Whether the Label should be inline or as tooltip. |
+| "addButtonPosition"  | no       | "top"                     | "top" or "bottom"     | Position of the add Button.                       |
+
+</details>
+<br/>
+
+# Table Array Control
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "Control",
+  "scope": "#/properties/myTable",
+  "options": {
+    "addButtonLabel": "Add item",
+    "addButtonLabelType": "tooltip",
+    "addButtonPosition": "top",
+    "spacing": [3, 1],
+    "table": true
+  }
+}
+```
+
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used) | Values                | Description                                       |
+| -------------------- | -------- | ------------------------- | --------------------- | ------------------------------------------------- |
+| "addButtonLabel"     | no       | "Add to \${label}"        | String                | Custom add Button Label.                          |
+| "addButtonLabelType" | no       | "tooltip"                 | "tooltip" or "inline" | Whether the Label should be inline or as tooltip. |
+| "addButtonPosition"  | no       | "top"                     | "top" or "bottom"     | Position of the add Button.                       |
+| "spacing"            | no       | 1                         | Array of Number       | flex-grow for each element.                       |
+| "table"              | yes      | false                     | "true" or "false      | Must be true, else it's a Grid Array Control.     |
+
+</details>
+<br/>
+
+# Horizontal Layout
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### UI Schema and Custom options
 
 ```json
 {
   "type": "HorizontalLayout",
   "elements": [ ... ],
   "options": {
-    "spacing": [3, 1], // numbers correspond to proportions of column widths (defaults to 1)
+    "spacing": [3, 1]
   }
 }
-``` -->
+```
+
+#### Custom Options Overview
+
+| Option    | Required | Default (Option not used) | Values          | Description                 |
+| --------- | -------- | ------------------------- | --------------- | --------------------------- |
+| "spacing" | no       | 1                         | Array of Number | flex-grow for each element. |
+
+</details>
+<br/>
+
+# Boolean Checkbox (Toggle) Component
+
+[React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "radioGroup": {
+      "enum": ["Option1", "Option2", "Option3"]
+    }
+  },
+  "required": ["radioGroup"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option | Required | Default (Option not used) | Values                 | Description       |
+| ------ | -------- | ------------------------- | ---------------------- | ----------------- |
+| "enum" | yes      | null                      | Array of Radio Options | Must be provided. |
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/radioGroup",
+      "label": "Radio Group Component", //Optional Label, default label is the property name, in this example it would be Radio Group
+      "options": {
+        "format": "radio",
+        "isEmphasized": true,
+        "labelAlign": "start",
+        "labelPosition": "top",
+        "orientation": "horizontal"
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option          | Required | Default (Option not used) | Values                     | Description                                                                                   |
+| --------------- | -------- | ------------------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
+| "format"        | yes      | null                      | "radio"                    | Must be Radio.                                                                                |
+| "isEmphasized"  | no       | false                     | true or false              | Changes the appearance.                                                                       |
+| "labelAlign"    | no       | "start"                   | "start" or "end"           | Has only effect when labelPosition="top". Place the Label at the start or end of the control. |
+| "labelPosition" | no       | "top"                     | "top" or "side"            | Position of the Label.                                                                        |
+| "orientation"   | no       | "vertical"                | "horizontal" or "vertical" | How the Radios should be aligned.                                                             |
+
+</details>
+<br/>
 
 # Boolean Checkbox (Toggle) Component
 
@@ -93,6 +214,7 @@ JSONForms eliminates the tedious task of writing fully-featured forms by hand by
 | "isEmphasized" | no       | false                     | true or false | Changes the appearance.                       |
 
 </details>
+<br/>
 
 # Date Component (React Spectrum Alpha)
 
@@ -173,6 +295,7 @@ UI Schema
 | "trim"               | no       | false                     | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
 
 </details>
+<br/>
 
 # Date Time Component (React Spectrum Alpha)
 
@@ -257,6 +380,7 @@ UI Schema
 | "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
 
 </details>
+<br/>
 
 # Enum Autocomplete Component
 
@@ -340,6 +464,7 @@ UI Schema
 | "trim"               | no       | false                     | true or false                                                                                                    | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
+<br/>
 
 # Enum Autocomplete Component
 
@@ -423,6 +548,7 @@ UI Schema
 | "trim"               | no       | false                     | true or false                     | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
+<br/>
 
 # Integer Component
 
@@ -504,6 +630,7 @@ UI Schema
 | "trim"               | no       | false                                 | true or false                                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
+<br/>
 
 # Number Component
 
@@ -586,6 +713,7 @@ UI Schema
 | "trim"               | no       | false                                 | true or false                                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>
+<br/>
 
 # Star Rating Component
 
@@ -649,6 +777,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "rating"             | yes      | Without "rating" it's a Integer Field | true or false              | If true the Component will be a Star Rating.                                                                                |
 
 </details>
+<br/>
 
 # Slider Component
 
@@ -725,6 +854,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "trim"          | no       | false                                        | true or false                                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.               |
 
 </details>
+<br/>
 
 # Boolean Switch (Toggle) Component
 
@@ -782,6 +912,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "toggle"       | yes      | Without "toggle" it's a Checkbox | true or false | If true the Component will be a toggle.       |
 
 </details>
+<br/>
 
 # Text Field Component
 
@@ -859,6 +990,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
 
 </details>
+<br/>
 
 # Text Area Component
 
@@ -938,6 +1070,7 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
 
 </details>
+<br/>
 
 # Time Component (React Spectrum Alpha)
 

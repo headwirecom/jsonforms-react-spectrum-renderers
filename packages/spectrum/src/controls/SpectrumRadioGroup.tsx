@@ -19,11 +19,22 @@
   THE SOFTWARE.
 */
 import React from 'react';
+import merge from 'lodash/merge';
 import { ControlProps, OwnPropsOfEnum } from '@jsonforms/core';
 import { View, RadioGroup, Radio } from '@adobe/react-spectrum';
 
 export const SpectrumRadioGroup = (props: ControlProps & OwnPropsOfEnum) => {
-  const { visible, options, handleChange, path } = props;
+  const {
+    config,
+    handleChange,
+    label,
+    options,
+    path,
+    required,
+    uischema,
+    visible,
+  } = props;
+  const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
   return (
     <View
@@ -31,8 +42,15 @@ export const SpectrumRadioGroup = (props: ControlProps & OwnPropsOfEnum) => {
     >
       <RadioGroup
         aria-label={'radiogroup' + props.data}
-        value={props.data}
+        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isRequired={required}
+        label={label}
+        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(ev) => handleChange(path, ev)}
+        orientation={appliedUiSchemaOptions.orientation ?? 'vertical'}
+        value={props.data}
       >
         {options.map((option) => (
           <Radio value={option.value} key={option.label}>
