@@ -113,7 +113,7 @@ export const InputDateTime = ({
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
           labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
           maxValue={getMinMaxValue(maxValue)}
-          maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 3}
+          maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
           minValue={getMinMaxValue(minValue)}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           onChange={(datetime: any) =>

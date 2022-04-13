@@ -40,6 +40,8 @@ See how you can use the Spectrum renderers to render your forms.
 
 # Table Array Control
 
+[React Spectrum TableView](https://react-spectrum.adobe.com/react-spectrum/TableView.html)
+
 <details>
   <summary>Show me how to use it</summary>
 
@@ -268,6 +270,7 @@ UI Schema
             "labelPosition": "top",
             "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
             "maxValue": "2022-12-31",
+            "maxVisibleMonths": 3,
             "minValue": "today",
             "necessityIndicator": "label",
             "trim": false
@@ -290,6 +293,7 @@ UI Schema
 | "labelPosition"      | no       | "top"                     | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                            |
 | "locale"             | no       | "gregory"                 | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                                    |
 | "maxValue"           | no       | null                      | Date E.g. "2022-12-31" or "today"                                                                                                    | When the Value is above maxValue, a warning icon will be displayed inside the Component and you can't pick a Date after maxValue. |
+| "maxVisibleMonths"   | no       | 1                         | Integer                                                                                                                              | How many Months should be displayed while Picking.                                                                                |
 | "minValue"           | no       | null                      | Date E.g. "2022-12-31" or "today"                                                                                                    | When the Value is below minValue, a warning icon will be displayed inside the Component and you can't pick a Date befor minValue. |
 | "necessityIndicator" | no       | false                     | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.       |
 | "trim"               | no       | false                     | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
@@ -351,6 +355,7 @@ UI Schema
             "labelPosition": "top",
             "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
             "maxValue": "2022-12-31",
+            "maxVisibleMonths": 3,
             "minValue": "today",
             "necessityIndicator": "label",
             "trim": false
@@ -375,6 +380,7 @@ UI Schema
 | "labelPosition"      | no       | "top"                       | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                            |
 | "locale"             | no       | "gregory"                   | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                                    |
 | "maxValue"           | no       | null                        | Date(Time), E.g. ("2022-12-31T23:59:59" or "2022-12-31") or "today"                                                                  | When the Value is above maxValue, a warning icon will be displayed inside the Component and you can't pick a Date after maxValue. |
+| "maxVisibleMonths"   | no       | 1                           | Integer                                                                                                                              | How many Months should be displayed while Picking.                                                                                |
 | "minValue"           | no       | null                        | Date(Time), E.g. ("2022-12-31T00:00:00" or "2022-12-31") or "today"                                                                  | When the Value is below minValue, a warning icon will be displayed inside the Component and you can't pick a Date befor minValue. |
 | "necessityIndicator" | no       | false                       | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.       |
 | "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                       |
