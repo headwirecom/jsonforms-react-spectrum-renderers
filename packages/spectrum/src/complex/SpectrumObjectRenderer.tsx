@@ -25,17 +25,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { isEmpty } from '../util/isEmpty';
-import startCase from 'lodash/startCase';
 import {
-  findUISchema,
-  GroupLayout,
-  isObjectControl,
-  isPlainLabel,
+  Generate,
   RankedTester,
-  rankWith,
   StatePropsOfControlWithDetail,
+  findUISchema,
+  isObjectControl,
+  rankWith,
 } from '@jsonforms/core';
 import {
   ResolvedJsonFormsDispatch,
@@ -43,33 +41,33 @@ import {
 } from '@jsonforms/react';
 
 const SpectrumObjectRenderer = ({
-  renderers,
   cells,
-  uischemas,
-  schema,
+  enabled,
   label,
   path,
-  visible,
-  enabled,
-  uischema,
+  renderers,
   rootSchema,
+  schema,
+  uischema,
+  uischemas,
+  visible,
 }: StatePropsOfControlWithDetail) => {
-  const detailUiSchema = findUISchema(
-    uischemas,
-    schema,
-    uischema.scope,
-    path,
-    'Group',
-    uischema,
-    rootSchema
+  const detailUiSchema = useMemo(
+    () =>
+      findUISchema(
+        uischemas,
+        schema,
+        uischema.scope,
+        path,
+        () =>
+          isEmpty(path)
+            ? Generate.uiSchema(schema, 'VerticalLayout')
+            : { ...Generate.uiSchema(schema, 'Group'), label },
+        uischema,
+        rootSchema
+      ),
+    [uischemas, schema, uischema.scope, path, label, uischema, rootSchema]
   );
-  if (isEmpty(path)) {
-    detailUiSchema.type = 'VerticalLayout';
-  } else {
-    (detailUiSchema as GroupLayout).label = startCase(
-      isPlainLabel(label) ? label : label.default
-    );
-  }
   return (
     <ResolvedJsonFormsDispatch
       visible={visible}
