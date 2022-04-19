@@ -59,10 +59,11 @@ const SpectrumObjectRenderer = ({
         schema,
         uischema.scope,
         path,
-        () =>
+        JSON.stringify(
           isEmpty(path)
             ? Generate.uiSchema(schema, 'VerticalLayout')
-            : { ...Generate.uiSchema(schema, 'Group'), label },
+            : { ...Generate.uiSchema(schema, 'Group'), label }
+        ),
         uischema,
         rootSchema
       ),
