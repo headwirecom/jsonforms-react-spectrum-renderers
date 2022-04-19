@@ -79,7 +79,9 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
         ) : (
           ''
         )}
-        <Content>{renderChildren(group, schema, {}, path, enabled)}</Content>
+        <div style={{ boxSizing: 'content-box' }}>
+          <Content>{renderChildren(group, schema, {}, path, enabled)}</Content>
+        </div>
       </View>
     </SpectrumProvider>
   );
