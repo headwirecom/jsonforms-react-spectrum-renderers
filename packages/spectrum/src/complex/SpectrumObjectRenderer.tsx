@@ -25,14 +25,16 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
-import React, { useMemo } from 'react';
+import React from 'react';
 import { isEmpty } from '../util/isEmpty';
+import startCase from 'lodash/startCase';
 import {
-  Generate,
+  GroupLayout,
   RankedTester,
   StatePropsOfControlWithDetail,
   findUISchema,
   isObjectControl,
+  isPlainLabel,
   rankWith,
 } from '@jsonforms/core';
 import {
@@ -52,23 +54,22 @@ const SpectrumObjectRenderer = ({
   uischemas,
   visible,
 }: StatePropsOfControlWithDetail) => {
-  const detailUiSchema = useMemo(
-    () =>
-      findUISchema(
-        uischemas,
-        schema,
-        uischema.scope,
-        path,
-        JSON.stringify(
-          isEmpty(path)
-            ? Generate.uiSchema(schema, 'VerticalLayout')
-            : { ...Generate.uiSchema(schema, 'Group'), label }
-        ),
-        uischema,
-        rootSchema
-      ),
-    [uischemas, schema, uischema.scope, path, label, uischema, rootSchema]
+  const detailUiSchema = findUISchema(
+    uischemas,
+    schema,
+    uischema.scope,
+    path,
+    'Group',
+    uischema,
+    rootSchema
   );
+  if (isEmpty(path)) {
+    detailUiSchema.type = 'VerticalLayout';
+  } else {
+    (detailUiSchema as GroupLayout).label = startCase(
+      isPlainLabel(label) ? label : label.default
+    );
+  }
   return (
     <ResolvedJsonFormsDispatch
       visible={visible}
@@ -81,7 +82,6 @@ const SpectrumObjectRenderer = ({
     />
   );
 };
-
 export const SpectrumObjectControlTester: RankedTester = rankWith(
   2,
   isObjectControl
