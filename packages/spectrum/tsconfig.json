@@ -23,7 +23,7 @@
   THE SOFTWARE.
 */
 {
-  "extends": "../../tsconfig.base",
+  "extends": "./tsconfig.base",
   "compilerOptions": {
     "outDir": "lib",
     "sourceMap": true,
