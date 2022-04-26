@@ -24,7 +24,7 @@
 */
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
-import merge from 'lodash/merge';
+import { debounce, merge } from 'lodash';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import { Slider } from '@adobe/react-spectrum';
@@ -47,6 +47,10 @@ export const InputSlider = ({
     ? undefined
     : '100%';
 
+  const handleOnChange = (value: any) => {
+    handleChange(path, value);
+  };
+
   return (
     <SpectrumProvider width={width}>
       <Slider
@@ -64,7 +68,7 @@ export const InputSlider = ({
         labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
         maxValue={schema.maximum}
         minValue={schema.minimum}
-        onChange={(value: any) => handleChange(path, value)}
+        onChange={debounce(handleOnChange, 1)}
         orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
         showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
         step={schema.multipleOf || 1}
