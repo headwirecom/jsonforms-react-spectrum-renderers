@@ -84,7 +84,7 @@ export const InputEnum = ({
         menuWidth={appliedUiSchemaOptions.menuWidth ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onSelectionChange={(value) => handleChange(path, value)}
-        placeholder={appliedUiSchemaOptions.placeholder ?? null}
+        placeholder={appliedUiSchemaOptions.placeholder}
         selectedKey={data}
         shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
         width={width}
