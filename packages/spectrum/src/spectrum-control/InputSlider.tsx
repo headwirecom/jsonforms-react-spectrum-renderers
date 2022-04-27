@@ -32,7 +32,7 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const InputSlider = ({
   config,
-  data,
+  //data,
   enabled,
   handleChange,
   label,
@@ -47,7 +47,14 @@ export const InputSlider = ({
     ? undefined
     : '100%';
 
+  let [value, setValue] = React.useState(schema.default);
+
   const handleOnChange = (value: any) => {
+    setValue(value);
+  };
+
+  const handleOnChangeEnd = (value: any) => {
+    setValue(value);
     handleChange(path, value);
   };
 
@@ -68,12 +75,13 @@ export const InputSlider = ({
         labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
         maxValue={schema.maximum}
         minValue={schema.minimum}
-        onChange={debounce(handleOnChange, 1)}
+        onChange={debounce(handleOnChange, 10)}
+        onChangeEnd={debounce(handleOnChangeEnd, 10)}
         orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
         showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
         step={schema.multipleOf || 1}
         trackGradient={appliedUiSchemaOptions.trackGradient ?? null}
-        value={data ?? schema.default}
+        value={value}
         width={width}
       />
     </SpectrumProvider>
