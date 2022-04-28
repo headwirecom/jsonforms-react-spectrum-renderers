@@ -51,7 +51,9 @@ const ListWithDetailMasterItem = ({
   path,
   removeItem,
   selected,
-}: StatePropsOfMasterItem) => {
+}: //schema,
+StatePropsOfMasterItem) => {
+  const itemLabel = childLabel ?? `Item ${index + 1}`;
   return (
     <SpectrumProvider>
       <div
@@ -71,14 +73,14 @@ const ListWithDetailMasterItem = ({
             flex='auto'
             isQuiet
             onPress={handleSelect(index)}
-            aria-label={`select-item-${childLabel}`}
+            aria-label={`select-item-${itemLabel}`}
           >
-            <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
+            <Text UNSAFE_style={{ textAlign: 'left' }}>{itemLabel}</Text>
           </ActionButton>
           <View>
             <TooltipTrigger delay={0}>
               <DialogTrigger>
-                <ActionButton aria-label={`delete-item-${childLabel}`}>
+                <ActionButton aria-label={`delete-item-${itemLabel}`}>
                   <Delete />
                 </ActionButton>
                 <AlertDialog

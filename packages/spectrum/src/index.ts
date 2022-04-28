@@ -108,6 +108,8 @@ import {
   SpectrumObjectRenderer,
   SpectrumOneOfRenderer,
   SpectrumOneOfRendererTester,
+  SpectrumOneOfEnumRenderer,
+  SpectrumOneOfEnumRendererTester,
   SpectrumTableArrayControl,
   SpectrumTableArrayControlTester,
   SpectrumArrayControlGrid,
@@ -187,6 +189,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumOneOfRendererTester,
     renderer: SpectrumOneOfRenderer,
+  },
+  {
+    tester: SpectrumOneOfEnumRendererTester,
+    renderer: SpectrumOneOfEnumRenderer,
   },
   {
     tester: SpectrumAnyOfRendererTester,
