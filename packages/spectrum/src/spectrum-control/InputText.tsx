@@ -83,7 +83,6 @@ export const InputText = ({
       <TextField
         aria-label={label ? label : 'textfield'}
         autoFocus={appliedUiSchemaOptions.focus}
-        defaultValue={appliedUiSchemaOptions.defaultValue ?? null}
         description={appliedUiSchemaOptions.description ?? null}
         errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
         id={id && `${id}-input`}
