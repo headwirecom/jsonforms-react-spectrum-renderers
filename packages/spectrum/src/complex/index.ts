@@ -47,9 +47,6 @@ import SpectrumLabelRenderer, {
 import SpectrumOneOfRenderer, {
   SpectrumOneOfRendererTester,
 } from './SpectrumOneOfRenderer';
-import SpectrumOneOfEnumRenderer, {
-  SpectrumOneOfEnumRendererTester,
-} from './SpectrumOneOfEnumRenderer';
 import SpectrumTableArrayControl, {
   SpectrumTableArrayControlTester,
 } from './SpectrumTableArrayControl';
@@ -74,8 +71,6 @@ export {
   SpectrumObjectControlTester,
   SpectrumOneOfRenderer,
   SpectrumOneOfRendererTester,
-  SpectrumOneOfEnumRenderer,
-  SpectrumOneOfEnumRendererTester,
   SpectrumTableArrayControl,
   SpectrumTableArrayControlTester,
   SpectrumArrayControlGrid,

@@ -38,6 +38,7 @@ import {
   RankedTester,
   rankWith,
   resolveSubSchemas,
+  //optionIs,
 } from '@jsonforms/core';
 import {
   ResolvedJsonFormsDispatch,
@@ -57,6 +58,7 @@ import {
   TabList,
   TabPanels,
   Tabs,
+  Picker,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -120,6 +122,10 @@ const SpectrumOneOfRenderer = ({
     [setOpen, setSelectedIndex, data]
   );
 
+  const usePickerInsteadOfTabs =
+    JSON.stringify(schema?.oneOf).includes(`"required":["OneOfEnum"`) ||
+    uischema.options?.OneOfEnum === true;
+
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>
@@ -128,19 +134,21 @@ const SpectrumOneOfRenderer = ({
           combinatorKeyword={'oneOf'}
           path={path}
         />
-        <Tabs
-          isDisabled={enabled === undefined ? false : !enabled}
-          selectedKey={String(selectedIndex)}
-          onSelectionChange={handleTabChange}
-        >
-          <TabList>
+        {usePickerInsteadOfTabs ? (
+          <>
+            <Picker
+              isDisabled={enabled === undefined ? false : !enabled}
+              selectedKey={String(selectedIndex)}
+              onSelectionChange={handleTabChange}
+              width='100%'
+              aria-label='Select'
+            >
+              {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+                <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+              ))}
+            </Picker>
             {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-              <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
-            ))}
-          </TabList>
-          <TabPanels>
-            {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-              <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
+              <View key={oneOfIndex} isHidden={oneOfIndex !== selectedIndex}>
                 <Content margin='size-160'>
                   <ResolvedJsonFormsDispatch
                     key={oneOfIndex}
@@ -151,10 +159,40 @@ const SpectrumOneOfRenderer = ({
                     cells={cells}
                   />
                 </Content>
-              </Item>
+              </View>
             ))}
-          </TabPanels>
-        </Tabs>
+          </>
+        ) : (
+          <>
+            <Tabs
+              isDisabled={enabled === undefined ? false : !enabled}
+              selectedKey={String(selectedIndex)}
+              onSelectionChange={handleTabChange}
+            >
+              <TabList>
+                {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+                  <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+                ))}
+              </TabList>
+              <TabPanels>
+                {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+                  <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
+                    <Content margin='size-160'>
+                      <ResolvedJsonFormsDispatch
+                        key={oneOfIndex}
+                        schema={oneOfRenderInfo.schema}
+                        uischema={oneOfRenderInfo.uischema}
+                        path={path}
+                        renderers={renderers}
+                        cells={cells}
+                      />
+                    </Content>
+                  </Item>
+                ))}
+              </TabPanels>
+            </Tabs>
+          </>
+        )}
         <DialogContainer onDismiss={handleClose}>
           {open && (
             <Dialog>

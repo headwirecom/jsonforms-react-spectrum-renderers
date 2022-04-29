@@ -204,7 +204,7 @@ export const mapStateToSpectrumArrayItemProps = (
     ? childData[uischema.options.elementLabelProp]
     : firstPrimitiveProp
     ? childData[firstPrimitiveProp]
-    : '';
+    : `Item ${index + 1}`;
 
   return {
     ...ownProps,

@@ -83,6 +83,7 @@ export const InputText = ({
       <TextField
         aria-label={label ? label : 'textfield'}
         autoFocus={appliedUiSchemaOptions.focus}
+        defaultValue={appliedUiSchemaOptions.defaultValue ?? null}
         description={appliedUiSchemaOptions.description ?? null}
         errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
         id={id && `${id}-input`}
@@ -100,7 +101,7 @@ export const InputText = ({
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
-        value={data ?? ''}
+        value={data ?? null}
         width={width}
       />
     </SpectrumProvider>
