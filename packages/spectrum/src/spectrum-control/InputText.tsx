@@ -101,7 +101,7 @@ export const InputText = ({
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
-        value={data ?? null}
+        value={data ?? appliedUiSchemaOptions.defaultValue ?? ''}
         width={width}
       />
     </SpectrumProvider>
