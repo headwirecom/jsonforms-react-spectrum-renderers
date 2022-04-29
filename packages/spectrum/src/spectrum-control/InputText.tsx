@@ -41,6 +41,7 @@ export const InputText = ({
   path,
   required,
   uischema,
+  schema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
@@ -78,6 +79,10 @@ export const InputText = ({
     }
   };
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
+
   return (
     <SpectrumProvider width={width}>
       <TextField
@@ -100,7 +105,7 @@ export const InputText = ({
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
-        value={data ?? appliedUiSchemaOptions.defaultValue ?? ''}
+        value={data ?? schema?.default ?? ''}
         width={width}
       />
     </SpectrumProvider>

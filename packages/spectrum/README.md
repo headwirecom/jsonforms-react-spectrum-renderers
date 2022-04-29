@@ -934,7 +934,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "textfield": {
-      "type": "string"
+      "type": "string",
+      "default": "DefaultString"
     }
   },
   "required": ["textfield"] //If it should be required
@@ -943,9 +944,10 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option | Required | Default (Option not used) | Values   | Description     |
-| ------ | -------- | ------------------------- | -------- | --------------- |
-| "type" | yes      | null                      | "string" | Must be String. |
+| Option    | Required | Default (Option not used) | Values   | Description                                     |
+| --------- | -------- | ------------------------- | -------- | ----------------------------------------------- |
+| "type"    | yes      | null                      | "string" | Must be String.                                 |
+| "default" | no       | null                      | String   | Default Value (will be inserted at rendertime). |
 
 ### UI Schema and Custom options
 
