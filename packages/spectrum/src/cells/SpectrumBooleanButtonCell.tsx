@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { FunctionComponent } from 'react';
+/* import React, { FunctionComponent } from 'react';
 import {
   CellProps,
   isBooleanControl,
@@ -70,8 +70,34 @@ export const SpectrumBooleanButtonCell: FunctionComponent<CellProps> = (
  * Default tester for boolean controls.
  * @type {RankedTester}
  */
-export const SpectrumBooleanButtonCellTester: RankedTester = rankWith(
+/* export const SpectrumBooleanButtonCellTester: RankedTester = rankWith(
   2,
+  and(isBooleanControl, optionIs('button', true))
+);
+
+export default withJsonFormsCellProps(SpectrumBooleanButtonCell); */
+
+import React from 'react';
+import {
+  CellProps,
+  isBooleanControl,
+  RankedTester,
+  rankWith,
+  and,
+  optionIs,
+} from '@jsonforms/core';
+import { withJsonFormsCellProps } from '@jsonforms/react';
+import { InputBooleanButton, SpectrumInputProps } from '../spectrum-control';
+
+export const SpectrumBooleanButtonCell = (
+  props: CellProps & SpectrumInputProps
+) => <InputBooleanButton {...props} />;
+/**
+ * Default tester for BooleanButton controls.
+ * @type {RankedTester}
+ */
+export const SpectrumBooleanButtonCellTester: RankedTester = rankWith(
+  4,
   and(isBooleanControl, optionIs('button', true))
 );
 

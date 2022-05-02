@@ -35,45 +35,15 @@ import {
   optionIs,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { isEmpty } from '../util/isEmpty';
-import { SpectrumBooleanButtonCell } from '../cells/CustomizableCells';
+import { InputBooleanButton } from '../spectrum-control';
+import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumBooleanButtonControl = ({
-  config,
-  data,
-  enabled,
-  errors,
-  handleChange,
-  id,
-  label,
-  path,
-  rootSchema,
-  schema,
-  uischema,
-  visible,
-}: ControlProps) => {
-  return (
-    <SpectrumBooleanButtonCell
-      id={id && `${id}-input`}
-      isValid={isEmpty(errors)}
-      data={data}
-      enabled={enabled}
-      visible={visible}
-      path={path}
-      uischema={uischema}
-      schema={schema}
-      rootSchema={rootSchema}
-      handleChange={handleChange}
-      errors={errors}
-      config={config}
-    >
-      {label}
-    </SpectrumBooleanButtonCell>
-  );
-};
+export const SpectrumBooleanButtonControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputBooleanButton} />
+);
 
 export const SpectrumBooleanButtonControlTester: RankedTester = rankWith(
-  2,
+  4,
   and(isBooleanControl, optionIs('button', true))
 );
 export default withJsonFormsControlProps(SpectrumBooleanButtonControl);

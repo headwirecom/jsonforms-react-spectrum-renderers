@@ -59,6 +59,10 @@ export const InputInteger = ({
 
   const stepValue = appliedUiSchemaOptions.step ?? 1;
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, [schema?.default]);
+
   return (
     <SpectrumProvider width={width}>
       <NumberField

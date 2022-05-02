@@ -40,8 +40,8 @@ export const InputText = ({
   label,
   path,
   required,
-  uischema,
   schema,
+  uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
@@ -105,7 +105,7 @@ export const InputText = ({
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
-        value={data ?? schema?.default ?? ''}
+        value={data ?? ''}
         width={width}
       />
     </SpectrumProvider>

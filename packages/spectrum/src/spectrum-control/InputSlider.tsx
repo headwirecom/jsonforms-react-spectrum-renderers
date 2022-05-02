@@ -32,7 +32,7 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const InputSlider = ({
   config,
-  //data,
+  data,
   enabled,
   handleChange,
   label,
@@ -47,7 +47,7 @@ export const InputSlider = ({
     ? undefined
     : '100%';
 
-  let [value, setValue] = React.useState(schema.default);
+  let [value, setValue] = React.useState(0);
 
   const handleOnChange = (value: any) => {
     setValue(value);
@@ -57,6 +57,10 @@ export const InputSlider = ({
     setValue(value);
     handleChange(path, value);
   };
+
+  React.useEffect(() => {
+    data ? null : handleOnChangeEnd(schema?.default);
+  }, [handleOnChangeEnd]);
 
   return (
     <SpectrumProvider width={width}>

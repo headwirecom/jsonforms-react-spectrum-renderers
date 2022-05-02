@@ -40,6 +40,7 @@ export const InputTextArea = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -77,6 +78,10 @@ export const InputTextArea = ({
       return `Must be at most ${maxLength} characters`;
     }
   };
+
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

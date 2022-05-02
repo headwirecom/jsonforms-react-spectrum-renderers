@@ -36,6 +36,7 @@ export const InputCheckbox = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -44,17 +45,22 @@ export const InputCheckbox = ({
     ? undefined
     : '100%';
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
+
   return (
     <SpectrumProvider width={width}>
       <Checkbox
         autoFocus={appliedUiSchemaOptions.focus}
+        defaultSelected={schema?.default === true ? true : false}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
         isRequired={required}
         onChange={(value: boolean) => handleChange(path, value)}
         validationState={isValid ? 'valid' : 'invalid'}
-        value={data}
+        value={data ?? schema?.default}
         width={width}
       >
         {label}

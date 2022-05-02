@@ -34,6 +34,7 @@ export const InputSwitch = ({
   id,
   label,
   path,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -42,15 +43,20 @@ export const InputSwitch = ({
     ? undefined
     : '100%';
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
+
   return (
     <SpectrumProvider width={width}>
       <Switch
         autoFocus={appliedUiSchemaOptions.focus}
+        defaultSelected={schema?.default === true ? true : false}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
         onChange={(value: boolean) => handleChange(path, value)}
-        value={data}
+        value={data ?? schema?.default}
         width={width}
       >
         {label}

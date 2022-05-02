@@ -40,6 +40,7 @@ export const InputEnumAutocomplete = ({
   options,
   path,
   required,
+  schema,
   uischema,
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -47,6 +48,16 @@ export const InputEnumAutocomplete = ({
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
+
+  let [value, setValue] = React.useState(data);
+  const handleOnChange = (value: any) => {
+    setValue(value);
+    handleChange(path, value);
+  };
+
+  React.useEffect(() => {
+    data ? null : handleOnChange(schema?.default);
+  }, [handleOnChange]);
 
   return (
     <SpectrumProvider width={width}>
@@ -67,9 +78,9 @@ export const InputEnumAutocomplete = ({
         labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
         menuTrigger={appliedUiSchemaOptions.menuTrigger ?? 'input'}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        onSelectionChange={(value) => handleChange(path, value)}
+        onSelectionChange={handleOnChange}
         placeholder={appliedUiSchemaOptions.placeholder ?? null}
-        selectedKey={data}
+        selectedKey={value}
         shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
         shouldFocusWrap={appliedUiSchemaOptions.shouldFocusWrap ?? null}
         width={width}

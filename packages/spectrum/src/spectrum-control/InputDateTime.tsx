@@ -48,6 +48,7 @@ export const InputDateTime = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -95,6 +96,10 @@ export const InputDateTime = ({
     }
   };
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
+
   return (
     <SpectrumProvider width={width}>
       <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
@@ -125,7 +130,7 @@ export const InputDateTime = ({
           showFormatHelpText={
             appliedUiSchemaOptions.showFormatHelpText ?? false
           }
-          value={parseAbsoluteToLocal(moment().format(data))}
+          value={data ? parseAbsoluteToLocal(moment().format(data)) : null}
           width={width}
         />
       </Provider>

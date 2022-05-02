@@ -62,6 +62,16 @@ export const InputEnum = ({
     });
   };
 
+  let [value, setValue] = React.useState(data);
+  const handleOnChange = (value: any) => {
+    setValue(value);
+    handleChange(path, value);
+  };
+
+  React.useEffect(() => {
+    data ? null : handleOnChange(schema?.default);
+  }, [handleOnChange]);
+
   return (
     <SpectrumProvider width={width}>
       <Picker
@@ -83,9 +93,9 @@ export const InputEnum = ({
         labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
         menuWidth={appliedUiSchemaOptions.menuWidth ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        onSelectionChange={(value) => handleChange(path, value)}
+        onSelectionChange={handleOnChange}
         placeholder={appliedUiSchemaOptions.placeholder}
-        selectedKey={data}
+        selectedKey={value}
         shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
         width={width}
       >

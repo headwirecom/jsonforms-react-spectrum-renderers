@@ -42,6 +42,7 @@ export const InputTime = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -61,6 +62,10 @@ export const InputTime = ({
       return inputDateTime.substring(0, 19) + 'Z';
     }
   };
+
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
 
   return (
     <SpectrumProvider width={width}>

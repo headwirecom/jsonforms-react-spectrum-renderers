@@ -41,6 +41,7 @@ export const InputDate = ({
   label,
   path,
   required,
+  schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -72,6 +73,10 @@ export const InputDate = ({
     }
   };
 
+  React.useEffect(() => {
+    data ? null : handleChange(path, schema?.default);
+  }, []);
+
   return (
     <SpectrumProvider width={width}>
       <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
@@ -92,14 +97,14 @@ export const InputDate = ({
           maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
           minValue={getMinMaxValue(minValue)}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+          onChange={(datetime: any) =>
+            handleChange(path, datetime ? datetime?.toString() : '')
+          }
           showFormatHelpText={
             appliedUiSchemaOptions.showFormatHelpText ?? false
           }
           width={width}
           value={data ? parseDate(data) : null}
-          onChange={(datetime: any) =>
-            handleChange(path, datetime ? datetime?.toString() : '')
-          }
         />
       </Provider>
     </SpectrumProvider>

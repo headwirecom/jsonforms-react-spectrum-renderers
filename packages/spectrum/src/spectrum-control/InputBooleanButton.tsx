@@ -21,90 +21,56 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { RadioGroup, Radio } from '@adobe/react-spectrum';
+import { ToggleButton } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import StarOutline from '@spectrum-icons/workflow/StarOutline';
-import Star from '@spectrum-icons/workflow/Star';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputRating = ({
+export const InputBooleanButton = ({
   config,
   data,
   enabled,
   handleChange,
   id,
-  isValid,
   label,
   path,
-  required,
   schema,
   uischema,
 }: CellProps & SpectrumInputProps) => {
-  const [hover, setHover] = React.useState(null);
-
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
+  const autoFocus = !!appliedUiSchemaOptions.focus;
+  // !! causes undefined value to be converted to false, otherwise has no effect
+  //const isSelected = data ?? schema?.default;
+  let [isSelected, setSelected] = React.useState(false);
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
 
-  let [selected, setSelected] = React.useState(data);
-
-  const handleOnChange = (value: any) => {
-    setSelected(value);
-    handleChange(path, value);
-  };
-
   React.useEffect(() => {
-    handleOnChange(schema?.default ?? 0);
-  }, [handleOnChange]);
+    data ? null : handleSetSelected(schema?.default);
+  }, [schema?.default]);
+
+  const handleSetSelected = (isSelected: boolean) => {
+    setSelected(isSelected);
+    handleChange(path, isSelected);
+  };
 
   return (
     <SpectrumProvider width={width}>
-      <RadioGroup
+      <ToggleButton
+        aria-label={label ? undefined : path}
+        autoFocus={autoFocus}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
-        isRequired={required}
-        label={label}
-        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        onChange={handleOnChange}
-        orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
-        validationState={isValid ? 'valid' : 'invalid'}
-        value={selected}
+        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isSelected={isSelected}
+        onChange={handleSetSelected}
+        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        staticColor={appliedUiSchemaOptions.staticColor ?? null}
         width={width}
       >
-        {[...Array(schema.maximum ?? 5)].map((Stars, i) => {
-          const ratingValue = i + 1;
-          return (
-            <label
-              onMouseEnter={() => setHover(ratingValue)}
-              onMouseLeave={() => setHover(null)}
-              key={ratingValue + '/' + (schema.maximum ?? 5)}
-            >
-              <Radio
-                value={'' + ratingValue}
-                isHidden={true}
-                aria-label={
-                  'Rating ' +
-                  ratingValue +
-                  '/' +
-                  (schema.maximum ?? 5) +
-                  ', currently selected value: ' +
-                  data
-                }
-              />
-              <span>
-                {ratingValue <= (hover ?? data) ? (
-                  <Star id={Stars} margin='size-25' />
-                ) : (
-                  <StarOutline id={Stars} margin='size-25' />
-                )}
-              </span>
-            </label>
-          );
-        })}
-      </RadioGroup>
+        {label}
+      </ToggleButton>
     </SpectrumProvider>
   );
 };

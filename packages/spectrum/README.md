@@ -812,13 +812,13 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option       | Required | Default (Option not used) | Values                     | Description                    |
-| ------------ | -------- | ------------------------- | -------------------------- | ------------------------------ |
-| "default"    | yes      | null                      | Number between min and max | Default Value.                 |
-| "maximum"    | yes      | null                      | Number (>= minimum)        | Highest Number to accept.      |
-| "minimum"    | yes      | null                      | Number                     | Lowest Number to accept.       |
-| "multipleOf" | no       | 1                         | Number                     | How big a Step should be.      |
-| "type"       | yes      | null                      | "integer" or "number"      | Depends on the Value you need. |
+| Option       | Required | Default (Option not used) | Values                | Description                    |
+| ------------ | -------- | ------------------------- | --------------------- | ------------------------------ |
+| "default"    | yes      | null                      | Number                | Default Value.                 |
+| "maximum"    | yes      | null                      | Number (>= minimum)   | Highest Number to accept.      |
+| "minimum"    | yes      | null                      | Number                | Lowest Number to accept.       |
+| "multipleOf" | no       | 1                         | Number                | How big a Step should be.      |
+| "type"       | yes      | null                      | "integer" or "number" | Depends on the Value you need. |
 
 ### UI Schema and Custom options
 
@@ -876,7 +876,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "switch": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     }
   },
   "required": ["switch"] //If it should be required
@@ -885,9 +886,10 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option | Required | Default (Option not used) | Values    | Description      |
-| ------ | -------- | ------------------------- | --------- | ---------------- |
-| "type" | yes      | null                      | "boolean" | Must be Boolean. |
+| Option    | Required | Default (Option not used) | Values    | Description                                          |
+| --------- | -------- | ------------------------- | --------- | ---------------------------------------------------- |
+| "type"    | yes      | null                      | "boolean" | Must be Boolean.                                     |
+| "default" | no       | null                      | Boolean   | Default Value (will be inserted only at rendertime). |
 
 ### UI Schema and Custom options
 
@@ -944,10 +946,10 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option    | Required | Default (Option not used) | Values   | Description                                     |
-| --------- | -------- | ------------------------- | -------- | ----------------------------------------------- |
-| "type"    | yes      | null                      | "string" | Must be String.                                 |
-| "default" | no       | null                      | String   | Default Value (will be inserted at rendertime). |
+| Option    | Required | Default (Option not used) | Values   | Description                                          |
+| --------- | -------- | ------------------------- | -------- | ---------------------------------------------------- |
+| "type"    | yes      | null                      | "string" | Must be String.                                      |
+| "default" | no       | null                      | String   | Default Value (will be inserted only at rendertime). |
 
 ### UI Schema and Custom options
 
@@ -1014,7 +1016,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "textarea": {
-      "type": "string"
+      "type": "string",
+      "default": "DefaultString"
     }
   },
   "required": ["textarea"] //If it should be required
@@ -1023,9 +1026,10 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option | Required | Default (Option not used) | Values   | Description     |
-| ------ | -------- | ------------------------- | -------- | --------------- |
-| "type" | yes      | null                      | "string" | Must be String. |
+| Option    | Required | Default (Option not used) | Values   | Description                                          |
+| --------- | -------- | ------------------------- | -------- | ---------------------------------------------------- |
+| "type"    | yes      | null                      | "string" | Must be String.                                      |
+| "default" | no       | null                      | String   | Default Value (will be inserted only at rendertime). |
 
 ### UI Schema and Custom options
 
