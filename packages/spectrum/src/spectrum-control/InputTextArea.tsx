@@ -80,7 +80,9 @@ export const InputTextArea = ({
   };
 
   React.useEffect(() => {
-    data ? null : handleChange(path, schema?.default);
+    if (!data && schema?.default) {
+      handleChange(path, schema.default);
+    }
   }, [schema?.default]);
 
   return (

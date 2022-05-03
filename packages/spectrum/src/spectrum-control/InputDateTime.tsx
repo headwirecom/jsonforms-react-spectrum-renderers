@@ -97,8 +97,10 @@ export const InputDateTime = ({
   };
 
   React.useEffect(() => {
-    data ? null : handleChange(path, schema?.default);
-  }, []);
+    if (!data && schema?.default) {
+      handleChange(path, toISOString(schema.default));
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

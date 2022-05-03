@@ -57,8 +57,10 @@ export const InputRating = ({
   };
 
   React.useEffect(() => {
-    handleOnChange(schema?.default ?? 0);
-  }, [handleOnChange]);
+    if (!data && schema?.default) {
+      handleOnChange(schema.default);
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

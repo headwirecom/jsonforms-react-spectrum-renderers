@@ -100,6 +100,66 @@ See how you can use the Spectrum renderers to render your forms.
 </details>
 <br/>
 
+# Boolean Switch (Toggle) Component
+
+[React Spectrum Switch](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "switch": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": ["switch"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option    | Required | Default (Option not used) | Values    | Description                                          |
+| --------- | -------- | ------------------------- | --------- | ---------------------------------------------------- |
+| "type"    | yes      | null                      | "boolean" | Must be Boolean.                                     |
+| "default" | no       | null                      | Boolean   | Default Value (will be inserted only at rendertime). |
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/switch",
+      "label": "Switch Component", //Optional Label, default label is the property name, in this example it would be Switch
+      "options": {
+        "focus": true,
+        "isEmphasized": false,
+        "toggle": true
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option         | Required | Default (Option not used)        | Values        | Description                                   |
+| -------------- | -------- | -------------------------------- | ------------- | --------------------------------------------- |
+| "focus"        | no       | false                            | true or false | If true it will be focused after it rendered. |
+| "isEmphasized" | no       | false                            | true or false | Changes the appearance.                       |
+| "toggle"       | yes      | Without "toggle" it's a Checkbox | true or false | If true the Component will be a toggle.       |
+
+</details>
+<br/>
+
 # Boolean Checkbox (Toggle) Component
 
 [React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)
@@ -113,75 +173,21 @@ See how you can use the Spectrum renderers to render your forms.
 {
   "type": "object",
   "properties": {
-    "radioGroup": {
-      "enum": ["Option1", "Option2", "Option3"]
-    }
-  },
-  "required": ["radioGroup"] //If it should be required
-}
-```
-
-#### Custom Options Overview
-
-| Option | Required | Default (Option not used) | Values                 | Description       |
-| ------ | -------- | ------------------------- | ---------------------- | ----------------- |
-| "enum" | yes      | null                      | Array of Radio Options | Must be provided. |
-
-### UI Schema and Custom options
-
-```json
-{
-  "type": "HorizontalLayout", //or any other layout
-  "elements": [
-    {
-      "type": "Control",
-      "scope": "#/properties/radioGroup",
-      "label": "Radio Group Component", //Optional Label, default label is the property name, in this example it would be Radio Group
-      "options": {
-        "format": "radio",
-        "isEmphasized": true,
-        "labelAlign": "start",
-        "labelPosition": "top",
-        "orientation": "horizontal"
-      }
-    }
-  ]
-}
-```
-
-#### Custom Options Overview
-
-| Option          | Required | Default (Option not used) | Values                     | Description                                                                                   |
-| --------------- | -------- | ------------------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
-| "format"        | yes      | null                      | "radio"                    | Must be Radio.                                                                                |
-| "isEmphasized"  | no       | false                     | true or false              | Changes the appearance.                                                                       |
-| "labelAlign"    | no       | "start"                   | "start" or "end"           | Has only effect when labelPosition="top". Place the Label at the start or end of the control. |
-| "labelPosition" | no       | "top"                     | "top" or "side"            | Position of the Label.                                                                        |
-| "orientation"   | no       | "vertical"                | "horizontal" or "vertical" | How the Radios should be aligned.                                                             |
-
-</details>
-<br/>
-
-# Boolean Checkbox (Toggle) Component
-
-[React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/Checkbox.html)
-
-<details>
-  <summary>Show me how to use it</summary>
-
-### Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
     "checkbox": {
+      "default": true,
       "type": "boolean"
     }
   },
   "required": ["checkbox"] //If it should be required
 }
 ```
+
+#### Custom Options Overview
+
+| Option    | Required | Default (Option not used) | Values  | Description                                          |
+| --------- | -------- | ------------------------- | ------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Boolean | Default Value (will be inserted only at rendertime). |
+| "type"    | yes      | null                      | String  | Must be provided.                                    |
 
 #### Custom Options Overview
 
@@ -218,6 +224,70 @@ See how you can use the Spectrum renderers to render your forms.
 </details>
 <br/>
 
+# Boolean Button (Toggle) Component
+
+[React Spectrum ToggleButton](https://react-spectrum.adobe.com/react-spectrum/ToggleButton.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "booleanButton": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": ["booleanButton"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option    | Required | Default (Option not used) | Values    | Description                                          |
+| --------- | -------- | ------------------------- | --------- | ---------------------------------------------------- |
+| "type"    | yes      | null                      | "boolean" | Must be Boolean.                                     |
+| "default" | no       | null                      | Boolean   | Default Value (will be inserted only at rendertime). |
+
+### UI Schema and Custom options
+
+```json
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/switch",
+      "label": "Switch Component", //Optional Label, default label is the property name, in this example it would be Switch
+      "options": {
+        "button": true,
+        "focus": true,
+        "isEmphasized": false,
+        "isQuiet": false,
+        "staticColor": "white"
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option         | Required | Default (Option not used)        | Values             | Description                                                                              |
+| -------------- | -------- | -------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- |
+| "button"       | yes      | Without "button" it's a Checkbox | true or false      | If true the Component will be a Button.                                                  |
+| "focus"        | no       | false                            | true or false      | If true it will be focused after it rendered.                                            |
+| "isEmphasized" | no       | false                            | true or false      | Changes the appearance.                                                                  |
+| "isQuiet"      | no       | false                            | true or false      | Changes the appearance.                                                                  |
+| "staticColor"  | no       | false                            | "white" or "black" | The static color style to apply. Useful when the button appears over a color background. |
+
+</details>
+<br/>
+
 # Date Component (React Spectrum Alpha)
 
 [React Spectrum DatePicker (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
@@ -234,6 +304,7 @@ See how you can use the Spectrum renderers to render your forms.
   "type": "object",
   "properties": {
     "date": {
+      "default": "2022-03-01",
       "type": "string",
       "format": "date"
     }
@@ -244,10 +315,11 @@ See how you can use the Spectrum renderers to render your forms.
 
 #### Custom Options Overview
 
-| Option   | Required | Default (Option not used) | Values      | Description                       |
-| -------- | -------- | ------------------------- | ----------- | --------------------------------- |
-| "format" | yes      | null                      | "date-time" | Must be Date, else it's a string. |
-| "type"   | yes      | null                      | "string"    | Must be String.                   |
+| Option    | Required | Default (Option not used) | Values          | Description                                          |
+| --------- | -------- | ------------------------- | --------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Date (ISO 8601) | Default Value (will be inserted only at rendertime). |
+| "format"  | yes      | null                      | "date"          | Must be Date, else it's a string.                    |
+| "type"    | yes      | null                      | "string"        | Must be String.                                      |
 
 ### UI Schema and Custom options
 
@@ -284,7 +356,7 @@ UI Schema
 
 | Option               | Required | Default (Option not used) | Values                                                                                                                               | Description                                                                                                                       |
 | -------------------- | -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| "description"        | no       | null                      | String                                                                                                                               | A Description for your Date Time Component. Will be displayed if no error is displayed.                                           |
+| "description"        | no       | null                      | String                                                                                                                               | A Description for your Date Component. Will be displayed if no error is displayed.                                                |
 | "errorMessage"       | no       | null                      | String or false (no ErrorMessage)                                                                                                    | Create a Custom Error Message.                                                                                                    |
 | "focus"              | no       | false                     | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                                     |
 | "hideTimeZone"       | no       | true                      | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                           |
@@ -317,6 +389,7 @@ UI Schema
   "type": "object",
   "properties": {
     "dateTime": {
+      "default": "2022-03-01T12:00:00",
       "type": "string",
       "format": "date-time"
     }
@@ -327,10 +400,11 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option   | Required | Default (Option not used) | Values      | Description                            |
-| -------- | -------- | ------------------------- | ----------- | -------------------------------------- |
-| "format" | yes      | null                      | "date-time" | Must be Date-Time, else it's a string. |
-| "type"   | yes      | null                      | "string"    | Must be String.                        |
+| Option    | Required | Default (Option not used) | Values               | Description                                          |
+| --------- | -------- | ------------------------- | -------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Date-Time (ISO 8601) | Default Value (will be inserted only at rendertime). |
+| "format"  | yes      | null                      | "date-time"          | Must be Date-Time, else it's a string.               |
+| "type"    | yes      | null                      | "string"             | Must be String.                                      |
 
 ### UI Schema and Custom options
 
@@ -388,7 +462,91 @@ UI Schema
 </details>
 <br/>
 
-# Enum Autocomplete Component
+# Time Component (React Spectrum Alpha)
+
+[React Spectrum TimeField (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/TimeField.html)
+
+<details>
+  <summary>Show me how to use it</summary>
+
+## How to use it
+
+### Schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "time": {
+      "default": "12:00",
+      "type": "string",
+      "format": "time"
+    }
+  },
+  "required": ["time"] //If it should be required
+}
+```
+
+#### Custom Options Overview
+
+| Option    | Required | Default (Option not used) | Values          | Description                                          |
+| --------- | -------- | ------------------------- | --------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Time (ISO 8601) | Default Value (will be inserted only at rendertime). |
+| "format"  | yes      | null                      | "time"          | Must be Time, else it's a string.                    |
+| "type"    | yes      | null                      | "string"        | Must be String.                                      |
+
+### UI Schema and Custom options
+
+```json
+UI Schema
+{
+  "type": "HorizontalLayout", //or any other layout
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/time",
+      "label": "Time Component", //Optional Label, default label is the property name, in this example it would be Time
+      "options": {
+        "focus": true,
+        "granularity": "hour",
+        "hideTimeZone": true,
+        "hourCycle": "24",
+        "isQuiet": false,
+        "labelAlign": "end",
+        "labelPosition": "top",
+        "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
+        "maxValue": "13:38",
+        "minValue": "12:58",
+        "necessityIndicator": "label",
+        "trim": true
+      }
+    }
+  ]
+}
+```
+
+#### Custom Options Overview
+
+| Option               | Required | Default (Option not used)   | Values                                                                                                                               | Description                                                                                                                 |
+| -------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| "focus"              | no       | false                       | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                               |
+| "granularity"        | no       | "minute"                    | "minute" or "hour"                                                                                                                   | Decide if you want only hours or hours and minutes.                                                                         |
+| "hideTimeZone"       | no       | true                        | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                     |
+| "hourCycle"          | no       | Uses the Browser hour cycle | "12" or "24"                                                                                                                         | Decide if the User should use 12 or 24 hour format.                                                                         |
+| "isQuiet"            | no       | false                       | true or false                                                                                                                        | Changes the appearance.                                                                                                     |
+| "labelAlign"         | no       | "start"                     | "start" or "end"                                                                                                                     | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
+| "labelPosition"      | no       | "top"                       | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                      |
+| "locale"             | no       | "gregory"                   | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                              |
+| "maxValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is above maxValue, a warning icon will be displayed inside the Component.                                    |
+| "minValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is below minValue, a warning icon will be displayed inside the Component.                                    |
+| "necessityIndicator" | no       | false                       | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
+| "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
+
+</details>
+
+<br/>
+
+# Enum Component
 
 [React Spectrum Picker](https://react-spectrum.adobe.com/react-spectrum/Picker.html)
 
@@ -402,8 +560,9 @@ UI Schema
   "type": "object",
   "properties": {
     "enum": {
-      "type": "string",
-      "enum": ["foo", "bar"]
+      "default": "foo",
+      "enum": ["foo", "bar"],
+      "type": "string"
     }
   },
   "required": ["enum"] //If it should be required
@@ -412,10 +571,11 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option | Required | Default (Option not used) | Values   | Description   |
-| ------ | -------- | ------------------------- | -------- | ------------- |
-| "enum" | yes      | null                      | "enum"   | Must be enum. |
-| "type" | no       | null                      | "string" | Optional.     |
+| Option    | Required | Default (Option not used) | Values                 | Description                                          |
+| --------- | -------- | ------------------------- | ---------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | One of the Enum Values | Default Value (will be inserted only at rendertime). |
+| "enum"    | yes      | null                      | "enum"                 | Must be enum.                                        |
+| "type"    | no       | null                      | "string"               | Optional.                                            |
 
 ### UI Schema and Custom options
 
@@ -486,8 +646,9 @@ UI Schema
   "type": "object",
   "properties": {
     "enumAutocomplete": {
-      "type": "string",
-      "enum": ["foo", "bar"]
+      "default": "foo",
+      "enum": ["foo", "bar"],
+      "type": "string"
     }
   },
   "required": ["enumAutocomplete"] //If it should be required
@@ -496,10 +657,11 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option | Required | Default (Option not used) | Values   | Description   |
-| ------ | -------- | ------------------------- | -------- | ------------- |
-| "enum" | yes      | null                      | "enum"   | Must be enum. |
-| "type" | no       | null                      | "string" | Optional.     |
+| Option    | Required | Default (Option not used) | Values                 | Description                                          |
+| --------- | -------- | ------------------------- | ---------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | One of the Enum Values | Default Value (will be inserted only at rendertime). |
+| "enum"    | yes      | null                      | "enum"                 | Must be enum.                                        |
+| "type"    | no       | null                      | "string"               | Optional.                                            |
 
 ### UI Schema and Custom options
 
@@ -570,9 +732,10 @@ UI Schema
   "type": "object",
   "properties": {
     "integer": {
-      "type": "integer",
+      "default": 3,
+      "maximum": 5,
       "minimum": 1,
-      "maximum": 5
+      "type": "integer"
     }
   },
   "required": ["integer"] //If it should be required
@@ -581,11 +744,12 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option    | Required | Default (Option not used) | Values               | Description                |
-| --------- | -------- | ------------------------- | -------------------- | -------------------------- |
-| "maximum" | no       | null                      | Integer (>= minimum) | Highest Integer to accept. |
-| "minimum" | no       | null                      | Integer              | Lowest Integer to accept.  |
-| "type"    | yes      | null                      | "integer"            | Must be Integer.           |
+| Option    | Required | Default (Option not used) | Values               | Description                                          |
+| --------- | -------- | ------------------------- | -------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Integer              | Default Value (will be inserted only at rendertime). |
+| "maximum" | no       | null                      | Integer (>= minimum) | Highest Integer to accept.                           |
+| "minimum" | no       | null                      | Integer              | Lowest Integer to accept.                            |
+| "type"    | yes      | null                      | "integer"            | Must be Integer.                                     |
 
 ### UI Schema and Custom options
 
@@ -652,9 +816,10 @@ UI Schema
   "type": "object",
   "properties": {
     "number": {
-      "type": "number",
+      "default": 3.14,
+      "maximum": 5,
       "minimum": 1,
-      "maximum": 5
+      "type": "number"
     }
   },
   "required": ["number"] //If it should be required
@@ -663,11 +828,12 @@ UI Schema
 
 #### Custom Options Overview
 
-| Option    | Required | Default (Option not used) | Values              | Description               |
-| --------- | -------- | ------------------------- | ------------------- | ------------------------- |
-| "maximum" | no       | null                      | Number (>= minimum) | Highest Number to accept. |
-| "minimum" | no       | null                      | Number              | Lowest Number to accept.  |
-| "type"    | yes      | null                      | "number"            | Must be Number.           |
+| Option    | Required | Default (Option not used) | Values              | Description                                          |
+| --------- | -------- | ------------------------- | ------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Number              | Default Value (will be inserted only at rendertime). |
+| "maximum" | no       | null                      | Number (>= minimum) | Highest Number to accept.                            |
+| "minimum" | no       | null                      | Number              | Lowest Number to accept.                             |
+| "type"    | yes      | null                      | "number"            | Must be Number.                                      |
 
 ### UI Schema and Custom options
 
@@ -735,9 +901,10 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "rating": {
-      "type": "integer",
+      "default": 3,
       "maximum": 10,
-      "minimum": 1
+      "minimum": 1,
+      "type": "integer"
     }
   },
   "required": ["rating"] //If it should be required
@@ -746,11 +913,12 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 #### Custom Options Overview
 
-| Option    | Required | Default (Option not used) | Values                       | Description                     |
-| --------- | -------- | ------------------------- | ---------------------------- | ------------------------------- |
-| "maximum" | no       | 5                         | positive Number (>= minimum) | How much Stars should rendered. |
-| "minimum" | no       | null                      | Number between 0 and maximum | Lowest Number to accept.        |
-| "type"    | yes      | null                      | "integer"                    | Must be Integer.                |
+| Option    | Required | Default (Option not used) | Values                        | Description                                          |
+| --------- | -------- | ------------------------- | ----------------------------- | ---------------------------------------------------- |
+| "default" | no       | null                      | Integer                       | Default Value (will be inserted only at rendertime). |
+| "maximum" | no       | 5                         | positive Integer (>= minimum) | How much Stars should rendered.                      |
+| "minimum" | no       | null                      | Integer between 0 and maximum | Lowest Integer to accept.                            |
+| "type"    | yes      | null                      | "integer"                     | Must be Integer.                                     |
 
 ### UI Schema and Custom options
 
@@ -799,11 +967,11 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "range": {
-      "type": "number",
-      "default": 0,
-      "minimum": 0,
+      "default": 42,
       "maximum": 100,
-      "multipleOf": 2
+      "minimum": 0,
+      "multipleOf": 2,
+      "type": "number"
     }
   },
   "required": ["range"] //If it should be required
@@ -862,66 +1030,6 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 </details>
 <br/>
 
-# Boolean Switch (Toggle) Component
-
-[React Spectrum Switch](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
-
-<details>
-  <summary>Show me how to use it</summary>
-
-### Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "switch": {
-      "type": "boolean",
-      "default": true
-    }
-  },
-  "required": ["switch"] //If it should be required
-}
-```
-
-#### Custom Options Overview
-
-| Option    | Required | Default (Option not used) | Values    | Description                                          |
-| --------- | -------- | ------------------------- | --------- | ---------------------------------------------------- |
-| "type"    | yes      | null                      | "boolean" | Must be Boolean.                                     |
-| "default" | no       | null                      | Boolean   | Default Value (will be inserted only at rendertime). |
-
-### UI Schema and Custom options
-
-```json
-{
-  "type": "HorizontalLayout", //or any other layout
-  "elements": [
-    {
-      "type": "Control",
-      "scope": "#/properties/switch",
-      "label": "Switch Component", //Optional Label, default label is the property name, in this example it would be Switch
-      "options": {
-        "focus": true,
-        "isEmphasized": false,
-        "toggle": true
-      }
-    }
-  ]
-}
-```
-
-#### Custom Options Overview
-
-| Option         | Required | Default (Option not used)        | Values        | Description                                   |
-| -------------- | -------- | -------------------------------- | ------------- | --------------------------------------------- |
-| "focus"        | no       | false                            | true or false | If true it will be focused after it rendered. |
-| "isEmphasized" | no       | false                            | true or false | Changes the appearance.                       |
-| "toggle"       | yes      | Without "toggle" it's a Checkbox | true or false | If true the Component will be a toggle.       |
-
-</details>
-<br/>
-
 # Text Field Component
 
 [React Spectrum TextField](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
@@ -936,8 +1044,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "textfield": {
-      "type": "string",
-      "default": "DefaultString"
+      "default": "DefaultString",
+      "type": "string"
     }
   },
   "required": ["textfield"] //If it should be required
@@ -948,8 +1056,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 | Option    | Required | Default (Option not used) | Values   | Description                                          |
 | --------- | -------- | ------------------------- | -------- | ---------------------------------------------------- |
-| "type"    | yes      | null                      | "string" | Must be String.                                      |
 | "default" | no       | null                      | String   | Default Value (will be inserted only at rendertime). |
+| "type"    | yes      | null                      | "string" | Must be String.                                      |
 
 ### UI Schema and Custom options
 
@@ -1016,8 +1124,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
   "type": "object",
   "properties": {
     "textarea": {
-      "type": "string",
-      "default": "DefaultString"
+      "default": "DefaultString",
+      "type": "string"
     }
   },
   "required": ["textarea"] //If it should be required
@@ -1028,8 +1136,8 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 
 | Option    | Required | Default (Option not used) | Values   | Description                                          |
 | --------- | -------- | ------------------------- | -------- | ---------------------------------------------------- |
-| "type"    | yes      | null                      | "string" | Must be String.                                      |
 | "default" | no       | null                      | String   | Default Value (will be inserted only at rendertime). |
+| "type"    | yes      | null                      | "string" | Must be String.                                      |
 
 ### UI Schema and Custom options
 
@@ -1080,86 +1188,5 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "placeholder"        | no       | null                                              | String                                                                  | Text which is displayed inside the Component if it's empty (Placeholdertext).                                                            |
 | "trim"               | no       | false                                             | true or false                                                           | If false the Component uses 100% width, else the Component will be trimmed.                                                              |
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
-
-</details>
-<br/>
-
-# Time Component (React Spectrum Alpha)
-
-[React Spectrum TimeField (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/TimeField.html)
-
-<details>
-  <summary>Show me how to use it</summary>
-
-## How to use it
-
-### Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "time": {
-      "type": "string",
-      "format": "time"
-    }
-  },
-  "required": ["time"] //If it should be required
-}
-```
-
-#### Custom Options Overview
-
-| Option   | Required | Default (Option not used) | Values   | Description                       |
-| -------- | -------- | ------------------------- | -------- | --------------------------------- |
-| "format" | yes      | null                      | "time"   | Must be Time, else it's a string. |
-| "type"   | yes      | null                      | "string" | Must be String.                   |
-
-### UI Schema and Custom options
-
-```json
-UI Schema
-{
-  "type": "HorizontalLayout", //or any other layout
-  "elements": [
-    {
-      "type": "Control",
-      "scope": "#/properties/time",
-      "label": "Time Component", //Optional Label, default label is the property name, in this example it would be Time
-      "options": {
-        "focus": true,
-        "granularity": "hour",
-        "hideTimeZone": true,
-        "hourCycle": "24",
-        "isQuiet": false,
-        "labelAlign": "end",
-        "labelPosition": "top",
-        "locale": "ja-Jpan-JP-u-ca-japanese-hc-h12",
-        "maxValue": "13:38",
-        "minValue": "12:58",
-        "necessityIndicator": "label",
-        "trim": true
-      }
-    }
-  ]
-}
-```
-
-#### Custom Options Overview
-
-| Option               | Required | Default (Option not used)   | Values                                                                                                                               | Description                                                                                                                 |
-| -------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| "focus"              | no       | false                       | true or false                                                                                                                        | If true it will be focused after it rendered.                                                                               |
-| "granularity"        | no       | "minute"                    | "minute" or "hour"                                                                                                                   | Decide if you want only hours or hours and minutes.                                                                         |
-| "hideTimeZone"       | no       | true                        | true or false                                                                                                                        | Hides Time Zone or not.                                                                                                     |
-| "hourCycle"          | no       | Uses the Browser hour cycle | "12" or "24"                                                                                                                         | Decide if the User should use 12 or 24 hour format.                                                                         |
-| "isQuiet"            | no       | false                       | true or false                                                                                                                        | Changes the appearance.                                                                                                     |
-| "labelAlign"         | no       | "start"                     | "start" or "end"                                                                                                                     | Has only effect when labelPosition="top". Place the Label at the start or end of the control.                               |
-| "labelPosition"      | no       | "top"                       | "top" or "side"                                                                                                                      | Position of the Label.                                                                                                      |
-| "locale"             | no       | "gregory"                   | String [See MDN for more Informations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) | Which Calendar should be used.                                                                                              |
-| "maxValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is above maxValue, a warning icon will be displayed inside the Component.                                    |
-| "minValue"           | no       | null                        | Time in the Format "HH:mm"                                                                                                           | When the Value is below minValue, a warning icon will be displayed inside the Component.                                    |
-| "necessityIndicator" | no       | false                       | "label", "icon" or false                                                                                                             | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
-| "trim"               | no       | false                       | true or false                                                                                                                        | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
 
 </details>

@@ -62,15 +62,17 @@ export const InputEnum = ({
     });
   };
 
-  let [value, setValue] = React.useState(data);
+  let [value, setValue] = React.useState(data ?? '');
   const handleOnChange = (value: any) => {
     setValue(value);
     handleChange(path, value);
   };
 
   React.useEffect(() => {
-    data ? null : handleOnChange(schema?.default);
-  }, [handleOnChange]);
+    if (!data && schema?.default) {
+      handleOnChange(schema.default);
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

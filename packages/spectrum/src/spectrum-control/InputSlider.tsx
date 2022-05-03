@@ -59,8 +59,10 @@ export const InputSlider = ({
   };
 
   React.useEffect(() => {
-    data ? null : handleOnChangeEnd(schema?.default);
-  }, [handleOnChangeEnd]);
+    if (!data && schema?.default) {
+      handleOnChangeEnd(schema.default);
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

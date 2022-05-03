@@ -80,8 +80,10 @@ export const InputText = ({
   };
 
   React.useEffect(() => {
-    data ? null : handleChange(path, schema?.default);
-  }, []);
+    if (!data && schema?.default) {
+      handleChange(path, schema.default);
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>

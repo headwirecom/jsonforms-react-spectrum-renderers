@@ -39,15 +39,15 @@ export const InputBooleanButton = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const autoFocus = !!appliedUiSchemaOptions.focus;
-  // !! causes undefined value to be converted to false, otherwise has no effect
-  //const isSelected = data ?? schema?.default;
   let [isSelected, setSelected] = React.useState(false);
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
 
   React.useEffect(() => {
-    data ? null : handleSetSelected(schema?.default);
+    if (!data && schema?.default) {
+      handleSetSelected(schema.default);
+    }
   }, [schema?.default]);
 
   const handleSetSelected = (isSelected: boolean) => {

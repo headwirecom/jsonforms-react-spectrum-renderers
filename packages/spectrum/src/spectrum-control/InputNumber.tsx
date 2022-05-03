@@ -64,8 +64,10 @@ export const InputNumber = ({
   const stepValue = appliedUiSchemaOptions.step ?? 0.1;
 
   React.useEffect(() => {
-    data ? null : handleChange(path, schema?.default);
-  }, [handleChange]);
+    if (!data && schema?.default) {
+      handleChange(path, schema.default);
+    }
+  }, [schema?.default]);
 
   return (
     <SpectrumProvider width={width}>
