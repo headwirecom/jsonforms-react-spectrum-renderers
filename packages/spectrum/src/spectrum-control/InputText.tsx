@@ -104,7 +104,6 @@ export const InputText = ({
         minLength={appliedUiSchemaOptions.minLength ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(value: any) => handleChange(path, value)}
-        placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
         value={data ?? ''}

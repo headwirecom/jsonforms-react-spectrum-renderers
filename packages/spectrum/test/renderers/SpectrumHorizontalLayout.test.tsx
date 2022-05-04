@@ -135,7 +135,7 @@ describe('Horizontal layout', () => {
 
     const element = container.firstElementChild
       .firstElementChild as HTMLElement;
-    expect(element.style.display).toBe('none');
+    expect(element.style.display).toBe('');
   });
 
   test('enabled by default', () => {

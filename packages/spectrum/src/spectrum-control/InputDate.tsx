@@ -31,6 +31,7 @@ import { DimensionValue } from '@react-types/shared';
 import { DatePicker } from '@react-spectrum/datepicker';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { DateValue } from '@react-types/datepicker';
 
 export const InputDate = ({
   config,
@@ -53,13 +54,11 @@ export const InputDate = ({
   let maxValue = appliedUiSchemaOptions.maxValue;
   let minValue = appliedUiSchemaOptions.minValue;
 
-  const getMinMaxValue = (minMaxValue: string) => {
+  const getMinMaxValue = (minMaxValue: string): DateValue => {
     if (minMaxValue === 'today') {
       return today(getLocalTimeZone());
     } else if (minMaxValue) {
       return parseDate(minMaxValue);
-    } else {
-      return null;
     }
   };
 

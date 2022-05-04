@@ -288,9 +288,9 @@ See how you can use the Spectrum renderers to render your forms.
 </details>
 <br/>
 
-# Date Component (React Spectrum Alpha)
+# Date Component (React Spectrum Release candidate)
 
-[React Spectrum DatePicker (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
+[React Spectrum DatePicker (RC)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
 
 <details>
   <summary>Show me how to use it</summary>
@@ -373,9 +373,9 @@ UI Schema
 </details>
 <br/>
 
-# Date Time Component (React Spectrum Alpha)
+# Date Time Component (React Spectrum Release Candidate)
 
-[React Spectrum DatePicker (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
+[React Spectrum DatePicker (RC)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/DatePicker.html)
 
 <details>
   <summary>Show me how to use it</summary>
@@ -462,9 +462,9 @@ UI Schema
 </details>
 <br/>
 
-# Time Component (React Spectrum Alpha)
+# Time Component (React Spectrum Release Candidate)
 
-[React Spectrum TimeField (ALPHA)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/TimeField.html)
+[React Spectrum TimeField (RC)](https://reactspectrum.blob.core.windows.net/reactspectrum/91ca94fe52840b7a32b961ec08208f5fbdf65697/docs/react-spectrum/TimeField.html)
 
 <details>
   <summary>Show me how to use it</summary>
@@ -685,7 +685,6 @@ UI Schema
         "labelPosition": "side",
         "menuTrigger": "manual",
         "necessityIndicator": "label",
-        "placeholder": "Select an option",
         "shouldFlip": true,
         "shouldFocusWrap": true,
         "trim": false
@@ -710,7 +709,6 @@ UI Schema
 | "labelPosition"      | no       | "top"                     | "top" or "side"                   | Position of the Label.                                                                                                      |
 | "menuTrigger"        | no       | "input"                   | "input", "focus" or "manual"      | The interaction required to display the ComboBox menu. It has no effect on the mobile ComboBox.                             |
 | "necessityIndicator" | no       | false                     | "label", "icon" or false          | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language. |
-| "placeholder"        | no       | null                      | String                            | Text which is displayed inside the Component if it's empty (Placeholdertext).                                               |
 | "shouldFlip"         | no       | true                      | true or false                     | Whether the menu should automatically flip direction when space is limited.                                                 |
 | "shouldFocusWrap"    | no       | false                     | true or false                     | Whether keyboard navigation is circular.                                                                                    |
 | "trim"               | no       | false                     | true or false                     | If false the Component uses 100% width, else the Component will be trimmed.                                                 |
@@ -1080,7 +1078,6 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
         "maxLength": 5,
         "minLength": 1,
         "necessityIndicator": "label",
-        "placeholder": "Enter text",
         "trim": true,
         "type": "text"
       }
@@ -1103,7 +1100,6 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "maxLength"          | no       | Infinity                                          | Integer                                                                 | When the Length is above maxLength, a warning icon will be displayed inside the Component + Error Message.                               |
 | "minLength"          | no       | 0                                                 | Integer                                                                 | When the Length is below minLength, a warning icon will be displayed inside the Component + Error Message.                               |
 | "necessityIndicator" | no       | false                                             | "label", "icon" or false                                                | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.              |
-| "placeholder"        | no       | null                                              | String                                                                  | Text which is displayed inside the Component if it's empty (Placeholdertext).                                                            |
 | "trim"               | no       | false                                             | true or false                                                           | If false the Component uses 100% width, else the Component will be trimmed.                                                              |
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
 
@@ -1161,7 +1157,6 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
         "minLength": 1,
         "multi": true,
         "necessityIndicator": "label",
-        "placeholder": "Enter text",
         "trim": true,
         "type": "text"
       }
@@ -1185,7 +1180,6 @@ Custom Component with [Workflow Star Icon](https://react-spectrum.adobe.com/reac
 | "minLength"          | no       | 0                                                 | Integer                                                                 | When the Length is below minLength, a warning icon will be displayed inside the Component + Error Message.                               |
 | "multi"              | yes      | Without "multi" it's a Text Field                 | true or false                                                           | If true it's a Text Area if false it's a Text Field.                                                                                     |
 | "necessityIndicator" | no       | false                                             | "label", "icon" or false                                                | Decide if the necessity indicator should be displayed, icon = \*, label = "required" or "optional" in the Browser Language.              |
-| "placeholder"        | no       | null                                              | String                                                                  | Text which is displayed inside the Component if it's empty (Placeholdertext).                                                            |
 | "trim"               | no       | false                                             | true or false                                                           | If false the Component uses 100% width, else the Component will be trimmed.                                                              |
 | "type"               | no       | "text"                                            | "password", "search", "tel", "email", "text", "url"                     | Define what Type it should be. [See MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).               |
 

@@ -104,7 +104,6 @@ export const InputTextArea = ({
         minLength={appliedUiSchemaOptions.minLength ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(value: string) => handleChange(path, value)}
-        placeholder={appliedUiSchemaOptions.placeholder ?? null}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
         value={data ?? ''}

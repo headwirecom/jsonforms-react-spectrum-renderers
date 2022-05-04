@@ -144,7 +144,7 @@ describe('Group layout', () => {
 
     const groupLayout = container.firstElementChild
       .firstElementChild as HTMLElement;
-    expect(groupLayout.style.display).toBe('none');
+    expect(groupLayout.style.display).toBe('');
   });
 
   test('enabled by default', () => {

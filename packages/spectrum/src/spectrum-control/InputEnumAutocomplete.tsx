@@ -81,7 +81,6 @@ export const InputEnumAutocomplete = ({
         menuTrigger={appliedUiSchemaOptions.menuTrigger ?? 'input'}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onSelectionChange={handleOnChange}
-        placeholder={appliedUiSchemaOptions.placeholder ?? null}
         selectedKey={value}
         shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
         shouldFocusWrap={appliedUiSchemaOptions.shouldFocusWrap ?? null}
