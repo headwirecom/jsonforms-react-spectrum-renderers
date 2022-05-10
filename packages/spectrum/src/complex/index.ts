@@ -29,6 +29,9 @@ import SpectrumObjectRenderer, {
   SpectrumObjectControlTester,
 } from './SpectrumObjectRenderer';
 import ArrayControl, { arrayControlTester } from './array';
+import SpectrumArrayModalControl, {
+  SpectrumArrayModalControlTester,
+} from './ArrayModal';
 import SpectrumAnyOfRenderer, {
   SpectrumAnyOfRendererTester,
 } from './SpectrumAnyOfRenderer';
@@ -57,6 +60,8 @@ import SpectrumArrayControlGrid, {
 export {
   ArrayControl,
   arrayControlTester,
+  SpectrumArrayModalControl,
+  SpectrumArrayModalControlTester,
   SpectrumAnyOfRenderer,
   SpectrumAnyOfRendererTester,
   SpectrumAllOfRenderer,

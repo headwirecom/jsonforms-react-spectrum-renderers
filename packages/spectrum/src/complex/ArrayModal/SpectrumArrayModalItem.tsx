@@ -4,7 +4,7 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
-  Copyright (c) 2020 headwire.com, Inc
+  Copyright (c) 2022 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
 
@@ -28,42 +28,45 @@
 */
 import React, { ComponentType } from 'react';
 import {
-  Text,
-  Flex,
   ActionButton,
-  View,
-  DialogTrigger,
-  TooltipTrigger,
-  Tooltip,
   AlertDialog,
+  DialogTrigger,
+  Flex,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View,
 } from '@adobe/react-spectrum';
 import {
-  composePaths,
+  CombinatorProps,
   ControlElement,
-  findUISchema,
-  getData,
   JsonFormsRendererRegistryEntry,
   JsonFormsState,
   JsonSchema,
+  OwnPropsOfControl,
   Resolve,
   UISchemaElement,
   UISchemaTester,
+  composePaths,
+  findUISchema,
+  getData,
 } from '@jsonforms/core';
 import {
-  areEqual,
   JsonFormsStateContext,
   ResolvedJsonFormsDispatch,
+  areEqual,
   withJsonFormsContext,
 } from '@jsonforms/react';
+
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 
-import './SpectrumArrayItem.css';
+import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
 
-export interface OwnPropsOfSpectrumArrayddtem {
+export interface OwnPropsOfSpectrumArrayItem {
   index: number;
   expanded: boolean;
   path: string;
@@ -78,25 +81,30 @@ export interface OwnPropsOfSpectrumArrayddtem {
   }[];
 }
 
-export interface StatePropsOfSpectrumArrayddtem
-  extends OwnPropsOfSpectrumArrayddtem {
+export interface StatePropsOfSpectrumArrayItem
+  extends OwnPropsOfSpectrumArrayItem {
   childLabel: string;
 }
 
-const SpectrumArrayddtem = ({
-  index,
+export interface OwnOneOfProps extends OwnPropsOfControl {
+  indexOfFittingSchema?: number;
+}
+const SpectrumArrayModalItem = ({
   childLabel,
   expanded,
-  removeItem,
-  path,
   handleExpand,
+  index,
+  indexOfFittingSchema,
+  path,
+  removeItem,
+  renderers,
   schema,
   uischema,
   uischemas,
-  renderers,
-}: StatePropsOfSpectrumArrayddtem) => {
+}: StatePropsOfSpectrumArrayItem & CombinatorProps) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
+
   return (
     <SpectrumProvider>
       <View
@@ -144,12 +152,12 @@ const SpectrumArrayddtem = ({
                     <Delete aria-label='Delete' />
                   </ActionButton>
                   <AlertDialog
-                    variant='confirmation'
-                    title='Delete'
-                    primaryActionLabel='Delete'
-                    cancelLabel='Cancel'
                     autoFocusButton='primary'
+                    cancelLabel='Cancel'
                     onPrimaryAction={removeItem(path, index)}
+                    primaryActionLabel='Delete'
+                    title='Delete'
+                    variant='confirmation'
                   >
                     Are you sure you wish to delete this item?
                   </AlertDialog>
@@ -162,11 +170,11 @@ const SpectrumArrayddtem = ({
         {expanded ? (
           <View>
             <ResolvedJsonFormsDispatch
+              key={childPath}
+              path={childPath + 'SPLITHERE' + indexOfFittingSchema}
+              renderers={renderers}
               schema={schema}
               uischema={foundUISchema || uischema}
-              path={childPath}
-              key={childPath}
-              renderers={renderers}
             />
           </View>
         ) : (
@@ -183,10 +191,10 @@ const SpectrumArrayddtem = ({
  * @param ownProps any own props
  * @returns {StatePropsOfControl} state props for a control
  */
-export const mapStateToSpectrumArrayddtemProps = (
+export const mapStateToSpectrumArrayItemProps = (
   state: JsonFormsState,
-  ownProps: OwnPropsOfSpectrumArrayddtem
-): StatePropsOfSpectrumArrayddtem => {
+  ownProps: OwnPropsOfSpectrumArrayItem
+): StatePropsOfSpectrumArrayItem => {
   const { schema, path, index, uischema } = ownProps;
   const firstPrimitiveProp = schema.properties
     ? Object.keys(schema.properties).find((propName) => {
@@ -212,31 +220,31 @@ export const mapStateToSpectrumArrayddtemProps = (
   };
 };
 
-export const ctxToSpectrumArrayddtemProps = (
+export const ctxToSpectrumArrayItemProps = (
   ctx: JsonFormsStateContext,
-  ownProps: OwnPropsOfSpectrumArrayddtem
-) => mapStateToSpectrumArrayddtemProps({ jsonforms: { ...ctx } }, ownProps);
+  ownProps: OwnPropsOfSpectrumArrayItem
+) => mapStateToSpectrumArrayItemProps({ jsonforms: { ...ctx } }, ownProps);
 
-const withContextToSpectrumArrayddtemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayddtem>
-): ComponentType<OwnPropsOfSpectrumArrayddtem> => ({
+const withContextToSpectrumArrayItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayItem>
+): ComponentType<OwnPropsOfSpectrumArrayItem> => ({
   ctx,
   props,
-}: JsonFormsStateContext & StatePropsOfSpectrumArrayddtem) => {
-  const stateProps = ctxToSpectrumArrayddtemProps(ctx, props);
+}: JsonFormsStateContext & StatePropsOfSpectrumArrayItem) => {
+  const stateProps = ctxToSpectrumArrayItemProps(ctx, props);
   return <Component {...stateProps} />;
 };
 
-export const withJsonFormsSpectrumArrayddtemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayddtem>
+export const withJsonFormsSpectrumArrayItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayItem>
 ): ComponentType<any> =>
   withJsonFormsContext(
-    withContextToSpectrumArrayddtemProps(
+    withContextToSpectrumArrayItemProps(
       React.memo(
         Component,
         (
-          prevProps: StatePropsOfSpectrumArrayddtem,
-          nextProps: StatePropsOfSpectrumArrayddtem
+          prevProps: StatePropsOfSpectrumArrayItem,
+          nextProps: StatePropsOfSpectrumArrayItem
         ) => {
           const {
             handleExpand: prevHandleExpand,
@@ -254,4 +262,4 @@ export const withJsonFormsSpectrumArrayddtemProps = (
     )
   );
 
-export default withJsonFormsSpectrumArrayddtemProps(SpectrumArrayddtem);
+export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayModalItem);

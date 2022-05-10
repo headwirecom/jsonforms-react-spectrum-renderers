@@ -94,6 +94,8 @@ import {
 import {
   ArrayControl,
   arrayControlTester,
+  SpectrumArrayModalControl,
+  SpectrumArrayModalControlTester,
   SpectrumAnyOfRenderer,
   SpectrumAnyOfRendererTester,
   SpectrumAllOfRenderer,
@@ -170,6 +172,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: SpectrumTextControlTester, renderer: SpectrumTextControl },
   { tester: SpectrumTimeControlTester, renderer: SpectrumTimeControl },
   { tester: arrayControlTester, renderer: ArrayControl },
+  {
+    tester: SpectrumArrayModalControlTester,
+    renderer: SpectrumArrayModalControl,
+  },
   { tester: SpectrumLabelRendererTester, renderer: SpectrumLabelRenderer },
   {
     tester: SpectrumCategorizationRendererTester,

@@ -30,15 +30,14 @@ import { isEmpty } from '../util/isEmpty';
 
 import {
   CombinatorProps,
-  createCombinatorRenderInfos,
-  createDefaultValue,
-  isOneOfControl,
   JsonSchema,
   OwnPropsOfControl,
   RankedTester,
+  createCombinatorRenderInfos,
+  createDefaultValue,
+  isOneOfControl,
   rankWith,
   resolveSubSchemas,
-  //optionIs,
 } from '@jsonforms/core';
 import {
   ResolvedJsonFormsDispatch,
@@ -54,11 +53,11 @@ import {
   Divider,
   Heading,
   Item,
-  View,
+  Picker,
   TabList,
   TabPanels,
   Tabs,
-  Picker,
+  View,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -68,22 +67,29 @@ export interface OwnOneOfProps extends OwnPropsOfControl {
 
 const oneOf = 'oneOf';
 const SpectrumOneOfRenderer = ({
-  handleChange,
-  schema,
-  path,
-  enabled,
-  renderers,
   cells,
-  rootSchema,
+  data,
+  enabled,
+  handleChange,
   id,
-  visible,
+  indexOfFittingSchema,
+  path,
+  renderers,
+  rootSchema,
+  schema,
   uischema,
   uischemas,
-  data,
-  indexOfFittingSchema,
+  visible,
 }: CombinatorProps) => {
+  const splittedPath = path.split('SPLITHERE');
+  path = splittedPath[0];
+  const indexOfFittingSchemaArray = splittedPath[1]
+    ? parseInt(splittedPath[1])
+    : 0;
   const [open, setOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(indexOfFittingSchema || 0);
+  const [selectedIndex, setSelectedIndex] = useState(
+    indexOfFittingSchema ?? indexOfFittingSchemaArray
+  );
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
   const cancel = useCallback(() => {
@@ -126,41 +132,49 @@ const SpectrumOneOfRenderer = ({
     JSON.stringify(schema?.oneOf).includes(`"required":["OneOfEnum"`) ||
     uischema.options?.OneOfEnum === true;
 
+  const hideTabs =
+    JSON.stringify(schema?.oneOf).includes(`"required":["OneOfModal"`) ||
+    uischema.options?.OneOfModal === true;
+
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>
         <CombinatorProperties
-          schema={_schema}
           combinatorKeyword={'oneOf'}
           path={path}
+          schema={_schema}
         />
         {usePickerInsteadOfTabs ? (
           <>
             <Picker
-              isDisabled={enabled === undefined ? false : !enabled}
-              selectedKey={String(selectedIndex)}
-              onSelectionChange={handleTabChange}
-              width='100%'
               aria-label='Select'
+              isDisabled={enabled === undefined ? false : !enabled}
+              onSelectionChange={handleTabChange}
+              selectedKey={String(selectedIndex)}
+              width='100%'
             >
               {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
                 <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
               ))}
             </Picker>
-            {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-              <View key={oneOfIndex} isHidden={oneOfIndex !== selectedIndex}>
-                <Content margin='size-160'>
-                  <ResolvedJsonFormsDispatch
-                    key={oneOfIndex}
-                    schema={oneOfRenderInfo.schema}
-                    uischema={oneOfRenderInfo.uischema}
-                    path={path}
-                    renderers={renderers}
-                    cells={cells}
-                  />
-                </Content>
-              </View>
-            ))}
+            {oneOfRenderInfos
+              .filter(
+                (_oneOfRenderInfo, oneOfIndex) => oneOfIndex === selectedIndex
+              )
+              .map((oneOfRenderInfo, oneOfIndex) => (
+                <View key={oneOfIndex}>
+                  <Content margin='size-160'>
+                    <ResolvedJsonFormsDispatch
+                      cells={cells}
+                      key={oneOfIndex}
+                      path={path}
+                      renderers={renderers}
+                      schema={oneOfRenderInfo.schema}
+                      uischema={oneOfRenderInfo.uischema}
+                    />
+                  </Content>
+                </View>
+              ))}
           </>
         ) : (
           <>
@@ -169,7 +183,7 @@ const SpectrumOneOfRenderer = ({
               selectedKey={String(selectedIndex)}
               onSelectionChange={handleTabChange}
             >
-              <TabList>
+              <TabList isHidden={hideTabs}>
                 {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
                   <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
                 ))}
@@ -179,12 +193,12 @@ const SpectrumOneOfRenderer = ({
                   <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
                     <Content margin='size-160'>
                       <ResolvedJsonFormsDispatch
+                        cells={cells}
                         key={oneOfIndex}
-                        schema={oneOfRenderInfo.schema}
-                        uischema={oneOfRenderInfo.uischema}
                         path={path}
                         renderers={renderers}
-                        cells={cells}
+                        schema={oneOfRenderInfo.schema}
+                        uischema={oneOfRenderInfo.uischema}
                       />
                     </Content>
                   </Item>
@@ -224,7 +238,7 @@ const SpectrumOneOfRenderer = ({
 };
 
 export const SpectrumOneOfRendererTester: RankedTester = rankWith(
-  3,
+  5,
   isOneOfControl
 );
 export default withJsonFormsOneOfProps(SpectrumOneOfRenderer);
