@@ -69,19 +69,6 @@ export const SpectrumArrayModalControl = ({
   uischema,
   uischemas,
 }: ArrayControlProps & CombinatorProps) => {
-  const handleRemoveItem = useCallback(
-    (p: string, value: any) => () => {
-      removeItems(p, [value])();
-    },
-    [removeItems]
-  );
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
-    data.map((boundData: any, index: number) => (boundData ? index : 0))
-  );
-
-  const [expanded, setExpanded] = useState<number>();
   const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
   const oneOfRenderInfos = createCombinatorRenderInfos(
     (_schema as JsonSchema).oneOf,
@@ -92,9 +79,26 @@ export const SpectrumArrayModalControl = ({
     uischemas
   );
 
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [expanded, setExpanded] = useState<number>(0);
   const isExpanded = (index: number) => expanded === index;
+  const onExpand = (index: number) => () =>
+    setExpanded((current) => (current === index ? null : index));
 
-  const handleTabChange = useCallback(
+  const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
+    data
+      ? data.map((boundData: any, index: number) => (boundData ? index : 0))
+      : []
+  );
+
+  const handleRemoveItem = useCallback(
+    (path: string, value: any) => () => {
+      removeItems(path, [value])();
+    },
+    [removeItems]
+  );
+
+  const handlePickerChange = useCallback(
     (newOneOfIndex: Key) => {
       newOneOfIndex = Number(newOneOfIndex);
       setSelectedIndex(newOneOfIndex);
@@ -109,15 +113,13 @@ export const SpectrumArrayModalControl = ({
     [setSelectedIndex, data]
   );
 
-  const handleOnClick = (close: any, index: number) => {
+  const handleOnConfirm = (close: any, index: number) => {
     setIndexOfFittingSchemaArray([...indexOfFittingSchemaArray, index]);
     addItem(path, createDefaultValue(schema.oneOf[index]))();
     setSelectedIndex(0);
+    setExpanded(indexOfFittingSchemaArray.length);
     close();
   };
-
-  const onExpand = (index: number) => () =>
-    setExpanded((current) => (current === index ? null : index));
 
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
@@ -137,7 +139,7 @@ export const SpectrumArrayModalControl = ({
                     <Picker
                       aria-label='Select'
                       margin='size-100'
-                      onSelectionChange={handleTabChange}
+                      onSelectionChange={handlePickerChange}
                       selectedKey={String(selectedIndex)}
                       width='calc(100% - size-200)'
                     >
@@ -172,7 +174,7 @@ export const SpectrumArrayModalControl = ({
                 </Button>
                 <Button
                   variant='cta'
-                  onPress={() => handleOnClick(close, selectedIndex)}
+                  onPress={() => handleOnConfirm(close, selectedIndex)}
                   autoFocus
                 >
                   Confirm
@@ -183,8 +185,8 @@ export const SpectrumArrayModalControl = ({
         </DialogTrigger>
       </Flex>
       <Flex direction='column' gap='size-100'>
-        {data && data.length ? (
-          Array.from(Array(data.length)).map((_, index) => {
+        {data && data?.length ? (
+          Array.from(Array(data?.length)).map((_, index) => {
             return (
               <SpectrumArrayModalItem
                 expanded={isExpanded(index)}

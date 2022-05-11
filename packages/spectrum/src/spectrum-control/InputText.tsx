@@ -30,6 +30,8 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
+import './InputText.css';
+
 export const InputText = ({
   config,
   data,
@@ -107,7 +109,7 @@ export const InputText = ({
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
         value={data ?? ''}
-        width={width}
+        maxWidth={width}
       />
     </SpectrumProvider>
   );
