@@ -92,9 +92,6 @@ const SpectrumOneOfRenderer = ({
   );
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
-  const cancel = useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
   const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
   const oneOfRenderInfos = createCombinatorRenderInfos(
     (_schema as JsonSchema).oneOf,
@@ -217,7 +214,7 @@ const SpectrumOneOfRenderer = ({
                 you want to Clear your Form?
               </Content>
               <ButtonGroup>
-                <Button variant='secondary' onPress={cancel}>
+                <Button variant='secondary' onPress={handleClose}>
                   Cancel
                 </Button>
                 <Button

@@ -25,49 +25,54 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import startCase from 'lodash/startCase';
 import {
   ArrayControlProps,
   ControlElement,
-  createDefaultValue,
   Helpers,
-  isPlainLabel,
   Paths,
   RankedTester,
   Resolve,
   Test,
+  createDefaultValue,
+  isPlainLabel,
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
 import {
   ActionButton,
-  AlertDialog,
-  DialogTrigger,
+  Button,
+  ButtonGroup,
+  Content,
+  Dialog,
+  DialogContainer,
+  Divider,
   Flex,
+  Grid,
+  Heading,
   Text,
   Tooltip,
   TooltipTrigger,
   View,
-  Grid,
 } from '@adobe/react-spectrum';
 
 import Delete from '@spectrum-icons/workflow/Delete';
 import {
-  getUIOptions,
-  getChildError,
-  ArrayHeader,
   ArrayFooter,
-} from './array/utils';
+  ArrayHeader,
+  getChildError,
+  getUIOptions,
+} from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
 const { createLabelDescriptionFrom } = Helpers;
 
 const {
-  or,
+  and,
   isObjectArrayControl,
   isPrimitiveArrayControl,
+  or,
   rankWith,
-  and,
 } = Test;
 
 const isTableOptionNotTrue: Test.Tester = (uischema) =>
@@ -93,19 +98,30 @@ const rowMinHeight = `calc(var(--spectrum-alias-font-size-default) * ${errorFont
 
 const SpectrumArrayControlGrid = ({
   addItem,
-  uischema,
-  schema,
-  rootSchema,
-  path,
-  data,
-  visible,
-  label,
   childErrors,
+  data,
+  label,
+  path,
   removeItems,
+  rootSchema,
+  schema,
+  uischema,
+  visible,
 }: ArrayControlProps) => {
-  const confirmDelete = (path: string, index: number) => {
+  const [deleteIndex, setdeleteIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const setOpenAndsetdeleteIndex = (index: number) => {
+    setOpen(true);
+    setdeleteIndex(index);
+  };
+
+  const confirmDelete = (path: string) => {
     const p = path.substring(0, path.lastIndexOf('.'));
-    removeItems(p, [index])();
+    removeItems(p, [deleteIndex])();
+    handleClose();
+    setdeleteIndex(0);
   };
 
   const controlElement = uischema as ControlElement;
@@ -121,7 +137,6 @@ const SpectrumArrayControlGrid = ({
   const spacing: number[] = uischema.options?.spacing ?? [];
   const add = addItem(path, createDefaultValue(schema));
   const fields = schema.properties ? Object.keys(schema.properties) : ['items'];
-
   return (
     <View
       isHidden={visible === undefined || visible === null ? false : !visible}
@@ -232,23 +247,37 @@ const SpectrumArrayControlGrid = ({
                 {rowCells}
                 <SpectrumProvider>
                   <TooltipTrigger delay={0}>
-                    <DialogTrigger>
-                      <ActionButton aria-label={`Delete row at ${index}`}>
-                        <Delete />
-                      </ActionButton>
-                      <AlertDialog
-                        variant='confirmation'
-                        title='Delete'
-                        primaryActionLabel='Delete'
-                        cancelLabel='Cancel'
-                        autoFocusButton='primary'
-                        onPrimaryAction={() => confirmDelete(childPath, index)}
-                      >
-                        Are you sure you wish to delete this item?
-                      </AlertDialog>
-                    </DialogTrigger>
+                    <ActionButton
+                      onPress={() => setOpenAndsetdeleteIndex(index)}
+                      aria-label={`delete-row-at-${index}`}
+                    >
+                      <Delete aria-label='Delete' />
+                    </ActionButton>
                     <Tooltip>Delete</Tooltip>
                   </TooltipTrigger>
+                  <DialogContainer onDismiss={handleClose}>
+                    {open && (
+                      <Dialog>
+                        <Heading>Delete Row?</Heading>
+                        <Divider />
+                        <Content>
+                          Are you sure you wish to delete this row?
+                        </Content>
+                        <ButtonGroup>
+                          <Button variant='secondary' onPress={handleClose}>
+                            Cancel
+                          </Button>
+                          <Button
+                            autoFocus
+                            variant='cta'
+                            onPress={() => confirmDelete(childPath)}
+                          >
+                            Delete
+                          </Button>
+                        </ButtonGroup>
+                      </Dialog>
+                    )}
+                  </DialogContainer>
                 </SpectrumProvider>
               </React.Fragment>
             );

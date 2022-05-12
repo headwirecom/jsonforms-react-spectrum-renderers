@@ -160,6 +160,7 @@ export const SpectrumArrayModalControl = ({
                       selectedKeys={String(selectedIndex)}
                       selectionMode='single'
                       width='calc(100% - size-200)'
+                      maxHeight='size-2400'
                     >
                       {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
                         <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>

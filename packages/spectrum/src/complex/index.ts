@@ -28,7 +28,7 @@
 import SpectrumObjectRenderer, {
   SpectrumObjectControlTester,
 } from './SpectrumObjectRenderer';
-import ArrayControl, { arrayControlTester } from './array';
+import ArrayControl, { arrayControlTester } from './Array';
 import SpectrumArrayModalControl, {
   SpectrumArrayModalControlTester,
 } from './ArrayModal';

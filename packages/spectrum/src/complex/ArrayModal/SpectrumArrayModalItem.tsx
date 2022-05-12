@@ -26,12 +26,17 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { ComponentType } from 'react';
+import React, { useState, useCallback, ComponentType } from 'react';
 import {
   ActionButton,
-  AlertDialog,
-  DialogTrigger,
+  Button,
+  ButtonGroup,
+  Content,
+  Dialog,
+  DialogContainer,
+  Divider,
   Flex,
+  Heading,
   Text,
   Tooltip,
   TooltipTrigger,
@@ -104,7 +109,8 @@ const SpectrumArrayModalItem = ({
 }: StatePropsOfSpectrumArrayItem & CombinatorProps) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
-
+  const [open, setOpen] = useState(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
   return (
     <SpectrumProvider>
       <View
@@ -146,24 +152,39 @@ const SpectrumArrayModalItem = ({
                 </ActionButton>
                 <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger>
-                <DialogTrigger>
-                  <ActionButton aria-label={`delete-item-${childLabel}`}>
-                    <Delete aria-label='Delete' />
-                  </ActionButton>
-                  <AlertDialog
-                    autoFocusButton='primary'
-                    cancelLabel='Cancel'
-                    onPrimaryAction={removeItem(path, index)}
-                    primaryActionLabel='Delete'
-                    title='Delete'
-                    variant='confirmation'
-                  >
-                    Are you sure you wish to delete this item?
-                  </AlertDialog>
-                </DialogTrigger>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  onPress={() => setOpen(true)}
+                  aria-label={`delete-item-${childLabel}`}
+                >
+                  <Delete aria-label='Delete' />
+                </ActionButton>
                 <Tooltip>Delete</Tooltip>
               </TooltipTrigger>
+              <DialogContainer onDismiss={handleClose}>
+                {open && (
+                  <Dialog>
+                    <Heading>Delete Item?</Heading>
+                    <Divider />
+                    <Content>
+                      Are you sure you wish to delete this item?
+                    </Content>
+                    <ButtonGroup>
+                      <Button variant='secondary' onPress={handleClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        autoFocus
+                        variant='cta'
+                        onPressStart={removeItem(path, index)}
+                        onPressEnd={handleClose}
+                      >
+                        Delete
+                      </Button>
+                    </ButtonGroup>
+                  </Dialog>
+                )}
+              </DialogContainer>
             </View>
           </Flex>
         </View>

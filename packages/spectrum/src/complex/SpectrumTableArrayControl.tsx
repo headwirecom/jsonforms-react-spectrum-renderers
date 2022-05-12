@@ -25,31 +25,36 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import startCase from 'lodash/startCase';
 import {
   ArrayControlProps,
   ControlElement,
-  createDefaultValue,
   Helpers,
-  isPlainLabel,
   Paths,
   RankedTester,
   Resolve,
   Test,
+  createDefaultValue,
+  isPlainLabel,
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
 import {
+  ActionButton,
+  Button,
+  ButtonGroup,
   Cell,
   Column,
+  Content,
+  Dialog,
+  DialogContainer,
+  Divider,
+  Flex,
+  Heading,
   Row,
-  TableView,
   TableBody,
   TableHeader,
-  ActionButton,
-  AlertDialog,
-  DialogTrigger,
-  Flex,
+  TableView,
   Text,
   Tooltip,
   TooltipTrigger,
@@ -60,11 +65,11 @@ import './table-cell.css';
 
 import Delete from '@spectrum-icons/workflow/Delete';
 import {
-  getUIOptions,
-  getChildError,
   ArrayFooter,
   ArrayHeader,
-} from './array/utils';
+  getChildError,
+  getUIOptions,
+} from './Array/utils';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -93,19 +98,30 @@ export const SpectrumTableArrayControlTester: RankedTester = rankWith(
 
 const SpectrumTableArrayControl = ({
   addItem,
-  uischema,
-  schema,
-  rootSchema,
-  path,
-  data,
-  visible,
-  label,
   childErrors,
+  data,
+  label,
+  path,
   removeItems,
+  rootSchema,
+  schema,
+  uischema,
+  visible,
 }: ArrayControlProps) => {
-  const confirmDelete = (path: string, index: number) => {
+  const [deleteIndex, setdeleteIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const setOpenAndsetdeleteIndex = (index: number) => {
+    setOpen(true);
+    setdeleteIndex(index);
+  };
+
+  const confirmDelete = (path: string) => {
     const p = path.substring(0, path.lastIndexOf('.'));
-    removeItems(p, [index])();
+    removeItems(p, [deleteIndex])();
+    handleClose();
+    setdeleteIndex(0);
   };
 
   const controlElement = uischema as ControlElement;
@@ -230,6 +246,38 @@ const SpectrumTableArrayControl = ({
                     ...rowCells,
                     <Cell key={`delete-row-${index}`}>
                       <TooltipTrigger delay={0}>
+                        <ActionButton
+                          onPress={() => setOpenAndsetdeleteIndex(index)}
+                          aria-label={`delete-row-at-${index}`}
+                        >
+                          <Delete aria-label='Delete' />
+                        </ActionButton>
+                        <Tooltip>Delete</Tooltip>
+                      </TooltipTrigger>
+                      <DialogContainer onDismiss={handleClose}>
+                        {open && (
+                          <Dialog>
+                            <Heading>Delete Row?</Heading>
+                            <Divider />
+                            <Content>
+                              Are you sure you wish to delete this row?
+                            </Content>
+                            <ButtonGroup>
+                              <Button variant='secondary' onPress={handleClose}>
+                                Cancel
+                              </Button>
+                              <Button
+                                autoFocus
+                                variant='cta'
+                                onPress={() => confirmDelete(childPath)}
+                              >
+                                Delete
+                              </Button>
+                            </ButtonGroup>
+                          </Dialog>
+                        )}
+                      </DialogContainer>
+                      {/* <TooltipTrigger delay={0}>
                         <DialogTrigger>
                           <ActionButton aria-label={`Delete row at ${index}`}>
                             <Delete />
@@ -248,7 +296,7 @@ const SpectrumTableArrayControl = ({
                           </AlertDialog>
                         </DialogTrigger>
                         <Tooltip>Delete</Tooltip>
-                      </TooltipTrigger>
+                      </TooltipTrigger> */}
                     </Cell>,
                   ]}
                 </Row>
