@@ -43,22 +43,23 @@ export const InputSwitch = ({
     ? undefined
     : '100%';
 
+  let [isSelected, setSelected] = React.useState(
+    data ?? schema?.default ?? false
+  );
+
   React.useEffect(() => {
-    if (!data && schema?.default) {
-      handleChange(path, schema.default);
-    }
-  }, [schema?.default]);
+    handleChange(path, isSelected);
+  }, [isSelected]);
 
   return (
     <SpectrumProvider width={width}>
       <Switch
         autoFocus={appliedUiSchemaOptions.focus}
-        defaultSelected={schema?.default === true ? true : false}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
-        onChange={(value: boolean) => handleChange(path, value)}
-        value={data ?? schema?.default}
+        isSelected={isSelected}
+        onChange={setSelected}
         width={width}
       >
         {label}

@@ -45,22 +45,24 @@ export const InputCheckbox = ({
     ? undefined
     : '100%';
 
+  let [isSelected, setSelected] = React.useState(
+    data ?? schema?.default ?? false
+  );
+
   React.useEffect(() => {
-    if (!data && schema?.default) {
-      handleChange(path, schema.default);
-    }
-  }, [schema?.default]);
+    handleChange(path, isSelected);
+  }, [isSelected]);
 
   return (
     <SpectrumProvider width={width}>
       <Checkbox
         autoFocus={appliedUiSchemaOptions.focus}
-        defaultSelected={schema?.default === true ? true : false}
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
         isRequired={required}
-        onChange={(value: boolean) => handleChange(path, value)}
+        isSelected={isSelected}
+        onChange={setSelected}
         validationState={isValid ? 'valid' : 'invalid'}
         value={data ?? schema?.default}
         width={width}

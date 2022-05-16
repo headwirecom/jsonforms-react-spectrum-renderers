@@ -39,21 +39,16 @@ export const InputBooleanButton = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const autoFocus = !!appliedUiSchemaOptions.focus;
-  let [isSelected, setSelected] = React.useState(false);
+  let [isSelected, setSelected] = React.useState(
+    data ?? schema?.default ?? false
+  );
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
 
   React.useEffect(() => {
-    if (!data && schema?.default) {
-      handleSetSelected(schema.default);
-    }
-  }, [schema?.default]);
-
-  const handleSetSelected = (isSelected: boolean) => {
-    setSelected(isSelected);
     handleChange(path, isSelected);
-  };
+  }, [isSelected]);
 
   return (
     <SpectrumProvider width={width}>
@@ -64,7 +59,7 @@ export const InputBooleanButton = ({
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
         isSelected={isSelected}
-        onChange={handleSetSelected}
+        onChange={setSelected}
         isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
         staticColor={appliedUiSchemaOptions.staticColor ?? null}
         width={width}
