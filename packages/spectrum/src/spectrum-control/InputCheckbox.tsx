@@ -67,6 +67,11 @@ export const InputCheckbox = ({
       >
         {label}
       </Checkbox>
+      {appliedUiSchemaOptions.description ? (
+        <div style={{ fontStyle: 'italic' }}>
+          {appliedUiSchemaOptions.description}
+        </div>
+      ) : null}
     </SpectrumProvider>
   );
 };

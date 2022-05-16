@@ -63,6 +63,11 @@ export const InputSwitch = ({
       >
         {label}
       </Switch>
+      {appliedUiSchemaOptions.description ? (
+        <div style={{ fontStyle: 'italic' }}>
+          {appliedUiSchemaOptions.description}
+        </div>
+      ) : null}
     </SpectrumProvider>
   );
 };

@@ -71,6 +71,11 @@ export const InputBooleanButton = ({
       >
         {label}
       </ToggleButton>
+      {appliedUiSchemaOptions.description ? (
+        <div style={{ fontStyle: 'italic' }}>
+          {appliedUiSchemaOptions.description}
+        </div>
+      ) : null}
     </SpectrumProvider>
   );
 };

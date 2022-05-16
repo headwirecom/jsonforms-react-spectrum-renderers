@@ -102,6 +102,7 @@ const SpectrumOneOfRenderer = ({
     uischemas
   );
 
+  console.log('uischemas: ', uischemas);
   const openNewTab = (newIndex: number) => {
     handleChange(path, createDefaultValue(schema.oneOf[newIndex]));
     setSelectedIndex(newIndex);
