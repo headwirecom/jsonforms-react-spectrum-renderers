@@ -29,6 +29,7 @@ import { TextField } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { v4 as uuidv4 } from 'uuid';
 
 import './InputText.css';
 
@@ -46,6 +47,7 @@ export const InputText = ({
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
@@ -86,6 +88,12 @@ export const InputText = ({
       handleChange(path, schema.default);
     }
   }, [schema?.default]);
+
+  React.useEffect(() => {
+    if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
+      handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
+    }
+  }, [!data]);
 
   return (
     <SpectrumProvider width={width}>

@@ -62,7 +62,7 @@ export function AddButton(
   const button = (
     <SpectrumProvider>
       <ActionButton UNSAFE_className='add-button' onPress={onPress}>
-        <Add />
+        <Add aria-label='Add' />
         {addButtonLabelType === 'inline' && <Text>{addButtonLabel}</Text>}
       </ActionButton>
     </SpectrumProvider>

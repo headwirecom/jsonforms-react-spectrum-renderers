@@ -29,6 +29,7 @@ import React, { useCallback, useState } from 'react';
 import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayItem from './SpectrumArrayItem';
+import Add from '@spectrum-icons/workflow/Add';
 
 export const SpectrumArrayControl = ({
   data,
@@ -64,7 +65,7 @@ export const SpectrumArrayControl = ({
           alignSelf='center'
           onPress={addItem(path, createDefaultValue(schema))}
         >
-          +
+          <Add aria-label='Add' />
         </Button>
       </Flex>
       <Flex direction='column' gap='size-100'>

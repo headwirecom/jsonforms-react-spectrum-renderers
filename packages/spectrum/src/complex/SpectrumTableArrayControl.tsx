@@ -119,8 +119,8 @@ const SpectrumTableArrayControl = ({
 
   const confirmDelete = (path: string) => {
     const p = path.substring(0, path.lastIndexOf('.'));
-    removeItems(p, [deleteIndex])();
     handleClose();
+    removeItems(p, [deleteIndex])();
     setdeleteIndex(0);
   };
 
@@ -175,7 +175,7 @@ const SpectrumTableArrayControl = ({
             <Row>
               {[...headerColumns, 3].map((_, index) =>
                 index === 0 ? (
-                  <Cell key={index}>No data</Cell>
+                  <Cell key={index}>No Data</Cell>
                 ) : (
                   <Cell key={index}>&nbsp;</Cell>
                 )
@@ -277,26 +277,6 @@ const SpectrumTableArrayControl = ({
                           </Dialog>
                         )}
                       </DialogContainer>
-                      {/* <TooltipTrigger delay={0}>
-                        <DialogTrigger>
-                          <ActionButton aria-label={`Delete row at ${index}`}>
-                            <Delete />
-                          </ActionButton>
-                          <AlertDialog
-                            variant='confirmation'
-                            title='Delete'
-                            primaryActionLabel='Delete'
-                            cancelLabel='Cancel'
-                            autoFocusButton='primary'
-                            onPrimaryAction={() =>
-                              confirmDelete(childPath, index)
-                            }
-                          >
-                            Are you sure you wish to delete this item?
-                          </AlertDialog>
-                        </DialogTrigger>
-                        <Tooltip>Delete</Tooltip>
-                      </TooltipTrigger> */}
                     </Cell>,
                   ]}
                 </Row>

@@ -36,11 +36,10 @@ import {
   resolveSubSchemas,
 } from '@jsonforms/core';
 import {
-  ActionButton,
   Button,
   ButtonGroup,
   Dialog,
-  DialogTrigger,
+  DialogContainer,
   Divider,
   Flex,
   Heading,
@@ -51,6 +50,7 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from './SpectrumArrayModalItem';
+import Add from '@spectrum-icons/workflow/Add';
 
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
@@ -80,6 +80,8 @@ export const SpectrumArrayModalControl = ({
   );
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
   const [expanded, setExpanded] = useState<number>(0);
   const isExpanded = (index: number) => expanded === index;
   const onExpand = (index: number) => () =>
@@ -113,12 +115,12 @@ export const SpectrumArrayModalControl = ({
     [setSelectedIndex, data]
   );
 
-  const handleOnConfirm = (close: any, index: number) => {
+  const handleOnConfirm = (handleClose: any, index: number) => {
     setIndexOfFittingSchemaArray([...indexOfFittingSchemaArray, index]);
     addItem(path, createDefaultValue(schema.oneOf[index]))();
     setSelectedIndex(0);
     setExpanded(indexOfFittingSchemaArray.length);
-    close();
+    handleClose();
   };
 
   const usePickerInsteadOfListBox = uischema.options?.picker;
@@ -127,9 +129,15 @@ export const SpectrumArrayModalControl = ({
     <View>
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
-        <DialogTrigger>
-          <ActionButton alignSelf='center'>+</ActionButton>
-          {(close) => (
+        <Button
+          alignSelf='center'
+          onPress={() => setOpen(true)}
+          variant='primary'
+        >
+          <Add aria-label='Add' />
+        </Button>
+        <DialogContainer onDismiss={handleClose}>
+          {open && (
             <Dialog>
               <div style={{ gridColumn: '1 / -1' }}>
                 <Heading margin='size-100'>Add a new item</Heading>
@@ -170,12 +178,12 @@ export const SpectrumArrayModalControl = ({
                 )}
               </div>
               <ButtonGroup>
-                <Button variant='secondary' onPress={close}>
+                <Button variant='secondary' onPress={handleClose}>
                   Cancel
                 </Button>
                 <Button
                   variant='cta'
-                  onPress={() => handleOnConfirm(close, selectedIndex)}
+                  onPress={() => handleOnConfirm(handleClose, selectedIndex)}
                   autoFocus
                 >
                   Confirm
@@ -183,7 +191,7 @@ export const SpectrumArrayModalControl = ({
               </ButtonGroup>
             </Dialog>
           )}
-        </DialogTrigger>
+        </DialogContainer>
       </Flex>
       <Flex direction='column' gap='size-100'>
         {data && data?.length ? (

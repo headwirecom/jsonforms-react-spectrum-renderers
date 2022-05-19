@@ -119,9 +119,8 @@ const SpectrumArrayControlGrid = ({
 
   const confirmDelete = (path: string) => {
     const p = path.substring(0, path.lastIndexOf('.'));
-    removeItems(p, [deleteIndex])();
     handleClose();
-    setdeleteIndex(0);
+    removeItems(p, [deleteIndex])();
   };
 
   const controlElement = uischema as ControlElement;

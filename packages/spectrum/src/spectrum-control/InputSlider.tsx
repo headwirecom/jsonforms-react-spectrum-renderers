@@ -59,7 +59,9 @@ export const InputSlider = ({
   };
 
   React.useEffect(() => {
-    if (!data && schema?.default) {
+    if (data) {
+      handleOnChangeEnd(data);
+    } else if (!data && schema?.default) {
       handleOnChangeEnd(schema.default);
     }
   }, [schema?.default]);

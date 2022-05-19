@@ -29,7 +29,7 @@
 
 import React from 'react';
 import {
-  ActionButton,
+  Button,
   Flex,
   Heading,
   Tooltip,
@@ -64,12 +64,13 @@ export const ArrayLayoutToolbar = React.memo(
           </View>
           <View>
             <TooltipTrigger delay={0}>
-              <ActionButton
+              <Button
                 aria-label='add'
                 onPress={addItem(path, createDefault())}
+                variant='primary'
               >
-                <Add />
-              </ActionButton>
+                <Add aria-label='Add' />
+              </Button>
               <Tooltip>{`Add to ${label}`}</Tooltip>
             </TooltipTrigger>
           </View>
