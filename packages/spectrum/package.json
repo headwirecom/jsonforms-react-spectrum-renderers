@@ -1,6 +1,6 @@
 {
   "name": "test-jsonforms-react-spectrum-renderers",
-  "version": "0.0.14",
+  "version": "0.0.18",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",

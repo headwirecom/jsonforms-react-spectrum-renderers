@@ -26,7 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useCallback, ComponentType } from 'react';
+import React, { useState, ComponentType } from 'react';
 import {
   ActionButton,
   Button,
@@ -110,7 +110,7 @@ const SpectrumArrayModalItem = ({
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
   const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+  const handleClose = () => setOpen(false);
   return (
     <SpectrumProvider>
       <View

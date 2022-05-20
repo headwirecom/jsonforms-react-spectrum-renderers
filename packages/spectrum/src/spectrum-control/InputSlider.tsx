@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CellProps } from '@jsonforms/core';
 import { debounce, merge } from 'lodash';
 import { DimensionValue } from '@react-types/shared';
@@ -47,7 +47,7 @@ export const InputSlider = ({
     ? undefined
     : '100%';
 
-  let [value, setValue] = React.useState(0);
+  let [value, setValue] = useState(0);
 
   const handleOnChange = (value: any) => {
     setValue(value);
@@ -58,13 +58,13 @@ export const InputSlider = ({
     handleChange(path, value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
       handleOnChangeEnd(data);
-    } else if (!data && schema?.default) {
+    } else {
       handleOnChangeEnd(schema.default);
     }
-  }, [schema?.default]);
+  }, []);
 
   return (
     <SpectrumProvider width={width}>
