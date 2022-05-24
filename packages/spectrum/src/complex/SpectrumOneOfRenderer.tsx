@@ -27,11 +27,9 @@
   */
 import React, { Key, useCallback, useState } from 'react';
 import { isEmpty } from '../util/isEmpty';
-
 import {
   CombinatorProps,
   JsonSchema,
-  OwnPropsOfControl,
   RankedTester,
   createCombinatorRenderInfos,
   createDefaultValue,
@@ -60,11 +58,8 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
-
-export interface OwnOneOfProps extends OwnPropsOfControl {
-  indexOfFittingSchema?: number;
-}
-
+import { indexOfFittingSchemaArrayTest } from './ArrayModal/utils';
+console.log('indexOfFittingSchemaArrayOneOf: ' + indexOfFittingSchemaArrayTest);
 const oneOf = 'oneOf';
 const SpectrumOneOfRenderer = ({
   cells,
@@ -81,15 +76,17 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorProps) => {
-  const splittedPath = path.split('SPLITHERE');
-  path = splittedPath[0];
-  const indexOfFittingSchemaArray = splittedPath[1]
+  //const splittedPath = path.split('SPLITHERE');
+  //path = splittedPath[0];
+  /* const indexOfFittingSchemaArray = splittedPath[1]
     ? parseInt(splittedPath[1])
-    : 0;
+    : undefined; */
+  const index = parseInt(path.split('.')[1]);
+  //indexOfFittingSchema = indexOfFittingSchema ?? 0;
+  const indexOfFittingSchemaArray =
+    indexOfFittingSchema ?? indexOfFittingSchemaArrayTest[index];
   const [open, setOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(
-    indexOfFittingSchema ?? indexOfFittingSchemaArray
-  );
+  const [selectedIndex, setSelectedIndex] = useState(indexOfFittingSchemaArray);
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
   const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
@@ -102,6 +99,9 @@ const SpectrumOneOfRenderer = ({
     uischemas
   );
 
+  console.log('indexOfFittingSchema: ' + indexOfFittingSchema);
+  console.log('indexOfFittingSchemaArray: ' + indexOfFittingSchemaArray);
+  console.log('selectedIndex: ' + selectedIndex);
   const openNewTab = (newIndex: number) => {
     handleChange(path, createDefaultValue(schema.oneOf[newIndex]));
     setSelectedIndex(newIndex);
@@ -132,7 +132,6 @@ const SpectrumOneOfRenderer = ({
   const hideTabs =
     JSON.stringify(schema?.oneOf).includes(`"required":["OneOfModal"`) ||
     uischema.options?.OneOfModal === true;
-
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>

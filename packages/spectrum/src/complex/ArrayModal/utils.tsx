@@ -138,3 +138,5 @@ export function getChildError(e: ErrorObject[], path: string) {
     return '';
   }
 }
+
+export let indexOfFittingSchemaArrayTest: Array<number> = [];

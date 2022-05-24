@@ -26,7 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, ComponentType } from 'react';
+import React, { useState, useCallback, ComponentType } from 'react';
 import {
   ActionButton,
   Button,
@@ -48,7 +48,6 @@ import {
   JsonFormsRendererRegistryEntry,
   JsonFormsState,
   JsonSchema,
-  OwnPropsOfControl,
   Resolve,
   UISchemaElement,
   UISchemaTester,
@@ -62,7 +61,6 @@ import {
   areEqual,
   withJsonFormsContext,
 } from '@jsonforms/react';
-
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
@@ -71,7 +69,7 @@ import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
 
-export interface OwnPropsOfSpectrumArrayItem {
+export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   expanded: boolean;
   path: string;
@@ -86,31 +84,28 @@ export interface OwnPropsOfSpectrumArrayItem {
   }[];
 }
 
-export interface StatePropsOfSpectrumArrayItem
-  extends OwnPropsOfSpectrumArrayItem {
+export interface StatePropsOfSpectrumArrayModalItem
+  extends OwnPropsOfSpectrumArrayModalItem {
   childLabel: string;
 }
 
-export interface OwnOneOfProps extends OwnPropsOfControl {
-  indexOfFittingSchema?: number;
-}
 const SpectrumArrayModalItem = ({
   childLabel,
   expanded,
   handleExpand,
   index,
-  indexOfFittingSchema,
+  //indexOfFittingSchema,
   path,
   removeItem,
   renderers,
   schema,
   uischema,
   uischemas,
-}: StatePropsOfSpectrumArrayItem & CombinatorProps) => {
+}: StatePropsOfSpectrumArrayModalItem & CombinatorProps) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
   return (
     <SpectrumProvider>
       <View
@@ -192,7 +187,7 @@ const SpectrumArrayModalItem = ({
           <View>
             <ResolvedJsonFormsDispatch
               key={childPath}
-              path={childPath + 'SPLITHERE' + indexOfFittingSchema}
+              path={childPath}
               renderers={renderers}
               schema={schema}
               uischema={foundUISchema || uischema}
@@ -207,15 +202,15 @@ const SpectrumArrayModalItem = ({
 };
 
 /**
- * Map state to control props.
+ * Map state to control props.No indexOfFittingSchema found
  * @param state the store's state
  * @param ownProps any own props
  * @returns {StatePropsOfControl} state props for a control
  */
-export const mapStateToSpectrumArrayItemProps = (
+export const mapStateToSpectrumArrayModalItemProps = (
   state: JsonFormsState,
-  ownProps: OwnPropsOfSpectrumArrayItem
-): StatePropsOfSpectrumArrayItem => {
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+): StatePropsOfSpectrumArrayModalItem => {
   const { schema, path, index, uischema } = ownProps;
   const firstPrimitiveProp = schema.properties
     ? Object.keys(schema.properties).find((propName) => {
@@ -241,31 +236,31 @@ export const mapStateToSpectrumArrayItemProps = (
   };
 };
 
-export const ctxToSpectrumArrayItemProps = (
+export const ctxToSpectrumArrayModalItemProps = (
   ctx: JsonFormsStateContext,
-  ownProps: OwnPropsOfSpectrumArrayItem
-) => mapStateToSpectrumArrayItemProps({ jsonforms: { ...ctx } }, ownProps);
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+) => mapStateToSpectrumArrayModalItemProps({ jsonforms: { ...ctx } }, ownProps);
 
-const withContextToSpectrumArrayItemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayItem>
-): ComponentType<OwnPropsOfSpectrumArrayItem> => ({
+const withContextToSpectrumArrayModalItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayModalItem>
+): ComponentType<OwnPropsOfSpectrumArrayModalItem> => ({
   ctx,
   props,
-}: JsonFormsStateContext & StatePropsOfSpectrumArrayItem) => {
-  const stateProps = ctxToSpectrumArrayItemProps(ctx, props);
+}: JsonFormsStateContext & StatePropsOfSpectrumArrayModalItem) => {
+  const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
   return <Component {...stateProps} />;
 };
 
-export const withJsonFormsSpectrumArrayItemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayItem>
+export const withJsonFormsSpectrumArrayModalItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayModalItem>
 ): ComponentType<any> =>
   withJsonFormsContext(
-    withContextToSpectrumArrayItemProps(
+    withContextToSpectrumArrayModalItemProps(
       React.memo(
         Component,
         (
-          prevProps: StatePropsOfSpectrumArrayItem,
-          nextProps: StatePropsOfSpectrumArrayItem
+          prevProps: StatePropsOfSpectrumArrayModalItem,
+          nextProps: StatePropsOfSpectrumArrayModalItem
         ) => {
           const {
             handleExpand: prevHandleExpand,
@@ -283,4 +278,4 @@ export const withJsonFormsSpectrumArrayItemProps = (
     )
   );
 
-export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayModalItem);
+export default withJsonFormsSpectrumArrayModalItemProps(SpectrumArrayModalItem);

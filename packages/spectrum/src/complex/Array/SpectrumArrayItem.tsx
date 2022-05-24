@@ -29,18 +29,18 @@
 import React, { useState, useCallback, ComponentType } from 'react';
 import {
   ActionButton,
+  Button,
+  ButtonGroup,
+  Content,
   Dialog,
   DialogContainer,
+  Divider,
   Flex,
+  Heading,
   Text,
   Tooltip,
   TooltipTrigger,
   View,
-  Heading,
-  Divider,
-  Button,
-  ButtonGroup,
-  Content,
 } from '@adobe/react-spectrum';
 import {
   ControlElement,
@@ -68,7 +68,7 @@ import './SpectrumArrayItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
 
-export interface OwnPropsOfSpectrumArrayddtem {
+export interface OwnPropsOfSpectrumArrayItem {
   index: number;
   expanded: boolean;
   path: string;
@@ -83,12 +83,12 @@ export interface OwnPropsOfSpectrumArrayddtem {
   }[];
 }
 
-export interface StatePropsOfSpectrumArrayddtem
-  extends OwnPropsOfSpectrumArrayddtem {
+export interface StatePropsOfSpectrumArrayItem
+  extends OwnPropsOfSpectrumArrayItem {
   childLabel: string;
 }
 
-const SpectrumArrayddtem = ({
+const SpectrumArrayItem = ({
   index,
   childLabel,
   expanded,
@@ -99,7 +99,7 @@ const SpectrumArrayddtem = ({
   uischema,
   uischemas,
   renderers,
-}: StatePropsOfSpectrumArrayddtem) => {
+}: StatePropsOfSpectrumArrayItem) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
   const [open, setOpen] = useState(false);
@@ -205,10 +205,10 @@ const SpectrumArrayddtem = ({
  * @param ownProps any own props
  * @returns {StatePropsOfControl} state props for a control
  */
-export const mapStateToSpectrumArrayddtemProps = (
+export const mapStateToSpectrumArrayItemProps = (
   state: JsonFormsState,
-  ownProps: OwnPropsOfSpectrumArrayddtem
-): StatePropsOfSpectrumArrayddtem => {
+  ownProps: OwnPropsOfSpectrumArrayItem
+): StatePropsOfSpectrumArrayItem => {
   const { schema, path, index, uischema } = ownProps;
   const firstPrimitiveProp = schema.properties
     ? Object.keys(schema.properties).find((propName) => {
@@ -234,31 +234,31 @@ export const mapStateToSpectrumArrayddtemProps = (
   };
 };
 
-export const ctxToSpectrumArrayddtemProps = (
+export const ctxToSpectrumArrayItemProps = (
   ctx: JsonFormsStateContext,
-  ownProps: OwnPropsOfSpectrumArrayddtem
-) => mapStateToSpectrumArrayddtemProps({ jsonforms: { ...ctx } }, ownProps);
+  ownProps: OwnPropsOfSpectrumArrayItem
+) => mapStateToSpectrumArrayItemProps({ jsonforms: { ...ctx } }, ownProps);
 
-const withContextToSpectrumArrayddtemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayddtem>
-): ComponentType<OwnPropsOfSpectrumArrayddtem> => ({
+const withContextToSpectrumArrayItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayItem>
+): ComponentType<OwnPropsOfSpectrumArrayItem> => ({
   ctx,
   props,
-}: JsonFormsStateContext & StatePropsOfSpectrumArrayddtem) => {
-  const stateProps = ctxToSpectrumArrayddtemProps(ctx, props);
+}: JsonFormsStateContext & StatePropsOfSpectrumArrayItem) => {
+  const stateProps = ctxToSpectrumArrayItemProps(ctx, props);
   return <Component {...stateProps} />;
 };
 
-export const withJsonFormsSpectrumArrayddtemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayddtem>
+export const withJsonFormsSpectrumArrayItemProps = (
+  Component: ComponentType<StatePropsOfSpectrumArrayItem>
 ): ComponentType<any> =>
   withJsonFormsContext(
-    withContextToSpectrumArrayddtemProps(
+    withContextToSpectrumArrayItemProps(
       React.memo(
         Component,
         (
-          prevProps: StatePropsOfSpectrumArrayddtem,
-          nextProps: StatePropsOfSpectrumArrayddtem
+          prevProps: StatePropsOfSpectrumArrayItem,
+          nextProps: StatePropsOfSpectrumArrayItem
         ) => {
           const {
             handleExpand: prevHandleExpand,
@@ -276,4 +276,4 @@ export const withJsonFormsSpectrumArrayddtemProps = (
     )
   );
 
-export default withJsonFormsSpectrumArrayddtemProps(SpectrumArrayddtem);
+export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayItem);

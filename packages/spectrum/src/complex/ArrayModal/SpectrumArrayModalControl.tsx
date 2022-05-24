@@ -51,7 +51,7 @@ import {
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from './SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
-
+import { indexOfFittingSchemaArrayTest } from './utils';
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
@@ -88,9 +88,7 @@ export const SpectrumArrayModalControl = ({
     setExpanded((current) => (current === index ? null : index));
 
   const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
-    data
-      ? data.map((boundData: any, index: number) => (boundData ? index : 0))
-      : []
+    data?.map((_boundData: any) => (_boundData ? undefined : 999)) ?? []
   );
 
   const handleRemoveItem = useCallback(
@@ -116,7 +114,11 @@ export const SpectrumArrayModalControl = ({
   );
 
   const handleOnConfirm = (handleClose: any, index: number) => {
-    setIndexOfFittingSchemaArray([...indexOfFittingSchemaArray, index]);
+    setIndexOfFittingSchemaArray([
+      ...indexOfFittingSchemaArray,
+      Math.floor(index),
+    ]);
+    indexOfFittingSchemaArrayTest.push(index);
     addItem(path, createDefaultValue(schema.oneOf[index]))();
     setSelectedIndex(0);
     setExpanded(indexOfFittingSchemaArray.length);
@@ -125,6 +127,16 @@ export const SpectrumArrayModalControl = ({
 
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
+  React.useEffect(() => {
+    if (data) {
+      for (var i = 0; i < data.length; i++) {
+        indexOfFittingSchemaArrayTest.push(undefined);
+      }
+    }
+    console.log(
+      'indexOfFittingSchemaArrayTest: ' + indexOfFittingSchemaArrayTest
+    );
+  }, []);
   return (
     <View>
       <Flex direction='row' justifyContent='space-between'>

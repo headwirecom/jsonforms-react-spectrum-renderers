@@ -27,7 +27,12 @@
 */
 import React from 'react';
 
-import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
+import {
+  ArrayControlProps,
+  CombinatorProps,
+  ControlElement,
+  Helpers,
+} from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
@@ -44,7 +49,8 @@ const SpectrumArrayModalControlRenderer = ({
   uischema,
   uischemas,
   visible,
-}: ArrayControlProps) => {
+  indexOfFittingSchema,
+}: ArrayControlProps & CombinatorProps) => {
   const controlElement = uischema as ControlElement;
   const labelDescription = Helpers.createLabelDescriptionFrom(
     controlElement,
@@ -64,7 +70,7 @@ const SpectrumArrayModalControlRenderer = ({
       errors={errors}
       handleChange={handleChange}
       id={id}
-      indexOfFittingSchema={0}
+      indexOfFittingSchema={indexOfFittingSchema}
       label={label}
       path={path}
       removeItems={removeItems}
