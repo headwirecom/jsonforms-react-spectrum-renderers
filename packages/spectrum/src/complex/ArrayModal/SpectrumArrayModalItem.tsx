@@ -68,6 +68,7 @@ import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
+import { indexOfFittingSchemaObject } from './utils';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
@@ -94,7 +95,7 @@ const SpectrumArrayModalItem = ({
   expanded,
   handleExpand,
   index,
-  //indexOfFittingSchema,
+  indexOfFittingSchema,
   path,
   removeItem,
   renderers,
@@ -106,6 +107,17 @@ const SpectrumArrayModalItem = ({
   const childPath = composePaths(path, `${index}`);
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  React.useEffect(() => {
+    indexOfFittingSchemaObject[childPath] = indexOfFittingSchema;
+    if (uischema.options?.OneOfModal) {
+      indexOfFittingSchemaObject['OneOfModal'] = true;
+    }
+    if (uischema.options?.OneOfPicker) {
+      indexOfFittingSchemaObject['OneOfPicker'] = true;
+    }
+  }, []);
+
   return (
     <SpectrumProvider>
       <View

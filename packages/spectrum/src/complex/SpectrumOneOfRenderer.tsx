@@ -58,8 +58,7 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { indexOfFittingSchemaArrayTest } from './ArrayModal/utils';
-console.log('indexOfFittingSchemaArrayOneOf: ' + indexOfFittingSchemaArrayTest);
+import { indexOfFittingSchemaObject } from './ArrayModal/utils';
 const oneOf = 'oneOf';
 const SpectrumOneOfRenderer = ({
   cells,
@@ -76,17 +75,11 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorProps) => {
-  //const splittedPath = path.split('SPLITHERE');
-  //path = splittedPath[0];
-  /* const indexOfFittingSchemaArray = splittedPath[1]
-    ? parseInt(splittedPath[1])
-    : undefined; */
-  const index = parseInt(path.split('.')[1]);
-  //indexOfFittingSchema = indexOfFittingSchema ?? 0;
-  const indexOfFittingSchemaArray =
-    indexOfFittingSchema ?? indexOfFittingSchemaArrayTest[index];
   const [open, setOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(indexOfFittingSchemaArray);
+  const [selectedIndex, setSelectedIndex] = useState(
+    indexOfFittingSchemaObject[path] ?? indexOfFittingSchema
+  );
+
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
   const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
@@ -99,9 +92,6 @@ const SpectrumOneOfRenderer = ({
     uischemas
   );
 
-  console.log('indexOfFittingSchema: ' + indexOfFittingSchema);
-  console.log('indexOfFittingSchemaArray: ' + indexOfFittingSchemaArray);
-  console.log('selectedIndex: ' + selectedIndex);
   const openNewTab = (newIndex: number) => {
     handleChange(path, createDefaultValue(schema.oneOf[newIndex]));
     setSelectedIndex(newIndex);
@@ -124,16 +114,22 @@ const SpectrumOneOfRenderer = ({
     },
     [setOpen, setSelectedIndex, data]
   );
-
   const usePickerInsteadOfTabs =
-    JSON.stringify(schema?.oneOf).includes(`"required":["OneOfEnum"`) ||
-    uischema.options?.OneOfEnum === true;
+    indexOfFittingSchemaObject['OneOfModal'] === true ||
+    indexOfFittingSchemaObject['OneOfPicker'] === true ||
+    uischema.options?.OneOfPicker === true;
 
   const hideTabs =
-    JSON.stringify(schema?.oneOf).includes(`"required":["OneOfModal"`) ||
+    indexOfFittingSchemaObject['OneOfModal'] === true ||
     uischema.options?.OneOfModal === true;
+
   return (
     <SpectrumProvider>
+      path: {path}
+      <br />
+      indexOfFittingSchemaObject: {indexOfFittingSchemaObject[path]}
+      <br />
+      indexOfFittingSchema: {indexOfFittingSchema}
       <View isHidden={!visible}>
         <CombinatorProperties
           combinatorKeyword={'oneOf'}
@@ -148,6 +144,7 @@ const SpectrumOneOfRenderer = ({
               onSelectionChange={handleTabChange}
               selectedKey={String(selectedIndex)}
               width='100%'
+              isHidden={hideTabs}
             >
               {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
                 <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>

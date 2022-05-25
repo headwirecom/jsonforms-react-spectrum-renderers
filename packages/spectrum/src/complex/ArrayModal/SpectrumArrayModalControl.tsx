@@ -51,7 +51,7 @@ import {
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from './SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
-import { indexOfFittingSchemaArrayTest } from './utils';
+
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
@@ -81,14 +81,14 @@ export const SpectrumArrayModalControl = ({
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-  const [expanded, setExpanded] = useState<number>(0);
+  const handleClose = () => setOpen(false);
+  const [expanded, setExpanded] = useState<number>(undefined);
   const isExpanded = (index: number) => expanded === index;
   const onExpand = (index: number) => () =>
     setExpanded((current) => (current === index ? null : index));
 
   const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
-    data?.map((_boundData: any) => (_boundData ? undefined : 999)) ?? []
+    data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
   );
 
   const handleRemoveItem = useCallback(
@@ -103,14 +103,16 @@ export const SpectrumArrayModalControl = ({
       newOneOfIndex = Number(newOneOfIndex);
       setSelectedIndex(newOneOfIndex);
     },
-    [setSelectedIndex, data]
+    [setSelectedIndex]
   );
 
   const handleListBoxChange = useCallback(
     (newOneOfIndex: any) => {
-      setSelectedIndex(newOneOfIndex.currentKey);
+      if (newOneOfIndex.currentKey) {
+        setSelectedIndex(newOneOfIndex.currentKey);
+      }
     },
-    [setSelectedIndex, data]
+    [setSelectedIndex]
   );
 
   const handleOnConfirm = (handleClose: any, index: number) => {
@@ -118,25 +120,14 @@ export const SpectrumArrayModalControl = ({
       ...indexOfFittingSchemaArray,
       Math.floor(index),
     ]);
-    indexOfFittingSchemaArrayTest.push(index);
     addItem(path, createDefaultValue(schema.oneOf[index]))();
     setSelectedIndex(0);
-    setExpanded(indexOfFittingSchemaArray.length);
     handleClose();
+    setExpanded(indexOfFittingSchemaArray.length);
   };
 
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
-  React.useEffect(() => {
-    if (data) {
-      for (var i = 0; i < data.length; i++) {
-        indexOfFittingSchemaArrayTest.push(undefined);
-      }
-    }
-    console.log(
-      'indexOfFittingSchemaArrayTest: ' + indexOfFittingSchemaArrayTest
-    );
-  }, []);
   return (
     <View>
       <Flex direction='row' justifyContent='space-between'>
