@@ -110,8 +110,6 @@ import {
   SpectrumObjectRenderer,
   SpectrumOneOfRenderer,
   SpectrumOneOfRendererTester,
-  SpectrumTableArrayControl,
-  SpectrumTableArrayControlTester,
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
 } from './complex';
@@ -205,10 +203,6 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumSliderControlTester,
     renderer: SpectrumSliderControl,
-  },
-  {
-    tester: SpectrumTableArrayControlTester,
-    renderer: SpectrumTableArrayControl,
   },
   {
     tester: SpectrumArrayControlGridTester,

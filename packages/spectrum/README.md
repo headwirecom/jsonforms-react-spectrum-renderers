@@ -38,42 +38,6 @@ See how you can use the Spectrum renderers to render your forms.
 </details>
 <br/>
 
-# Table Array Control
-
-[React Spectrum TableView](https://react-spectrum.adobe.com/react-spectrum/TableView.html)
-
-<details>
-  <summary>Show me how to use it</summary>
-
-### UI Schema and Custom options
-
-```json
-{
-  "type": "Control",
-  "scope": "#/properties/myTable",
-  "options": {
-    "addButtonLabel": "Add item",
-    "addButtonLabelType": "tooltip",
-    "addButtonPosition": "top",
-    "spacing": [3, 1],
-    "table": true
-  }
-}
-```
-
-#### Custom Options Overview
-
-| Option               | Required | Default (Option not used) | Values                | Description                                       |
-| -------------------- | -------- | ------------------------- | --------------------- | ------------------------------------------------- |
-| "addButtonLabel"     | no       | "Add to \${label}"        | String                | Custom add Button Label.                          |
-| "addButtonLabelType" | no       | "tooltip"                 | "tooltip" or "inline" | Whether the Label should be inline or as tooltip. |
-| "addButtonPosition"  | no       | "top"                     | "top" or "bottom"     | Position of the add Button.                       |
-| "spacing"            | no       | 1                         | Array of Number       | flex-grow for each element.                       |
-| "table"              | yes      | false                     | "true" or "false      | Must be true, else it's a Grid Array Control.     |
-
-</details>
-<br/>
-
 # Horizontal Layout
 
 <details>
