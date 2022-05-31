@@ -77,7 +77,7 @@ const SpectrumOneOfRenderer = ({
 }: CombinatorProps) => {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(
-    indexOfFittingSchemaObject[path] ?? indexOfFittingSchema
+    indexOfFittingSchema ?? indexOfFittingSchemaObject[path]
   );
 
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
@@ -125,11 +125,6 @@ const SpectrumOneOfRenderer = ({
 
   return (
     <SpectrumProvider>
-      path: {path}
-      <br />
-      indexOfFittingSchemaObject: {indexOfFittingSchemaObject[path]}
-      <br />
-      indexOfFittingSchema: {indexOfFittingSchema}
       <View isHidden={!visible}>
         <CombinatorProperties
           combinatorKeyword={'oneOf'}

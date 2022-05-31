@@ -26,7 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useCallback, ComponentType } from 'react';
+import React, { useState, useEffect, useCallback, ComponentType } from 'react';
 import {
   ActionButton,
   Button,
@@ -69,7 +69,6 @@ import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from './utils';
-
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   expanded: boolean;
@@ -108,7 +107,7 @@ const SpectrumArrayModalItem = ({
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     indexOfFittingSchemaObject[childPath] = indexOfFittingSchema;
     if (uischema.options?.OneOfModal) {
       indexOfFittingSchemaObject['OneOfModal'] = true;

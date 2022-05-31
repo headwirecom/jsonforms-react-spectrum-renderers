@@ -91,9 +91,16 @@ export const SpectrumArrayModalControl = ({
     data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
   );
 
+  React.useEffect(() => {
+    setIndexOfFittingSchemaArray(
+      data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+    );
+  }, [removeItems]);
+
   const handleRemoveItem = useCallback(
     (path: string, value: any) => () => {
       removeItems(path, [value])();
+      indexOfFittingSchemaArray.splice(value, 1);
     },
     [removeItems]
   );
