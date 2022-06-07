@@ -26,7 +26,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useEffect, useCallback, ComponentType } from 'react';
+import React, {
+  useState,
+  useEffect,
+  //useMemo,
+  useCallback,
+  ComponentType,
+} from 'react';
 import {
   ActionButton,
   Button,
@@ -69,6 +75,12 @@ import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from './utils';
+
+interface NonEmptyRowProps {
+  rowIndex: number;
+  moveUpCreator: (path: string, position: number) => () => void;
+  moveDownCreator: (path: string, position: number) => () => void;
+}
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   expanded: boolean;
@@ -95,13 +107,16 @@ const SpectrumArrayModalItem = ({
   handleExpand,
   index,
   indexOfFittingSchema,
+  /* moveDownCreator,
+  moveUpCreator, */
   path,
   removeItem,
   renderers,
+  //rowIndex,
   schema,
   uischema,
   uischemas,
-}: StatePropsOfSpectrumArrayModalItem & CombinatorProps) => {
+}: StatePropsOfSpectrumArrayModalItem & CombinatorProps & NonEmptyRowProps) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
   const [open, setOpen] = useState(false);
@@ -118,7 +133,7 @@ const SpectrumArrayModalItem = ({
   }, []);
 
   return (
-    <SpectrumProvider>
+    <SpectrumProvider flex='auto' width={'100%'}>
       <View
         borderWidth='thin'
         borderColor='dark'

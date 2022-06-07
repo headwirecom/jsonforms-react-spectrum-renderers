@@ -1,6 +1,6 @@
 {
   "name": "test-jsonforms-react-spectrum-renderers",
-  "version": "0.0.34",
+  "version": "0.0.41",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
@@ -42,21 +42,21 @@
     "customization"
   ],
   "dependencies": {
-    "@adobe/react-spectrum": "^3.17.0",
+    "@adobe/react-spectrum": "^3.18.0",
     "@date-io/moment": "1.3.11",
-    "@internationalized/date": "^3.0.0-rc.0",
-    "@react-spectrum/datepicker": "^3.0.0-rc.0",
-    "@react-types/datepicker": "^3.0.0-rc.0",
-    "@spectrum-icons/workflow": "^3.2.5",
+    "@internationalized/date": "^3.0.0-rc.1",
+    "@react-spectrum/datepicker": "^3.0.0-rc.1",
+    "@react-types/datepicker": "^3.0.0-rc.1",
+    "@spectrum-icons/workflow": "^4.0.0",
     "@types/uuid": "^8.3.4",
     "moment": "^2.29.3",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "@adobe/react-spectrum": "^3.16.5",
-    "@jsonforms/core": "^2.5.0",
-    "@jsonforms/react": "^2.5.0",
-    "@spectrum-icons/workflow": "^3.2.4",
+    "@adobe/react-spectrum": "^3.18.0",
+    "@jsonforms/core": "^2.5.2",
+    "@jsonforms/react": "^2.5.2",
+    "@spectrum-icons/workflow": "^4.0.0",
     "react": "17.0.0",
     "react-dom": "17.0.0"
   },

@@ -73,7 +73,7 @@ export const SpectrumBooleanControl = ({
 };
 
 export const SpectrumBooleanControlTester: RankedTester = rankWith(
-  2,
+  3,
   and(isBooleanControl, optionIs('switch', true))
 );
 export default withJsonFormsControlProps(SpectrumBooleanControl);

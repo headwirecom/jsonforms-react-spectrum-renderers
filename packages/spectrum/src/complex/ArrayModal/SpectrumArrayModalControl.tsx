@@ -34,6 +34,8 @@ import {
   createCombinatorRenderInfos,
   createDefaultValue,
   resolveSubSchemas,
+  moveUp,
+  moveDown,
 } from '@jsonforms/core';
 import {
   Button,
@@ -48,10 +50,15 @@ import {
   Picker,
   Text,
   View,
+  Tooltip,
+  TooltipTrigger,
+  ActionButton,
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from './SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
-
+import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
+import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
+import { indexOfFittingSchemaObject } from './utils';
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
@@ -135,6 +142,22 @@ export const SpectrumArrayModalControl = ({
 
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
+  const moveItUp = (index: number) => {
+    moveUp(data, index);
+    setExpanded(null);
+    //addItem and removeItems are only used to update the data, change to a better solution in the future
+    addItem(path, data.length)();
+    removeItems(path, [data.length])();
+  };
+
+  const moveItDown = (index: number) => {
+    moveDown(data, index);
+    setExpanded(null);
+    //addItem and removeItems are only used to update the data, change to a better solution in the future
+    addItem(path, data.length)();
+    removeItems(path, [data.length])();
+  };
+
   return (
     <View>
       <Flex direction='row' justifyContent='space-between'>
@@ -206,20 +229,58 @@ export const SpectrumArrayModalControl = ({
       <Flex direction='column' gap='size-100'>
         {data && data?.length ? (
           Array.from(Array(data?.length)).map((_, index) => {
+            indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
             return (
-              <SpectrumArrayModalItem
-                expanded={isExpanded(index)}
-                handleExpand={onExpand}
-                index={index}
-                indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+              <Flex
                 key={index}
-                path={path}
-                removeItem={handleRemoveItem}
-                renderers={renderers}
-                schema={schema}
-                uischema={uischema}
-                uischemas={uischemas}
-              ></SpectrumArrayModalItem>
+                direction='row'
+                alignItems='center'
+                flex='auto inherit'
+              >
+                <SpectrumArrayModalItem
+                  expanded={isExpanded(index)}
+                  handleExpand={onExpand}
+                  index={index}
+                  indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                  path={path}
+                  removeItem={handleRemoveItem}
+                  renderers={renderers}
+                  schema={schema}
+                  uischema={uischema}
+                  uischemas={uischemas}
+                ></SpectrumArrayModalItem>
+                {uischema.options?.showSortButtons ? (
+                  <Flex marginStart='size-40'>
+                    <TooltipTrigger delay={0}>
+                      <ActionButton
+                        isQuiet
+                        onPress={() => moveItUp(index)}
+                        aria-label={`move-item-${path}.${index}-up`}
+                        marginX='size-10'
+                        isDisabled={index === 0}
+                      >
+                        <ArrowUp aria-label='ArrowUp' />
+                      </ActionButton>
+                      <Tooltip>Move upwards</Tooltip>
+                    </TooltipTrigger>
+                    <TooltipTrigger delay={0}>
+                      <ActionButton
+                        isQuiet
+                        onPress={() => moveItDown(index)}
+                        aria-label={`move-item-${path}.${index}-down`}
+                        marginX='size-10'
+                        isDisabled={
+                          index ===
+                          indexOfFittingSchemaObject[`${path}itemQuantity`] - 1
+                        }
+                      >
+                        <ArrowDown aria-label='ArrowDown' />
+                      </ActionButton>
+                      <Tooltip>Move downwards</Tooltip>
+                    </TooltipTrigger>
+                  </Flex>
+                ) : null}
+              </Flex>
             );
           })
         ) : (
