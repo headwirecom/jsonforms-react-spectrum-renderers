@@ -26,13 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, {
-  useState,
-  useEffect,
-  //useMemo,
-  useCallback,
-  ComponentType,
-} from 'react';
+import React, { useState, useEffect, useCallback, ComponentType } from 'react';
 import {
   ActionButton,
   Button,
@@ -107,12 +101,9 @@ const SpectrumArrayModalItem = ({
   handleExpand,
   index,
   indexOfFittingSchema,
-  /* moveDownCreator,
-  moveUpCreator, */
   path,
   removeItem,
   renderers,
-  //rowIndex,
   schema,
   uischema,
   uischemas,

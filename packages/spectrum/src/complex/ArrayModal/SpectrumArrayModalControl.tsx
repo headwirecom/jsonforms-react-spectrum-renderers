@@ -145,16 +145,14 @@ export const SpectrumArrayModalControl = ({
   const moveItUp = (index: number) => {
     moveUp(data, index);
     setExpanded(null);
-    //addItem and removeItems are only used to update the data, change to a better solution in the future
-    addItem(path, data.length)();
-    removeItems(path, [data.length])();
+    //removeItems is only used to update the data, change to a better solution in the future
+    removeItems(path, [999999999])();
   };
 
   const moveItDown = (index: number) => {
     moveDown(data, index);
     setExpanded(null);
-    //addItem and removeItems are only used to update the data, change to a better solution in the future
-    addItem(path, data.length)();
+    //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [data.length])();
   };
 

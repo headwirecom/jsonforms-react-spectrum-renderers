@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { TextField } from '@adobe/react-spectrum';
@@ -83,17 +83,32 @@ export const InputText = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data && schema?.default) {
       handleChange(path, schema.default);
     }
-  }, [schema?.default]);
-
-  React.useEffect(() => {
     if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
       handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
     }
-  }, [!data]);
+  }, [!data, schema?.default]);
+
+  useEffect(() => {
+    if (
+      !data &&
+      !schema?.default &&
+      appliedUiSchemaOptions.NonFocusPlaceholder
+    ) {
+      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+    }
+  }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
+
+  const clearNonFocusPlaceholder = () => {
+    if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
+      handleChange(path, '');
+    } else if (!data && !schema?.default) {
+      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+    }
+  };
 
   return (
     <SpectrumProvider width={width}>
@@ -118,6 +133,7 @@ export const InputText = ({
         validationState={isValidCheck()}
         value={data ?? ''}
         maxWidth={width}
+        onFocusChange={clearNonFocusPlaceholder}
       />
     </SpectrumProvider>
   );

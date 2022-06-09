@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { TextArea } from '@adobe/react-spectrum';
@@ -79,11 +79,29 @@ export const InputTextArea = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data && schema?.default) {
       handleChange(path, schema.default);
     }
-  }, [schema?.default]);
+  }, [!data, schema?.default]);
+
+  useEffect(() => {
+    if (
+      !data &&
+      !schema?.default &&
+      appliedUiSchemaOptions.NonFocusPlaceholder
+    ) {
+      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+    }
+  }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
+
+  const clearNonFocusPlaceholder = () => {
+    if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
+      handleChange(path, '');
+    } else if (!data && !schema?.default) {
+      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+    }
+  };
 
   return (
     <SpectrumProvider width={width}>
@@ -108,6 +126,7 @@ export const InputTextArea = ({
         validationState={isValidCheck()}
         value={data ?? ''}
         width={width}
+        onFocusChange={clearNonFocusPlaceholder}
       />
     </SpectrumProvider>
   );
