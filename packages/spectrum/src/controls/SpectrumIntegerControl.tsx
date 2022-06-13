@@ -34,9 +34,10 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputInteger } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumIntegerControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputInteger} />
-);
+export const SpectrumIntegerControl = (props: ControlProps) => {
+  console.group("SpectrumIntegerControl");
+  return <SpectrumInputControl {...props} input={InputInteger} />
+};
 
 export const SpectrumIntegerControlTester: RankedTester = rankWith(
   3,

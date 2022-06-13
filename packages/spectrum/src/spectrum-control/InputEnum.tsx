@@ -44,7 +44,7 @@ export const InputEnum = ({
   uischema,
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
+console.log("InputEnum");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

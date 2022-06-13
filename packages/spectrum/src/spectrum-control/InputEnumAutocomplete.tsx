@@ -45,6 +45,7 @@ export const InputEnumAutocomplete = ({
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputEnumAutocomplete");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

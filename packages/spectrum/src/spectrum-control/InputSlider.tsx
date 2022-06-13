@@ -43,6 +43,8 @@ export const InputSlider = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputSlider");
+console.groupEnd();
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

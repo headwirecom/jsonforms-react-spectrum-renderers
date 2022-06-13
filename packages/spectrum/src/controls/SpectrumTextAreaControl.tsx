@@ -33,9 +33,10 @@ import React from 'react';
 import { InputTextArea } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumTextAreaControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputTextArea} />
-);
+export const SpectrumTextAreaControl = (props: ControlProps) => {
+  console.group("SpectrumTextAreaControl");
+  return <SpectrumInputControl {...props} input={InputTextArea} />
+};
 
 export const SpectrumTextAreaControlTester: RankedTester = rankWith(
   3,

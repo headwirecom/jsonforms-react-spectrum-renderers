@@ -51,6 +51,7 @@ export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
     ? undefined
     : '100%';
 
+    console.log("SpectrumBooleanCell");
   return (
     <Switch
       isSelected={isSelected}

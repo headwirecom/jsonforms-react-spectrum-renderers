@@ -50,6 +50,8 @@ export const InputBooleanButton = ({
     handleChange(path, isSelected);
   }, [isSelected]);
 
+  console.log("InputBooleanButton");
+  console.groupEnd()
   return (
     <SpectrumProvider width={width}>
       <ToggleButton

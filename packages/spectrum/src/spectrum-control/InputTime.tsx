@@ -47,6 +47,7 @@ export const InputTime = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputTime");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -68,6 +69,8 @@ export const InputTime = ({
       handleChange(path, schema.default);
     }
   }, [schema?.default]);
+
+  console.log("InputTime");
 
   return (
     <SpectrumProvider width={width}>

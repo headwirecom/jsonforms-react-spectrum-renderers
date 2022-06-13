@@ -35,9 +35,10 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputCheckbox, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumCheckboxCell = (props: CellProps & SpectrumInputProps) => (
-  <InputCheckbox {...props} />
-);
+export const SpectrumCheckboxCell = (props: CellProps & SpectrumInputProps) => {
+  console.log("SpectrumCheckboxCell");
+  return <InputCheckbox {...props} />
+};
 /**
  * Default tester for checkbox controls.
  * @type {RankedTester}

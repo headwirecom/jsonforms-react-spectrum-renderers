@@ -34,9 +34,10 @@ import { InputDate } from '../spectrum-control';
 
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumDateControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputDate} />
-);
+export const SpectrumDateControl = (props: ControlProps) => {
+  console.log("SpectrumDateControl");
+  return <SpectrumInputControl {...props} input={InputDate} />
+};
 
 export const SpectrumDateControlTester: RankedTester = rankWith(
   3,

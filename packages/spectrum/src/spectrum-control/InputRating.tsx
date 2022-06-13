@@ -45,6 +45,8 @@ export const InputRating = ({
 
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputRating");
+  console.groupEnd();
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

@@ -53,6 +53,7 @@ export const InputCheckbox = ({
     handleChange(path, isSelected);
   }, [isSelected]);
 
+  console.log("InputCheckbox");
   return (
     <SpectrumProvider width={width}>
       <Checkbox

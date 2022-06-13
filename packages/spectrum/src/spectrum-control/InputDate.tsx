@@ -46,6 +46,7 @@ export const InputDate = ({
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
+  console.log("InputDate");
 
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined

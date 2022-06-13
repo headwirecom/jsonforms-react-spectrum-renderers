@@ -63,6 +63,7 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
     maxWidth: '100%',
     flexBasis: 0,
   });
+  console.group("SpectrumHorizontalLayoutRenderer");
 
   return (
     <SpectrumProvider>
@@ -84,6 +85,7 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
       </SpectrumLayout>
     </SpectrumProvider>
   );
+  console.groupEnd();
 };
 
 export default withJsonFormsLayoutProps(SpectrumHorizontalLayoutRenderer);

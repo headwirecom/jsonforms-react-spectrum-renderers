@@ -35,9 +35,10 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputText, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => (
-  <InputText {...props} />
-);
+export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => {
+  console.log("SpectrumTextCell");
+  return <InputText {...props} />
+};
 
 /**
  * Default tester for text-based/string controls.

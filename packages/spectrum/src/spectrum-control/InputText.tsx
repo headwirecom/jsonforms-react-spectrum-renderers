@@ -33,7 +33,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './InputText.css';
 
-export const InputText = ({
+const InputTextComponent = ({
   config,
   data,
   enabled,
@@ -49,6 +49,8 @@ export const InputText = ({
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
+console.log("InputText");
+console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -138,3 +140,5 @@ export const InputText = ({
     </SpectrumProvider>
   );
 };
+
+export const InputText = React.memo(InputTextComponent);

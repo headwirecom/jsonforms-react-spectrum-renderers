@@ -39,6 +39,7 @@ export const InputSwitch = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputSwitch");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

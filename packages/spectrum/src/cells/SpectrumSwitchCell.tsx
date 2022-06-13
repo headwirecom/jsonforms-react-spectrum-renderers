@@ -37,9 +37,10 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputSwitch, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumSwitchCell = (props: CellProps & SpectrumInputProps) => (
-  <InputSwitch {...props} />
-);
+export const SpectrumSwitchCell = (props: CellProps & SpectrumInputProps) => {
+  console.log("SpectrumSwitchCell");
+  return <InputSwitch {...props} />
+};
 /**
  * Default tester for Switch controls.
  * @type {RankedTester}

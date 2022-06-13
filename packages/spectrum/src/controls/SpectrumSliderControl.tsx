@@ -33,9 +33,10 @@ import React from 'react';
 import { InputSlider } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumSliderControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputSlider} />
-);
+export const SpectrumSliderControl = (props: ControlProps) => {
+  console.group("SpectrumSliderControl");
+  return <SpectrumInputControl {...props} input={InputSlider} />
+};
 
 export const SpectrumSliderControlTester: RankedTester = rankWith(
   4,

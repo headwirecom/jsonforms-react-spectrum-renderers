@@ -45,6 +45,7 @@ export const InputNumber = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+console.log("InputNumber");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
