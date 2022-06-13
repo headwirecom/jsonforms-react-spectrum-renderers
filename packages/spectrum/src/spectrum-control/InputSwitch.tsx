@@ -26,7 +26,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputSwitch = ({
+export const InputSwitch = React.memo(({
   config,
   data,
   enabled,
@@ -72,4 +72,4 @@ console.log("InputSwitch");
       ) : null}
     </SpectrumProvider>
   );
-};
+});

@@ -39,7 +39,7 @@ import { InputEnumAutocomplete } from '../spectrum-control/InputEnumAutocomplete
 export const SpectrumEnumControl = (props: ControlProps) => {
   const { config, uischema } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  console.log("SpectrumEnumControl");
+  console.group("SpectrumEnumControl");
 
   return (
     <SpectrumInputControl

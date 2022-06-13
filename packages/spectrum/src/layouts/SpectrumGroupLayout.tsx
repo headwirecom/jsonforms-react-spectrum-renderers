@@ -58,7 +58,7 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
 }: RendererProps) => {
   const group = uischema as GroupLayout;
 
-  console.group("SpectrumGroupLayoutRenderer");
+  console.log("SpectrumGroupLayoutRenderer","\nGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
   return (
     <SpectrumProvider>
       <View
@@ -86,7 +86,6 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
       </View>
     </SpectrumProvider>
   );
-    console.groupEnd();
 };
 
 export default withJsonFormsLayoutProps(SpectrumGroupLayoutRenderer);

@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputNumber = ({
+export const InputNumber = React.memo(({
   config,
   data,
   enabled,
@@ -46,6 +46,7 @@ export const InputNumber = ({
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
 console.log("InputNumber");
+console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -102,4 +103,4 @@ console.log("InputNumber");
       />
     </SpectrumProvider>
   );
-};
+});

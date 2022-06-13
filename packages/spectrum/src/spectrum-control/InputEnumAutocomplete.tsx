@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { Item, ComboBox } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputEnumAutocomplete = ({
+export const InputEnumAutocomplete = React.memo(({
   config,
   data,
   enabled,
@@ -46,6 +46,7 @@ export const InputEnumAutocomplete = ({
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
 console.log("InputEnumAutocomplete");
+console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -93,4 +94,4 @@ console.log("InputEnumAutocomplete");
       </ComboBox>
     </SpectrumProvider>
   );
-};
+});

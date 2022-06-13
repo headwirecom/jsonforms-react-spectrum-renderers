@@ -33,7 +33,7 @@ import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { DateValue } from '@react-types/datepicker';
 
-export const InputDate = ({
+export const InputDate = React.memo(({
   config,
   data,
   enabled,
@@ -47,6 +47,7 @@ export const InputDate = ({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   console.log("InputDate");
+  console.groupEnd()
 
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
@@ -111,4 +112,4 @@ export const InputDate = ({
       </Provider>
     </SpectrumProvider>
   );
-};
+});

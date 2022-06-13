@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputTextArea = ({
+export const InputTextArea = React.memo(({
   config,
   data,
   enabled,
@@ -132,4 +132,4 @@ console.groupEnd()
       />
     </SpectrumProvider>
   );
-};
+});

@@ -62,7 +62,7 @@ export const SpectrumVerticalLayoutRenderer: FunctionComponent<RendererProps> = 
     maxWidth: '100%',
     flexBasis: 0,
   };
-console.group("SpectrumVerticalLayoutRenderer");
+console.log("SpectrumVerticalLayoutRenderer", "\nVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
   return (
     <SpectrumProvider>
       <SpectrumLayout
@@ -77,7 +77,6 @@ console.group("SpectrumVerticalLayoutRenderer");
       </SpectrumLayout>
     </SpectrumProvider>
   );
-  console.groupEnd();
 };
 
 export default withJsonFormsLayoutProps(SpectrumVerticalLayoutRenderer);

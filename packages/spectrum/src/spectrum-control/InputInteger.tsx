@@ -26,7 +26,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputInteger = ({
+export const InputInteger = React.memo(({
   config,
   data,
   enabled,
@@ -99,4 +99,4 @@ console.log("InputInteger");
       />
     </SpectrumProvider>
   );
-};
+});

@@ -26,7 +26,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputCheckbox = ({
+export const InputCheckbox = React.memo(({
   config,
   data,
   enabled,
@@ -77,4 +77,4 @@ export const InputCheckbox = ({
       ) : null}
     </SpectrumProvider>
   );
-};
+});

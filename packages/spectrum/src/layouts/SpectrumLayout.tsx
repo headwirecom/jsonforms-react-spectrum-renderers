@@ -36,7 +36,7 @@ export const SpectrumLayout = ({
   visible,
   ...flexProps
 }: RendererProps & FlexProps) => {
-  console.group("SpectrumLayout");
+  console.log("SpectrumLayout");
   return (
     <SpectrumProvider>
       <Flex
@@ -48,5 +48,4 @@ export const SpectrumLayout = ({
       </Flex>
     </SpectrumProvider>
   );
-  console.groupEnd();
 };

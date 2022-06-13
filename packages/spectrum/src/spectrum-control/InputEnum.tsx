@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { Item, Picker } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputEnum = ({
+export const InputEnum = React.memo(({
   config,
   data,
   enabled,
@@ -45,6 +45,7 @@ export const InputEnum = ({
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 console.log("InputEnum");
+console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -105,4 +106,4 @@ console.log("InputEnum");
       </Picker>
     </SpectrumProvider>
   );
-};
+});

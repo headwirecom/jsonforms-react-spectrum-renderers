@@ -39,7 +39,7 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 
 import moment from 'moment';
 
-export const InputDateTime = ({
+export const InputDateTime = React.memo(({
   config,
   data,
   enabled,
@@ -138,4 +138,4 @@ console.log("InputDateTime");
       </Provider>
     </SpectrumProvider>
   );
-};
+});
