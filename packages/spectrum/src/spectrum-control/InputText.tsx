@@ -127,14 +127,14 @@ const InputTextComponent = ({
         labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
         labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
         maxLength={appliedUiSchemaOptions.maxLength ?? null}
+        maxWidth={width}
         minLength={appliedUiSchemaOptions.minLength ?? null}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
         onChange={(value: any) => handleChange(path, value)}
+        onFocusChange={clearNonFocusPlaceholder}
         type={appliedUiSchemaOptions.format ?? 'text'}
         validationState={isValidCheck()}
         value={data ?? ''}
-        maxWidth={width}
-        onFocusChange={clearNonFocusPlaceholder}
       />
     </SpectrumProvider>
   );

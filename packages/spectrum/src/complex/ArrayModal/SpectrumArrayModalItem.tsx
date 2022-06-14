@@ -93,10 +93,12 @@ export interface OwnPropsOfSpectrumArrayModalItem {
 export interface StatePropsOfSpectrumArrayModalItem
   extends OwnPropsOfSpectrumArrayModalItem {
   childLabel: string;
+  childData: any;
 }
 
 const SpectrumArrayModalItem = ({
   childLabel,
+  childData,
   expanded,
   handleExpand,
   index,
@@ -113,8 +115,29 @@ const SpectrumArrayModalItem = ({
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
+  const findValue: any = (obj: any, key: string) => {
+    if (obj[key]) {
+      return obj[key];
+    }
+    for (const prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        if (typeof obj[prop] === 'object') {
+          const result: any = findValue(obj[prop], key);
+          if (result) {
+            return result;
+          }
+        }
+      }
+    }
+  };
+
   useEffect(() => {
-    indexOfFittingSchemaObject[childPath] = indexOfFittingSchema;
+    indexOfFittingSchemaObject[childPath] =
+      indexOfFittingSchema ?? findValue(childData, 'indexOfFittingSchema') ?? 0;
+
+    /* let fittingSchema = null;
+schema.map((item,index) => item.componentType.title === childData.componentType ? fittingSchema = index : null); */
+    //console.log(schema.oneOf[0].properties.componentType.const);
     if (uischema.options?.OneOfModal) {
       indexOfFittingSchemaObject['OneOfModal'] = true;
     }
@@ -241,16 +264,35 @@ export const mapStateToSpectrumArrayModalItemProps = (
     : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
+
+  const findValue: any = (obj: any, key: string) => {
+    if (obj[key]) {
+      return obj[key];
+    }
+    for (const prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        if (typeof obj[prop] === 'object') {
+          const result: any = findValue(obj[prop], key);
+          if (result) {
+            return result;
+          }
+        }
+      }
+    }
+  };
+
   const childLabel =
     uischema.options?.elementLabelProp ??
     firstPrimitiveProp ??
     typeof uischema.options?.DataAsLabel === 'number'
       ? Object.values(childData)[uischema.options?.DataAsLabel]
-      : childData[uischema.options?.DataAsLabel] ?? `Item ${index + 1}`;
+      : findValue(childData, uischema.options?.DataAsLabel) ??
+        `Item ${index + 1}`;
 
   return {
     ...ownProps,
     childLabel,
+    childData,
   };
 };
 
