@@ -33,7 +33,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './InputText.css';
 
-const InputTextComponent = ({
+export const InputText = React.memo(({
   config,
   data,
   enabled,
@@ -138,6 +138,4 @@ const InputTextComponent = ({
       />
     </SpectrumProvider>
   );
-};
-
-export const InputText = React.memo(InputTextComponent);
+});

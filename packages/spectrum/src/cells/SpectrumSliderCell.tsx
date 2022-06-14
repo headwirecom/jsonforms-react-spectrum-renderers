@@ -35,9 +35,9 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputSlider, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumSliderCell = (props: CellProps & SpectrumInputProps) => {
-  return <InputSlider {...props} />
-};
+export const SpectrumSliderCell = (props: CellProps & SpectrumInputProps) => (
+  <InputSlider {...props} />
+);
 
 export const SpectrumSliderCellTester: RankedTester = rankWith(
   4,

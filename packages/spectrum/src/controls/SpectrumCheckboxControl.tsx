@@ -36,9 +36,9 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputCheckbox } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumCheckboxControl = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputCheckbox} />
-};
+export const SpectrumCheckboxControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputCheckbox} />
+);
 
 export const SpectrumCheckboxControlTester: RankedTester = rankWith(
   2,

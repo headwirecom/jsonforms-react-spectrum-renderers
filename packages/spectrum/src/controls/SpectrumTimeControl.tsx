@@ -34,9 +34,9 @@ import { InputTime } from '../spectrum-control';
 
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumTimeControl = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputTime} />
-};
+export const SpectrumTimeControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputTime} />
+);
 
 export const SpectrumTimeControlTester: RankedTester = rankWith(
   4,

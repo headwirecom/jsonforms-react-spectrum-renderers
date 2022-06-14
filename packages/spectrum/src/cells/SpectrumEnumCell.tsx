@@ -36,9 +36,9 @@ import { withJsonFormsEnumCellProps } from '@jsonforms/react';
 import { SpectrumInputProps } from '../spectrum-control';
 import { InputEnum } from '../spectrum-control/InputEnum';
 
-export const SpectrumEnumCell = (props: EnumCellProps & SpectrumInputProps) => {
-  return <InputEnum {...props} />
-};
+export const SpectrumEnumCell = (props: EnumCellProps & SpectrumInputProps) => (
+  <InputEnum {...props} />
+);
 /**
  * Default tester for enum controls.
  * @type {RankedTester}

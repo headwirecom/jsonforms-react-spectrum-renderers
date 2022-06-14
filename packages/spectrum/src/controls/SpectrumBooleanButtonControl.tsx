@@ -38,9 +38,9 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputBooleanButton } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumBooleanButtonControl = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputBooleanButton} />
-};
+export const SpectrumBooleanButtonControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={InputBooleanButton} />
+);
 
 export const SpectrumBooleanButtonControlTester: RankedTester = rankWith(
   4,

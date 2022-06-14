@@ -35,9 +35,9 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputTextArea, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumTextAreaCell = (props: CellProps & SpectrumInputProps) => {
-  return <InputTextArea {...props} />
-};
+export const SpectrumTextAreaCell = (props: CellProps & SpectrumInputProps) => (
+  <InputTextArea {...props} />
+);
 
 /**
  * Tester for a multi-line string control.

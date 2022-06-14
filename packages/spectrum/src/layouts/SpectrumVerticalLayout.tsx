@@ -62,6 +62,7 @@ export const SpectrumVerticalLayoutRenderer: FunctionComponent<RendererProps> = 
     maxWidth: '100%',
     flexBasis: 0,
   };
+
   return (
     <SpectrumProvider>
       <SpectrumLayout
