@@ -36,7 +36,6 @@ import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputInteger, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumIntegerCell = (props: CellProps & SpectrumInputProps) => {
-  console.log("SpectrumIntegerCell");
   return <InputInteger {...props} />
 };
 /**

@@ -45,8 +45,6 @@ export const InputTextArea = React.memo(({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-console.log("InputTextArea");
-console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -116,6 +114,7 @@ console.groupEnd()
         inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
         isDisabled={enabled === undefined ? false : !enabled}
         isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         label={label}
         labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

@@ -45,7 +45,6 @@ const findTextSchema = (schemas: JsonSchema[]) =>
   schemas.find((s) => s.type === 'string' && s.enum === undefined);
 
 export const SpectrumAnyOfStringOrEnumControl = (props: ControlProps) => {
-  console.log("SpectrumAnyOfStringOrEnumControl");
   return <SpectrumInputControl {...props} input={InputEnum} />;
 };
 

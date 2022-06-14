@@ -35,7 +35,6 @@ import { SpectrumRadioGroup } from './SpectrumRadioGroup';
 export const SpectrumOneOfRadioGroupControl = (
   props: ControlProps & OwnPropsOfEnum
 ) => {
-  console.log("SpectrumOneOfRadioGroupControl");
   return <SpectrumRadioGroup {...props} />;
 };
 

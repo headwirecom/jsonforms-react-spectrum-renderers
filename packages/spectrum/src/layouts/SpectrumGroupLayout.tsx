@@ -58,7 +58,6 @@ export const SpectrumGroupLayoutRenderer: FunctionComponent<RendererProps> = ({
 }: RendererProps) => {
   const group = uischema as GroupLayout;
 
-  console.log("SpectrumGroupLayoutRenderer","\nGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
   return (
     <SpectrumProvider>
       <View

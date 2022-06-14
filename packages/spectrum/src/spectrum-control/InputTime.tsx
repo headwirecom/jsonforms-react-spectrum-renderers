@@ -47,7 +47,6 @@ export const InputTime = React.memo(({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-console.log("InputTime");
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -70,8 +69,6 @@ console.log("InputTime");
     }
   }, [schema?.default]);
 
-  console.log("InputTime");
-
   return (
     <SpectrumProvider width={width}>
       <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
@@ -83,6 +80,7 @@ console.log("InputTime");
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

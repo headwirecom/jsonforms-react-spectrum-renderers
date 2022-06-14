@@ -53,7 +53,6 @@ export const InputCheckbox = React.memo(({
     handleChange(path, isSelected);
   }, [isSelected]);
 
-  console.log("InputCheckbox");
   return (
     <SpectrumProvider width={width}>
       <Checkbox
@@ -61,6 +60,7 @@ export const InputCheckbox = React.memo(({
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         isSelected={isSelected}
         onChange={setSelected}

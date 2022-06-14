@@ -52,7 +52,6 @@ export const SpectrumBooleanControl = ({
   uischema,
   visible,
 }: ControlProps) => {
-  console.log("SpectrumBooleanControl");
   return (
     <SpectrumBooleanCell
       id={id && `${id}-input`}

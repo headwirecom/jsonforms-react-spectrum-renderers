@@ -51,7 +51,6 @@ export const SpectrumInputControl = (props: ControlProps & WithInput) => {
     appliedUiSchemaOptions.showUnfocusedDescription
   );
 
-  console.log("SpectrumInputControl", props);
   return (
     <div
       onFocus={onFocus}

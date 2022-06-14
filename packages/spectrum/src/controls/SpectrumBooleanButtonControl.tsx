@@ -39,7 +39,6 @@ import { InputBooleanButton } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumBooleanButtonControl = (props: ControlProps) => {
-  console.group("SpectrumBooleanButtonControl");
   return <SpectrumInputControl {...props} input={InputBooleanButton} />
 };
 

@@ -41,8 +41,6 @@ export const InputInteger = React.memo(({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-console.log("InputInteger");
-  console.groupEnd();
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -84,6 +82,7 @@ console.log("InputInteger");
           appliedUiSchemaOptions.incrementAriaLabel ?? `Increment +${stepValue}`
         }
         isDisabled={enabled === undefined ? false : !enabled}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         label={label}
         labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

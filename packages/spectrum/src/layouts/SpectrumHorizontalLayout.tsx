@@ -63,7 +63,6 @@ const SpectrumHorizontalLayoutRenderer: FunctionComponent<RendererProps> = ({
     maxWidth: '100%',
     flexBasis: 0,
   });
-  console.log("SpectrumHorizontalLayoutRenderer","\n------------------------------------------");
 
   return (
     <SpectrumProvider>

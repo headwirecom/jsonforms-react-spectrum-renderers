@@ -46,8 +46,6 @@ export const InputDate = React.memo(({
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  console.log("InputDate");
-  console.groupEnd()
 
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
@@ -92,6 +90,7 @@ export const InputDate = React.memo(({
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

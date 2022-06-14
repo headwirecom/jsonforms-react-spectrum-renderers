@@ -35,7 +35,6 @@ import { InputTime } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumTimeControl = (props: ControlProps) => {
-  console.log("SpectrumTimeControl");
   return <SpectrumInputControl {...props} input={InputTime} />
 };
 

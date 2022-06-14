@@ -34,7 +34,6 @@ import { InputText } from '../spectrum-control/InputText';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumTextControl = (props: ControlProps) => {
-  console.group("SpectrumTextControl");
   return <SpectrumInputControl {...props} input={InputText} />
 };
 

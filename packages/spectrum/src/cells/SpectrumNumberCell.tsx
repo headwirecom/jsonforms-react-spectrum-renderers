@@ -36,7 +36,6 @@ import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputNumber } from '../spectrum-control';
 
 export const SpectrumNumberCell = (props: CellProps) => {
-  console.log("SpectrumNumberCell");
   return <InputNumber {...props} />
 };
 

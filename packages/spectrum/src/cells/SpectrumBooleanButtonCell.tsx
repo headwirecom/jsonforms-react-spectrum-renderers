@@ -92,7 +92,6 @@ import { InputBooleanButton, SpectrumInputProps } from '../spectrum-control';
 export const SpectrumBooleanButtonCell = (
   props: CellProps & SpectrumInputProps
 ) => {
-  console.log("SpectrumBooleanButtonCell");
   return <InputBooleanButton {...props} />
 };
 /**

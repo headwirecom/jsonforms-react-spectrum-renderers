@@ -37,7 +37,6 @@ import { InputCheckbox } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumCheckboxControl = (props: ControlProps) => {
-  console.log("SpectrumCheckboxControl");
   return <SpectrumInputControl {...props} input={InputCheckbox} />
 };
 

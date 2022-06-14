@@ -45,8 +45,6 @@ export const InputEnumAutocomplete = React.memo(({
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-console.log("InputEnumAutocomplete");
-console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -75,6 +73,7 @@ console.groupEnd()
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         key={id}
         label={label}

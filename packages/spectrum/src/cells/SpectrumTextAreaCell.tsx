@@ -36,7 +36,6 @@ import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputTextArea, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumTextAreaCell = (props: CellProps & SpectrumInputProps) => {
-  console.log("SpectrumTextAreaCell");
   return <InputTextArea {...props} />
 };
 

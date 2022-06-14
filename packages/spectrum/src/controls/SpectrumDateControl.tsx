@@ -35,7 +35,6 @@ import { InputDate } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumDateControl = (props: ControlProps) => {
-  console.group("SpectrumDateControl");
   return <SpectrumInputControl {...props} input={InputDate} />
 };
 

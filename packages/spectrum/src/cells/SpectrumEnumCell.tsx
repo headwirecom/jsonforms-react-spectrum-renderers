@@ -37,7 +37,6 @@ import { SpectrumInputProps } from '../spectrum-control';
 import { InputEnum } from '../spectrum-control/InputEnum';
 
 export const SpectrumEnumCell = (props: EnumCellProps & SpectrumInputProps) => {
-  console.log("SpectrumEnumCell");
   return <InputEnum {...props} />
 };
 /**

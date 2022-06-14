@@ -34,7 +34,6 @@ import { InputSlider } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumSliderControl = (props: ControlProps) => {
-  console.group("SpectrumSliderControl");
   return <SpectrumInputControl {...props} input={InputSlider} />
 };
 

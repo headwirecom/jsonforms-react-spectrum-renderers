@@ -36,7 +36,6 @@ export const SpectrumRadioGroup = (props: ControlProps & OwnPropsOfEnum) => {
   } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-  console.log("SpectrumRadioGroup");
   return (
     <View
       isHidden={visible === undefined || visible === null ? false : !visible}

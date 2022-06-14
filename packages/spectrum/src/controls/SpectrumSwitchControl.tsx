@@ -39,7 +39,6 @@ import { InputSwitch } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumSwitchControl = (props: ControlProps) => {
-  console.log("SpectrumSwitchControl");
   return <SpectrumInputControl {...props} input={InputSwitch} />
 };
 

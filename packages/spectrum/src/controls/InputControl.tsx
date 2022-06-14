@@ -51,7 +51,6 @@ export const InputControl = ({
   uischema,
   visible,
 }: ControlProps) => {
-  console.log("InputControl");
   const [focused, onFocus, onBlur] = useFocus();
   const classNames: any = {
     wrapper: 'control',
@@ -71,12 +70,10 @@ export const InputControl = ({
   );
 
   const cell = maxBy(cells, (r) => r.tester(uischema, schema));
-  console.log("cell", cell);
   if (cell === undefined || cell.tester(uischema, schema) === NOT_APPLICABLE) {
     console.warn('No applicable cell found.', uischema, schema);
     return null;
   } else {
-    console.log("InputControl cell", cell);
     return (
       <div
         className={classNames.wrapper}

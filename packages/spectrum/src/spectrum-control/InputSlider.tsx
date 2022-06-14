@@ -43,8 +43,6 @@ export const InputSlider = React.memo(({
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-console.log("InputSlider");
-console.groupEnd();
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -61,7 +59,6 @@ console.groupEnd();
   };
 
   useEffect(() => {
-    console.log("slideer useEffect");
     if (data) {
       handleOnChangeEnd(data);
     } else {

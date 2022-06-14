@@ -44,8 +44,6 @@ export const InputEnum = React.memo(({
   uischema,
 }: EnumCellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-console.log("InputEnum");
-console.groupEnd()
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';

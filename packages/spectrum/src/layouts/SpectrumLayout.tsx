@@ -36,7 +36,6 @@ export const SpectrumLayout = ({
   visible,
   ...flexProps
 }: RendererProps & FlexProps) => {
-  console.log("SpectrumLayout");
   return (
     <SpectrumProvider>
       <Flex
