@@ -37,7 +37,7 @@ import { InputCheckbox, SpectrumInputProps } from '../spectrum-control';
 
 export const SpectrumCheckboxCell = (props: CellProps & SpectrumInputProps) => (
   <InputCheckbox {...props} />
-)
+);
 /**
  * Default tester for checkbox controls.
  * @type {RankedTester}
