@@ -250,7 +250,7 @@ export const SpectrumArrayModalControl = ({
               <Flex
                 key={index}
                 direction='row'
-                alignItems='center'
+                alignItems='stretch'
                 flex='auto inherit'
               >
                 <SpectrumArrayModalItem
@@ -272,7 +272,7 @@ export const SpectrumArrayModalControl = ({
                         ? 'row'
                         : 'column'
                     }
-                    marginStart='size-40'
+                    marginTop='size-100'
                   >
                     <TooltipTrigger delay={0}>
                       <ActionButton
