@@ -28,7 +28,7 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Star from '@spectrum-icons/workflow/Star';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputRating = ({
+export const InputRating = React.memo(({
   config,
   data,
   enabled,
@@ -67,6 +67,7 @@ export const InputRating = ({
       <RadioGroup
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         label={label}
         necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
@@ -109,4 +110,4 @@ export const InputRating = ({
       </RadioGroup>
     </SpectrumProvider>
   );
-};
+});

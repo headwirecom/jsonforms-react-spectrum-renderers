@@ -33,7 +33,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './InputText.css';
 
-export const InputText = ({
+export const InputText = React.memo(({
   config,
   data,
   enabled,
@@ -121,7 +121,7 @@ export const InputText = ({
         inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
         isDisabled={enabled === undefined ? false : !enabled}
         isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-        isReadOnly={appliedUiSchemaOptions.readOnly ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         label={label}
         labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -138,4 +138,4 @@ export const InputText = ({
       />
     </SpectrumProvider>
   );
-};
+});

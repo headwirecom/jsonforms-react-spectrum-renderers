@@ -33,7 +33,7 @@ import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { DateValue } from '@react-types/datepicker';
 
-export const InputDate = ({
+export const InputDate = React.memo(({
   config,
   data,
   enabled,
@@ -90,6 +90,7 @@ export const InputDate = ({
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -110,4 +111,4 @@ export const InputDate = ({
       </Provider>
     </SpectrumProvider>
   );
-};
+});

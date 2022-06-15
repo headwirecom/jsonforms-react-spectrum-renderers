@@ -30,7 +30,7 @@ import { SpectrumInputProps } from './index';
 import { Slider } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputSlider = ({
+export const InputSlider = React.memo(({
   config,
   data,
   enabled,
@@ -94,4 +94,4 @@ export const InputSlider = ({
       />
     </SpectrumProvider>
   );
-};
+});

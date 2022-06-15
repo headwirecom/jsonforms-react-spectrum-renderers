@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { Item, ComboBox } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputEnumAutocomplete = ({
+export const InputEnumAutocomplete = React.memo(({
   config,
   data,
   enabled,
@@ -73,6 +73,7 @@ export const InputEnumAutocomplete = ({
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         key={id}
         label={label}
@@ -92,4 +93,4 @@ export const InputEnumAutocomplete = ({
       </ComboBox>
     </SpectrumProvider>
   );
-};
+});

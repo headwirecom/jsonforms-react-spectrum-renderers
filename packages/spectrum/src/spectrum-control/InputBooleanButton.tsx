@@ -26,7 +26,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputBooleanButton = ({
+export const InputBooleanButton = React.memo(({
   config,
   data,
   enabled,
@@ -73,4 +73,4 @@ export const InputBooleanButton = ({
       ) : null}
     </SpectrumProvider>
   );
-};
+});
