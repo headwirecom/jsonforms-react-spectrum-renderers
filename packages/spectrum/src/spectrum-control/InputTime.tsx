@@ -33,7 +33,7 @@ import { parseAbsoluteToLocal } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import moment from 'moment';
 
-export const InputTime = ({
+export const InputTime = React.memo(({
   config,
   data,
   enabled,
@@ -80,6 +80,7 @@ export const InputTime = ({
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -129,4 +130,4 @@ export const InputTime = ({
       </Provider>
     </SpectrumProvider>
   );
-};
+});

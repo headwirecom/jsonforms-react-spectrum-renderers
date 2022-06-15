@@ -30,7 +30,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputNumber = ({
+export const InputNumber = React.memo(({
   config,
   data,
   enabled,
@@ -86,6 +86,7 @@ export const InputNumber = ({
           appliedUiSchemaOptions.incrementAriaLabel ?? `Increment +${stepValue}`
         }
         isDisabled={enabled === undefined ? false : !enabled}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         label={label}
         labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -101,4 +102,4 @@ export const InputNumber = ({
       />
     </SpectrumProvider>
   );
-};
+});

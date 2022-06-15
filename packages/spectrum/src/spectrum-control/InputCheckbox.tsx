@@ -26,7 +26,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputCheckbox = ({
+export const InputCheckbox = React.memo(({
   config,
   data,
   enabled,
@@ -60,6 +60,7 @@ export const InputCheckbox = ({
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isRequired={required}
         isSelected={isSelected}
         onChange={setSelected}
@@ -76,4 +77,4 @@ export const InputCheckbox = ({
       ) : null}
     </SpectrumProvider>
   );
-};
+});

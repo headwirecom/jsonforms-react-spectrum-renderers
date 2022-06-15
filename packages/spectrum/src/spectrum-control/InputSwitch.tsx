@@ -26,7 +26,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputSwitch = ({
+export const InputSwitch = React.memo(({
   config,
   data,
   enabled,
@@ -58,6 +58,7 @@ export const InputSwitch = ({
         id={id}
         isDisabled={enabled === undefined ? false : !enabled}
         isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
         isSelected={isSelected}
         onChange={setSelected}
         width={width}
@@ -71,4 +72,4 @@ export const InputSwitch = ({
       ) : null}
     </SpectrumProvider>
   );
-};
+});

@@ -39,7 +39,7 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 
 import moment from 'moment';
 
-export const InputDateTime = ({
+export const InputDateTime = React.memo(({
   config,
   data,
   enabled,
@@ -52,7 +52,6 @@ export const InputDateTime = ({
   uischema,
 }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
   const width: DimensionValue = appliedUiSchemaOptions.trim
     ? undefined
     : '100%';
@@ -115,6 +114,7 @@ export const InputDateTime = ({
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -138,4 +138,4 @@ export const InputDateTime = ({
       </Provider>
     </SpectrumProvider>
   );
-};
+});

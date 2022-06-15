@@ -42,4 +42,8 @@ export * from './InputTime';
 export interface SpectrumInputProps {
   required?: boolean;
   label?: string;
+  schema?: {
+    [key:string]: any;
+    readOnly?: boolean;
+  }
 }
