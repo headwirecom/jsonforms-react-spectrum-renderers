@@ -143,6 +143,15 @@ export const SpectrumArrayModalControl = ({
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
   const moveItUp = (index: number) => {
+    const indexOfFittingSchemaOriginal =
+      indexOfFittingSchemaObject[`${path}.${index}`];
+    const indexOfFittingSchemaNew =
+      indexOfFittingSchemaObject[`${path}.${index - 1}`];
+    indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
+    indexOfFittingSchemaObject[
+      `${path}.${index - 1}`
+    ] = indexOfFittingSchemaOriginal;
+
     moveUp(data, index);
     setExpanded(null);
     //removeItems is only used to update the data, change to a better solution in the future
@@ -150,6 +159,15 @@ export const SpectrumArrayModalControl = ({
   };
 
   const moveItDown = (index: number) => {
+    const indexOfFittingSchemaOriginal =
+      indexOfFittingSchemaObject[`${path}.${index}`];
+    const indexOfFittingSchemaNew =
+      indexOfFittingSchemaObject[`${path}.${index + 1}`];
+    indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
+    indexOfFittingSchemaObject[
+      `${path}.${index + 1}`
+    ] = indexOfFittingSchemaOriginal;
+
     moveDown(data, index);
     setExpanded(null);
     //removeItems is only used to update the data, change to a better solution in the future
@@ -248,7 +266,14 @@ export const SpectrumArrayModalControl = ({
                   uischemas={uischemas}
                 ></SpectrumArrayModalItem>
                 {uischema.options?.showSortButtons ? (
-                  <Flex marginStart='size-40'>
+                  <Flex
+                    direction={
+                      uischema.options?.sortButtonDirection === 'Horizontal'
+                        ? 'row'
+                        : 'column'
+                    }
+                    marginStart='size-40'
+                  >
                     <TooltipTrigger delay={0}>
                       <ActionButton
                         isQuiet
