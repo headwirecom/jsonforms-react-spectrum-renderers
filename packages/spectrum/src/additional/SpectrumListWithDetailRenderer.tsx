@@ -27,15 +27,15 @@
   THE SOFTWARE.
 */
 import {
-  and,
   ArrayLayoutProps,
+  RankedTester,
+  and,
   composePaths,
   computeLabel,
   createDefaultValue,
   findUISchema,
   isObjectArray,
   isPlainLabel,
-  RankedTester,
   rankWith,
   uiTypeIs,
 } from '@jsonforms/core';
@@ -49,109 +49,107 @@ import merge from 'lodash/merge';
 import { ArrayLayoutToolbar } from './ArrayLayoutToolbar';
 import { Flex, Heading, View } from '@adobe/react-spectrum';
 
-export const SpectrumListWithDetailRenderer = ({
-  uischemas,
-  schema,
-  uischema,
-  path,
-  errors,
-  visible,
-  label,
-  required,
-  removeItems,
-  addItem,
-  data,
-  renderers,
-  cells,
-  config,
-}: ArrayLayoutProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(undefined);
-
-  const handleRemoveItem = useCallback(
-    (p: string, value: any) => () => {
-      removeItems(p, [value])();
-      if (selectedIndex === value) {
-        setSelectedIndex(undefined);
-      } else if (selectedIndex > value) {
-        setSelectedIndex(selectedIndex - 1);
-      }
-    },
-    [removeItems, setSelectedIndex]
-  );
-  const handleListItemClick = useCallback(
-    (index: number) => () => setSelectedIndex(index),
-    [setSelectedIndex]
-  );
-  const handleCreateDefaultValue = useCallback(
-    () => createDefaultValue(schema),
-    [createDefaultValue]
-  );
-  const foundUISchema = findUISchema(
-    uischemas,
-    schema,
-    uischema.scope,
+export const SpectrumListWithDetailRenderer = React.memo(
+  ({
+    addItem,
+    cells,
+    config,
+    data,
+    errors,
+    label,
     path,
-    undefined,
-    uischema
-  );
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    removeItems,
+    renderers,
+    required,
+    schema,
+    uischema,
+    uischemas,
+    visible,
+  }: ArrayLayoutProps) => {
+    const [selectedIndex, setSelectedIndex] = useState(undefined);
 
-  const addItemAndSelectNewItem = (p: string, v: any) => () => {
-    addItem(p, v)();
-    setSelectedIndex(data);
-  };
+    const handleRemoveItem = useCallback(
+      (p: string, value: any) => () => {
+        setSelectedIndex(undefined);
+        removeItems(p, [value])();
+      },
+      [removeItems]
+    );
+    const handleListItemClick = useCallback(
+      (index: number) => () => setSelectedIndex(index),
+      [setSelectedIndex]
+    );
+    const handleCreateDefaultValue = useCallback(
+      () => createDefaultValue(schema),
+      [createDefaultValue]
+    );
+    const foundUISchema = findUISchema(
+      uischemas,
+      schema,
+      uischema.scope,
+      path,
+      undefined,
+      uischema
+    );
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-  return (
-    <View isHidden={!visible}>
-      <ArrayLayoutToolbar
-        label={computeLabel(
-          isPlainLabel(label) ? label : label.default,
-          required,
-          appliedUiSchemaOptions.hideRequiredAsterisk
-        )}
-        errors={errors}
-        path={path}
-        addItem={addItemAndSelectNewItem}
-        createDefault={handleCreateDefaultValue}
-      />
-      <Flex direction='row'>
-        <Flex direction='column' marginY='size-200' marginEnd='size-200'>
-          {data > 0 ? (
-            Array.from(Array(data)).map((_, index) => (
-              <ListWithDetailMasterItem
-                index={index}
-                path={path}
+    const addItemAndSelectNewItem = (p: string, v: any) => () => {
+      addItem(p, v)();
+      setSelectedIndex(data);
+    };
+
+    return (
+      <View isHidden={!visible}>
+        <ArrayLayoutToolbar
+          addItem={addItemAndSelectNewItem}
+          createDefault={handleCreateDefaultValue}
+          errors={errors}
+          label={computeLabel(
+            isPlainLabel(label) ? label : label.default,
+            required,
+            appliedUiSchemaOptions.hideRequiredAsterisk
+          )}
+          path={path}
+        />
+        <Flex direction='row'>
+          <Flex direction='column' marginY='size-200' marginEnd='size-200'>
+            {data > 0 ? (
+              Array.from(Array(data)).map((_, index) => (
+                <ListWithDetailMasterItem
+                  handleSelect={handleListItemClick}
+                  index={index}
+                  key={index}
+                  path={path}
+                  removeItem={handleRemoveItem}
+                  schema={schema}
+                  selected={selectedIndex === index}
+                />
+              ))
+            ) : (
+              <View>
+                <p>No data</p>
+              </View>
+            )}
+          </Flex>
+          <View flex='auto'>
+            {selectedIndex !== undefined ? (
+              <ResolvedJsonFormsDispatch
+                cells={cells}
+                path={composePaths(path, `${selectedIndex}`)}
+                renderers={renderers}
                 schema={schema}
-                handleSelect={handleListItemClick}
-                removeItem={handleRemoveItem}
-                selected={selectedIndex === index}
-                key={index}
+                uischema={foundUISchema}
+                visible={visible}
               />
-            ))
-          ) : (
-            <View>
-              <p>No data</p>
-            </View>
-          )}
+            ) : (
+              <Heading level={4}>No Selection</Heading>
+            )}
+          </View>
         </Flex>
-        <View flex='auto'>
-          {selectedIndex !== undefined ? (
-            <ResolvedJsonFormsDispatch
-              renderers={renderers}
-              cells={cells}
-              visible={visible}
-              schema={schema}
-              uischema={foundUISchema}
-              path={composePaths(path, `${selectedIndex}`)}
-            />
-          ) : (
-            <Heading level={4}>No Selection</Heading>
-          )}
-        </View>
-      </Flex>
-    </View>
-  );
-};
+      </View>
+    );
+  }
+);
 
 export const SpectrumListWithDetailTester: RankedTester = rankWith(
   4,

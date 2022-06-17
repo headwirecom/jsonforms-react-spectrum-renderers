@@ -96,150 +96,156 @@ export interface StatePropsOfSpectrumArrayModalItem
   childData: any;
 }
 
-const SpectrumArrayModalItem = ({
-  childLabel,
-  childData,
-  expanded,
-  handleExpand,
-  index,
-  indexOfFittingSchema,
-  path,
-  removeItem,
-  renderers,
-  schema,
-  uischema,
-  uischemas,
-}: StatePropsOfSpectrumArrayModalItem & CombinatorProps & NonEmptyRowProps) => {
-  const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
-  const childPath = composePaths(path, `${index}`);
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+const SpectrumArrayModalItem = React.memo(
+  ({
+    childLabel,
+    childData,
+    expanded,
+    handleExpand,
+    index,
+    indexOfFittingSchema,
+    path,
+    removeItem,
+    renderers,
+    schema,
+    uischema,
+    uischemas,
+  }: StatePropsOfSpectrumArrayModalItem &
+    CombinatorProps &
+    NonEmptyRowProps) => {
+    const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
+    const childPath = composePaths(path, `${index}`);
+    const [open, setOpen] = useState(false);
+    const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const findValue: any = (obj: any, key: string) => {
-    if (obj[key]) {
-      return obj[key];
-    }
-    for (const prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        if (typeof obj[prop] === 'object') {
-          const result: any = findValue(obj[prop], key);
-          if (result) {
-            return result;
+    const findValue: any = (obj: any, key: string) => {
+      if (obj[key]) {
+        return obj[key];
+      }
+      for (const prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          if (typeof obj[prop] === 'object') {
+            const result: any = findValue(obj[prop], key);
+            if (result) {
+              return result;
+            }
           }
         }
       }
-    }
-  };
+    };
 
-  useEffect(() => {
-    indexOfFittingSchemaObject[childPath] =
-      indexOfFittingSchema ?? findValue(childData, 'indexOfFittingSchema') ?? 0;
+    useEffect(() => {
+      indexOfFittingSchemaObject[childPath] =
+        indexOfFittingSchema ??
+        findValue(childData, 'indexOfFittingSchema') ??
+        0;
 
-    /* let fittingSchema = null;
+      /* let fittingSchema = null;
 schema.map((item,index) => item.componentType.title === childData.componentType ? fittingSchema = index : null); */
-    //console.log(schema.oneOf[0].properties.componentType.const);
-    if (uischema.options?.OneOfModal) {
-      indexOfFittingSchemaObject['OneOfModal'] = true;
-    }
-    if (uischema.options?.OneOfPicker) {
-      indexOfFittingSchemaObject['OneOfPicker'] = true;
-    }
-  }, []);
+      //console.log(schema.oneOf[0].properties.componentType.const);
+      if (uischema.options?.OneOfModal) {
+        indexOfFittingSchemaObject['OneOfModal'] = true;
+      }
+      if (uischema.options?.OneOfPicker) {
+        indexOfFittingSchemaObject['OneOfPicker'] = true;
+      }
+    }, []);
 
-  return (
-    <SpectrumProvider flex='auto' width={'100%'}>
-      <View
-        borderWidth='thin'
-        borderColor='dark'
-        borderRadius='medium'
-        padding='size-250'
-      >
-        <View aria-selected={expanded}>
-          <Flex
-            direction='row'
-            margin='size-50'
-            justifyContent='space-between'
-            alignItems='center'
-          >
-            <View UNSAFE_className='spectrum-array-item-number'>
-              <Text>{index + 1}</Text>
-            </View>
-            <ActionButton
-              flex='auto'
-              isQuiet
-              onPress={handleExpand(index)}
-              aria-label={`expand-item-${childLabel}`}
+    return (
+      <SpectrumProvider flex='auto' width={'100%'}>
+        <View
+          borderWidth='thin'
+          borderColor='dark'
+          borderRadius='medium'
+          padding='size-250'
+        >
+          <View aria-selected={expanded}>
+            <Flex
+              direction='row'
+              margin='size-50'
+              justifyContent='space-between'
+              alignItems='center'
             >
-              <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
-            </ActionButton>
-            <View>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  onPress={handleExpand(index)}
-                  isQuiet={true}
-                  aria-label={`expand-item-${childLabel}`}
-                >
-                  {expanded ? (
-                    <ChevronUp aria-label='Collapse' />
-                  ) : (
-                    <ChevronDown aria-label='Expand' />
+              <View UNSAFE_className='spectrum-array-item-number'>
+                <Text>{index + 1}</Text>
+              </View>
+              <ActionButton
+                flex='auto'
+                isQuiet
+                onPress={handleExpand(index)}
+                aria-label={`expand-item-${childLabel}`}
+              >
+                <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
+              </ActionButton>
+              <View>
+                <TooltipTrigger delay={0}>
+                  <ActionButton
+                    onPress={handleExpand(index)}
+                    isQuiet={true}
+                    aria-label={`expand-item-${childLabel}`}
+                  >
+                    {expanded ? (
+                      <ChevronUp aria-label='Collapse' />
+                    ) : (
+                      <ChevronDown aria-label='Expand' />
+                    )}
+                  </ActionButton>
+                  <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
+                </TooltipTrigger>
+                <TooltipTrigger delay={0}>
+                  <ActionButton
+                    onPress={() => setOpen(true)}
+                    aria-label={`delete-item-${childLabel}`}
+                  >
+                    <Delete aria-label='Delete' />
+                  </ActionButton>
+                  <Tooltip>Delete</Tooltip>
+                </TooltipTrigger>
+                <DialogContainer onDismiss={handleClose}>
+                  {open && (
+                    <Dialog>
+                      <Heading>Delete Item?</Heading>
+                      <Divider />
+                      <Content>
+                        Are you sure you wish to delete this item?
+                      </Content>
+                      <ButtonGroup>
+                        <Button variant='secondary' onPress={handleClose}>
+                          Cancel
+                        </Button>
+                        <Button
+                          autoFocus
+                          variant='cta'
+                          onPressStart={removeItem(path, index)}
+                          onPressEnd={handleClose}
+                        >
+                          Delete
+                        </Button>
+                      </ButtonGroup>
+                    </Dialog>
                   )}
-                </ActionButton>
-                <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
-              </TooltipTrigger>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  onPress={() => setOpen(true)}
-                  aria-label={`delete-item-${childLabel}`}
-                >
-                  <Delete aria-label='Delete' />
-                </ActionButton>
-                <Tooltip>Delete</Tooltip>
-              </TooltipTrigger>
-              <DialogContainer onDismiss={handleClose}>
-                {open && (
-                  <Dialog>
-                    <Heading>Delete Item?</Heading>
-                    <Divider />
-                    <Content>
-                      Are you sure you wish to delete this item?
-                    </Content>
-                    <ButtonGroup>
-                      <Button variant='secondary' onPress={handleClose}>
-                        Cancel
-                      </Button>
-                      <Button
-                        autoFocus
-                        variant='cta'
-                        onPressStart={removeItem(path, index)}
-                        onPressEnd={handleClose}
-                      >
-                        Delete
-                      </Button>
-                    </ButtonGroup>
-                  </Dialog>
-                )}
-              </DialogContainer>
-            </View>
-          </Flex>
-        </View>
-        {expanded ? (
-          <View>
-            <ResolvedJsonFormsDispatch
-              key={childPath}
-              path={childPath}
-              renderers={renderers}
-              schema={schema}
-              uischema={foundUISchema || uischema}
-            />
+                </DialogContainer>
+              </View>
+            </Flex>
           </View>
-        ) : (
-          ''
-        )}
-      </View>
-    </SpectrumProvider>
-  );
-};
+          {expanded ? (
+            <View>
+              <ResolvedJsonFormsDispatch
+                key={childPath}
+                path={childPath}
+                renderers={renderers}
+                schema={schema}
+                uischema={foundUISchema || uischema}
+              />
+            </View>
+          ) : (
+            ''
+          )}
+        </View>
+      </SpectrumProvider>
+    );
+  }
+);
 
 /**
  * Map state to control props.No indexOfFittingSchema found

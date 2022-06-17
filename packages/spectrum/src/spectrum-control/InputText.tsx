@@ -30,112 +30,119 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { v4 as uuidv4 } from 'uuid';
+import { useDebouncedChange } from '../util/debounce';
 
 import './InputText.css';
 
-export const InputText = React.memo(({
-  config,
-  data,
-  enabled,
-  handleChange,
-  id,
-  isValid,
-  label,
-  path,
-  required,
-  schema,
-  uischema,
-}: CellProps & SpectrumInputProps) => {
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
+export const InputText = React.memo(
+  ({
+    config,
+    data,
+    enabled,
+    handleChange,
+    id,
+    isValid,
+    label,
+    path,
+    required,
+    schema,
+    uischema,
+  }: CellProps & SpectrumInputProps) => {
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
-  const width: DimensionValue = appliedUiSchemaOptions.trim
-    ? undefined
-    : '100%';
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
 
-  const isValidCheck = () => {
-    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : 0);
-    let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
-    if (isValid && !data && minLength === 0) {
-      return 'valid';
-    } else if (!data) {
-      return 'invalid';
-    } else if (
-      isValid &&
-      data.length >= minLength &&
-      data.length <= maxLength
-    ) {
-      return 'valid';
-    } else {
-      return 'invalid';
-    }
-  };
+    const isValidCheck = () => {
+      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : 0);
+      let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
+      if (isValid && !data && minLength === 0) {
+        return 'valid';
+      } else if (!data) {
+        return 'invalid';
+      } else if (
+        isValid &&
+        data.length >= minLength &&
+        data.length <= maxLength
+      ) {
+        return 'valid';
+      } else {
+        return 'invalid';
+      }
+    };
 
-  const errorMessage = () => {
-    let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
-    let maxLength = appliedUiSchemaOptions.maxLength;
-    if (minLength && maxLength) {
-      return `Must be between ${minLength} and ${maxLength} characters`;
-    } else if (minLength) {
-      return `Must be at least ${minLength} characters`;
-    } else if (maxLength) {
-      return `Must be at most ${maxLength} characters`;
-    }
-  };
+    const errorMessage = () => {
+      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
+      let maxLength = appliedUiSchemaOptions.maxLength;
+      if (minLength && maxLength) {
+        return `Must be between ${minLength} and ${maxLength} characters`;
+      } else if (minLength) {
+        return `Must be at least ${minLength} characters`;
+      } else if (maxLength) {
+        return `Must be at most ${maxLength} characters`;
+      }
+    };
 
-  useEffect(() => {
-    if (!data && schema?.default) {
-      handleChange(path, schema.default);
-    }
-    if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
-      handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
-    }
-  }, [!data, schema?.default]);
+    useEffect(() => {
+      if (!data && schema?.default) {
+        handleChange(path, schema.default);
+      }
+      if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
+        handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
+      }
+    }, [!data, schema?.default]);
 
-  useEffect(() => {
-    if (
-      !data &&
-      !schema?.default &&
-      appliedUiSchemaOptions.NonFocusPlaceholder
-    ) {
-      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-    }
-  }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
+    useEffect(() => {
+      if (
+        !data &&
+        !schema?.default &&
+        appliedUiSchemaOptions.NonFocusPlaceholder
+      ) {
+        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+      }
+    }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
 
-  const clearNonFocusPlaceholder = () => {
-    if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
-      handleChange(path, '');
-    } else if (!data && !schema?.default) {
-      handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-    }
-  };
+    const clearNonFocusPlaceholder = () => {
+      if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
+        handleChange(path, '');
+      } else if (!data && !schema?.default) {
+        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
+      }
+    };
 
-  return (
-    <SpectrumProvider width={width}>
-      <TextField
-        aria-label={label ? label : 'textfield'}
-        autoFocus={appliedUiSchemaOptions.focus}
-        description={appliedUiSchemaOptions.description ?? null}
-        errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
-        id={id && `${id}-input`}
-        inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
-        isDisabled={enabled === undefined ? false : !enabled}
-        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
-        isRequired={required}
-        label={label}
-        labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-        labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-        maxLength={appliedUiSchemaOptions.maxLength ?? null}
-        maxWidth={width}
-        minLength={appliedUiSchemaOptions.minLength ?? null}
-        necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-        onChange={(value: any) => handleChange(path, value)}
-        onFocusChange={clearNonFocusPlaceholder}
-        type={appliedUiSchemaOptions.format ?? 'text'}
-        validationState={isValidCheck()}
-        value={data ?? ''}
-      />
-    </SpectrumProvider>
-  );
-});
+    const [inputText] = useDebouncedChange(handleChange, '', data, path);
+
+    return (
+      <SpectrumProvider width={width}>
+        <TextField
+          aria-label={label ? label : 'textfield'}
+          autoFocus={appliedUiSchemaOptions.focus}
+          description={appliedUiSchemaOptions.description ?? null}
+          errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+          id={id && `${id}-input`}
+          inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
+          isDisabled={enabled === undefined ? false : !enabled}
+          isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          isReadOnly={
+            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
+          }
+          isRequired={required}
+          label={label}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          maxLength={appliedUiSchemaOptions.maxLength ?? null}
+          maxWidth={width}
+          minLength={appliedUiSchemaOptions.minLength ?? null}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+          onChange={(value: any) => handleChange(path, value)}
+          onFocusChange={clearNonFocusPlaceholder}
+          type={appliedUiSchemaOptions.format ?? 'text'}
+          validationState={isValidCheck()}
+          value={inputText ?? ''}
+        />
+      </SpectrumProvider>
+    );
+  }
+);

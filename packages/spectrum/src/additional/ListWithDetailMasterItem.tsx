@@ -49,87 +49,93 @@ import SpectrumProvider from './SpectrumProvider';
 
 import './ListDetailMasterItem.css';
 
-const ListWithDetailMasterItem = ({
-  childLabel,
-  handleSelect,
-  index,
-  path,
-  removeItem,
-  selected,
-}: StatePropsOfMasterItem) => {
-  const [deleteIndex, setdeleteIndex] = useState(0);
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-  const itemLabel = childLabel ?? `Item ${index + 1}`;
+const ListWithDetailMasterItem = React.memo(
+  ({
+    childLabel,
+    handleSelect,
+    index,
+    path,
+    removeItem,
+    selected,
+  }: StatePropsOfMasterItem) => {
+    const [deleteIndex, setdeleteIndex] = useState(0);
+    const [open, setOpen] = useState(false);
+    const handleClose = useCallback(() => setOpen(false), [setOpen]);
+    const itemLabel = childLabel ?? `Item ${index + 1}`;
 
-  const setOpenAndsetdeleteIndex = (index: number) => {
-    setOpen(true);
-    setdeleteIndex(index);
-  };
+    const setOpenAndsetDeleteIndex = (index: number) => {
+      setOpen(true);
+      setdeleteIndex(index);
+    };
 
-  const deleteItem = (path: string) => {
-    handleClose();
-    removeItem(path, deleteIndex)();
-  };
-  return (
-    <SpectrumProvider>
-      <div
-        className='list-with-detail-master-item-row'
-        aria-selected={selected}
-      >
-        <Flex
-          direction='row'
-          margin='size-50'
-          justifyContent='space-between'
-          alignItems='center'
+    const deleteItem = (path: string) => {
+      handleClose();
+      removeItem(path, deleteIndex)();
+    };
+    return (
+      <SpectrumProvider>
+        <div
+          className='list-with-detail-master-item-row'
+          aria-selected={selected}
         >
-          <View UNSAFE_className='list-with-detail-master-item-number'>
-            <Text>{index + 1}</Text>
-          </View>
-          <ActionButton
-            flex='auto'
-            isQuiet
-            onPress={handleSelect(index)}
-            aria-label={`select-item-${itemLabel}`}
+          <Flex
+            direction='row'
+            margin='size-50'
+            justifyContent='space-between'
+            alignItems='center'
           >
-            <Text UNSAFE_style={{ textAlign: 'left' }}>{itemLabel}</Text>
-          </ActionButton>
-          <View>
-            <TooltipTrigger>
-              <ActionButton
-                onPress={() => setOpenAndsetdeleteIndex(index)}
-                aria-label={`delete-item-${itemLabel}`}
-              >
-                <Delete aria-label='Delete' />
-              </ActionButton>
-              <Tooltip>Delete</Tooltip>
-            </TooltipTrigger>
-            <DialogContainer onDismiss={handleClose}>
-              {open && (
-                <Dialog>
-                  <Heading>Delete Item?</Heading>
-                  <Divider />
-                  <Content>Are you sure you wish to delete this item?</Content>
-                  <ButtonGroup>
-                    <Button variant='secondary' onPress={handleClose}>
-                      Cancel
-                    </Button>
-                    <Button
-                      variant='cta'
-                      onPress={() => deleteItem(path)}
-                      autoFocus
-                    >
-                      Delete
-                    </Button>
-                  </ButtonGroup>
-                </Dialog>
-              )}
-            </DialogContainer>
-          </View>
-        </Flex>
-      </div>
-    </SpectrumProvider>
-  );
-};
+            <View UNSAFE_className='list-with-detail-master-item-number'>
+              <Text>{index + 1}</Text>
+            </View>
+            <ActionButton
+              flex='auto'
+              isQuiet
+              onPress={handleSelect(index)}
+              aria-label={`select-item-${itemLabel}`}
+            >
+              <Text UNSAFE_style={{ textAlign: 'left', maxWidth: '30ch' }}>
+                {itemLabel}
+              </Text>
+            </ActionButton>
+            <View>
+              <TooltipTrigger>
+                <ActionButton
+                  onPress={() => setOpenAndsetDeleteIndex(index)}
+                  aria-label={`delete-item-${itemLabel}`}
+                >
+                  <Delete aria-label='Delete' />
+                </ActionButton>
+                <Tooltip>Delete</Tooltip>
+              </TooltipTrigger>
+              <DialogContainer onDismiss={handleClose}>
+                {open && (
+                  <Dialog>
+                    <Heading>Delete Item?</Heading>
+                    <Divider />
+                    <Content>
+                      Are you sure you wish to delete this item?
+                    </Content>
+                    <ButtonGroup>
+                      <Button variant='secondary' onPress={handleClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        variant='cta'
+                        onPress={() => deleteItem(path)}
+                        autoFocus
+                      >
+                        Delete
+                      </Button>
+                    </ButtonGroup>
+                  </Dialog>
+                )}
+              </DialogContainer>
+            </View>
+          </Flex>
+        </div>
+      </SpectrumProvider>
+    );
+  }
+);
 
 export default withJsonFormsMasterListItemProps(ListWithDetailMasterItem);

@@ -36,52 +36,54 @@ import {
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
-const SpectrumArrayModalControlRenderer = ({
-  addItem,
-  data,
-  enabled,
-  errors,
-  id,
-  path,
-  removeItems,
-  rootSchema,
-  schema,
-  uischema,
-  uischemas,
-  visible,
-  indexOfFittingSchema,
-}: ArrayControlProps & CombinatorProps) => {
-  const controlElement = uischema as ControlElement;
-  const labelDescription = Helpers.createLabelDescriptionFrom(
-    controlElement,
-    schema
-  );
-  const label = labelDescription.show ? labelDescription.text : '';
+const SpectrumArrayModalControlRenderer = React.memo(
+  ({
+    addItem,
+    data,
+    enabled,
+    errors,
+    id,
+    path,
+    removeItems,
+    rootSchema,
+    schema,
+    uischema,
+    uischemas,
+    visible,
+    indexOfFittingSchema,
+  }: ArrayControlProps & CombinatorProps) => {
+    const controlElement = uischema as ControlElement;
+    const labelDescription = Helpers.createLabelDescriptionFrom(
+      controlElement,
+      schema
+    );
+    const label = labelDescription.show ? labelDescription.text : '';
 
-  const handleChange = (value: any) => {
-    addItem(value, path);
-  };
+    const handleChange = (value: any) => {
+      addItem(value, path);
+    };
 
-  return (
-    <SpectrumArrayModalControl
-      addItem={addItem}
-      data={data}
-      enabled={enabled}
-      errors={errors}
-      handleChange={handleChange}
-      id={id}
-      indexOfFittingSchema={indexOfFittingSchema}
-      label={label}
-      path={path}
-      removeItems={removeItems}
-      rootSchema={rootSchema}
-      schema={schema}
-      uischema={uischema}
-      uischemas={uischemas}
-      visible={visible}
-    />
-  );
-};
+    return (
+      <SpectrumArrayModalControl
+        addItem={addItem}
+        data={data}
+        enabled={enabled}
+        errors={errors}
+        handleChange={handleChange}
+        id={id}
+        indexOfFittingSchema={indexOfFittingSchema}
+        label={label}
+        path={path}
+        removeItems={removeItems}
+        rootSchema={rootSchema}
+        schema={schema}
+        uischema={uischema}
+        uischemas={uischemas}
+        visible={visible}
+      />
+    );
+  }
+);
 
 export default withJsonFormsArrayControlProps(
   SpectrumArrayModalControlRenderer

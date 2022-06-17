@@ -64,252 +64,255 @@ export interface OwnOneOfProps extends OwnPropsOfControl {
 }
 
 const oneOf = 'oneOf';
-export const SpectrumArrayModalControl = ({
-  addItem,
-  data,
-  label,
-  path,
-  removeItems,
-  renderers,
-  rootSchema,
-  schema,
-  uischema,
-  uischemas,
-}: ArrayControlProps & CombinatorProps) => {
-  const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
-  const oneOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).oneOf,
-    rootSchema,
-    oneOf,
-    uischema,
+export const SpectrumArrayModalControl = React.memo(
+  ({
+    addItem,
+    data,
+    label,
     path,
-    uischemas
-  );
+    removeItems,
+    renderers,
+    rootSchema,
+    schema,
+    uischema,
+    uischemas,
+  }: ArrayControlProps & CombinatorProps) => {
+    const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
+    const oneOfRenderInfos = createCombinatorRenderInfos(
+      (_schema as JsonSchema).oneOf,
+      rootSchema,
+      oneOf,
+      uischema,
+      path,
+      uischemas
+    );
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-  const [expanded, setExpanded] = useState<number>(undefined);
-  const isExpanded = (index: number) => expanded === index;
-  const onExpand = (index: number) => () =>
-    setExpanded((current) => (current === index ? null : index));
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+    const [expanded, setExpanded] = useState<number>(undefined);
+    const isExpanded = (index: number) => expanded === index;
+    const onExpand = (index: number) => () =>
+      setExpanded((current) => (current === index ? null : index));
 
-  const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
-    data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
-  );
-
-  React.useEffect(() => {
-    setIndexOfFittingSchemaArray(
+    const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
     );
-  }, [removeItems]);
 
-  const handleRemoveItem = useCallback(
-    (path: string, value: any) => () => {
-      removeItems(path, [value])();
-      indexOfFittingSchemaArray.splice(value, 1);
-    },
-    [removeItems]
-  );
+    React.useEffect(() => {
+      setIndexOfFittingSchemaArray(
+        data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+      );
+    }, [removeItems]);
 
-  const handlePickerChange = useCallback(
-    (newOneOfIndex: Key) => {
-      newOneOfIndex = Number(newOneOfIndex);
-      setSelectedIndex(newOneOfIndex);
-    },
-    [setSelectedIndex]
-  );
+    const handleRemoveItem = useCallback(
+      (path: string, value: any) => () => {
+        removeItems(path, [value])();
+        indexOfFittingSchemaArray.splice(value, 1);
+      },
+      [removeItems]
+    );
 
-  const handleListBoxChange = useCallback(
-    (newOneOfIndex: any) => {
-      if (newOneOfIndex.currentKey) {
-        setSelectedIndex(newOneOfIndex.currentKey);
-      }
-    },
-    [setSelectedIndex]
-  );
+    const handlePickerChange = useCallback(
+      (newOneOfIndex: Key) => {
+        newOneOfIndex = Number(newOneOfIndex);
+        setSelectedIndex(newOneOfIndex);
+      },
+      [setSelectedIndex]
+    );
 
-  const handleOnConfirm = (handleClose: any, index: number) => {
-    setIndexOfFittingSchemaArray([
-      ...indexOfFittingSchemaArray,
-      Math.floor(index),
-    ]);
-    addItem(path, createDefaultValue(schema.oneOf[index]))();
-    setSelectedIndex(0);
-    handleClose();
-    setExpanded(indexOfFittingSchemaArray.length);
-  };
+    const handleListBoxChange = useCallback(
+      (newOneOfIndex: any) => {
+        if (newOneOfIndex.currentKey) {
+          setSelectedIndex(newOneOfIndex.currentKey);
+        }
+      },
+      [setSelectedIndex]
+    );
 
-  const usePickerInsteadOfListBox = uischema.options?.picker;
+    const handleOnConfirm = (handleClose: any, index: number) => {
+      setIndexOfFittingSchemaArray([
+        ...indexOfFittingSchemaArray,
+        Math.floor(index),
+      ]);
+      addItem(path, createDefaultValue(schema.oneOf[index]))();
+      setSelectedIndex(0);
+      handleClose();
+      setExpanded(indexOfFittingSchemaArray.length);
+    };
 
-  const moveItUp = (index: number) => {
-    const indexOfFittingSchemaOriginal =
-      indexOfFittingSchemaObject[`${path}.${index}`];
-    const indexOfFittingSchemaNew =
-      indexOfFittingSchemaObject[`${path}.${index - 1}`];
-    indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[
-      `${path}.${index - 1}`
-    ] = indexOfFittingSchemaOriginal;
+    const usePickerInsteadOfListBox = uischema.options?.picker;
 
-    moveUp(data, index);
-    setExpanded(null);
-    //removeItems is only used to update the data, change to a better solution in the future
-    removeItems(path, [999999999])();
-  };
+    const moveItUp = (index: number) => {
+      const indexOfFittingSchemaOriginal =
+        indexOfFittingSchemaObject[`${path}.${index}`];
+      const indexOfFittingSchemaNew =
+        indexOfFittingSchemaObject[`${path}.${index - 1}`];
+      indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
+      indexOfFittingSchemaObject[
+        `${path}.${index - 1}`
+      ] = indexOfFittingSchemaOriginal;
 
-  const moveItDown = (index: number) => {
-    const indexOfFittingSchemaOriginal =
-      indexOfFittingSchemaObject[`${path}.${index}`];
-    const indexOfFittingSchemaNew =
-      indexOfFittingSchemaObject[`${path}.${index + 1}`];
-    indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[
-      `${path}.${index + 1}`
-    ] = indexOfFittingSchemaOriginal;
+      moveUp(data, index);
+      setExpanded(null);
+      //removeItems is only used to update the data, change to a better solution in the future
+      removeItems(path, [999999999])();
+    };
 
-    moveDown(data, index);
-    setExpanded(null);
-    //removeItems is only used to update the data, change to a better solution in the future
-    removeItems(path, [data.length])();
-  };
+    const moveItDown = (index: number) => {
+      const indexOfFittingSchemaOriginal =
+        indexOfFittingSchemaObject[`${path}.${index}`];
+      const indexOfFittingSchemaNew =
+        indexOfFittingSchemaObject[`${path}.${index + 1}`];
+      indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
+      indexOfFittingSchemaObject[
+        `${path}.${index + 1}`
+      ] = indexOfFittingSchemaOriginal;
 
-  return (
-    <View>
-      <Flex direction='row' justifyContent='space-between'>
-        <Heading level={4}>{label}</Heading>
-        <Button
-          alignSelf='center'
-          onPress={() => setOpen(true)}
-          variant='primary'
-        >
-          <Add aria-label='Add' />
-        </Button>
-        <DialogContainer onDismiss={handleClose}>
-          {open && (
-            <Dialog>
-              <div style={{ gridColumn: '1 / -1' }}>
-                <Heading margin='size-100'>Add a new item</Heading>
-                <Divider />
-                {usePickerInsteadOfListBox ? (
-                  <>
-                    <Picker
-                      aria-label='Select'
-                      margin='size-100'
-                      onSelectionChange={handlePickerChange}
-                      selectedKey={String(selectedIndex)}
-                      width='calc(100% - size-200)'
-                    >
-                      {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-                        <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
-                      ))}
-                    </Picker>
-                  </>
-                ) : (
-                  <>
-                    <ListBox
-                      aria-label='Select'
-                      items={oneOfRenderInfos}
-                      margin='size-100'
-                      onSelectionChange={(selected) =>
-                        handleListBoxChange(selected)
-                      }
-                      selectedKeys={String(selectedIndex)}
-                      selectionMode='single'
-                      width='calc(100% - size-200)'
-                      maxHeight='size-2400'
-                    >
-                      {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-                        <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
-                      ))}
-                    </ListBox>
-                  </>
-                )}
-              </div>
-              <ButtonGroup>
-                <Button variant='secondary' onPress={handleClose}>
-                  Cancel
-                </Button>
-                <Button
-                  variant='cta'
-                  onPress={() => handleOnConfirm(handleClose, selectedIndex)}
-                  autoFocus
-                >
-                  Confirm
-                </Button>
-              </ButtonGroup>
-            </Dialog>
-          )}
-        </DialogContainer>
-      </Flex>
-      <Flex direction='column' gap='size-100'>
-        {data && data?.length ? (
-          Array.from(Array(data?.length)).map((_, index) => {
-            indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
-            return (
-              <Flex
-                key={index}
-                direction='row'
-                alignItems='stretch'
-                flex='auto inherit'
-              >
-                <SpectrumArrayModalItem
-                  expanded={isExpanded(index)}
-                  handleExpand={onExpand}
-                  index={index}
-                  indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                  path={path}
-                  removeItem={handleRemoveItem}
-                  renderers={renderers}
-                  schema={schema}
-                  uischema={uischema}
-                  uischemas={uischemas}
-                ></SpectrumArrayModalItem>
-                {uischema.options?.showSortButtons ? (
-                  <Flex
-                    direction={
-                      uischema.options?.sortButtonDirection === 'Horizontal'
-                        ? 'row'
-                        : 'column'
-                    }
-                    marginTop='size-100'
-                  >
-                    <TooltipTrigger delay={0}>
-                      <ActionButton
-                        isQuiet
-                        onPress={() => moveItUp(index)}
-                        aria-label={`move-item-${path}.${index}-up`}
-                        marginX='size-10'
-                        isDisabled={index === 0}
+      moveDown(data, index);
+      setExpanded(null);
+      //removeItems is only used to update the data, change to a better solution in the future
+      removeItems(path, [data.length])();
+    };
+
+    return (
+      <View>
+        <Flex direction='row' justifyContent='space-between'>
+          <Heading level={4}>{label}</Heading>
+          <Button
+            alignSelf='center'
+            onPress={() => setOpen(true)}
+            variant='primary'
+          >
+            <Add aria-label='Add' />
+          </Button>
+          <DialogContainer onDismiss={handleClose}>
+            {open && (
+              <Dialog>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <Heading margin='size-100'>Add a new item</Heading>
+                  <Divider />
+                  {usePickerInsteadOfListBox ? (
+                    <>
+                      <Picker
+                        aria-label='Select'
+                        margin='size-100'
+                        onSelectionChange={handlePickerChange}
+                        selectedKey={String(selectedIndex)}
+                        width='calc(100% - size-200)'
                       >
-                        <ArrowUp aria-label='ArrowUp' />
-                      </ActionButton>
-                      <Tooltip>Move upwards</Tooltip>
-                    </TooltipTrigger>
-                    <TooltipTrigger delay={0}>
-                      <ActionButton
-                        isQuiet
-                        onPress={() => moveItDown(index)}
-                        aria-label={`move-item-${path}.${index}-down`}
-                        marginX='size-10'
-                        isDisabled={
-                          index ===
-                          indexOfFittingSchemaObject[`${path}itemQuantity`] - 1
+                        {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+                          <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+                        ))}
+                      </Picker>
+                    </>
+                  ) : (
+                    <>
+                      <ListBox
+                        aria-label='Select'
+                        items={oneOfRenderInfos}
+                        margin='size-100'
+                        onSelectionChange={(selected) =>
+                          handleListBoxChange(selected)
                         }
+                        selectedKeys={String(selectedIndex)}
+                        selectionMode='single'
+                        width='calc(100% - size-200)'
+                        maxHeight='size-2400'
                       >
-                        <ArrowDown aria-label='ArrowDown' />
-                      </ActionButton>
-                      <Tooltip>Move downwards</Tooltip>
-                    </TooltipTrigger>
-                  </Flex>
-                ) : null}
-              </Flex>
-            );
-          })
-        ) : (
-          <Text>No data</Text>
-        )}
-      </Flex>
-    </View>
-  );
-};
+                        {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
+                          <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+                        ))}
+                      </ListBox>
+                    </>
+                  )}
+                </div>
+                <ButtonGroup>
+                  <Button variant='secondary' onPress={handleClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant='cta'
+                    onPress={() => handleOnConfirm(handleClose, selectedIndex)}
+                    autoFocus
+                  >
+                    Confirm
+                  </Button>
+                </ButtonGroup>
+              </Dialog>
+            )}
+          </DialogContainer>
+        </Flex>
+        <Flex direction='column' gap='size-100'>
+          {data && data?.length ? (
+            Array.from(Array(data?.length)).map((_, index) => {
+              indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
+              return (
+                <Flex
+                  key={index}
+                  direction='row'
+                  alignItems='stretch'
+                  flex='auto inherit'
+                >
+                  <SpectrumArrayModalItem
+                    expanded={isExpanded(index)}
+                    handleExpand={onExpand}
+                    index={index}
+                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                    path={path}
+                    removeItem={handleRemoveItem}
+                    renderers={renderers}
+                    schema={schema}
+                    uischema={uischema}
+                    uischemas={uischemas}
+                  ></SpectrumArrayModalItem>
+                  {uischema.options?.showSortButtons ? (
+                    <Flex
+                      direction={
+                        uischema.options?.sortButtonDirection === 'Horizontal'
+                          ? 'row'
+                          : 'column'
+                      }
+                      marginTop='size-100'
+                    >
+                      <TooltipTrigger delay={0}>
+                        <ActionButton
+                          isQuiet
+                          onPress={() => moveItUp(index)}
+                          aria-label={`move-item-${path}.${index}-up`}
+                          marginX='size-10'
+                          isDisabled={index === 0}
+                        >
+                          <ArrowUp aria-label='ArrowUp' />
+                        </ActionButton>
+                        <Tooltip>Move upwards</Tooltip>
+                      </TooltipTrigger>
+                      <TooltipTrigger delay={0}>
+                        <ActionButton
+                          isQuiet
+                          onPress={() => moveItDown(index)}
+                          aria-label={`move-item-${path}.${index}-down`}
+                          marginX='size-10'
+                          isDisabled={
+                            index ===
+                            indexOfFittingSchemaObject[`${path}itemQuantity`] -
+                              1
+                          }
+                        >
+                          <ArrowDown aria-label='ArrowDown' />
+                        </ActionButton>
+                        <Tooltip>Move downwards</Tooltip>
+                      </TooltipTrigger>
+                    </Flex>
+                  ) : null}
+                </Flex>
+              );
+            })
+          ) : (
+            <Text>No data</Text>
+          )}
+        </Flex>
+      </View>
+    );
+  }
+);
