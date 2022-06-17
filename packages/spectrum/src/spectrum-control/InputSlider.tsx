@@ -22,76 +22,65 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CellProps } from '@jsonforms/core';
-import { debounce, merge } from 'lodash';
+import { merge } from 'lodash';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import { Slider } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { useDebouncedChange } from '../util/debounce';
 
-export const InputSlider = React.memo(({
-  config,
-  data,
-  enabled,
-  handleChange,
-  label,
-  path,
-  schema,
-  uischema,
-  visible,
-}: CellProps & SpectrumInputProps) => {
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+export const InputSlider = React.memo(
+  ({
+    config,
+    data,
+    enabled,
+    handleChange,
+    label,
+    path,
+    schema,
+    uischema,
+    visible,
+  }: CellProps & SpectrumInputProps) => {
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-  const width: DimensionValue = appliedUiSchemaOptions.trim
-    ? undefined
-    : '100%';
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
 
-  let [value, setValue] = useState(0);
-
-  const handleOnChange = (value: any) => {
-    setValue(value);
-  };
-
-  const handleOnChangeEnd = (value: any) => {
-    setValue(value);
-    handleChange(path, value);
-  };
-
-  useEffect(() => {
-    if (data) {
-      handleOnChangeEnd(data);
-    } else {
-      handleOnChangeEnd(schema.default);
-    }
-  }, []);
-
-  return (
-    <SpectrumProvider width={width}>
-      <Slider
-        fillOffset={appliedUiSchemaOptions.fillOffset ?? null}
-        formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
-        getValueLabel={
-          appliedUiSchemaOptions.getValueLabel
-            ? (value) => `${value} ${appliedUiSchemaOptions.getValueLabel}`
-            : null
-        }
-        isDisabled={enabled === undefined ? false : !enabled}
-        isFilled={appliedUiSchemaOptions.isFilled ?? false}
-        isHidden={!visible}
-        label={label}
-        labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
-        maxValue={schema.maximum}
-        minValue={schema.minimum}
-        onChange={handleOnChange}
-        onChangeEnd={debounce(handleOnChangeEnd, 10)}
-        orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
-        showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
-        step={schema.multipleOf || 1}
-        trackGradient={appliedUiSchemaOptions.trackGradient ?? null}
-        value={value}
-        width={width}
-      />
-    </SpectrumProvider>
-  );
-});
+    const [inputSlider, onChange] = useDebouncedChange(
+      handleChange,
+      schema?.default ?? schema?.minimum,
+      data,
+      path
+    );
+    return (
+      <SpectrumProvider width={width}>
+        <Slider
+          fillOffset={appliedUiSchemaOptions.fillOffset ?? null}
+          formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
+          getValueLabel={
+            appliedUiSchemaOptions.getValueLabel
+              ? (value) => `${value} ${appliedUiSchemaOptions.getValueLabel}`
+              : null
+          }
+          isDisabled={enabled === undefined ? false : !enabled}
+          isFilled={appliedUiSchemaOptions.isFilled ?? false}
+          isHidden={!visible}
+          label={label}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
+          maxValue={schema.maximum}
+          minValue={schema.minimum}
+          onChange={onChange}
+          orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
+          showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
+          step={schema.multipleOf || 1}
+          trackGradient={appliedUiSchemaOptions.trackGradient ?? null}
+          value={inputSlider}
+          width={width}
+        />
+      </SpectrumProvider>
+    );
+  }
+);

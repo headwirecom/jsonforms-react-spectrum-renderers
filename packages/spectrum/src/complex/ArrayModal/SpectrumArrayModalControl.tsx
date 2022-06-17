@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { Key, useCallback, useState } from 'react';
+import React, { Key, useCallback, useState, useMemo } from 'react';
 import {
   ArrayControlProps,
   CombinatorProps,
@@ -77,14 +77,21 @@ export const SpectrumArrayModalControl = React.memo(
     uischema,
     uischemas,
   }: ArrayControlProps & CombinatorProps) => {
-    const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
-    const oneOfRenderInfos = createCombinatorRenderInfos(
-      (_schema as JsonSchema).oneOf,
-      rootSchema,
-      oneOf,
-      uischema,
-      path,
-      uischemas
+    const _schema = useMemo(
+      () => resolveSubSchemas(schema, rootSchema, oneOf),
+      [schema, rootSchema, oneOf]
+    );
+    const oneOfRenderInfos = useMemo(
+      () =>
+        createCombinatorRenderInfos(
+          (_schema as JsonSchema).oneOf,
+          rootSchema,
+          oneOf,
+          uischema,
+          path,
+          uischemas
+        ),
+      [_schema, rootSchema, oneOf, uischema, uischemas, path]
     );
 
     const [selectedIndex, setSelectedIndex] = useState(0);

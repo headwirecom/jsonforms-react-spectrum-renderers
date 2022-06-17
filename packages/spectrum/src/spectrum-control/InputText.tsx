@@ -112,7 +112,12 @@ export const InputText = React.memo(
       }
     };
 
-    const [inputText] = useDebouncedChange(handleChange, '', data, path);
+    const [inputText, onChange] = useDebouncedChange(
+      handleChange,
+      schema?.default ?? '',
+      data,
+      path
+    );
 
     return (
       <SpectrumProvider width={width}>
@@ -136,11 +141,11 @@ export const InputText = React.memo(
           maxWidth={width}
           minLength={appliedUiSchemaOptions.minLength ?? null}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-          onChange={(value: any) => handleChange(path, value)}
+          onChange={onChange}
           onFocusChange={clearNonFocusPlaceholder}
           type={appliedUiSchemaOptions.format ?? 'text'}
           validationState={isValidCheck()}
-          value={inputText ?? ''}
+          value={inputText}
         />
       </SpectrumProvider>
     );
