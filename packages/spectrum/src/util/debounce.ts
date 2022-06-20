@@ -9,7 +9,6 @@ export const useDebouncedChange = (
 ): [any, (value: any) => void, () => void] => {
   const timeout = 300;
   const [input, setInput] = useState(data ?? defaultValue);
-
   const debouncedUpdate = useCallback(
     debounce((newValue: any) => {
       handleChange(path, newValue);
