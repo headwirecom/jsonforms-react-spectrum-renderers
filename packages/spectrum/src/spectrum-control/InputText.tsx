@@ -22,14 +22,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { TextField } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedChange } from '../util/debounce';
 
 import './InputText.css';
@@ -49,7 +49,7 @@ export const InputText = React.memo(
     uischema,
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
+    //const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
     const width: DimensionValue = appliedUiSchemaOptions.trim
       ? undefined
@@ -85,16 +85,16 @@ export const InputText = React.memo(
       }
     };
 
-    useEffect(() => {
+    /* useEffect(() => {
       if (!data && schema?.default) {
         handleChange(path, schema.default);
       }
       if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
         handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
       }
-    }, [!data, schema?.default]);
+    }, [!data, schema?.default]); */
 
-    useEffect(() => {
+    /* useEffect(() => {
       if (
         !data &&
         !schema?.default &&
@@ -102,7 +102,7 @@ export const InputText = React.memo(
       ) {
         handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
       }
-    }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
+    }, [appliedUiSchemaOptions.NonFocusPlaceholder]); */
 
     const clearNonFocusPlaceholder = () => {
       if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {

@@ -12,6 +12,8 @@ export const useDebouncedChange = (
   const debouncedUpdate = useCallback(
     debounce((newValue: any) => {
       handleChange(path, newValue);
+      console.log(path);
+      console.log('debouncedUpdate');
     }, timeout),
     [handleChange, path, timeout]
   );
@@ -19,12 +21,14 @@ export const useDebouncedChange = (
   useEffect(() => {
     setInput(data ?? defaultValue);
     debouncedUpdate(input);
+    console.log('useEffect debouncer');
   }, []);
 
   const onChange = useCallback(
     (value: any) => {
       setInput(value ?? defaultValue);
       debouncedUpdate(value);
+      console.log('onChange');
     },
     [debouncedUpdate]
   );

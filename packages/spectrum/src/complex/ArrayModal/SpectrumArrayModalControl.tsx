@@ -99,8 +99,10 @@ export const SpectrumArrayModalControl = React.memo(
     const handleClose = () => setOpen(false);
     const [expanded, setExpanded] = useState<number>(undefined);
     const isExpanded = (index: number) => expanded === index;
-    const onExpand = (index: number) => () =>
-      setExpanded((current) => (current === index ? null : index));
+    const onExpand = (index: number) =>
+      useCallback(() => {
+        setExpanded((current) => (current === index ? null : index));
+      }, [index]);
 
     const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
@@ -188,7 +190,9 @@ export const SpectrumArrayModalControl = React.memo(
           <Heading level={4}>{label}</Heading>
           <Button
             alignSelf='center'
-            onPress={() => setOpen(true)}
+            onPress={useCallback(() => {
+              setOpen(true);
+            }, [open])}
             variant='primary'
           >
             <Add aria-label='Add' />
@@ -280,7 +284,11 @@ export const SpectrumArrayModalControl = React.memo(
                           ? 'row'
                           : 'column'
                       }
-                      marginTop='size-100'
+                      marginTop={
+                        uischema.options?.sortButtonDirection === 'Horizontal'
+                          ? 'size-225'
+                          : 'size-0'
+                      }
                     >
                       <TooltipTrigger delay={0}>
                         <ActionButton

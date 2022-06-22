@@ -142,7 +142,6 @@ const SpectrumArrayModalItem = React.memo(
 
       /* let fittingSchema = null;
 schema.map((item,index) => item.componentType.title === childData.componentType ? fittingSchema = index : null); */
-      //console.log(schema.oneOf[0].properties.componentType.const);
       if (uischema.options?.OneOfModal) {
         indexOfFittingSchemaObject['OneOfModal'] = true;
       }
@@ -157,7 +156,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
-          padding='size-250'
+          padding='size-150'
         >
           <View aria-selected={expanded}>
             <Flex
