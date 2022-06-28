@@ -153,6 +153,9 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
         <View
+          UNSAFE_className={`list-array-item ${
+            expanded ? 'expanded' : 'not-expanded'
+          }`}
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
