@@ -62,8 +62,9 @@ import {
   withJsonFormsContext,
 } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
-import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
-import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
+import Edit from '@spectrum-icons/workflow/Edit';
+import SaveFloppy from '@spectrum-icons/workflow/SaveFloppy';
+import SaveAsFloppy from '@spectrum-icons/workflow/SaveAsFloppy';
 
 import './SpectrumArrayModalItem.css';
 
@@ -180,6 +181,18 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                 <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
               </ActionButton>
               <View>
+                {expanded && (
+                  <TooltipTrigger delay={0}>
+                    <ActionButton
+                      onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
+                      isQuiet={true}
+                      aria-label={`save-and-continue-editing-${childLabel}`}
+                    >
+                      <SaveAsFloppy />
+                    </ActionButton>
+                    <Tooltip>Save & continue editing</Tooltip>
+                  </TooltipTrigger>
+                )}
                 <TooltipTrigger delay={0}>
                   <ActionButton
                     onPress={handleExpand(index)}
@@ -187,12 +200,12 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                     aria-label={`expand-item-${childLabel}`}
                   >
                     {expanded ? (
-                      <ChevronUp aria-label='Collapse' />
+                      <SaveFloppy aria-label='Save & Close' />
                     ) : (
-                      <ChevronDown aria-label='Expand' />
+                      <Edit aria-label='Edit' />
                     )}
                   </ActionButton>
-                  <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
+                  <Tooltip>{expanded ? 'Save & Close' : 'Edit'}</Tooltip>
                 </TooltipTrigger>
                 <TooltipTrigger delay={0}>
                   <ActionButton
