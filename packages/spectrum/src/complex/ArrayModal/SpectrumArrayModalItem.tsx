@@ -154,14 +154,14 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       <SpectrumProvider flex='auto' width={'100%'}>
         <View
           UNSAFE_className={`list-array-item ${
-            expanded ? 'expanded' : 'not-expanded'
+            expanded ? 'expanded' : 'collapsed'
           }`}
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
           padding='size-150'
         >
-          <View aria-selected={expanded}>
+          <View aria-selected={expanded} UNSAFE_className='array-item-header'>
             <Flex
               direction='row'
               margin='size-50'
