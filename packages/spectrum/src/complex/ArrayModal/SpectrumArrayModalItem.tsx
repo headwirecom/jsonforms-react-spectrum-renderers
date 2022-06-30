@@ -153,7 +153,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       }
     }, []);
 
-    const enableDetailedView = false;
+    const enableDetailedView = uischema?.options?.enableDetailedView;
 
     // window.addEventListener('message', (event) => {
     //   console.log(event);
