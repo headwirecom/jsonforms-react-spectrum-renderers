@@ -62,8 +62,11 @@ import {
   withJsonFormsContext,
 } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
-import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
+import Edit from '@spectrum-icons/workflow/Edit';
+import SaveFloppy from '@spectrum-icons/workflow/SaveFloppy';
+import SaveAsFloppy from '@spectrum-icons/workflow/SaveAsFloppy';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
+import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 
 import './SpectrumArrayModalItem.css';
 
@@ -150,18 +153,34 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       }
     }, []);
 
+    const enableDetailedView = uischema?.options?.enableDetailedView;
+
+    // window.addEventListener('message', (event) => {
+    //   console.log(event);
+    // });
+    // let callOnClose = false;
+
+    // I don't know why, but postmessage is always called, even though if statement is skipped!
+    // useEffect(() => {
+    //   console.log('~ expanded || callOnClose', expanded, callOnClose);
+    //   if (expanded || callOnClose) {
+    //     window.postMessage({ index, path, label: childLabel }, '*');
+    //     callOnClose = expanded ? true : false;
+    //   }
+    // }, [expanded]);
+
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
         <View
           UNSAFE_className={`list-array-item ${
-            expanded ? 'expanded' : 'not-expanded'
-          }`}
+            enableDetailedView && 'enableDetailedView'
+          } ${expanded ? 'expanded' : 'collapsed'}`}
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
           padding='size-150'
         >
-          <View aria-selected={expanded}>
+          <View aria-selected={expanded} UNSAFE_className='array-item-header'>
             <Flex
               direction='row'
               margin='size-50'
@@ -177,56 +196,87 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                 onPress={handleExpand(index)}
                 aria-label={`expand-item-${childLabel}`}
               >
-                <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
+                <Text
+                  UNSAFE_className='spectrum-array-item-name'
+                  UNSAFE_style={{ textAlign: 'left' }}
+                >
+                  {childLabel}
+                </Text>
               </ActionButton>
               <View>
-                <TooltipTrigger delay={0}>
-                  <ActionButton
-                    onPress={handleExpand(index)}
-                    isQuiet={true}
-                    aria-label={`expand-item-${childLabel}`}
-                  >
-                    {expanded ? (
-                      <ChevronUp aria-label='Collapse' />
-                    ) : (
-                      <ChevronDown aria-label='Expand' />
-                    )}
-                  </ActionButton>
-                  <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
-                </TooltipTrigger>
-                <TooltipTrigger delay={0}>
-                  <ActionButton
-                    onPress={() => setOpen(true)}
-                    aria-label={`delete-item-${childLabel}`}
-                  >
-                    <Delete aria-label='Delete' />
-                  </ActionButton>
-                  <Tooltip>Delete</Tooltip>
-                </TooltipTrigger>
-                <DialogContainer onDismiss={handleClose}>
-                  {open && (
-                    <Dialog>
-                      <Heading>Delete Item?</Heading>
-                      <Divider />
-                      <Content>
-                        Are you sure you wish to delete this item?
-                      </Content>
-                      <ButtonGroup>
-                        <Button variant='secondary' onPress={handleClose}>
-                          Cancel
-                        </Button>
-                        <Button
-                          autoFocus
-                          variant='cta'
-                          onPressStart={removeItem(path, index)}
-                          onPressEnd={handleClose}
-                        >
-                          Delete
-                        </Button>
-                      </ButtonGroup>
-                    </Dialog>
+                <Flex gap={enableDetailedView ? 'size-300' : ''}>
+                  {enableDetailedView && expanded && (
+                    <TooltipTrigger delay={0}>
+                      <ActionButton
+                        onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
+                        aria-label={`save-and-continue-editing-${childLabel}`}
+                      >
+                        <SaveAsFloppy />
+                      </ActionButton>
+                      <Tooltip>Save & continue editing</Tooltip>
+                    </TooltipTrigger>
                   )}
-                </DialogContainer>
+
+                  <TooltipTrigger delay={0}>
+                    <ActionButton
+                      onPress={handleExpand(index)}
+                      isQuiet={!enableDetailedView}
+                      aria-label={`expand-item-${childLabel}`}
+                    >
+                      {
+                        expanded ? (
+                        enableDetailedView ? <SaveFloppy aria-label='Save & Close' /> : <ChevronUp aria-label='Collapse' /> //prettier-ignore
+                      ) : //prettier-ignore
+                      enableDetailedView ? <Edit aria-label='Edit' /> : <ChevronDown aria-label='Expand' /> //prettier-ignore
+                      }
+                    </ActionButton>
+                    <Tooltip>
+                      {expanded
+                        ? enableDetailedView
+                          ? 'Save & Close'
+                          : 'Collapse'
+                        : enableDetailedView
+                        ? 'Edit'
+                        : 'Expand'}
+                    </Tooltip>
+                  </TooltipTrigger>
+
+                  <TooltipTrigger delay={0}>
+                    <ActionButton
+                      onPress={() => setOpen(true)}
+                      aria-label={`delete-item-${childLabel}`}
+                      isQuiet={enableDetailedView}
+                    >
+                      <Delete aria-label='Delete' />
+                    </ActionButton>
+                    <Tooltip>Delete</Tooltip>
+                  </TooltipTrigger>
+
+                  <DialogContainer onDismiss={handleClose}>
+                    {open && (
+                      <Dialog>
+                        <Heading>Delete Item?</Heading>
+                        <Divider />
+                        <Content>
+                          Are you sure you wish to delete this item?
+                        </Content>
+                        <ButtonGroup>
+                          <Button variant='secondary' onPress={handleClose}>
+                            Cancel
+                          </Button>
+                          <Button
+                            autoFocus
+                            variant='cta'
+                            onPressStart={removeItem(path, index)}
+                            onPressEnd={handleClose}
+                          >
+                            Delete
+                          </Button>
+                        </ButtonGroup>
+                      </Dialog>
+                    )}
+                  </DialogContainer>
+                </Flex>
               </View>
             </Flex>
           </View>
