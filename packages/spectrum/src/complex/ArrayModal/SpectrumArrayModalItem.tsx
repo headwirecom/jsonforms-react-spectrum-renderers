@@ -26,7 +26,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useEffect, useCallback, ComponentType } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  ComponentType,
+  useRef,
+} from 'react';
 import {
   ActionButton,
   Button,
@@ -67,6 +73,8 @@ import SaveFloppy from '@spectrum-icons/workflow/SaveFloppy';
 import SaveAsFloppy from '@spectrum-icons/workflow/SaveAsFloppy';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
+
+import { useSpring, animated } from 'react-spring';
 
 import './SpectrumArrayModalItem.css';
 
@@ -153,7 +161,39 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       }
     }, []);
 
-    const enableDetailedView = uischema?.options?.enableDetailedView;
+    // const enableDetailedView = uischema?.options?.enableDetailedView;
+    const enableDetailedView = true;
+
+    const refForPosition = useRef<HTMLDivElement>();
+
+    const [baseHeight, setBaseHeight] = useState('auto');
+    const [baseWidth, setBaseWidth] = useState('auto');
+    const [baseTop, setBaseTop] = useState(0);
+    const [baseLeft, setBaseLeft] = useState(0);
+
+    useEffect(() => {
+      // if (refForPosition.current) {
+      //   setBaseHeight(refForPosition.current);
+      //   setBaseWidth(refForPosition.current);
+      // }
+
+      if (refForPosition.current) {
+        setBaseHeight(refForPosition.current.clientHeight + 'px');
+        setBaseWidth(refForPosition.current.clientWidth + 'px');
+        setBaseTop(refForPosition.current.offsetTop);
+        setBaseLeft(refForPosition.current.offsetLeft);
+      }
+    }, [refForPosition.current]);
+
+    const { top, left, height, width, border, opacity } = useSpring({
+      top: expanded ? 0 : baseTop,
+      left: expanded ? 0 : baseLeft,
+      height: expanded ? window.innerHeight + 'px' : baseHeight,
+      width: expanded ? window.innerWidth + 'px' : baseWidth,
+      border: expanded ? '2px solid blue' : '2px solid crimson',
+      // I need to use some other value, because position is not animatable
+      opacity: expanded ? 1 : 0,
+    });
 
     // window.addEventListener('message', (event) => {
     //   console.log(event);
@@ -171,129 +211,148 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
 
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
-        <View
-          UNSAFE_className={`list-array-item ${
-            enableDetailedView && 'enableDetailedView'
-          } ${expanded ? 'expanded' : 'collapsed'}`}
-          borderWidth='thin'
-          borderColor='dark'
-          borderRadius='medium'
-          padding='size-150'
+        <animated.div
+          style={{
+            top,
+            left,
+            height,
+            width,
+            border,
+            position: opacity.to((e) => {
+              console.log(e, e >= 0);
+              return e >= 0 ? 'static' : 'absolute';
+            }),
+          }}
         >
-          <View aria-selected={expanded} UNSAFE_className='array-item-header'>
-            <Flex
-              direction='row'
-              margin='size-50'
-              justifyContent='space-between'
-              alignItems='center'
+          <div ref={refForPosition}>
+            <View
+              UNSAFE_className={`list-array-item ${
+                enableDetailedView && 'enableDetailedView'
+              } ${expanded ? 'expanded' : 'collapsed'}`}
+              borderWidth='thin'
+              borderColor='dark'
+              borderRadius='medium'
+              padding='size-150'
             >
-              <View UNSAFE_className='spectrum-array-item-number'>
-                <Text>{index + 1}</Text>
-              </View>
-              <ActionButton
-                flex='auto'
-                isQuiet
-                onPress={handleExpand(index)}
-                aria-label={`expand-item-${childLabel}`}
+              <View
+                aria-selected={expanded}
+                UNSAFE_className='array-item-header'
               >
-                <Text
-                  UNSAFE_className='spectrum-array-item-name'
-                  UNSAFE_style={{ textAlign: 'left' }}
+                <Flex
+                  direction='row'
+                  margin='size-50'
+                  justifyContent='space-between'
+                  alignItems='center'
                 >
-                  {childLabel}
-                </Text>
-              </ActionButton>
-              <View>
-                <Flex gap={enableDetailedView ? 'size-300' : ''}>
-                  {enableDetailedView && expanded && (
-                    <TooltipTrigger delay={0}>
-                      <ActionButton
-                        onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
-                        aria-label={`save-and-continue-editing-${childLabel}`}
-                      >
-                        <SaveAsFloppy />
-                      </ActionButton>
-                      <Tooltip>Save & continue editing</Tooltip>
-                    </TooltipTrigger>
-                  )}
-
-                  <TooltipTrigger delay={0}>
-                    <ActionButton
-                      onPress={handleExpand(index)}
-                      isQuiet={!enableDetailedView}
-                      aria-label={`expand-item-${childLabel}`}
+                  <View UNSAFE_className='spectrum-array-item-number'>
+                    <Text>{index + 1}</Text>
+                  </View>
+                  <ActionButton
+                    flex='auto'
+                    isQuiet
+                    onPress={handleExpand(index)}
+                    aria-label={`expand-item-${childLabel}`}
+                  >
+                    <Text
+                      UNSAFE_className='spectrum-array-item-name'
+                      UNSAFE_style={{ textAlign: 'left' }}
                     >
-                      {
-                        expanded ? (
+                      {childLabel}
+                    </Text>
+                  </ActionButton>
+                  <View>
+                    <Flex gap={enableDetailedView ? 'size-300' : ''}>
+                      {enableDetailedView && expanded && (
+                        <TooltipTrigger delay={0}>
+                          <ActionButton
+                            onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
+                            aria-label={`save-and-continue-editing-${childLabel}`}
+                          >
+                            <SaveAsFloppy />
+                          </ActionButton>
+                          <Tooltip>Save & continue editing</Tooltip>
+                        </TooltipTrigger>
+                      )}
+
+                      <TooltipTrigger delay={0}>
+                        <ActionButton
+                          onPress={handleExpand(index)}
+                          isQuiet={!enableDetailedView}
+                          aria-label={`expand-item-${childLabel}`}
+                        >
+                          {
+                            expanded ? (
                         enableDetailedView ? <SaveFloppy aria-label='Save & Close' /> : <ChevronUp aria-label='Collapse' /> //prettier-ignore
                       ) : //prettier-ignore
                       enableDetailedView ? <Edit aria-label='Edit' /> : <ChevronDown aria-label='Expand' /> //prettier-ignore
-                      }
-                    </ActionButton>
-                    <Tooltip>
-                      {expanded
-                        ? enableDetailedView
-                          ? 'Save & Close'
-                          : 'Collapse'
-                        : enableDetailedView
-                        ? 'Edit'
-                        : 'Expand'}
-                    </Tooltip>
-                  </TooltipTrigger>
+                          }
+                        </ActionButton>
+                        <Tooltip>
+                          {expanded
+                            ? enableDetailedView
+                              ? 'Save & Close'
+                              : 'Collapse'
+                            : enableDetailedView
+                            ? 'Edit'
+                            : 'Expand'}
+                        </Tooltip>
+                      </TooltipTrigger>
 
-                  <TooltipTrigger delay={0}>
-                    <ActionButton
-                      onPress={() => setOpen(true)}
-                      aria-label={`delete-item-${childLabel}`}
-                      isQuiet={enableDetailedView}
-                    >
-                      <Delete aria-label='Delete' />
-                    </ActionButton>
-                    <Tooltip>Delete</Tooltip>
-                  </TooltipTrigger>
+                      <TooltipTrigger delay={0}>
+                        <ActionButton
+                          onPress={() => setOpen(true)}
+                          aria-label={`delete-item-${childLabel}`}
+                          isQuiet={enableDetailedView}
+                        >
+                          <Delete aria-label='Delete' />
+                        </ActionButton>
+                        <Tooltip>Delete</Tooltip>
+                      </TooltipTrigger>
 
-                  <DialogContainer onDismiss={handleClose}>
-                    {open && (
-                      <Dialog>
-                        <Heading>Delete Item?</Heading>
-                        <Divider />
-                        <Content>
-                          Are you sure you wish to delete this item?
-                        </Content>
-                        <ButtonGroup>
-                          <Button variant='secondary' onPress={handleClose}>
-                            Cancel
-                          </Button>
-                          <Button
-                            autoFocus
-                            variant='cta'
-                            onPressStart={removeItem(path, index)}
-                            onPressEnd={handleClose}
-                          >
-                            Delete
-                          </Button>
-                        </ButtonGroup>
-                      </Dialog>
-                    )}
-                  </DialogContainer>
+                      <DialogContainer onDismiss={handleClose}>
+                        {open && (
+                          <Dialog>
+                            <Heading>Delete Item?</Heading>
+                            <Divider />
+                            <Content>
+                              Are you sure you wish to delete this item?
+                            </Content>
+                            <ButtonGroup>
+                              <Button variant='secondary' onPress={handleClose}>
+                                Cancel
+                              </Button>
+                              <Button
+                                autoFocus
+                                variant='cta'
+                                onPressStart={removeItem(path, index)}
+                                onPressEnd={handleClose}
+                              >
+                                Delete
+                              </Button>
+                            </ButtonGroup>
+                          </Dialog>
+                        )}
+                      </DialogContainer>
+                    </Flex>
+                  </View>
                 </Flex>
               </View>
-            </Flex>
-          </View>
-          {expanded ? (
-            <View>
-              <ResolvedJsonFormsDispatch
-                key={childPath}
-                path={childPath}
-                renderers={renderers}
-                schema={schema}
-                uischema={foundUISchema || uischema}
-              />
+              {expanded ? (
+                <View>
+                  <ResolvedJsonFormsDispatch
+                    key={childPath}
+                    path={childPath}
+                    renderers={renderers}
+                    schema={schema}
+                    uischema={foundUISchema || uischema}
+                  />
+                </View>
+              ) : (
+                ''
+              )}
             </View>
-          ) : (
-            ''
-          )}
-        </View>
+          </div>
+        </animated.div>
       </SpectrumProvider>
     );
   }
