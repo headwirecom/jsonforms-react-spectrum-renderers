@@ -1,6 +1,6 @@
 {
   "name": "test-jsonforms-react-spectrum-renderers",
-  "version": "0.0.71",
+  "version": "0.0.72",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
@@ -48,6 +48,7 @@
     "@spectrum-icons/workflow": "^4.0.0",
     "@types/uuid": "^8.3.4",
     "moment": "^2.29.3",
+    "react-spring": "^9.4.5",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
