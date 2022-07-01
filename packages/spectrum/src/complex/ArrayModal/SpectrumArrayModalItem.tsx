@@ -161,73 +161,81 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       }
     }, []);
 
-    // const enableDetailedView = uischema?.options?.enableDetailedView;
-    const enableDetailedView = true;
+    // WIP  LOOK INTO CHANNEL
+
+    // window.addEventListener('message', (event) => {
+    //   if (event.data.type !== 'expanded-item') {return;} // prettier-ignore
+    //   console.log(event.data);
+    // });
+    // let callOnClose = false;
+    // useEffect(() => {
+    //   console.log('\x1b[31m~ useEffect EXPANDED was called... index:', index);
+    //   if (expanded || callOnClose) {
+    //     window.postMessage({ type: 'expanded-item', index, path, label: childLabel }, '*'); // prettier-ignore
+    //     callOnClose = expanded ? true : false;
+    //   }
+    // }, [expanded]);
+
+    const enableDetailedView = uischema?.options?.enableDetailedView;
 
     const refForPosition = useRef<HTMLDivElement>();
 
-    const [baseHeight, setBaseHeight] = useState('auto');
-    const [baseWidth, setBaseWidth] = useState('auto');
+    const [baseHeight, setBaseHeight] = useState('66px');
+    const [baseWidth, setBaseWidth] = useState('100%');
     const [baseTop, setBaseTop] = useState(0);
     const [baseLeft, setBaseLeft] = useState(0);
 
     useEffect(() => {
-      // if (refForPosition.current) {
-      //   setBaseHeight(refForPosition.current);
-      //   setBaseWidth(refForPosition.current);
-      // }
-
       if (refForPosition.current) {
         setBaseHeight(refForPosition.current.clientHeight + 'px');
         setBaseWidth(refForPosition.current.clientWidth + 'px');
         setBaseTop(refForPosition.current.offsetTop);
         setBaseLeft(refForPosition.current.offsetLeft);
       }
-    }, [refForPosition.current]);
+    }, []);
 
-    const { top, left, height, width, border, opacity } = useSpring({
+    const { top, left, height, width, opacity } = useSpring({
       top: expanded ? 0 : baseTop,
       left: expanded ? 0 : baseLeft,
       height: expanded ? window.innerHeight + 'px' : baseHeight,
       width: expanded ? window.innerWidth + 'px' : baseWidth,
-      border: expanded ? '2px solid blue' : '2px solid crimson',
       // I need to use some other value, because position is not animatable
       opacity: expanded ? 1 : 0,
     });
 
-    // window.addEventListener('message', (event) => {
-    //   console.log(event);
-    // });
-    // let callOnClose = false;
-
-    // I don't know why, but postmessage is always called, even though if statement is skipped!
-    // useEffect(() => {
-    //   console.log('~ expanded || callOnClose', expanded, callOnClose);
-    //   if (expanded || callOnClose) {
-    //     window.postMessage({ index, path, label: childLabel }, '*');
-    //     callOnClose = expanded ? true : false;
-    //   }
-    // }, [expanded]);
-
-    return (
-      <SpectrumProvider flex='auto' width={'100%'}>
+    const ConditionalAnimationWrapper = ({
+      condition,
+      children,
+    }: {
+      condition: boolean;
+      children: any;
+    }) => {
+      return condition ? (
         <animated.div
           style={{
             top,
             left,
             height,
             width,
-            border,
             position: opacity.to((e) => {
-              console.log(e, e >= 0);
-              return e >= 0 ? 'static' : 'absolute';
+              return e > 0 ? 'absolute' : 'static';
             }),
           }}
         >
+          {children}
+        </animated.div>
+      ) : (
+        children
+      );
+    };
+
+    return (
+      <SpectrumProvider flex='auto' width={'100%'}>
+        <ConditionalAnimationWrapper condition={enableDetailedView}>
           <div ref={refForPosition}>
             <View
               UNSAFE_className={`list-array-item ${
-                enableDetailedView && 'enableDetailedView'
+                enableDetailedView ? 'enableDetailedView' : ''
               } ${expanded ? 'expanded' : 'collapsed'}`}
               borderWidth='thin'
               borderColor='dark'
@@ -352,7 +360,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
               )}
             </View>
           </div>
-        </animated.div>
+        </ConditionalAnimationWrapper>
       </SpectrumProvider>
     );
   }
