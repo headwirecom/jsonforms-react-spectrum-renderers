@@ -57,12 +57,14 @@ import Add from '@spectrum-icons/workflow/Add';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
-import { indexOfFittingSchemaObject, moveFromTo /* , swap */ } from './utils';
+import {
+  indexOfFittingSchemaObject,
+  moveFromTo /* , swap, clamp */,
+} from './utils';
 //import { useSprings, animated, useSpringRef } from '@react-spring/web';
 //import { useDrag } from '@use-gesture/react';
 import './SpectrumArrayModalItem.css';
 
-//import { clamp } from 'lodash';
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
