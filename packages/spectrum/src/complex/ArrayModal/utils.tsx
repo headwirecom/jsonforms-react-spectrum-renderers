@@ -38,6 +38,7 @@ import {
 } from '@adobe/react-spectrum';
 import { ErrorIndicator } from '../../components/ErrorIndicator';
 import SpectrumProvider from '../../additional/SpectrumProvider';
+import { Dispatch } from './type';
 
 export function getUIOptions(
   uischema: UISchemaElement,
@@ -140,3 +141,101 @@ export function getChildError(e: ErrorObject[], path: string) {
 }
 
 export let indexOfFittingSchemaObject: any = {};
+
+interface UpdateAction {
+  type: 'jsonforms/UPDATE';
+  path: string;
+  updater(existingData?: any): any;
+}
+
+export const UPDATE_DATA: 'jsonforms/UPDATE' = 'jsonforms/UPDATE';
+
+const update = (
+  path: string,
+  updater: (existingData: any) => any
+): UpdateAction => ({
+  type: UPDATE_DATA,
+  path,
+  updater,
+});
+
+interface DispatchPropsOfArrayControl {
+  move?(path: string, from: number, to: number): () => void;
+}
+
+/**
+ * Maps state to dispatch properties of an array control.
+ *
+ * @param dispatch the store's dispatch method
+ * @returns {DispatchPropsOfArrayControl} dispatch props of an array control
+ */
+export const mapDispatchToArrayControlProps = (
+  dispatch: Dispatch<UpdateAction>
+): DispatchPropsOfArrayControl => ({
+  move: (path: any, from: number, to: number) => () => {
+    dispatch(
+      update(path, (array) => {
+        move(array, from, to);
+        return array;
+      })
+    );
+  },
+});
+
+const move = (array: any[], index: number, delta: number) => {
+  const newIndex: number = index + delta;
+  if (newIndex < 0 || newIndex >= array.length) {
+    return;
+  } // Already at the top or bottom.
+  if (newIndex > index) {
+    const indexes: number[] = [index, newIndex].sort((a, b) => a - b); // Sort the indixes
+    array.splice(indexes[1], 1, array[indexes[0]], array[indexes[1]]);
+  } else {
+    const indexes: number[] = [index, newIndex].sort((a, b) => a - b); // Sort the indixes
+    array.splice(indexes[0], 1, array[indexes[1]], array[indexes[0]]);
+  }
+};
+
+export const moveFromTo = (data: any[], from: number, to: number) => {
+  let delta = to - from;
+
+  if (delta === 0) {
+    return; // If nothing changed, do nothing
+  } else {
+    move(data, from, delta);
+  }
+};
+
+export function swap(array: any[], moveIndex: number, toIndex: number) {
+  /* #move - Moves an array item from one position in an array to another.
+     Note: This is a pure function so a new array will be returned, instead
+     of altering the array argument.
+    Arguments:
+    1. array     (String) : Array in which to move an item.         (required)
+    2. moveIndex (Object) : The index of the item to move.          (required)
+    3. toIndex   (Object) : The index to move item at moveIndex to. (required)
+  */
+  const item = array[moveIndex];
+  const length = array.length;
+  const diff = moveIndex - toIndex;
+
+  if (diff > 0) {
+    // move left
+    return [
+      ...array.slice(0, toIndex),
+      item,
+      ...array.slice(toIndex, moveIndex),
+      ...array.slice(moveIndex + 1, length),
+    ];
+  } else if (diff < 0) {
+    // move right
+    const targetIndex = toIndex + 1;
+    return [
+      ...array.slice(0, moveIndex),
+      ...array.slice(moveIndex + 1, targetIndex),
+      item,
+      ...array.slice(targetIndex, length),
+    ];
+  }
+  return array;
+}

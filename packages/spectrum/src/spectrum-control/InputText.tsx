@@ -25,12 +25,15 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { TextField } from '@adobe/react-spectrum';
+import { TextField, ActionButton, Flex } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 //import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedChange } from '../util/debounce';
+import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
+import Link from '@spectrum-icons/workflow/Link';
+import Asset from '@spectrum-icons/workflow/Asset';
 
 import './InputText.css';
 
@@ -119,34 +122,86 @@ export const InputText = React.memo(
       path
     );
 
+    const fileBrowser = uischema.options?.fileBrowser;
+    const fileBrowserOptions =
+      fileBrowser?.send?.message &&
+      fileBrowser?.receive?.message &&
+      fileBrowser?.receive?.data;
+
+    const sendMessage = (
+      message: any,
+      targetOrigin: string = '*',
+      transfer?: any
+    ) => {
+      //var popUp = window.open(targetOrigin);
+      window.postMessage(message, targetOrigin, transfer);
+    };
+
+    window.addEventListener('message', (e) => {
+      if (e?.data?.type && e?.data?.type === fileBrowser?.receive?.type) {
+        //handleChange(path, e.data.message);
+        onChange(e.data.data);
+      }
+    });
+
     return (
       <SpectrumProvider width={width}>
-        <TextField
-          aria-label={label ? label : 'textfield'}
-          autoFocus={appliedUiSchemaOptions.focus}
-          description={appliedUiSchemaOptions.description ?? null}
-          errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
-          id={id && `${id}-input`}
-          inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
-          isDisabled={enabled === undefined ? false : !enabled}
-          isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-          isReadOnly={
-            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-          }
-          isRequired={required}
-          label={label}
-          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-          maxLength={appliedUiSchemaOptions.maxLength ?? null}
-          maxWidth={width}
-          minLength={appliedUiSchemaOptions.minLength ?? null}
-          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-          onChange={onChange}
-          onFocusChange={clearNonFocusPlaceholder}
-          type={appliedUiSchemaOptions.format ?? 'text'}
-          validationState={isValidCheck()}
-          value={inputText}
-        />
+        <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+          <TextField
+            aria-label={label ? label : 'textfield'}
+            autoFocus={appliedUiSchemaOptions.focus}
+            description={appliedUiSchemaOptions.description ?? null}
+            errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+            id={id && `${id}-input`}
+            inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
+            isDisabled={enabled === undefined ? false : !enabled}
+            isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+            isReadOnly={
+              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
+            }
+            isRequired={required}
+            label={label}
+            labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
+            labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+            maxLength={appliedUiSchemaOptions.maxLength ?? null}
+            width={width}
+            minLength={appliedUiSchemaOptions.minLength ?? null}
+            necessityIndicator={
+              appliedUiSchemaOptions.necessityIndicator ?? null
+            }
+            onChange={onChange}
+            onFocusChange={clearNonFocusPlaceholder}
+            type={appliedUiSchemaOptions.format ?? 'text'}
+            validationState={isValidCheck()}
+            value={inputText}
+          />
+          {fileBrowserOptions && (
+            <ActionButton
+              onPress={() =>
+                sendMessage(
+                  fileBrowser?.send?.message,
+                  fileBrowser?.send?.targetOrigin,
+                  fileBrowser?.send?.transfer
+                )
+              }
+              aria-label={fileBrowser?.buttonText ?? `Filebrowser`}
+              UNSAFE_className='fileBrowserButton'
+              UNSAFE_style={
+                fileBrowser?.icon === false ? null : { paddingRight: 8 }
+              }
+            >
+              {fileBrowser?.icon === false ? null : uischema.options
+                  ?.fileBrowser?.icon === 'url' ? (
+                <Link />
+              ) : fileBrowser?.icon === 'asset' ? (
+                <Asset />
+              ) : (
+                <FolderOpen />
+              )}
+              {fileBrowser?.buttonText ?? null}
+            </ActionButton>
+          )}
+        </Flex>
       </SpectrumProvider>
     );
   }
