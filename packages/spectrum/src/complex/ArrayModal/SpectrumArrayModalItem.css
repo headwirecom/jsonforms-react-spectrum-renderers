@@ -35,3 +35,35 @@ button {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
+.list-array-item.enableDetailedView {
+  background-color: var(--spectrum-global-color-gray-100);
+}
+.list-array-item.enableDetailedView.collapsed {
+  animation: collapse 0.5s ease-in-out;
+}
+.list-array-item.enableDetailedView.expanded {
+  background-color: var(--spectrum-global-color-gray-100);
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  width: 100%;
+  min-height: 100%;
+  flex-grow: 1;
+  animation: expand 0.5s ease-in-out;
+  position: absolute;
+}
+
+.list-array-item.enableDetailedView.expanded > .array-item-header {
+  position: sticky;
+  width: calc(100% + 24px);
+  margin-left: -12px;
+
+  padding: 10px 0 10px 0;
+  margin-top: -12px;
+  border-radius: 10px 10px 0 0;
+  top: -16px;
+
+  background-color: var(--spectrum-global-color-gray-100);
+  z-index: 1;
+  border-bottom: 2px solid var(--spectrum-global-color-gray-200);
+}
