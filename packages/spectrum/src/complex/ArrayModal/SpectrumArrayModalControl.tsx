@@ -34,10 +34,9 @@ import {
   createCombinatorRenderInfos,
   createDefaultValue,
   resolveSubSchemas,
-  moveUp,
-  moveDown,
 } from '@jsonforms/core';
 import {
+  ActionButton,
   Button,
   ButtonGroup,
   Dialog,
@@ -49,16 +48,23 @@ import {
   ListBox,
   Picker,
   Text,
-  View,
   Tooltip,
   TooltipTrigger,
-  ActionButton,
+  View,
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from './SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
-import { indexOfFittingSchemaObject } from './utils';
+import DragHandle from '@spectrum-icons/workflow/DragHandle';
+import {
+  indexOfFittingSchemaObject,
+  moveFromTo /* , swap, clamp */,
+} from './utils';
+//import { useSprings, animated, useSpringRef } from '@react-spring/web';
+//import { useDrag } from '@use-gesture/react';
+import './SpectrumArrayModalItem.css';
+
 export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
@@ -162,10 +168,40 @@ export const SpectrumArrayModalControl = React.memo(
         `${path}.${index - 1}`
       ] = indexOfFittingSchemaOriginal;
 
-      moveUp(data, index);
       setExpanded(null);
       //removeItems is only used to update the data, change to a better solution in the future
       removeItems(path, [999999999])();
+    };
+
+    const moveDnD = (curIndex: number, tarRow: number) => {
+      setExpanded(null);
+      moveFromTo(data, curIndex, tarRow);
+
+      if (curIndex - tarRow > 0) {
+        removeItems(path, [curIndex + 1])();
+      } else {
+        removeItems(path, [curIndex])();
+      }
+
+      if (curIndex - tarRow === 1 || curIndex - tarRow === -2) {
+        const indexOfFittingSchemaOriginal =
+          indexOfFittingSchemaObject[`${path}.${curIndex}`];
+        const indexOfFittingSchemaNew =
+          indexOfFittingSchemaObject[`${path}.${curIndex - 1}`];
+        indexOfFittingSchemaObject[
+          `${path}.${curIndex}`
+        ] = indexOfFittingSchemaNew;
+        indexOfFittingSchemaObject[
+          `${path}.${curIndex - 1}`
+        ] = indexOfFittingSchemaOriginal;
+      }
+
+      if (curIndex > 9999999) {
+        moveItUp(curIndex);
+        moveItDown(curIndex);
+      }
+
+      return data;
     };
 
     const moveItDown = (index: number) => {
@@ -178,14 +214,126 @@ export const SpectrumArrayModalControl = React.memo(
         `${path}.${index + 1}`
       ] = indexOfFittingSchemaOriginal;
 
-      moveDown(data, index);
       setExpanded(null);
       //removeItems is only used to update the data, change to a better solution in the future
       removeItems(path, [data.length])();
     };
 
+    // Drag and Drop
+    /* const order = React.useRef(
+      Array.from(Array(data?.length)).map((_: any, index: any) => index)
+    );
+    const HEIGHT_OF_COMPONENT = 76;
+    const fn = (
+      order?: any,
+      down?: any,
+      originalIndex?: number,
+      curIndex?: number,
+      y?: any
+    ) => (index: number) =>
+      down && index === originalIndex
+        ? {
+            y: curIndex * HEIGHT_OF_COMPONENT + y,
+            scale: 1.03,
+            zIndex: 50,
+            shadow: 15,
+            immediate: (n: any) => n === 'y' || n === 'zIndex',
+          }
+        : {
+            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
+            scale: 1,
+            zIndex: 20,
+            shadow: 1,
+            immediate: false,
+          };
+    const [springs, setSprings] = useSprings(data?.length, fn(order.current));
+    const DragHandleRef = useSpringRef();
+
+    const [state, updateState] = useState(0);
+    const forceUpdate = useCallback(() => updateState((tick) => tick + 1), []);
+    const [grabbedIndex, setGrabbedIndex] = useState(null);
+    const bind: any = useDrag(
+      ({ args: [originalIndex], active, movement: [, y] }) => {
+        if (grabbedIndex !== null) {
+          console.log('Grabbed', grabbedIndex);
+          //const curIndex = order.current.indexOf(originalIndex);
+          const curRow = clamp(
+            Math.round(
+              (grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT
+            ),
+            0,
+            data.length - 1
+          );
+          const newOrder = swap(order.current, grabbedIndex, curRow);
+          setSprings.start(
+            fn(newOrder, active, originalIndex, grabbedIndex, y)
+          ); // Feed springs new style data, they'll animate the view without causing a single render
+
+          if (!active) {
+            if (grabbedIndex > curRow) {
+              moveDnD(grabbedIndex, curRow);
+            } else if (grabbedIndex < curRow) {
+              moveDnD(grabbedIndex, curRow + 1);
+            }
+            order.current = newOrder;
+            setGrabbedIndex(null);
+            removeItems(path, [999999999])();
+            forceUpdate();
+          }
+        }
+      }
+    ); */
+
     return (
       <View>
+        {/* <div>
+          {springs.map(({ zIndex, shadow, y, scale }, index: number) => (
+            <animated.div
+              {...bind(index)}
+              key={index}
+              style={{
+                zIndex,
+                boxShadow: shadow.to(
+                  (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
+                ),
+                y,
+                scale,
+                position: 'absolute',
+                width: '500px',
+                touchAction: 'none',
+              }}
+              height={66 + 'px'}
+            >
+              STATE: {state}
+              <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+                <SpectrumArrayModalItem
+                  expanded={isExpanded(index)}
+                  handleExpand={onExpand}
+                  index={index}
+                  indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                  path={path}
+                  removeItem={handleRemoveItem}
+                  renderers={renderers}
+                  schema={schema}
+                  uischema={uischema}
+                  uischemas={uischemas}
+                ></SpectrumArrayModalItem>
+                <div
+                  ref={DragHandleRef}
+                  className='grabbable'
+                  onMouseDown={() => setGrabbedIndex(index)}
+                >
+                  <DragHandle
+                    aria-label='Drag and Drop Handle'
+                    size='L'
+                    alignSelf='center'
+                    width={'100%'}
+                  />
+                </div>
+              </Flex>
+            </animated.div>
+          ))}
+        </div> */}
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
           <Button
@@ -259,68 +407,81 @@ export const SpectrumArrayModalControl = React.memo(
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
-                <Flex
-                  key={index}
-                  direction='row'
-                  alignItems='stretch'
-                  flex='auto inherit'
-                >
-                  <SpectrumArrayModalItem
-                    expanded={isExpanded(index)}
-                    handleExpand={onExpand}
-                    index={index}
-                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                    path={path}
-                    removeItem={handleRemoveItem}
-                    renderers={renderers}
-                    schema={schema}
-                    uischema={uischema}
-                    uischemas={uischemas}
-                  ></SpectrumArrayModalItem>
-                  {uischema.options?.showSortButtons ? (
-                    <Flex
-                      direction={
-                        uischema.options?.sortButtonDirection === 'Horizontal'
-                          ? 'row'
-                          : 'column'
-                      }
-                      marginTop={
-                        uischema.options?.sortButtonDirection === 'Horizontal'
-                          ? 'size-225'
-                          : 'size-0'
-                      }
-                    >
-                      <TooltipTrigger delay={0}>
-                        <ActionButton
-                          isQuiet
-                          onPress={() => moveItUp(index)}
-                          aria-label={`move-item-${path}.${index}-up`}
-                          marginX='size-10'
-                          isDisabled={index === 0}
-                        >
-                          <ArrowUp aria-label='ArrowUp' />
-                        </ActionButton>
-                        <Tooltip>Move upwards</Tooltip>
-                      </TooltipTrigger>
-                      <TooltipTrigger delay={0}>
-                        <ActionButton
-                          isQuiet
-                          onPress={() => moveItDown(index)}
-                          aria-label={`move-item-${path}.${index}-down`}
-                          marginX='size-10'
-                          isDisabled={
-                            index ===
-                            indexOfFittingSchemaObject[`${path}itemQuantity`] -
-                              1
-                          }
-                        >
-                          <ArrowDown aria-label='ArrowDown' />
-                        </ActionButton>
-                        <Tooltip>Move downwards</Tooltip>
-                      </TooltipTrigger>
-                    </Flex>
-                  ) : null}
-                </Flex>
+                <div key={index} /* style={{ opacity: 0 }} */>
+                  <Flex
+                    key={index}
+                    direction='row'
+                    alignItems='stretch'
+                    flex='auto inherit'
+                  >
+                    <SpectrumArrayModalItem
+                      expanded={isExpanded(index)}
+                      handleExpand={onExpand}
+                      index={index}
+                      indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                      path={path}
+                      removeItem={handleRemoveItem}
+                      renderers={renderers}
+                      schema={schema}
+                      uischema={uischema}
+                      uischemas={uischemas}
+                    ></SpectrumArrayModalItem>
+                    <div /* ref={DragHandleRef} */ className='grabbable'>
+                      <DragHandle
+                        aria-label='Drag and Drop Handle'
+                        size='L'
+                        alignSelf='center'
+                        width={'100%'}
+                      />
+                    </div>
+
+                    {uischema.options?.showSortButtons ? (
+                      <Flex
+                        direction={
+                          uischema.options?.sortButtonDirection === 'Horizontal'
+                            ? 'row'
+                            : 'column'
+                        }
+                        marginTop={
+                          uischema.options?.sortButtonDirection === 'Horizontal'
+                            ? 'size-225'
+                            : 'size-0'
+                        }
+                      >
+                        <TooltipTrigger>
+                          <ActionButton
+                            isQuiet
+                            onPress={() => moveDnD(index, index - 1)}
+                            aria-label={`move-item-${path}.${index}-up`}
+                            marginX='size-10'
+                            isDisabled={index === 0}
+                          >
+                            <ArrowUp aria-label='ArrowUp' />
+                          </ActionButton>
+                          <Tooltip>Move upwards</Tooltip>
+                        </TooltipTrigger>
+                        <TooltipTrigger>
+                          <ActionButton
+                            isQuiet
+                            onPress={() => moveDnD(index, index + 2)}
+                            aria-label={`move-item-${path}.${index}-down`}
+                            marginX='size-10'
+                            isDisabled={
+                              index ===
+                              indexOfFittingSchemaObject[
+                                `${path}itemQuantity`
+                              ] -
+                                1
+                            }
+                          >
+                            <ArrowDown aria-label='ArrowDown' />
+                          </ActionButton>
+                          <Tooltip>Move downwards</Tooltip>
+                        </TooltipTrigger>
+                      </Flex>
+                    ) : null}
+                  </Flex>
+                </div>
               );
             })
           ) : (

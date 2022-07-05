@@ -20,6 +20,21 @@ button {
   cursor: pointer !important;
 }
 
+.grabbable {
+  display: flex;
+  touch-action: none;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+/* Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
 .list-array-item.enableDetailedView {
   background-color: var(--spectrum-global-color-gray-100);
 }
