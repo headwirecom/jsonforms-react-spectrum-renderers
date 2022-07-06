@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {
   HashRouter as Router,
   Switch,
@@ -130,7 +130,9 @@ export const renderExample = (
   const exampleData = enhanceExample(getExampleSchemas());
   const store = setupStore(exampleData, cells, renderers);
   const rerender = (colorScheme: 'light' | 'dark') => {
-    ReactDOM.render(
+    const container = document.getElementById('root');
+    const root = createRoot(container!);
+    root.render(
       <Provider store={store}>
         <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
           <ColorSchemeContext.Provider value={colorScheme}>
@@ -144,8 +146,7 @@ export const renderExample = (
             </Router>
           </ColorSchemeContext.Provider>
         </SpectrumThemeProvider>
-      </Provider>,
-      document.getElementById('root')
+      </Provider>
     );
   };
   rerender(preferredColorScheme);

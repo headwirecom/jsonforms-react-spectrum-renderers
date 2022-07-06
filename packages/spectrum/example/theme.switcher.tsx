@@ -23,7 +23,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {
   Picker,
   Item,
@@ -35,10 +35,9 @@ import {
 export type Theme = 'light' | 'dark';
 
 export function createThemeSelection(onChange: (newTheme: Theme) => void) {
-  ReactDOM.render(
-    <ThemeSelection onChange={onChange} />,
-    document.getElementById('theme')
-  );
+  const container = document.getElementById('theme');
+  const root = createRoot(container!);
+  root.render(<ThemeSelection onChange={onChange} />);
 }
 
 function ThemeSelection({ onChange }: { onChange: (newTheme: Theme) => void }) {
@@ -48,9 +47,10 @@ function ThemeSelection({ onChange }: { onChange: (newTheme: Theme) => void }) {
     <SpectrumThemeProvider colorScheme={theme} theme={defaultTheme}>
       <View position='absolute' bottom='size-200' left='size-200'>
         <Picker
+          direction='top'
           label='Theme'
           defaultSelectedKey={theme}
-          onSelectionChange={(newTheme: 'light' | 'dark') => {
+          onSelectionChange={(newTheme: any) => {
             document.cookie = `preferTheme=${newTheme}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
             onChange(newTheme);
             setTheme(newTheme);
