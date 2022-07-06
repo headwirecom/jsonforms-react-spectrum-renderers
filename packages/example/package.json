@@ -3,23 +3,21 @@
   "version": "2.4.1-beta.0",
   "private": true,
   "dependencies": {
-    "@adobe/react-spectrum": "^3.8.0",
-    "@jsonforms/core": "^2.5.0",
-    "@jsonforms/examples": "^2.5.0",
-    "@jsonforms/react": "^2.5.0",
-    "@react-spectrum/table": "^3.0.0-alpha.9",
-    "@react-spectrum/tabs": "^3.0.0-alpha.3",
-    "@spectrum-icons/workflow": "^3.2.0",
-    "@types/react-router-dom": "^5.1.6",
-    "@types/react-redux": "^7.1.9",
+    "@adobe/react-spectrum": "^3.19.0",
+    "@jsonforms/core": "^2.5.2",
+    "@jsonforms/examples": "^2.5.2",
+    "@jsonforms/react": "^2.5.2",
+    "@spectrum-icons/workflow": "^4.0.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-redux": "^7.1.24",
     "codemirror": "^5.58.3",
-    "lodash": "^4.17.15",
-    "react": "^16.12.0",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
     "react-codemirror2": "^7.2.1",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.2.1",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.0.4"
+    "redux": "^4.2.0"
   },
   "scripts": {
     "validate": "../../node_modules/.bin/tsc --noEmit",
@@ -27,8 +25,8 @@
     "test": "jest --no-cache"
   },
   "devDependencies": {
-    "jest": "^24.9.0",
-    "ts-jest": "^24.2.0"
+    "jest": "^28.1.2",
+    "ts-jest": "^28.0.5"
   },
   "jest": {
     "moduleFileExtensions": [
