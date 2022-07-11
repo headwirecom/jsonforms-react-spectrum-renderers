@@ -231,13 +231,13 @@ export const SpectrumArrayModalControl = React.memo(
     const order = React.useRef(
       Array.from(Array(data)).map((data: any, _: any) => data)
     );
-    const HEIGHT_OF_COMPONENT = 76;
+    const HEIGHT_OF_COMPONENT = 88;
     const fn = (
       order: any[],
       active: boolean = false,
       originalIndex: number = 0,
       curIndex: number = 0,
-      y: any = 0
+      y: number = 0
     ) => (index: number) =>
       active && index === originalIndex
         ? {
@@ -306,6 +306,7 @@ export const SpectrumArrayModalControl = React.memo(
             order.current[0] = newOrder;
             setGrabbedIndex(null);
             removeItems(path, [999999999])();
+            api.start(fn(newOrder, active, originalIndex, curRow, y));
           }
         }
       }
@@ -361,9 +362,6 @@ export const SpectrumArrayModalControl = React.memo(
                     uischema={uischema}
                     uischemas={uischemas}
                   ></SpectrumArrayModalItem>
-                  <p onClick={() => duplicateContent(index)}>
-                    {JSON.stringify(y)}
-                  </p>
                   <div
                     ref={DragHandleRef}
                     className='grabbable'
@@ -376,6 +374,9 @@ export const SpectrumArrayModalControl = React.memo(
                       width={'100%'}
                     />
                   </div>
+                  <p onClick={() => duplicateContent(index)}>
+                    {JSON.stringify(y)}
+                  </p>
                 </Flex>
               </animated.div>
             ))}
