@@ -12,8 +12,7 @@ export const useDebouncedChange = (
   const debouncedUpdate = useCallback(
     debounce((newValue: any) => {
       handleChange(path, newValue);
-      /* console.log(path);
-      console.log('debouncedUpdate'); */
+      //console.log('debouncedUpdate');
     }, timeout),
     [handleChange, path, timeout]
   );

@@ -57,12 +57,9 @@ import Add from '@spectrum-icons/workflow/Add';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
-import {
-  indexOfFittingSchemaObject,
-  moveFromTo /* , swap, clamp */,
-} from './utils';
-//import { useSprings, animated, useSpringRef } from '@react-spring/web';
-//import { useDrag } from '@use-gesture/react';
+import { indexOfFittingSchemaObject, moveFromTo, swap, clamp } from './utils';
+import { useSprings, animated, useSpringRef, config } from '@react-spring/web';
+import { useDrag } from '@use-gesture/react';
 import './SpectrumArrayModalItem.css';
 
 export interface OwnOneOfProps extends OwnPropsOfControl {
@@ -220,43 +217,49 @@ export const SpectrumArrayModalControl = React.memo(
     };
 
     // Drag and Drop
-    /* const order = React.useRef(
-      Array.from(Array(data?.length)).map((_: any, index: any) => index)
+    const stringified = (arr: any) => {
+      return arr.map((item: any) => {
+        return JSON.stringify(item);
+      });
+    };
+    const order = React.useRef(
+      Array.from(Array(data)).map((data: any, _: any) => data)
     );
-    const HEIGHT_OF_COMPONENT = 76;
+    const HEIGHT_OF_COMPONENT = 88;
     const fn = (
-      order?: any,
-      down?: any,
-      originalIndex?: number,
-      curIndex?: number,
-      y?: any
+      order: any[],
+      active: boolean = false,
+      originalIndex: number = 0,
+      curIndex: number = 0,
+      y: number = 0
     ) => (index: number) =>
-      down && index === originalIndex
+      active && index === originalIndex
         ? {
             y: curIndex * HEIGHT_OF_COMPONENT + y,
             scale: 1.03,
             zIndex: 50,
             shadow: 15,
-            immediate: (n: any) => n === 'y' || n === 'zIndex',
+            immediate: (key: string) => key === 'zIndex',
+            config: (key: string) =>
+              key === 'y' ? config.stiff : config.default,
           }
         : {
-            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
+            y:
+              stringified(order).indexOf(JSON.stringify(data[index])) *
+              HEIGHT_OF_COMPONENT,
             scale: 1,
             zIndex: 20,
             shadow: 1,
             immediate: false,
           };
-    const [springs, setSprings] = useSprings(data?.length, fn(order.current));
+    const [springs, api] = useSprings(data?.length, fn(order.current[0]));
     const DragHandleRef = useSpringRef();
 
-    const [state, updateState] = useState(0);
-    const forceUpdate = useCallback(() => updateState((tick) => tick + 1), []);
     const [grabbedIndex, setGrabbedIndex] = useState(null);
     const bind: any = useDrag(
       ({ args: [originalIndex], active, movement: [, y] }) => {
+        console.log(y);
         if (grabbedIndex !== null) {
-          console.log('Grabbed', grabbedIndex);
-          //const curIndex = order.current.indexOf(originalIndex);
           const curRow = clamp(
             Math.round(
               (grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT
@@ -264,76 +267,115 @@ export const SpectrumArrayModalControl = React.memo(
             0,
             data.length - 1
           );
-          const newOrder = swap(order.current, grabbedIndex, curRow);
-          setSprings.start(
-            fn(newOrder, active, originalIndex, grabbedIndex, y)
-          ); // Feed springs new style data, they'll animate the view without causing a single render
+          console.log(curRow);
+          const newOrder = swap(
+            order.current[0],
+            stringified(order.current[0]).indexOf(
+              JSON.stringify(order.current[0][grabbedIndex])
+            ),
+            stringified(order.current[0]).indexOf(
+              JSON.stringify(order.current[0][curRow])
+            )
+          );
+          api.start(fn(newOrder, active, originalIndex, curRow, y)); // Feed springs new style data, they'll animate the view without causing a single render
+
+          if (
+            stringified(order.current[0]).indexOf(
+              JSON.stringify(order.current[0][grabbedIndex])
+            ) ===
+            stringified(order.current[0]).indexOf(
+              JSON.stringify(order.current[0][curRow])
+            )
+          ) {
+            return;
+          } else {
+            if (data === newOrder) {
+              return;
+            }
+            data.splice(0, data.length);
+            data.push(...newOrder);
+          }
 
           if (!active) {
-            if (grabbedIndex > curRow) {
-              moveDnD(grabbedIndex, curRow);
-            } else if (grabbedIndex < curRow) {
-              moveDnD(grabbedIndex, curRow + 1);
-            }
-            order.current = newOrder;
+            order.current[0] = newOrder;
             setGrabbedIndex(null);
             removeItems(path, [999999999])();
-            forceUpdate();
+            api.start(fn(newOrder, active, originalIndex, curRow, y));
           }
         }
       }
-    ); */
+    );
+
+    const duplicateContent = (index: number) => {
+      data.push(data[index]);
+      removeItems(path, [999999999])();
+    };
 
     return (
       <View>
-        {/* <div>
-          {springs.map(({ zIndex, shadow, y, scale }, index: number) => (
-            <animated.div
-              {...bind(index)}
-              key={index}
-              style={{
-                zIndex,
-                boxShadow: shadow.to(
-                  (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
-                ),
-                y,
-                scale,
-                position: 'absolute',
-                width: '500px',
-                touchAction: 'none',
-              }}
-              height={66 + 'px'}
-            >
-              STATE: {state}
-              <Flex direction='row' alignItems='stretch' flex='auto inherit'>
-                <SpectrumArrayModalItem
-                  expanded={isExpanded(index)}
-                  handleExpand={onExpand}
-                  index={index}
-                  indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                  path={path}
-                  removeItem={handleRemoveItem}
-                  renderers={renderers}
-                  schema={schema}
-                  uischema={uischema}
-                  uischemas={uischemas}
-                ></SpectrumArrayModalItem>
-                <div
-                  ref={DragHandleRef}
-                  className='grabbable'
-                  onMouseDown={() => setGrabbedIndex(index)}
-                >
-                  <DragHandle
-                    aria-label='Drag and Drop Handle'
-                    size='L'
-                    alignSelf='center'
-                    width={'100%'}
-                  />
-                </div>
-              </Flex>
-            </animated.div>
-          ))}
-        </div> */}
+        {
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: HEIGHT_OF_COMPONENT * data.length,
+              touchAction: 'none',
+              transformOrigin: '50% 50% 0px',
+              backgroundColor: 'red',
+              position: 'relative',
+            }}
+          >
+            {springs.map(({ zIndex, shadow, y, scale }, index: number) => (
+              <animated.div
+                {...bind(index)}
+                key={index}
+                style={{
+                  zIndex,
+                  boxShadow: shadow.to(
+                    (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
+                  ),
+                  y,
+                  scale,
+                  width: '100%',
+                  touchAction: 'none',
+                  transformOrigin: '50% 50% 0px',
+                  position: 'absolute',
+                }}
+                height={HEIGHT_OF_COMPONENT + 'px'}
+              >
+                <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+                  <SpectrumArrayModalItem
+                    expanded={isExpanded(index)}
+                    handleExpand={onExpand}
+                    index={index}
+                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                    path={path}
+                    removeItem={handleRemoveItem}
+                    renderers={renderers}
+                    schema={schema}
+                    uischema={uischema}
+                    uischemas={uischemas}
+                  ></SpectrumArrayModalItem>
+                  <div
+                    ref={DragHandleRef}
+                    className='grabbable'
+                    onMouseDown={() => setGrabbedIndex(index)}
+                  >
+                    <DragHandle
+                      aria-label='Drag and Drop Handle'
+                      size='L'
+                      alignSelf='center'
+                      width={'100%'}
+                    />
+                  </div>
+                  <p onClick={() => duplicateContent(index)}>
+                    {JSON.stringify(y)}
+                  </p>
+                </Flex>
+              </animated.div>
+            ))}
+          </div>
+        }
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
           <Button
@@ -407,7 +449,7 @@ export const SpectrumArrayModalControl = React.memo(
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
-                <div key={index} /* style={{ opacity: 0 }} */>
+                <div key={index} style={{ opacity: 0 }}>
                   <Flex
                     key={index}
                     direction='row'
