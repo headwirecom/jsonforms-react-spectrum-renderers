@@ -57,13 +57,7 @@ import Add from '@spectrum-icons/workflow/Add';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
-import {
-  indexOfFittingSchemaObject,
-  moveFromTo,
-  swap,
-  clamp,
-  /* unshifter, */
-} from './utils';
+import { indexOfFittingSchemaObject, moveFromTo, swap, clamp } from './utils';
 import { useSprings, animated, useSpringRef, config } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 import './SpectrumArrayModalItem.css';

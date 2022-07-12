@@ -161,6 +161,7 @@ const update = (
 
 interface DispatchPropsOfArrayControl {
   move?(path: string, from: number, to: number): () => void;
+  updateArray?(path: string, data: any[]): () => void;
 }
 
 /**
@@ -172,15 +173,27 @@ interface DispatchPropsOfArrayControl {
 export const mapDispatchToArrayControlProps = (
   dispatch: Dispatch<UpdateAction>
 ): DispatchPropsOfArrayControl => ({
-  move: (path: any, from: number, to: number) => () => {
+  /* move: (path: any, from: number, to: number) => () => {
     dispatch(
       update(path, (array) => {
         move(array, from, to);
         return array;
       })
     );
+  }, */
+  updateArray: (path: any, data: any[]) => () => {
+    dispatch(
+      update(path, () => {
+        return updateArray(data);
+      })
+    );
   },
 });
+
+export const updateArray = (data: any[]) => {
+  console.log('UPDATE ARRAY');
+  return data;
+};
 
 const move = (array: any[], index: number, delta: number) => {
   const newIndex: number = index + delta;
