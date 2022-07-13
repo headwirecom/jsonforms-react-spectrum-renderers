@@ -132,7 +132,6 @@ export default function DragAndDrop({
         height: HEIGHT_OF_COMPONENT * data.length,
         touchAction: 'none',
         transformOrigin: '50% 50% 0px',
-        backgroundColor: 'red',
         position: 'relative',
       }}
     >
