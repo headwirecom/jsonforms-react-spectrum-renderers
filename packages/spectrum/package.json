@@ -1,6 +1,6 @@
 {
   "name": "test-jsonforms-react-spectrum-renderers",
-  "version": "0.0.83",
+  "version": "0.0.84",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
@@ -12,8 +12,8 @@
     "bundle": "npm run bundle:lib && npm run bundle:example",
     "bundle:lib": "../../node_modules/.bin/webpack --config ./webpack/webpack.build.js --env=production --display-error-details",
     "bundle:example": "../../node_modules/.bin/webpack --config ./webpack/webpack.build-example.js --env=production --display-error-details",
-    "build": "../../node_modules/.bin/tsc && npm run copy-css-files-to-lib",
-    "build:windows": "..\\..\\node_modules\\.bin\\tsc && npm run copy-css-files-to-lib",
+    "build": "rimraf lib && ../../node_modules/.bin/tsc && npm run copy-css-files-to-lib",
+    "build:windows": "rimraf lib && ..\\..\\node_modules\\.bin\\tsc && npm run copy-css-files-to-lib",
     "copy-css-files-to-lib": "find src -name '*.css' | xargs -I {} cp {} lib/{}",
     "dev": "webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
     "clean": "rm -rf lib coverage dist .nyc_output 2> /dev/null",
@@ -50,6 +50,7 @@
     "@use-gesture/react": "^10.2.16",
     "moment": "^2.29.3",
     "react-spring": "^9.4.5",
+    "rimraf": "^3.0.2",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
