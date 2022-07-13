@@ -38,7 +38,6 @@ import {
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
-import DragHandle from '@spectrum-icons/workflow/DragHandle';
 import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
@@ -174,18 +173,6 @@ export const SpectrumArrayModalControl = React.memo(
                       uischema={uischema}
                       uischemas={uischemas}
                     ></SpectrumArrayModalItem>
-                    <div
-                      /* ref={DragHandleRef} */
-                      className='grabbable'
-                    >
-                      <DragHandle
-                        aria-label='Drag and Drop Handle'
-                        size='L'
-                        alignSelf='center'
-                        width={'100%'}
-                      />
-                    </div>
-
                     {uischema.options?.showSortButtons && (
                       <SortButtons
                         data={data}
