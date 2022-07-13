@@ -1330,3 +1330,127 @@ samples.push({
     vegetables: false,
   },
 });
+
+samples.push({
+  name: 'array-modal-test',
+  label: 'Array Modal Test',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/addressOrUsers',
+        options: {
+          DataAsLabel: 0,
+          modal: true,
+          OneOfModal: true,
+          showSortButtons: true,
+          sortButtonDirection: 'Vertical',
+          enableDetailedView: true,
+          DND: false,
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      addressOrUsers: {
+        type: 'array',
+        items: {
+          oneOf: [
+            {
+              type: 'object',
+              title: 'Address',
+              properties: {
+                street_address: {
+                  type: 'string',
+                },
+                componentType: {
+                  type: 'string',
+                  default: 'Address',
+                  const: 'Address',
+                },
+                city: {
+                  type: 'string',
+                },
+                state: {
+                  type: 'string',
+                },
+                optional: {
+                  type: 'string',
+                },
+                indexOfFittingSchema: {
+                  type: 'integer',
+                  default: 0,
+                },
+              },
+              required: ['street_address', 'city', 'state', 'optional'],
+            },
+            {
+              type: 'object',
+              properties: {
+                componentType: {
+                  type: 'string',
+                  default: 'User',
+                  const: 'User',
+                },
+                name: {
+                  type: 'string',
+                },
+                mail: {
+                  type: 'string',
+                },
+                indexOfFittingSchema: {
+                  type: 'number',
+                  default: 1,
+                },
+              },
+              required: ['name', 'mail'],
+            },
+          ],
+        },
+      },
+    },
+  },
+  data: {
+    addressOrUsers: [
+      {
+        name: '1',
+        mail: 'abcs',
+        indexOfFittingSchema: 1,
+        componentType: 'User',
+      },
+      {
+        street_address: '2',
+        city: 'Washington',
+        state: 'DC',
+        componentType: 'Address',
+      },
+      {
+        name: '3',
+        mail: 'asdasas',
+        componentType: 'User',
+        indexOfFittingSchema: 1,
+      },
+      {
+        componentType: '4',
+        indexOfFittingSchema: 1,
+        name: 'asd',
+        mail: 'asdassd',
+      },
+      {
+        name: '5',
+        mail: 'abcs',
+        indexOfFittingSchema: 1,
+        componentType: 'User',
+      },
+      {
+        street_address: '6',
+        city: 'Washington',
+        state: 'DC',
+        componentType: 'Address',
+      },
+    ],
+  },
+});
