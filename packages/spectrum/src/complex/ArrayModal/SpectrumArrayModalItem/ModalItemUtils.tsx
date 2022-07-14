@@ -1,6 +1,7 @@
 export const openItemWhenInQueryParam = (
   path: string,
   index: number,
+  childLabel: string,
   handleExpand: () => void
 ) => {
   try {
@@ -15,7 +16,7 @@ export const openItemWhenInQueryParam = (
       return;
     }
     formLocation = formLocation.split('_');
-    const regex = new RegExp(`((^|_)${path}-${index}$)`);
+    const regex = new RegExp(`((^|_)${path}-${index}-${childLabel}$)`);
 
     formLocation.forEach((location: string) => {
       if (regex.test(location)) {

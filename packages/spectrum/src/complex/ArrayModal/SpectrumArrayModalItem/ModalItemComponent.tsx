@@ -69,11 +69,11 @@ const SpectrumArrayModalItem = React.memo(
 
     const handleExpand = () => {
       if (expanded === false) {
-        if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
+        if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
         setExpanded(true);
         return;
       }
-      if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
+      if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
       setExpanded(false);
       return;
     };
@@ -95,7 +95,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
         indexOfFittingSchemaObject['OneOfPicker'] = true;
       }
 
-      openItemWhenInQueryParam(path, index, handleExpand);
+      openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
     return (
