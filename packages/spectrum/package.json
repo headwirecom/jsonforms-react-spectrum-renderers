@@ -1,6 +1,6 @@
 {
   "name": "test-jsonforms-react-spectrum-renderers",
-  "version": "0.0.85",
+  "version": "0.0.87",
   "description": "React Spectrum Renderer Set for JSONForms",
   "repository": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers",
   "bugs": "https://github.com/headwirecom/jsonforms-react-spectrum-renderers/issues",
@@ -13,8 +13,9 @@
     "bundle:lib": "../../node_modules/.bin/webpack --config ./webpack/webpack.build.js --env=production --display-error-details",
     "bundle:example": "../../node_modules/.bin/webpack --config ./webpack/webpack.build-example.js --env=production --display-error-details",
     "build": "rimraf lib && ../../node_modules/.bin/tsc && npm run copy-css-files-to-lib",
-    "build:windows": "rimraf lib && ..\\..\\node_modules\\.bin\\tsc && npm run copy-css-files-to-lib",
+    "build:windows": "rimraf lib && ..\\..\\node_modules\\.bin\\tsc && npm run copy-css-files-to-lib:windows",
     "copy-css-files-to-lib": "find src -name '*.css' | xargs -I {} cp {} lib/{}",
+    "copy-css-files-to-lib:windows": "find src -name '*.css' | xargs -I {} cp {} lib/\\{}",
     "dev": "webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
     "clean": "rm -rf lib coverage dist .nyc_output 2> /dev/null",
     "lint": "../../node_modules/.bin/tslint --project tsconfig.json --exclude src/models/jsonSchema.ts",
