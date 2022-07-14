@@ -66,8 +66,10 @@ const SpectrumArrayModalItem = React.memo(
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
     const [expanded, setExpanded] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const handleExpand = () => {
+      setIsAnimating(true);
       if (expanded === false) {
         if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
         setExpanded(true);
@@ -103,10 +105,11 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
         <ModalItemAnimatedWrapper
           expanded={expanded}
           enableDetailedView={enableDetailedView}
+          setIsAnimating={setIsAnimating}
         >
           <View
             UNSAFE_className={`list-array-item ${
-              enableDetailedView ? 'enableDetailedView' : ''
+              enableDetailedView ? 'enableDetailedView' : 'accordionView'
             } ${expanded ? 'expanded' : 'collapsed'}`}
             borderWidth='thin'
             borderColor='dark'
@@ -123,8 +126,8 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
               duplicateItem={duplicateItem}
               childLabel={childLabel}
             />
-            {expanded ? (
-              <View>
+            {expanded && !isAnimating ? (
+              <View UNSAFE_className='json-dispatch-wrapper'>
                 <ResolvedJsonFormsDispatch
                   key={childPath}
                   path={childPath}
@@ -133,9 +136,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                   uischema={foundUISchema || uischema}
                 />
               </View>
-            ) : (
-              ''
-            )}
+            ) : null}
           </View>
         </ModalItemAnimatedWrapper>
       </SpectrumProvider>

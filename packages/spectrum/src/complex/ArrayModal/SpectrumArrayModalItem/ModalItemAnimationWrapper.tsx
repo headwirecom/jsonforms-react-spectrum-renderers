@@ -4,12 +4,14 @@ import { useSpring, animated, easings } from 'react-spring';
 interface AnimationWrapperProps {
   expanded: boolean;
   enableDetailedView: boolean;
+  setIsAnimating: (isAnimating: boolean) => void;
   children: React.ReactNode;
 }
 
 export default function ModalItemAnimationWrapper({
   expanded,
   enableDetailedView,
+  setIsAnimating,
   children,
 }: AnimationWrapperProps) {
   // initial values for animation
@@ -31,16 +33,19 @@ export default function ModalItemAnimationWrapper({
   }, []);
 
   const jsonFormWrapper = document.getElementById('json-form-wrapper');
-  const animateToWidth = jsonFormWrapper?.clientWidth || window.innerWidth;
-  const animateToHeight = jsonFormWrapper?.clientHeight || window.innerHeight;
+  const animateToWidth =
+    (jsonFormWrapper?.clientWidth || window.innerWidth - 15) + 'px';
+  const animateToHeight =
+    (jsonFormWrapper?.clientHeight || window.innerHeight - 15) + 'px';
 
   const springAnim = useSpring({
     config: { duration: 700, easing: easings.easeInOutQuart },
     top: expanded ? 0 : baseTop,
     left: expanded ? 0 : baseLeft,
-    width: expanded ? animateToWidth + 'px' : baseWidth,
-    height: expanded ? animateToHeight + 'px' : baseHeight,
+    width: expanded ? animateToWidth : baseWidth,
+    height: expanded ? animateToHeight : baseHeight,
     position: expanded ? 1 : 0,
+    onRest: () => setIsAnimating(false),
   });
 
   return (
