@@ -1,0 +1,9 @@
+div[class^='spectrum-Textfield'] {
+  width: 100%;
+}
+
+.fileBrowserButton {
+  min-width: min-content !important;
+  margin-top: 25px !important;
+  margin-left: 5px !important;
+}

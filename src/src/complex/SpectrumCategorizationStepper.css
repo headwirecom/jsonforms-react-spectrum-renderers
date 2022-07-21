@@ -1,0 +1,31 @@
+.categorization-stepper {
+  counter-reset: categorization-step-number;
+}
+
+.categorization-stepper div[role='tab'] {
+  counter-increment: categorization-step-number;
+}
+
+.categorization-stepper div[role='tab'] > span:before {
+  --categorization-stepper-number-size: 1.2rem;
+
+  display: inline-block;
+  width: var(--categorization-stepper-number-size);
+  height: var(--categorization-stepper-number-size);
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  overflow: hidden;
+  content: counter(categorization-step-number);
+  text-align: center;
+  vertical-align: middle;
+  line-height: var(--categorization-stepper-number-size);
+  font-size: 0.75em;
+  font-weight: 500;
+  background-color: var(--spectrum-global-color-gray-500);
+  color: var(--spectrum-global-color-gray-200);
+}
+
+.categorization-stepper div[role='tab'][aria-selected='true'] > span:before {
+  background-color: var(--spectrum-global-color-gray-900);
+  color: var(--spectrum-global-color-gray-100);
+}
