@@ -25,15 +25,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { Key, useCallback, useState } from 'react';
-
+import React from 'react';
 import {
   createCombinatorRenderInfos,
   isAnyOfControl,
   JsonSchema,
   RankedTester,
   rankWith,
-  resolveSubSchemas,
   StatePropsOfCombinator,
 } from '@jsonforms/core';
 import { JsonFormsDispatch, withJsonFormsAnyOfProps } from '@jsonforms/react';
@@ -58,15 +56,16 @@ const SpectrumAnyOfRenderer = ({
   uischema,
   uischemas,
 }: StatePropsOfCombinator) => {
-  const [selectedAnyOf, setSelectedAnyOf] = useState(indexOfFittingSchema || 0);
-  const handleChange = useCallback(
-    (value: Key) => setSelectedAnyOf(Number(value)),
+  const [selectedAnyOf, setSelectedAnyOf] = React.useState(
+    indexOfFittingSchema || 0
+  );
+  const handleChange = React.useCallback(
+    (value: React.Key) => setSelectedAnyOf(Number(value)),
     [setSelectedAnyOf]
   );
   const anyOf = 'anyOf';
-  const _schema = resolveSubSchemas(schema, rootSchema, anyOf);
   const anyOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).anyOf,
+    (schema as JsonSchema).anyOf,
     rootSchema,
     anyOf,
     uischema,
@@ -77,7 +76,7 @@ const SpectrumAnyOfRenderer = ({
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
       <CombinatorProperties
-        schema={_schema}
+        schema={schema}
         combinatorKeyword={'anyOf'}
         path={path}
       />

@@ -25,10 +25,9 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
-import React, { Key, useCallback, useState } from 'react';
+import React from 'react';
 import { isEmpty } from '../util/isEmpty';
 import {
-  JsonSchema,
   RankedTester,
   createCombinatorRenderInfos,
   createDefaultValue,
@@ -69,17 +68,18 @@ const SpectrumOneOfRenderer = ({
   uischema,
   uischemas,
   visible,
-}: CombinatorProps) => {
-  const [open, setOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(
+}: {
+  [key: string]: any;
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(
     indexOfFittingSchema ?? indexOfFittingSchemaObject[path]
   );
 
-  const [newSelectedIndex, setNewSelectedIndex] = useState(0);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-  const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
+  const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
+  const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
   const oneOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).oneOf,
+    schema.oneOf,
     rootSchema,
     oneOf,
     uischema,
@@ -92,13 +92,13 @@ const SpectrumOneOfRenderer = ({
     setSelectedIndex(newIndex);
   };
 
-  const confirm = useCallback(() => {
+  const confirm = React.useCallback(() => {
     openNewTab(newSelectedIndex);
     setOpen(false);
   }, [handleChange, createDefaultValue, newSelectedIndex]);
 
-  const handleTabChange = useCallback(
-    (newOneOfIndex: Key) => {
+  const handleTabChange = React.useCallback(
+    (newOneOfIndex: React.Key) => {
       newOneOfIndex = Number(newOneOfIndex);
       setNewSelectedIndex(newOneOfIndex);
       if (isEmpty(data)) {
@@ -124,7 +124,7 @@ const SpectrumOneOfRenderer = ({
         <CombinatorProperties
           combinatorKeyword={'oneOf'}
           path={path}
-          schema={_schema}
+          schema={schema}
         />
         {usePickerInsteadOfTabs ? (
           <>
@@ -175,7 +175,7 @@ const SpectrumOneOfRenderer = ({
                 {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
                   <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
                     <Content margin='size-160'>
-                      <ResolvedJsonFormsDispatch
+                      <JsonFormsDispatch
                         cells={cells}
                         key={oneOfIndex}
                         path={path}

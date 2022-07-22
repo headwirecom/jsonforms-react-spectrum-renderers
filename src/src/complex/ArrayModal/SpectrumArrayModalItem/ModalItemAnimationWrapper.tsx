@@ -15,7 +15,7 @@ export default function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   // initial values for animation
-  const refForPosition = React.useRef<HTMLDivElement>();
+  const refForPosition: any = React.useRef<HTMLDivElement>();
 
   const [baseHeight, setBaseHeight] = React.useState('66px');
   const [baseWidth, setBaseWidth] = React.useState('100%');

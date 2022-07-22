@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   LabelElement,
   RankedTester,
@@ -48,7 +48,7 @@ export const SpectrumLabelRendererTester: RankedTester = rankWith(
 /**
  * Default renderer for a label.
  */
-export const SpectrumLabelRenderer: FunctionComponent<RendererProps> = ({
+export const SpectrumLabelRenderer: React.FunctionComponent<RendererProps> = ({
   uischema,
   visible,
 }) => {

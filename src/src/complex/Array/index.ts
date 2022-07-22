@@ -29,6 +29,9 @@ import {
   isObjectArrayWithNesting,
   RankedTester,
   rankWith,
+  // or,
+  // isObjectArrayControl,
+  // isPrimitiveArrayControl,
 } from '@jsonforms/core';
 import ArrayControlRenderer from './SpectrumArrayControlRenderer';
 import { SpectrumArrayControl } from './SpectrumArrayControl';
@@ -38,6 +41,7 @@ export { SpectrumArrayControl, ArrayControlRenderer };
 export const arrayControlTester: RankedTester = rankWith(
   4,
   isObjectArrayWithNesting
+  // or(isObjectArrayControl, isPrimitiveArrayControl)
 );
 
 export default ArrayControlRenderer;

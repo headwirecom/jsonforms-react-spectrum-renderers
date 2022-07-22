@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
@@ -39,36 +39,38 @@ export default function DragAndDrop({
     Array.from(Array(data)).map((data: any, _: any) => data)
   );
   const HEIGHT_OF_COMPONENT = 88;
-  const fn = (
-    order: any[],
-    active: boolean = false,
-    originalIndex: number = 0,
-    curIndex: number = 0,
-    y: number = 0
-  ) => (index: number) =>
-    active && index === originalIndex
-      ? {
-          y: curIndex * HEIGHT_OF_COMPONENT + y,
-          scale: 1.03,
-          zIndex: 50,
-          shadow: 15,
-          immediate: (key: string) => key === 'zIndex',
-          config: (key: string) =>
-            key === 'y' ? config.stiff : config.default,
-        }
-      : {
-          y:
-            stringified(order).indexOf(JSON.stringify(data[index])) *
-            HEIGHT_OF_COMPONENT,
-          scale: 1,
-          zIndex: 20,
-          shadow: 1,
-          immediate: false,
-        };
+  const fn =
+    (
+      order: any[],
+      active: boolean = false,
+      originalIndex: number = 0,
+      curIndex: number = 0,
+      y: number = 0
+    ) =>
+    (index: number) =>
+      active && index === originalIndex
+        ? {
+            y: curIndex * HEIGHT_OF_COMPONENT + y,
+            scale: 1.03,
+            zIndex: 50,
+            shadow: 15,
+            immediate: (key: string) => key === 'zIndex',
+            config: (key: string) =>
+              key === 'y' ? config.stiff : config.default,
+          }
+        : {
+            y:
+              stringified(order).indexOf(JSON.stringify(data[index])) *
+              HEIGHT_OF_COMPONENT,
+            scale: 1,
+            zIndex: 20,
+            shadow: 1,
+            immediate: false,
+          };
   const [springs, api] = useSprings(data?.length, fn(order.current[0]));
-  const DragHandleRef = useSpringRef();
+  const DragHandleRef: any = useSpringRef();
 
-  const [grabbedIndex, setGrabbedIndex] = useState(null);
+  const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
   const bind: any = useDrag(
     ({ args: [originalIndex], active, movement: [, y] }) => {
       console.log(y);

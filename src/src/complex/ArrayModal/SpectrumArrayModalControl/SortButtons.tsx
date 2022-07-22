@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Flex,
   TooltipTrigger,
@@ -30,9 +29,8 @@ export default function SortButtons({
     const indexOfFittingSchemaNew =
       indexOfFittingSchemaObject[`${path}.${index - 1}`];
     indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[
-      `${path}.${index - 1}`
-    ] = indexOfFittingSchemaOriginal;
+    indexOfFittingSchemaObject[`${path}.${index - 1}`] =
+      indexOfFittingSchemaOriginal;
 
     //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [999999999])();
@@ -52,12 +50,10 @@ export default function SortButtons({
         indexOfFittingSchemaObject[`${path}.${curIndex}`];
       const indexOfFittingSchemaNew =
         indexOfFittingSchemaObject[`${path}.${curIndex - 1}`];
-      indexOfFittingSchemaObject[
-        `${path}.${curIndex}`
-      ] = indexOfFittingSchemaNew;
-      indexOfFittingSchemaObject[
-        `${path}.${curIndex - 1}`
-      ] = indexOfFittingSchemaOriginal;
+      indexOfFittingSchemaObject[`${path}.${curIndex}`] =
+        indexOfFittingSchemaNew;
+      indexOfFittingSchemaObject[`${path}.${curIndex - 1}`] =
+        indexOfFittingSchemaOriginal;
     }
 
     if (curIndex > 9999999) {
@@ -74,9 +70,8 @@ export default function SortButtons({
     const indexOfFittingSchemaNew =
       indexOfFittingSchemaObject[`${path}.${index + 1}`];
     indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[
-      `${path}.${index + 1}`
-    ] = indexOfFittingSchemaOriginal;
+    indexOfFittingSchemaObject[`${path}.${index + 1}`] =
+      indexOfFittingSchemaOriginal;
 
     //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [data.length])();

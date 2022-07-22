@@ -25,8 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
-import React from 'react';
-
 import {
   createCombinatorRenderInfos,
   findMatchingUISchema,
@@ -34,13 +32,10 @@ import {
   JsonSchema,
   RankedTester,
   rankWith,
-  resolveSubSchemas,
   StatePropsOfCombinator,
+  JsonSchema4,
 } from '@jsonforms/core';
-import {
-  ResolvedJsonFormsDispatch,
-  withJsonFormsAllOfProps,
-} from '@jsonforms/react';
+import { JsonFormsDispatch, withJsonFormsAllOfProps } from '@jsonforms/react';
 import { View } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -54,9 +49,8 @@ const SpectrumAllOfRenderer = ({
   uischemas,
   uischema,
 }: StatePropsOfCombinator) => {
-  const _schema = resolveSubSchemas(schema, rootSchema, 'allOf');
   const delegateUISchema = findMatchingUISchema(uischemas)(
-    _schema,
+    schema,
     uischema.scope,
     path
   );
@@ -64,8 +58,8 @@ const SpectrumAllOfRenderer = ({
     return (
       <View isHidden={!visible}>
         <SpectrumProvider>
-          <ResolvedJsonFormsDispatch
-            schema={_schema}
+          <JsonFormsDispatch
+            schema={schema}
             uischema={delegateUISchema}
             path={path}
             renderers={renderers}
@@ -75,8 +69,9 @@ const SpectrumAllOfRenderer = ({
       </View>
     );
   }
+  const fallbackJsonSchema: JsonSchema4[] = [];
   const allOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).allOf,
+    (schema === undefined ? fallbackJsonSchema : (schema as JsonSchema)).allOf,
     rootSchema,
     'allOf',
     uischema,
@@ -87,7 +82,7 @@ const SpectrumAllOfRenderer = ({
   return (
     <View isHidden={!visible}>
       {allOfRenderInfos.map((allOfRenderInfo, allOfIndex) => (
-        <ResolvedJsonFormsDispatch
+        <JsonFormsDispatch
           key={allOfIndex}
           schema={allOfRenderInfo.schema}
           uischema={allOfRenderInfo.uischema}

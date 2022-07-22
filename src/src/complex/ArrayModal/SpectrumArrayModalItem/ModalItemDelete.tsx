@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   ButtonGroup,
@@ -28,7 +28,7 @@ export default function ModalItemDelete({
   expanded,
   handleExpand,
 }: ModalItemDeleteProps) {
-  const [durationBeforeDelete, setDurationBeforeDelete] = useState(0);
+  const [durationBeforeDelete, setDurationBeforeDelete] = React.useState(0);
   const onPressStartHandler = () => {
     if (expanded) {
       handleExpand();

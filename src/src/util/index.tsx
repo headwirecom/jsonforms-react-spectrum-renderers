@@ -25,8 +25,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-
-import React from 'react';
 import { ComponentType } from 'react';
 import Ajv from 'ajv';
 import { getAjv } from '@jsonforms/core';

@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayItem from './SpectrumArrayItem';
@@ -42,7 +42,7 @@ export const SpectrumArrayControl = ({
   uischemas,
   renderers,
 }: ArrayControlProps) => {
-  const handleRemoveItem = useCallback(
+  const handleRemoveItem = React.useCallback(
     (p: string, value: any) => () => {
       if (removeItems) {
         removeItems(p, [value])();
@@ -51,15 +51,21 @@ export const SpectrumArrayControl = ({
     [removeItems]
   );
 
-  const [expaned, setExpaned] = useState<number>();
+  const [expanded, setExpanded] = React.useState<number>(-1);
 
-  const isExpaned = (index: number) => expaned === index;
+  //const isExpanded = (index: number) => expanded === index;
 
-  const onExpand = (index: number) => () =>
-    setExpaned((current) => (current === index ? undefined : index));
+  const onExpand = (index: number) => () => {
+    setExpanded((current) => (current === index ? -1 : index));
+  };
+
+  React.useEffect(() => {
+    console.log('expanded');
+  }, [expanded]);
 
   return (
     <View>
+      [expanded] {expanded}
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
         <Button
@@ -80,7 +86,7 @@ export const SpectrumArrayControl = ({
                 schema={schema}
                 handleExpand={onExpand}
                 removeItem={handleRemoveItem}
-                expanded={isExpaned(index)}
+                expanded={expanded}
                 uischema={uischema}
                 uischemas={uischemas}
                 renderers={renderers}

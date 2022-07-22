@@ -1,4 +1,4 @@
-import React, { useCallback, Key } from 'react';
+import React from 'react';
 import {
   DialogContainer,
   Dialog,
@@ -32,7 +32,7 @@ export default function AddDialog({
 }: ArrayModalControlAddDialogProps) {
   const usePickerInsteadOfListBox = uischema.options?.picker;
 
-  const handleListBoxChange = useCallback(
+  const handleListBoxChange = React.useCallback(
     (newOneOfIndex: any) => {
       if (newOneOfIndex.currentKey) {
         setSelectedIndex(newOneOfIndex.currentKey);
@@ -41,8 +41,8 @@ export default function AddDialog({
     [setSelectedIndex]
   );
 
-  const handlePickerChange = useCallback(
-    (newOneOfIndex: Key) => {
+  const handlePickerChange = React.useCallback(
+    (newOneOfIndex: React.Key) => {
       newOneOfIndex = Number(newOneOfIndex);
       setSelectedIndex(newOneOfIndex);
     },

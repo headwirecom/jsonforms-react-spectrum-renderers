@@ -30,6 +30,8 @@ import {
   ArrayControlProps,
   OwnPropsOfControl,
   createDefaultValue,
+  StatePropsOfCombinator,
+  DispatchPropsOfControl,
 } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
@@ -39,7 +41,7 @@ import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
 
-export interface OwnOneOfProps extends OwnPropsOfControl {
+export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
 
@@ -54,7 +56,10 @@ export const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
-  }: ArrayControlProps) => {
+  }: ArrayControlProps &
+    OverrideProps &
+    StatePropsOfCombinator &
+    DispatchPropsOfControl) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);

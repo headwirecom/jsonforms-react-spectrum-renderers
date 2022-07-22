@@ -26,7 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useCallback, ComponentType } from 'react';
+import React from 'react';
 import {
   ActionButton,
   Button,
@@ -70,7 +70,7 @@ import SpectrumProvider from '../../additional/SpectrumProvider';
 
 export interface OwnPropsOfSpectrumArrayItem {
   index: number;
-  expanded: boolean;
+  expanded: number | undefined;
   path: string;
   schema: JsonSchema;
   handleExpand(index: number): () => void;
@@ -98,17 +98,32 @@ const SpectrumArrayItem = ({
 }: OwnPropsOfSpectrumArrayItem) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
+  const newExpanded = expanded;
+  const [isExpanded, setIsExpanded] = React.useState<boolean>(
+    newExpanded === index
+  );
+
+  React.useEffect(() => {
+    console.log('USEEFFECT');
+    setIsExpanded(expanded === index);
+  }, [expanded, newExpanded]);
+
   return (
     <SpectrumProvider>
+      [expanded]{expanded}
+      <br />
+      [newExpanded]{newExpanded}
+      <br />
+      {isExpanded ? 'expanded' : 'collapsed'}
       <View
         borderWidth='thin'
         borderColor='dark'
         borderRadius='medium'
         padding='size-250'
       >
-        <View aria-selected={expanded}>
+        <View aria-selected={isExpanded}>
           <Flex
             direction='row'
             margin='size-50'
@@ -133,13 +148,13 @@ const SpectrumArrayItem = ({
                   isQuiet={true}
                   aria-label={`expand-item-${childLabel}`}
                 >
-                  {expanded ? (
+                  {isExpanded ? (
                     <ChevronUp aria-label='Collapse' />
                   ) : (
                     <ChevronDown aria-label='Expand' />
                   )}
                 </ActionButton>
-                <Tooltip>{expanded ? 'Collapse' : 'Expand'}</Tooltip>
+                <Tooltip>{isExpanded ? 'Collapse' : 'Expand'}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
@@ -177,7 +192,7 @@ const SpectrumArrayItem = ({
             </View>
           </Flex>
         </View>
-        {expanded ? (
+        {isExpanded ? (
           <View>
             <JsonFormsDispatch
               schema={schema}
@@ -239,16 +254,16 @@ export const ctxToSpectrumArrayItemProps = (
 
 const withContextToSpectrumArrayItemProps =
   (
-    Component: ComponentType<OwnPropsOfSpectrumArrayItem>
-  ): ComponentType<OwnPropsOfSpectrumArrayItem> =>
+    Component: React.ComponentType<OwnPropsOfSpectrumArrayItem>
+  ): React.ComponentType<OwnPropsOfSpectrumArrayItem> =>
   ({ ctx, props }: JsonFormsStateContext & OwnPropsOfSpectrumArrayItem) => {
     const stateProps = ctxToSpectrumArrayItemProps(ctx, props);
     return <Component {...stateProps} />;
   };
 
 export const withJsonFormsSpectrumArrayItemProps = (
-  Component: ComponentType<OwnPropsOfSpectrumArrayItem>
-): ComponentType<any> =>
+  Component: React.ComponentType<OwnPropsOfSpectrumArrayItem>
+): React.ComponentType<any> =>
   withJsonFormsContext(
     withContextToSpectrumArrayItemProps(
       React.memo(

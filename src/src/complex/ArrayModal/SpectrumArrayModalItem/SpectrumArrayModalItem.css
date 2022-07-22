@@ -39,8 +39,6 @@ button {
 .list-array-item.enableDetailedView {
   background-color: var(--spectrum-global-color-gray-100);
 }
-.list-array-item.enableDetailedView.collapsed {
-}
 .list-array-item.enableDetailedView.expanded {
   background-color: var(--spectrum-global-color-gray-100);
   top: 0;

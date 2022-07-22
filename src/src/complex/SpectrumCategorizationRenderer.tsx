@@ -1,19 +1,15 @@
 /*
   The MIT License
-
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
   
@@ -37,7 +33,7 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-import { withJsonFormsLayoutProps } from '@jsonforms/react';
+// import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Content,
   Item,
@@ -46,7 +42,8 @@ import {
   Tabs,
   View,
 } from '@adobe/react-spectrum';
-import { AjvProps, withAjvProps } from '../util';
+// import { AjvProps, withAjvProps } from '../util';
+import { AjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -81,8 +78,9 @@ export const SpectrumCategorizationRenderer = (
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
 
   const categorization = uischema as Categorization;
-  const categories = categorization.elements.filter((category: Category) =>
-    isVisible(category, data, undefined, ajv)
+  const categories = categorization.elements.filter(
+    (category: Categorization | Category, _index: number) =>
+      isVisible(category, data, '', ajv)
   );
 
   return (
@@ -118,6 +116,9 @@ export const SpectrumCategorizationRenderer = (
   );
 };
 
-export default withJsonFormsLayoutProps(
-  withAjvProps(SpectrumCategorizationRenderer)
-);
+export default SpectrumCategorizationRenderer;
+/*
+  export default withJsonFormsLayoutProps(
+    withAjvProps(SpectrumCategorizationRenderer)
+  );
+  */
