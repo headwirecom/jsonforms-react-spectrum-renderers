@@ -67,7 +67,7 @@ export default function DragAndDrop({
             shadow: 1,
             immediate: false,
           };
-  const [springs, api] = useSprings(data?.length, fn(order.current[0]));
+  const [springs, api] = useSprings(data?.length ?? 0, fn(order.current[0]));
   const DragHandleRef: any = useSpringRef();
 
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
@@ -80,7 +80,7 @@ export default function DragAndDrop({
             (grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT
           ),
           0,
-          data.length - 1
+          data?.length - 1
         );
         console.log(curRow);
         const newOrder = swap(
@@ -107,7 +107,7 @@ export default function DragAndDrop({
           if (data === newOrder) {
             return;
           }
-          data.splice(0, data.length);
+          data.splice(0, data?.length);
           data.push(...newOrder);
         }
 
@@ -131,7 +131,7 @@ export default function DragAndDrop({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: HEIGHT_OF_COMPONENT * data.length,
+        height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
         touchAction: 'none',
         transformOrigin: '50% 50% 0px',
         position: 'relative',

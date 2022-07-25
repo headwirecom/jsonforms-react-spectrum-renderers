@@ -26,9 +26,12 @@
   THE SOFTWARE.
 */
 import {
-  isObjectArrayWithNesting,
   RankedTester,
   rankWith,
+  and,
+  uiTypeIs,
+  schemaMatches,
+  hasType,
   // or,
   // isObjectArrayControl,
   // isPrimitiveArrayControl,
@@ -40,8 +43,13 @@ export { SpectrumArrayControl, ArrayControlRenderer };
 
 export const arrayControlTester: RankedTester = rankWith(
   4,
-  isObjectArrayWithNesting
   // or(isObjectArrayControl, isPrimitiveArrayControl)
+  and(
+    uiTypeIs('Control'),
+    schemaMatches(
+      (schema) => hasType(schema, 'array') && !Array.isArray(schema.items)
+    )
+  )
 );
 
 export default ArrayControlRenderer;

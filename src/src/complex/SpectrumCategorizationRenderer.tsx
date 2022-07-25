@@ -33,7 +33,7 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-// import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Content,
   Item,
@@ -42,8 +42,7 @@ import {
   Tabs,
   View,
 } from '@adobe/react-spectrum';
-// import { AjvProps, withAjvProps } from '../util';
-import { AjvProps } from '../util';
+import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -89,12 +88,19 @@ export const SpectrumCategorizationRenderer = (
         <Tabs isDisabled={enabled === undefined ? false : !enabled}>
           <TabList>
             {categories.map((category, index) => (
-              <Item key={index}>{category.label}</Item>
+              <Item key={index}>
+                {category?.label ?? category?.i18n ?? `Category ${index + 1}`}
+              </Item>
             ))}
           </TabList>
           <TabPanels>
             {categories.map((category, index) => (
-              <Item key={index} title={category.label}>
+              <Item
+                key={index}
+                title={
+                  category?.label ?? category?.i18n ?? `Category ${index + 1}`
+                }
+              >
                 <Content margin='size-160'>
                   <SpectrumVerticalLayout
                     uischema={
@@ -105,6 +111,9 @@ export const SpectrumCategorizationRenderer = (
                     }
                     schema={schema}
                     path={path}
+                    direction='column'
+                    enabled={enabled === undefined ? true : enabled}
+                    visible={visible === undefined ? true : visible}
                   ></SpectrumVerticalLayout>
                 </Content>
               </Item>
@@ -116,9 +125,6 @@ export const SpectrumCategorizationRenderer = (
   );
 };
 
-export default SpectrumCategorizationRenderer;
-/*
-  export default withJsonFormsLayoutProps(
-    withAjvProps(SpectrumCategorizationRenderer)
-  );
-  */
+export default withJsonFormsLayoutProps(
+  withAjvProps(SpectrumCategorizationRenderer)
+);

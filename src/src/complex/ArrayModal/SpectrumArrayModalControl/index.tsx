@@ -30,8 +30,6 @@ import {
   ArrayControlProps,
   OwnPropsOfControl,
   createDefaultValue,
-  StatePropsOfCombinator,
-  DispatchPropsOfControl,
 } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
@@ -56,10 +54,7 @@ export const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
-  }: ArrayControlProps &
-    OverrideProps &
-    StatePropsOfCombinator &
-    DispatchPropsOfControl) => {
+  }: ArrayControlProps & OverrideProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);

@@ -28,26 +28,28 @@
 import React from 'react';
 
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-// import { withJsonFormsArrayControlProps } from '@jsonforms/react';
+import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
-type overrideProps = { indexOfFittingSchema: number };
+// type overrideProps = { indexOfFittingSchema: number };
 const SpectrumArrayModalControlRenderer = React.memo(
-  ({
-    addItem,
-    data,
-    enabled,
-    errors,
-    id,
-    path,
-    removeItems,
-    rootSchema,
-    schema,
-    uischema,
-    uischemas = [],
-    visible,
-    indexOfFittingSchema,
-  }: ArrayControlProps & overrideProps) => {
+  (
+    {
+      addItem,
+      data,
+      enabled,
+      errors,
+      id,
+      path,
+      removeItems,
+      rootSchema,
+      schema,
+      uischema,
+      uischemas = [],
+      visible,
+    }: // indexOfFittingSchema,
+    ArrayControlProps /*  & overrideProps */
+  ) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(
       controlElement,
@@ -55,9 +57,9 @@ const SpectrumArrayModalControlRenderer = React.memo(
     );
     const label = labelDescription.show ? labelDescription.text : undefined;
 
-    const handleChange = (value: any) => {
+    /* const handleChange = (value: any) => {
       addItem(value, path);
-    };
+    }; */
 
     return (
       <SpectrumArrayModalControl
@@ -65,9 +67,9 @@ const SpectrumArrayModalControlRenderer = React.memo(
         data={data}
         enabled={enabled}
         errors={errors}
-        handleChange={handleChange}
+        //handleChange={handleChange}
         id={id}
-        indexOfFittingSchema={indexOfFittingSchema}
+        // indexOfFittingSchema={indexOfFittingSchema}
         label={label ?? ''}
         path={path}
         removeItems={removeItems}
@@ -81,7 +83,7 @@ const SpectrumArrayModalControlRenderer = React.memo(
   }
 );
 
-/* export default withJsonFormsArrayControlProps(
+export default withJsonFormsArrayControlProps(
   SpectrumArrayModalControlRenderer
-); */
-export default SpectrumArrayModalControlRenderer;
+);
+// export default SpectrumArrayModalControlRenderer;

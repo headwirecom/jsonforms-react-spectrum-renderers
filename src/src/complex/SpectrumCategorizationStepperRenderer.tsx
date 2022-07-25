@@ -34,7 +34,7 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-// import { withJsonFormsLayoutProps } from '@jsonforms/react';
+import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Button,
   ButtonGroup,
@@ -46,8 +46,8 @@ import {
   Tabs,
 } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
-import { AjvProps } from '../util';
-// import { AjvProps, withAjvProps } from '../util';
+// import { AjvProps } from '../util';
+import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -97,12 +97,19 @@ export const SpectrumCategorizationStepperRenderer = (
         >
           <TabList>
             {categories.map((category, index) => (
-              <Item key={index}>{category.label}</Item>
+              <Item key={index}>
+                {category?.label ?? category?.i18n ?? `Category ${index + 1}`}
+              </Item>
             ))}
           </TabList>
           <TabPanels>
             {categories.map((category, index) => (
-              <Item key={index} title={category.label}>
+              <Item
+                key={index}
+                title={
+                  category?.label ?? category?.i18n ?? `Category ${index + 1}`
+                }
+              >
                 <Content margin='size-160'>
                   <SpectrumVerticalLayout
                     uischema={
@@ -113,6 +120,9 @@ export const SpectrumCategorizationStepperRenderer = (
                     }
                     schema={schema}
                     path={path}
+                    direction='column'
+                    enabled={enabled === undefined ? true : enabled}
+                    visible={visible === undefined ? true : visible}
                   ></SpectrumVerticalLayout>
                 </Content>
               </Item>
@@ -149,9 +159,8 @@ export const SpectrumCategorizationStepperRenderer = (
   );
 };
 
-/*
 export default withJsonFormsLayoutProps(
   withAjvProps(SpectrumCategorizationStepperRenderer)
 );
-*/
-export default SpectrumCategorizationStepperRenderer;
+
+// export default SpectrumCategorizationStepperRenderer;
