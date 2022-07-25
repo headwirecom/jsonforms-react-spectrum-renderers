@@ -101,22 +101,10 @@ const SpectrumArrayItem = ({
   const [open, setOpen] = React.useState(false);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
   const newExpanded = expanded;
-  const [isExpanded, setIsExpanded] = React.useState<boolean>(
-    newExpanded === index
-  );
-
-  React.useEffect(() => {
-    console.log('USEEFFECT');
-    setIsExpanded(expanded === index);
-  }, [expanded, newExpanded]);
+  const isExpanded = newExpanded === index;
 
   return (
     <SpectrumProvider>
-      [expanded]{expanded}
-      <br />
-      [newExpanded]{newExpanded}
-      <br />
-      {isExpanded ? 'expanded' : 'collapsed'}
       <View
         borderWidth='thin'
         borderColor='dark'

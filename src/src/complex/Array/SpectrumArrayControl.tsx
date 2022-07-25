@@ -53,19 +53,12 @@ export const SpectrumArrayControl = ({
 
   const [expanded, setExpanded] = React.useState<number>(-1);
 
-  //const isExpanded = (index: number) => expanded === index;
-
   const onExpand = (index: number) => () => {
     setExpanded((current) => (current === index ? -1 : index));
   };
 
-  React.useEffect(() => {
-    console.log('expanded');
-  }, [expanded]);
-
   return (
     <View>
-      [expanded] {expanded}
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
         <Button
@@ -90,7 +83,7 @@ export const SpectrumArrayControl = ({
                 uischema={uischema}
                 uischemas={uischemas}
                 renderers={renderers}
-                key={index}
+                key={index + (expanded === index ? 9999 : 0)}
               ></SpectrumArrayItem>
             );
           })
