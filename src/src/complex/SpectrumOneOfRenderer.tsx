@@ -104,7 +104,7 @@ const SpectrumOneOfRenderer = ({
       if (isEmpty(data)) {
         openNewTab(newOneOfIndex);
       } else {
-        setOpen(true);
+        // setOpen(true);
       }
     },
     [setOpen, setSelectedIndex, data]

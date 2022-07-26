@@ -22,43 +22,45 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import 'codemirror/lib/codemirror.css';
+/* import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/mbo.css';
-import 'codemirror/theme/base16-light.css';
-import React, { useCallback, useContext, useState } from 'react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
+import 'codemirror/theme/base16-light.css'; */
+import * as React from 'react';
+// import { UnControlled as CodeMirror } from 'react-codemirror2';
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
 import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
-import 'codemirror/mode/javascript/javascript';
+// import 'codemirror/mode/javascript/javascript';
 
 export function TextArea(props: {
   value: string;
   onChange: (newValue: string) => void;
 }) {
-  const colorScheme = useContext(ColorSchemeContext);
-  const [value, setValue] = useState(props.value);
+  const colorScheme = React.useContext(ColorSchemeContext);
+  const [value, setValue] = React.useState(props.value);
   const err = getErr(value);
-  const [key, setKey] = useState(Math.random()); // used to force-rerender CodeMirror when Reset button is clicked
-  const reset = useCallback(() => {
+  const [key, setKey] = React.useState(Math.random()); // used to force-rerender CodeMirror when Reset button is clicked
+  const reset = React.useCallback(() => {
     setValue(props.value);
     setKey(Math.random());
   }, [props.value]);
-  const save = useCallback(() => {
+  const save = React.useCallback(() => {
     props.onChange(value);
   }, [value]);
+
+  const onChangeHandler = React.useCallback((value: any, _viewUpdate: any) => {
+    console.log('value:', value);
+  }, []);
 
   return (
     <>
       <CodeMirror
         key={key}
         value={props.value}
-        options={{
-          mode: 'application/json',
-          theme: colorScheme === 'dark' ? 'mbo' : 'default',
-          lineNumbers: true,
-        }}
-        onChange={(_, __, value) => setValue(value)}
+        onChange={onChangeHandler}
+        extensions={[javascript()]}
       />
       <View paddingTop='size-50'>
         {value && err && <StatusLight variant='negative'>{err}</StatusLight>}

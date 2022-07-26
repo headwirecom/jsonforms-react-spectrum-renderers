@@ -66,7 +66,9 @@ export default function AddDialog({
                   width='calc(100% - size-200)'
                 >
                   {schema?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
-                    <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+                    <Item key={oneOfIndex}>
+                      {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
+                    </Item>
                   ))}
                 </Picker>
               </>
@@ -84,9 +86,11 @@ export default function AddDialog({
                   width='calc(100% - size-200)'
                   maxHeight='size-2400'
                 >
-                  {schema?.properties[0].items?.map(
+                  {schema?.oneOf?.map(
                     (oneOfRenderInfo: any, oneOfIndex: number) => (
-                      <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
+                      <Item key={oneOfIndex}>
+                        {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
+                      </Item>
                     )
                   )}
                 </ListBox>
