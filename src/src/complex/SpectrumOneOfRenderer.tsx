@@ -104,9 +104,8 @@ const SpectrumOneOfRenderer = ({
       console.log(data);
       if (isEmpty(data)) {
         openNewTab(newOneOfIndex);
-      } else if (indexOfFittingSchema) {
-        console.log(indexOfFittingSchema);
       } else {
+        console.log(data);
         setOpen(true);
       }
     },

@@ -1,6 +1,6 @@
 {
-  "name": "jsonforms-react-spectrum",
-  "private": true,
+  "name": "jsonforms-react-spectrum-vite-test",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
