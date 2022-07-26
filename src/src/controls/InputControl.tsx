@@ -39,6 +39,10 @@ import merge from 'lodash/merge';
 import maxBy from 'lodash/maxBy';
 import { Flex, Text } from '@adobe/react-spectrum';
 
+type overrideProps = {
+  rootSchema?: any;
+  config?: any;
+};
 export const InputControl = ({
   cells,
   config,
@@ -50,7 +54,7 @@ export const InputControl = ({
   schema,
   uischema,
   visible,
-}: ControlProps) => {
+}: ControlProps & overrideProps) => {
   const [focused, onFocus, onBlur] = useFocus();
   const classNames: any = {
     wrapper: 'control',

@@ -53,9 +53,14 @@
   "devDependencies": {
     "@codemirror/lang-javascript": "^6.0.2",
     "@codemirror/language": "^6.2.1",
+    "@testing-library/dom": "^8.16.0",
+    "@testing-library/react": "^13.3.0",
+    "@types/enzyme": "^3.10.12",
+    "@types/jest": "^28.1.6",
     "@uiw/react-codemirror": "^4.11.4",
     "@vitejs/plugin-react": "^2.0.0",
     "codemirror": "^6.0.1",
+    "enzyme": "^3.11.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4",
     "vite": "^3.0.3"

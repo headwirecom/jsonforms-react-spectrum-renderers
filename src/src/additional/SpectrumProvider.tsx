@@ -22,14 +22,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Provider, useProvider, defaultTheme } from '@adobe/react-spectrum';
 import { ColorSchemeContext } from '../util/ColorSchemeContext';
 import { ProviderProps } from '@react-types/provider';
 
 const SpectrumProvider = (props: ProviderProps) => {
   let { children } = props;
-  const colorSchemeContext = useContext(ColorSchemeContext);
+  const colorSchemeContext = React.useContext(ColorSchemeContext);
   const parentProvider = useProvider();
   const colorScheme = parentProvider
     ? parentProvider.colorScheme

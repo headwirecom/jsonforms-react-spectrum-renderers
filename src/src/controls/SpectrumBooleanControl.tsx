@@ -52,22 +52,23 @@ export const SpectrumBooleanControl = ({
   visible,
 }: ControlProps) => {
   return (
-    <SpectrumBooleanCell
-      id={id && `${id}-input`}
-      isValid={isEmpty(errors)}
-      data={data}
-      enabled={enabled}
-      visible={visible}
-      path={path}
-      uischema={uischema}
-      schema={schema}
-      rootSchema={rootSchema}
-      handleChange={handleChange}
-      errors={errors}
-      config={config}
-    >
+    <div>
+      <SpectrumBooleanCell
+        id={id && `${id}-input`}
+        isValid={isEmpty(errors)}
+        data={data}
+        enabled={enabled}
+        visible={visible}
+        path={path}
+        uischema={uischema}
+        schema={schema}
+        rootSchema={rootSchema}
+        handleChange={handleChange}
+        errors={errors}
+        config={config}
+      />
       {label}
-    </SpectrumBooleanCell>
+    </div>
   );
 };
 

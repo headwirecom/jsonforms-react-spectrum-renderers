@@ -51,7 +51,7 @@ export function TextArea(props: {
   }, [value]);
 
   const onChangeHandler = React.useCallback((value: any, _viewUpdate: any) => {
-    console.log('value:', value);
+    setValue(value);
   }, []);
 
   return (

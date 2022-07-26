@@ -29,7 +29,6 @@ import React from 'react';
 import {
   createCombinatorRenderInfos,
   isAnyOfControl,
-  JsonSchema,
   RankedTester,
   rankWith,
   StatePropsOfCombinator,
@@ -64,14 +63,18 @@ const SpectrumAnyOfRenderer = ({
     [setSelectedAnyOf]
   );
   const anyOf = 'anyOf';
-  const anyOfRenderInfos = createCombinatorRenderInfos(
-    (schema as JsonSchema).anyOf,
-    rootSchema,
-    anyOf,
-    uischema,
-    path,
-    uischemas
-  );
+
+  let anyOfRenderInfos;
+  if (schema?.anyOf) {
+    anyOfRenderInfos = createCombinatorRenderInfos(
+      schema.anyOf,
+      rootSchema,
+      anyOf,
+      uischema,
+      path,
+      uischemas
+    );
+  }
 
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
@@ -80,32 +83,34 @@ const SpectrumAnyOfRenderer = ({
         combinatorKeyword={'anyOf'}
         path={path}
       />
-      <Tabs
-        selectedKey={String(selectedAnyOf)}
-        onSelectionChange={handleChange}
-      >
-        <TabList>
-          {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-            <Item key={anyOfIndex}>{anyOfRenderInfo.label}</Item>
-          ))}
-        </TabList>
-        <TabPanels>
-          {anyOfRenderInfos.map((anyOfRenderInfo, anyOfIndex) => (
-            <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
-              <Content margin='size-160'>
-                <JsonFormsDispatch
-                  key={anyOfIndex}
-                  schema={anyOfRenderInfo.schema}
-                  uischema={anyOfRenderInfo.uischema}
-                  path={path}
-                  renderers={renderers}
-                  cells={cells}
-                />
-              </Content>
-            </Item>
-          ))}
-        </TabPanels>
-      </Tabs>
+      {anyOfRenderInfos && (
+        <Tabs
+          selectedKey={String(selectedAnyOf)}
+          onSelectionChange={handleChange}
+        >
+          <TabList>
+            {anyOfRenderInfos?.map((anyOfRenderInfo, anyOfIndex) => (
+              <Item key={anyOfIndex}>{anyOfRenderInfo.label}</Item>
+            ))}
+          </TabList>
+          <TabPanels>
+            {anyOfRenderInfos?.map((anyOfRenderInfo, anyOfIndex) => (
+              <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
+                <Content margin='size-160'>
+                  <JsonFormsDispatch
+                    key={anyOfIndex}
+                    schema={anyOfRenderInfo.schema}
+                    uischema={anyOfRenderInfo.uischema}
+                    path={path}
+                    renderers={renderers}
+                    cells={cells}
+                  />
+                </Content>
+              </Item>
+            ))}
+          </TabPanels>
+        </Tabs>
+      )}
     </View>
   );
 };

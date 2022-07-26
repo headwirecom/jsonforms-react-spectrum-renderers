@@ -29,11 +29,9 @@ import {
   createCombinatorRenderInfos,
   findMatchingUISchema,
   isAllOfControl,
-  JsonSchema,
   RankedTester,
   rankWith,
   StatePropsOfCombinator,
-  JsonSchema4,
 } from '@jsonforms/core';
 import { JsonFormsDispatch, withJsonFormsAllOfProps } from '@jsonforms/react';
 import { View } from '@adobe/react-spectrum';
@@ -69,19 +67,21 @@ const SpectrumAllOfRenderer = ({
       </View>
     );
   }
-  const fallbackJsonSchema: JsonSchema4[] = [];
-  const allOfRenderInfos = createCombinatorRenderInfos(
-    (schema === undefined ? fallbackJsonSchema : (schema as JsonSchema)).allOf,
-    rootSchema,
-    'allOf',
-    uischema,
-    path,
-    uischemas
-  );
+  let allOfRenderInfos;
+  if (schema?.allOf) {
+    allOfRenderInfos = createCombinatorRenderInfos(
+      schema.allOf,
+      rootSchema,
+      'allOf',
+      uischema,
+      path,
+      uischemas
+    );
+  }
 
   return (
     <View isHidden={!visible}>
-      {allOfRenderInfos.map((allOfRenderInfo, allOfIndex) => (
+      {allOfRenderInfos?.map((allOfRenderInfo, allOfIndex) => (
         <JsonFormsDispatch
           key={allOfIndex}
           schema={allOfRenderInfo.schema}

@@ -18,6 +18,6 @@
     "noUnusedLocals": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

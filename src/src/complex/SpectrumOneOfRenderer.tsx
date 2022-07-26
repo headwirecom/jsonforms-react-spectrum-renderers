@@ -101,10 +101,13 @@ const SpectrumOneOfRenderer = ({
     (newOneOfIndex: React.Key) => {
       newOneOfIndex = Number(newOneOfIndex);
       setNewSelectedIndex(newOneOfIndex);
+      console.log(data);
       if (isEmpty(data)) {
         openNewTab(newOneOfIndex);
+      } else if (indexOfFittingSchema) {
+        console.log(indexOfFittingSchema);
       } else {
-        // setOpen(true);
+        setOpen(true);
       }
     },
     [setOpen, setSelectedIndex, data]

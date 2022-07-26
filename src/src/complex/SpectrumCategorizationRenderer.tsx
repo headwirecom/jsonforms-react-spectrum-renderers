@@ -87,14 +87,14 @@ export const SpectrumCategorizationRenderer = (
       <SpectrumProvider>
         <Tabs isDisabled={enabled === undefined ? false : !enabled}>
           <TabList>
-            {categories.map((category, index) => (
+            {categories?.map((category: { [key: string]: any }, index) => (
               <Item key={index}>
                 {category?.label ?? category?.i18n ?? `Category ${index + 1}`}
               </Item>
             ))}
           </TabList>
           <TabPanels>
-            {categories.map((category, index) => (
+            {categories?.map((category: { [key: string]: any }, index) => (
               <Item
                 key={index}
                 title={
