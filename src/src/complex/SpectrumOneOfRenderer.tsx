@@ -33,6 +33,7 @@ import {
   createDefaultValue,
   isOneOfControl,
   rankWith,
+  CombinatorRendererProps,
 } from '@jsonforms/core';
 import { JsonFormsDispatch, withJsonFormsOneOfProps } from '@jsonforms/react';
 import CombinatorProperties from './CombinatorProperties';
@@ -68,7 +69,7 @@ const SpectrumOneOfRenderer = ({
   uischema,
   uischemas,
   visible,
-}: {
+}: CombinatorRendererProps & {
   [key: string]: any;
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -79,7 +80,7 @@ const SpectrumOneOfRenderer = ({
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
   const oneOfRenderInfos = createCombinatorRenderInfos(
-    schema.oneOf,
+    schema?.oneOf,
     rootSchema,
     oneOf,
     uischema,
@@ -88,7 +89,7 @@ const SpectrumOneOfRenderer = ({
   );
 
   const openNewTab = (newIndex: number) => {
-    handleChange(path, createDefaultValue(schema.oneOf[newIndex]));
+    handleChange(path, createDefaultValue(schema?.oneOf[newIndex]));
     setSelectedIndex(newIndex);
   };
 
@@ -120,6 +121,7 @@ const SpectrumOneOfRenderer = ({
     indexOfFittingSchemaObject['OneOfModal'] === true ||
     uischema.options?.OneOfModal === true;
 
+  console.log(indexOfFittingSchema);
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>

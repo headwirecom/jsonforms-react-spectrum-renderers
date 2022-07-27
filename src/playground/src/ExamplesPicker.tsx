@@ -23,8 +23,8 @@
   THE SOFTWARE.
 */
 
+import * as React from 'react';
 import { Item, Picker, Section } from '@adobe/react-spectrum';
-import React, { useRef } from 'react';
 import './App.css';
 import { localPrefix } from './persistedExamples';
 import { ReactExampleDescription } from './util';
@@ -35,8 +35,8 @@ export function ExamplesPicker(props: {
   onChange: (exampleName: string | number) => void;
 }) {
   // Re-create Picker instance (by changing key) when examples array changes, otherwise selection won't update on Save
-  const prevExamples = useRef(props.examples);
-  const keyRef = useRef(0);
+  const prevExamples = React.useRef(props.examples);
+  const keyRef = React.useRef(0);
   if (prevExamples.current !== props.examples) {
     prevExamples.current = props.examples;
     keyRef.current++;
@@ -77,8 +77,8 @@ export function ExamplesPicker(props: {
       onSelectionChange={props.onChange}
     >
       {(item) => (
-        <Section key={item.name} items={item.children} title={item.name}>
-          {(item) => <Item>{item.label}</Item>}
+        <Section key={item?.name} items={item?.children} title={item?.name}>
+          {(item) => <Item>{item?.label}</Item>}
         </Section>
       )}
     </Picker>

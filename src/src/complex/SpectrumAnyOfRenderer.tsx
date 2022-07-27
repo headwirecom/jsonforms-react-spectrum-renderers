@@ -25,7 +25,8 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import * as React from 'react';
+
 import {
   createCombinatorRenderInfos,
   isAnyOfControl,
@@ -63,7 +64,6 @@ const SpectrumAnyOfRenderer = ({
     [setSelectedAnyOf]
   );
   const anyOf = 'anyOf';
-
   let anyOfRenderInfos;
   if (schema?.anyOf) {
     anyOfRenderInfos = createCombinatorRenderInfos(
@@ -75,6 +75,8 @@ const SpectrumAnyOfRenderer = ({
       uischemas
     );
   }
+
+  console.log(indexOfFittingSchema);
 
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>

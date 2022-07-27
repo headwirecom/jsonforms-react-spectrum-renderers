@@ -74,6 +74,8 @@ export const InputEnum = React.memo(
       }
     }, [schema?.default]);
 
+    label = label === '' || !label ? 'Enum' : label;
+
     const fallbackJsonSchema: JsonSchema4[] = [];
     return (
       <SpectrumProvider width={width}>

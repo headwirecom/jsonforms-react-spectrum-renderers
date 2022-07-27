@@ -32,7 +32,7 @@ import {
   Redirect,
   Route,
 } from 'react-router-dom';
-import React from 'react';
+import * as React from 'react';
 import './index.css';
 import { ConnectedApp } from './App';
 import { combineReducers, createStore } from 'redux';

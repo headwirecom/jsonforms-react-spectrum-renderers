@@ -69,7 +69,7 @@ export const InputInteger = React.memo(
     return (
       <SpectrumProvider width={width}>
         <NumberField
-          aria-label={label ?? 'integerfield'}
+          aria-label={'integerfield' + label}
           autoFocus={appliedUiSchemaOptions.focus}
           decrementAriaLabel={
             appliedUiSchemaOptions.incrementAriaLabel ??

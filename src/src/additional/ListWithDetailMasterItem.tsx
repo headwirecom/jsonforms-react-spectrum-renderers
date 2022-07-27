@@ -61,7 +61,8 @@ const ListWithDetailMasterItem = React.memo(
     const [deleteIndex, setdeleteIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = useCallback(() => setOpen(false), [setOpen]);
-    const itemLabel = childLabel ?? `Item ${index + 1}`;
+    const itemLabel =
+      childLabel === '' || !childLabel ? `Item ${index + 1}` : childLabel;
 
     const setOpenAndsetDeleteIndex = (index: number) => {
       setOpen(true);

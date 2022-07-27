@@ -103,6 +103,7 @@ const SpectrumArrayItem = ({
   const newExpanded = expanded;
   const isExpanded = newExpanded === index;
 
+  childLabel = childLabel ?? `Item ${index + 1}`;
   return (
     <SpectrumProvider>
       <View

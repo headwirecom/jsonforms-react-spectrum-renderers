@@ -29,12 +29,10 @@
 import {
   ArrayLayoutProps,
   RankedTester,
-  and,
   composePaths,
   computeLabel,
   createDefaultValue,
   findUISchema,
-  isObjectArray,
   rankWith,
   uiTypeIs,
 } from '@jsonforms/core';
@@ -153,7 +151,7 @@ export const SpectrumListWithDetailRenderer = React.memo(
 
 export const SpectrumListWithDetailTester: RankedTester = rankWith(
   4,
-  and(uiTypeIs('ListWithDetail'), isObjectArray)
+  uiTypeIs('ListWithDetail')
 );
 
 export default withJsonFormsArrayLayoutProps(SpectrumListWithDetailRenderer);

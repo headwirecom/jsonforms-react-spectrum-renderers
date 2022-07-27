@@ -80,7 +80,7 @@ export const InputText = React.memo(
       } else {
         return false;
       }
-    }, [inputText]);
+    }, [inputText, appliedUiSchemaOptions, isValid, required]);
 
     const errorMessage = () => {
       let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);

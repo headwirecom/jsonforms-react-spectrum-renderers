@@ -62,6 +62,8 @@ export const InputEnumAutocomplete = React.memo(
       }
     }, [schema?.default]);
 
+    label = label === '' || !label ? 'Enum' : label;
+
     return (
       <SpectrumProvider width={width}>
         {options && (

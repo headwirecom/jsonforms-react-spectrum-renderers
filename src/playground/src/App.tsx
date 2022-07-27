@@ -26,7 +26,7 @@
   THE SOFTWARE.
 */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { JsonFormsDispatch } from '@jsonforms/react';
 import { JsonFormsReduxContext } from '@jsonforms/react/lib/redux';
 import { useParams, useHistory } from 'react-router-dom';
@@ -60,7 +60,7 @@ import { ExamplesPicker } from './ExamplesPicker';
 interface AppProps extends ExampleStateProps, ExampleDispatchProps {}
 
 function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
-  const setExampleByName = useCallback(
+  const setExampleByName = React.useCallback(
     (exampleName: string | number) => {
       const example = props.examples.find((find) => find.name === exampleName);
       if (example) {
@@ -70,7 +70,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
     [props.changeExample, props.examples]
   );
 
-  const updateCurrentSchema = useCallback(
+  const updateCurrentSchema = React.useCallback(
     (newSchema: string) => {
       props.changeExample(
         createExample(props.selectedExample, {
@@ -81,7 +81,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
     [props.changeExample, props.selectedExample]
   );
 
-  const updateCurrentUISchema = useCallback(
+  const updateCurrentUISchema = React.useCallback(
     (newUISchema: string) => {
       props.changeExample(
         createExample(props.selectedExample, {
@@ -92,7 +92,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
     [props.changeExample, props.selectedExample]
   );
 
-  const updateCurrentData = useCallback(
+  const updateCurrentData = React.useCallback(
     (newData: string) => {
       props.changeExample(
         createExample(props.selectedExample, {
@@ -140,7 +140,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
               <View padding='size-100'>
                 <Heading>Form: {props.selectedExample.label}</Heading>
                 {props.getComponent(props.selectedExample)}
-                <JsonFormsDispatch onChange={props.onChange} />
+                <JsonFormsDispatch /* onChange={props.onChange} */ />
               </View>
             </div>
 
@@ -209,7 +209,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
 function AppWithExampleInURL(props: AppProps) {
   const urlParams = useParams<{ name: string | undefined }>();
   const history = useHistory();
-  const examplesRef = useRef([
+  const examplesRef = React.useRef([
     ...props.examples,
     ...getExamplesFromLocalStorage(),
   ]);
@@ -219,7 +219,7 @@ function AppWithExampleInURL(props: AppProps) {
     ? examples.find(({ name }) => urlParams.name === name)
     : props.examples[props.examples.length - 1];
 
-  const changeExample = useCallback(
+  const changeExample = React.useCallback(
     (example: ReactExampleDescription) => {
       // If we're trying to modify an item, save it to local storage and update the list of examples
       if (example.name.startsWith(localPrefix)) {
@@ -235,7 +235,7 @@ function AppWithExampleInURL(props: AppProps) {
   );
 
   // When URL changes, we have to call changeExample to dispatch some jsonforms redux actions
-  useEffect(() => {
+  React.useEffect(() => {
     if (selectedExample) {
       props.changeExample(selectedExample);
     } else {
