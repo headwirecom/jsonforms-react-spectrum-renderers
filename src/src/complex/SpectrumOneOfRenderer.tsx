@@ -69,12 +69,10 @@ const SpectrumOneOfRenderer = ({
   uischema,
   uischemas,
   visible,
-}: CombinatorRendererProps & {
-  [key: string]: any;
-}) => {
+}: CombinatorRendererProps) => {
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(
-    indexOfFittingSchema ?? indexOfFittingSchemaObject[path]
+    indexOfFittingSchema ?? indexOfFittingSchemaObject[path] ?? 0
   );
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
@@ -103,6 +101,7 @@ const SpectrumOneOfRenderer = ({
       newOneOfIndex = Number(newOneOfIndex);
       setNewSelectedIndex(newOneOfIndex);
       console.log(data);
+      console.log('HandleTabChange');
       if (isEmpty(data)) {
         openNewTab(newOneOfIndex);
       } else {

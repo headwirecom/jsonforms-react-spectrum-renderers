@@ -78,7 +78,7 @@ export const SpectrumListWithDetailRenderer = React.memo(
       [setSelectedIndex]
     );
     const handleCreateDefaultValue = useCallback(
-      () => createDefaultValue(schema),
+      () => createDefaultValue(schema ?? {}),
       [createDefaultValue]
     );
     const foundUISchema = findUISchema(

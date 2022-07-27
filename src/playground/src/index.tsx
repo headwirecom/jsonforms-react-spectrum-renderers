@@ -112,11 +112,11 @@ const setupStore = (
       exampleData[exampleData.length - 1].uischema,
       {
         ajv: ajv,
-        refParserOptions: {
+        /* refParserOptions: {
           resolve: {
             geo: geoResolver,
           } as any,
-        },
+        }, */
       }
     )
   );
