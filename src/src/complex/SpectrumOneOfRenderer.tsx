@@ -32,8 +32,11 @@ import {
   createCombinatorRenderInfos,
   createDefaultValue,
   isOneOfControl,
-  rankWith,
+  // rankWith,
   CombinatorRendererProps,
+  UISchemaElement,
+  JsonSchema,
+  TesterContext,
 } from '@jsonforms/core';
 import { JsonFormsDispatch, withJsonFormsOneOfProps } from '@jsonforms/react';
 import CombinatorProperties from './CombinatorProperties';
@@ -120,7 +123,7 @@ const SpectrumOneOfRenderer = ({
     indexOfFittingSchemaObject['OneOfModal'] === true ||
     uischema.options?.OneOfModal === true;
 
-  console.log(indexOfFittingSchema);
+  console.log('indexOfFittingSchema:', indexOfFittingSchema);
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>
@@ -223,8 +226,17 @@ const SpectrumOneOfRenderer = ({
   );
 };
 
-export const SpectrumOneOfRendererTester: RankedTester = rankWith(
+/* export const SpectrumOneOfRendererTester: RankedTester = rankWith(
   5,
   isOneOfControl
-);
+); */
+export const SpectrumOneOfRendererTester: RankedTester = (
+  uischema: UISchemaElement,
+  schema: JsonSchema,
+  context: TesterContext
+) => {
+  console.log('asdf', uischema, schema, context);
+  return isOneOfControl(uischema, schema, context) ? 5 : -1;
+};
+
 export default withJsonFormsOneOfProps(SpectrumOneOfRenderer);
