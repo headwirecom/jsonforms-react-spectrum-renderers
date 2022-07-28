@@ -80,17 +80,22 @@ const SpectrumOneOfRenderer = ({
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
-  const oneOfRenderInfos = createCombinatorRenderInfos(
-    schema?.oneOf,
-    rootSchema,
-    oneOf,
-    uischema,
-    path,
-    uischemas
-  );
+  let oneOfRenderInfos;
+  if (schema?.oneOf) {
+    oneOfRenderInfos = createCombinatorRenderInfos(
+      schema?.oneOf,
+      rootSchema,
+      oneOf,
+      uischema,
+      path,
+      uischemas
+    );
+  }
 
   const openNewTab = (newIndex: number) => {
-    handleChange(path, createDefaultValue(schema?.oneOf[newIndex]));
+    if (schema?.oneOf) {
+      handleChange(path, createDefaultValue(schema?.oneOf[newIndex]));
+    }
     setSelectedIndex(newIndex);
   };
 
@@ -124,6 +129,7 @@ const SpectrumOneOfRenderer = ({
     uischema.options?.OneOfModal === true;
 
   console.log('indexOfFittingSchema:', indexOfFittingSchema);
+  if (!oneOfRenderInfos) return null;
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>
