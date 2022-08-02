@@ -29,7 +29,7 @@ import * as React from 'react';
 // import { UnControlled as CodeMirror } from 'react-codemirror2';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
+// import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
 // import 'codemirror/mode/javascript/javascript';
@@ -38,7 +38,7 @@ export function TextArea(props: {
   value: string;
   onChange: (newValue: string) => void;
 }) {
-  const colorScheme = React.useContext(ColorSchemeContext);
+  // const colorScheme = React.useContext(ColorSchemeContext);
   const [value, setValue] = React.useState(props.value);
   const err = getErr(value);
   const [key, setKey] = React.useState(Math.random()); // used to force-rerender CodeMirror when Reset button is clicked

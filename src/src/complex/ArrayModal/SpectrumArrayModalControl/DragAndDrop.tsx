@@ -140,7 +140,7 @@ export default function DragAndDrop({
       {springs.map(({ zIndex, shadow, y, scale }, index: number) => (
         <animated.div
           {...bind(index)}
-          key={index}
+          key={`${index}`}
           style={{
             zIndex,
             boxShadow: shadow.to(

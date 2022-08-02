@@ -142,6 +142,7 @@ const SpectrumOneOfRenderer = ({
           <>
             <Picker
               aria-label='Select'
+              aria-labelledby='Select'
               isDisabled={enabled === undefined ? false : !enabled}
               onSelectionChange={handleTabChange}
               selectedKey={String(selectedIndex)}
@@ -174,7 +175,8 @@ const SpectrumOneOfRenderer = ({
         ) : (
           <>
             <Tabs
-              isDisabled={enabled === undefined ? false : !enabled}
+              aria-label='Select'
+              // isDisabled={enabled === undefined ? false : !enabled}
               selectedKey={String(selectedIndex)}
               onSelectionChange={handleTabChange}
             >
@@ -241,7 +243,6 @@ export const SpectrumOneOfRendererTester: RankedTester = (
   schema: JsonSchema,
   context: TesterContext
 ) => {
-  console.log('asdf', uischema, schema, context);
   return isOneOfControl(uischema, schema, context) ? 5 : -1;
 };
 

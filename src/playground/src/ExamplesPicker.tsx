@@ -77,8 +77,17 @@ export function ExamplesPicker(props: {
       onSelectionChange={props.onChange}
     >
       {(item) => (
-        <Section key={item?.name} items={item?.children} title={item?.name}>
-          {(item) => <Item>{item?.label}</Item>}
+        <Section
+          aria-label={`Example Section ${item?.name}`}
+          key={item?.name}
+          items={item?.children}
+          title={item?.name}
+        >
+          {(item) => (
+            <Item aria-label={`Example Picker ${item?.label}`}>
+              {item?.label}
+            </Item>
+          )}
         </Section>
       )}
     </Picker>

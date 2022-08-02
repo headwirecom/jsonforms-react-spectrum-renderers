@@ -91,7 +91,7 @@ export const SpectrumCategorizationStepperRenderer = (
         UNSAFE_className='categorization-stepper'
       >
         <Tabs
-          isDisabled={enabled === undefined ? false : !enabled}
+          /* isDisabled={enabled === undefined ? false : !enabled} */
           selectedKey={String(step)}
           onSelectionChange={selectStep}
         >

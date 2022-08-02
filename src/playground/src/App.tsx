@@ -149,7 +149,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                 <Heading>Example Forms</Heading>
                 <ExamplesPicker {...props} onChange={setExampleByName} />
 
-                <Tabs defaultSelectedKey='boundData'>
+                <Tabs aria-label='Example Tab' defaultSelectedKey='boundData'>
                   <TabList>
                     <Item key='boundData'>Bound data</Item>
                     <Item key='schema'>Schema</Item>

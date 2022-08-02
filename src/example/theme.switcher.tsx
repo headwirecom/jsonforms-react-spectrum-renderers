@@ -47,6 +47,7 @@ function ThemeSelection({ onChange }: { onChange: (newTheme: Theme) => void }) {
     <SpectrumThemeProvider colorScheme={theme} theme={defaultTheme}>
       <View position='absolute' bottom='size-200' left='size-200'>
         <Picker
+          aria-label='Theme selection'
           direction='top'
           label='Theme'
           defaultSelectedKey={theme}
