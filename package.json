@@ -1,0 +1,111 @@
+{
+  "name": "jsonforms-react-spectrum-vite-test",
+  "private": false,
+  "version": "0.0.124",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "postinstall": "run-script-os",
+    "postinstall:default": "rm -rf ./node_modules/.vite",
+    "postinstall:win32": "IF EXIST .\\node_modules\\.vite (rmdir /q /s .\\node_modules\\.vite)",
+    "dev": "vite",
+    "build": "tsc && npm version patch && vite build",
+    "build-without-patch": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "react-spectrum",
+    "spectrum",
+    "form",
+    "forms",
+    "json",
+    "jsonforms",
+    "frontend",
+    "generator",
+    "input",
+    "renderengine",
+    "jsonschema",
+    "schema",
+    "uischema",
+    "layout",
+    "customization"
+  ],
+  "dependencies": {
+    "@adobe/react-spectrum": "^3.21.2",
+    "@cfaester/enzyme-adapter-react-18": "^0.5.1",
+    "@date-io/moment": "2.16.0",
+    "@internationalized/date": "^3.0.1",
+    "@jsonforms/core": "^3.0.0",
+    "@jsonforms/examples": "^3.0.0",
+    "@jsonforms/react": "^3.0.0",
+    "@spectrum-icons/workflow": "^4.0.2",
+    "@tiptap/extension-focus": "^2.0.0-beta.199",
+    "@tiptap/extension-highlight": "^2.0.0-beta.199",
+    "@tiptap/extension-link": "^2.0.0-beta.199",
+    "@tiptap/extension-subscript": "^2.0.0-beta.199",
+    "@tiptap/extension-superscript": "^2.0.0-beta.199",
+    "@tiptap/extension-text-align": "^2.0.0-beta.199",
+    "@tiptap/extension-typography": "^2.0.0-beta.199",
+    "@tiptap/extension-underline": "^2.0.0-beta.199",
+    "@tiptap/react": "^2.0.0-beta.199",
+    "@tiptap/starter-kit": "^2.0.0-beta.199",
+    "@types/lodash": "^4.14.186",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-redux": "^7.1.24",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^8.3.4",
+    "@use-gesture/react": "^10.2.20",
+    "ajv": "^8.11.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^6.4.1",
+    "react-spring": "^9.5.5",
+    "redux": "^4.2.0",
+    "run-script-os": "^1.1.6",
+    "tslib": "^2.4.0",
+    "uuid": "^9.0.0"
+  },
+  "peerDependencies": {
+    "@adobe/react-spectrum": "^3.21.2",
+    "@jsonforms/core": "^3.0.0",
+    "@jsonforms/react": "^3.0.0",
+    "@spectrum-icons/workflow": "^4.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@codemirror/lang-javascript": "^6.1.0",
+    "@codemirror/language": "^6.2.1",
+    "@testing-library/dom": "^8.18.1",
+    "@testing-library/react": "^13.4.0",
+    "@types/enzyme": "^3.10.12",
+    "@types/jest": "^29.1.1",
+    "@uiw/react-codemirror": "^4.12.3",
+    "@vitejs/plugin-react": "^2.1.0",
+    "codemirror": "^6.0.1",
+    "enzyme": "^3.11.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.4",
+    "vite-plugin-css-injected-by-js": "^2.1.0",
+    "vite-plugin-dts": "^1.6.4"
+  }
+}

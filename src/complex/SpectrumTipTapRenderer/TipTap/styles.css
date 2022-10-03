@@ -1,0 +1,58 @@
+.ProseMirror {
+  background-color: var(
+    --spectrum-textfield-background-color,
+    var(--spectrum-global-color-gray-50)
+  );
+  color: var(--spectrum-textfield-text-color, var(--spectrum-alias-text-color));
+  box-sizing: border-box;
+  border: var(--spectrum-textfield-border-size, var(--spectrum-alias-border-size-thin)) solid;
+  border-color: var(--spectrum-textfield-border-color, var(--spectrum-alias-border-color));
+  border-radius: 0 0
+    var(--spectrum-textfield-border-radius, var(--spectrum-alias-border-radius-regular))
+    var(--spectrum-textfield-border-radius, var(--spectrum-alias-border-radius-regular));
+  height: auto;
+  max-height: 45vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: auto;
+  min-height: 129px;
+  padding: 3px var(--spectrum-textfield-padding-x, var(--spectrum-global-dimension-size-150)) 5px
+    calc(var(--spectrum-textfield-padding-x, var(--spectrum-global-dimension-size-150)) - 1px);
+  text-indent: 0;
+  vertical-align: top;
+  font-size: var(--spectrum-textfield-text-size, var(--spectrum-alias-font-size-default));
+  line-height: var(
+    --spectrum-textfield-text-line-height,
+    var(--spectrum-alias-body-text-line-height)
+  );
+  text-overflow: ellipsis;
+  -moz-appearance: textfield;
+  outline: 0;
+}
+
+.ProseMirror-focused {
+  border-color: var(
+    --spectrum-textfield-border-color-down,
+    var(--spectrum-alias-border-color-mouse-focus)
+  );
+}
+
+.TipTapToolbar {
+  border-radius: var(
+      --spectrum-textfield-border-radius,
+      var(--spectrum-alias-border-radius-regular)
+    )
+    var(--spectrum-textfield-border-radius, var(--spectrum-alias-border-radius-regular)) 0 0 !important;
+  border-bottom: none !important;
+  /* 
+  height: 50px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-x-scrolling: touch; */
+}
+
+.LastToolbarButton {
+  /* background-color: red; */
+  margin-right: 8px;
+}

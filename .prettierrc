@@ -1,2 +1,41 @@
-singleQuote: true
-jsxSingleQuote: true
+{
+  "endOfLine": "lf",
+  "tabWidth": 2,
+  "overrides": [
+    {
+      "files": "*.xml",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ],
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "documentSelectors": [],
+  "embeddedLanguageFormatting": "auto",
+  "enable": true,
+  "configPath": "",
+  "disableLanguages": [],
+  "enableDebugLogs": false,
+  "htmlWhitespaceSensitivity": "css",
+  "ignorePath": ".prettierignore",
+  "insertPragma": false,
+  "jsxBracketSameLine": false,
+  "jsxSingleQuote": true,
+  "packageManager": "npm",
+  "prettierPath": "",
+  "printWidth": 100,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "requireConfig": false,
+  "requirePragma": false,
+  "resolveGlobalModules": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "useEditorConfig": true,
+  "useTabs": false,
+  "vueIndentScriptAndStyle": false,
+  "withNodeModules": false,
+  "eslintIntegration": true
+}

@@ -1,0 +1,15 @@
+div[class^='spectrum-Textfield'] {
+  width: 100%;
+}
+
+.assetPickerButton {
+  min-width: min-content !important;
+  margin-top: 25px !important;
+  margin-left: 5px !important;
+}
+
+.assetPickerButtonBottom {
+  min-width: min-content !important;
+  margin-top: 5px !important;
+  margin-right: 3px !important;
+}

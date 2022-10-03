@@ -1,0 +1,49 @@
+.App-Form,
+.App-Data {
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .App-Form,
+  .App-Data {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .App-Form {
+    width: 66.6%;
+  }
+
+  .App-Data {
+    width: 33.3%;
+  }
+}
+
+.data-title {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.content {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background: white;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+[type='radio']:checked ~ label {
+  background: white;
+  border-bottom: 1px solid white;
+  z-index: 2;
+}
+[type='radio']:checked ~ label ~ .content {
+  z-index: 1;
+}
+
+.CodeMirror {
+  font-size: 0.8em;
+  min-height: 50em;
+}
